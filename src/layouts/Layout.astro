@@ -68,7 +68,7 @@ const currentPath = Astro.url.pathname;
     </aside> -->
 
     <!-- Main Navigation Header (Clean Crisp White & Elegant Blue) -->
-    <header class="sticky top-0 z-40 bg-blue-800/90 backdrop-blur-md border-b border-blue-900 text-white transition-all shadow-xs">
+    <header class="sticky top-0 z-40 bg-blue-900 backdrop-blur-md border-b border-blue-900 text-white transition-all shadow-xs">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
           
@@ -81,7 +81,7 @@ const currentPath = Astro.url.pathname;
                 </svg>
               </div>
               <div class="flex flex-col">
-                <span class="text-base font-black tracking-tight text-slate-950 uppercase leading-none group-hover:text-blue-700 transition-colors">
+                <span class="text-base font-black tracking-tight text-white uppercase leading-none group-hover:text-blue-700 transition-colors">
                   Desa Timpik
                 </span>
               </div>
@@ -92,19 +92,19 @@ const currentPath = Astro.url.pathname;
               type="button"
               id="global-search-trigger"
               aria-label="Cari Layanan atau Informasi"
-              class="hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-500 hover:text-blue-700 hover:border-blue-300 text-xs transition-all focus:outline-none ml-2"
+              class="hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-white hover:text-blue-700 hover:border-blue-300 text-xs transition-all focus:outline-none ml-2"
               title="Pencarian Cepat"
             >
-              <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
-              <span class="text-[11px] text-slate-400">Cari...</span>
-              <kbd class="hidden md:inline-block text-[9px] font-mono px-1 py-0.2 bg-white rounded text-slate-400 border border-slate-200">Ctrl+K</kbd>
+              <span class="text-[11px] text-slate-950">Cari...</span>
+              <kbd class="hidden md:inline-block text-[9px] font-mono px-1 py-0.2 bg-white rounded text-slate-700 border border-slate-200">Ctrl+K</kbd>
             </button>
           </div>
 
           <!-- Center: Clean Grouped Menu Items (Organized & Uncluttered) -->
-          <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-[13px] font-semibold text-slate-700">
+          <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-[13px] font-semibold text-white">
             <!-- 1. Beranda -->
             <a
               href="/"
@@ -229,25 +229,27 @@ const currentPath = Astro.url.pathname;
             >
               Kontak
             </a>
+
+            <div class="hidden sm:flex items-center gap-2">
+              <a
+                href="/layanan-aduan"
+                class={`text-xs font-semibold px-3 py-2 rounded-lg transition-colors ${currentPath.startsWith('/layanan-aduan') ? 'text-white bg-blue-50 font-bold' : 'text-white hover:text-blue-700 hover:bg-white'}`}
+              >
+                Aduan Warga
+              </a>
+  
+              <a
+                href="/layanan-surat"
+                class="px-4 py-2 rounded-lg text-xs font-bold text-blue-700 bg-white hover:bg-blue-700/90 hover:text-white transition-colors flex items-center gap-1.5 shadow-sm"
+              >
+                <svg class="w-3.5 h-3.5 text-blue-700 " fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <span>Layanan Surat</span>
+              </a>
+            </div>
           </nav>
 
           <!-- Right Action: Aduan Warga & Layanan Surat -->
-          <div class="hidden sm:flex items-center gap-2">
-            <a
-              href="/layanan-aduan"
-              class={`text-xs font-semibold px-3 py-2 rounded-lg transition-colors ${currentPath.startsWith('/layanan-aduan') ? 'text-blue-900 bg-blue-50 font-bold' : 'text-slate-600 hover:text-blue-700 hover:bg-blue-50/60'}`}
-            >
-              Aduan Warga
-            </a>
-
-            <a
-              href="/layanan-surat"
-              class="px-4 py-2 rounded-lg text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors flex items-center gap-1.5 shadow-sm"
-            >
-              <svg class="w-3.5 h-3.5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-              <span>Layanan Surat</span>
-            </a>
-          </div>
+          
 
           <!-- Mobile Hamburger Menu Button -->
           <div class="flex lg:hidden items-center gap-2">

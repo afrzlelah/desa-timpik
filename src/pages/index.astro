@@ -233,7 +233,7 @@ const heroSlides = [
 
         <div class="lg:col-span-6 space-y-6">
           <div>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 block mb-1">Tata Kelola & Birokrasi</span>
+            <!-- <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 block mb-1">Tata Kelola & Birokrasi</span> -->
             <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight leading-tight">
               Pelayanan Cepat, Transparan, Bebas Pungutan Liar
             </h2>
@@ -277,9 +277,9 @@ const heroSlides = [
       
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-200">
         <div>
-          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+          <!-- <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
             Warta Resmi Pemerintahan
-          </span>
+          </span> -->
           <h2 class="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
             Kabar & Warta Desa Timpik
           </h2>
@@ -319,8 +319,7 @@ const heroSlides = [
               <div class="p-5">
                 <div class="flex items-center gap-2 text-[11px] text-slate-500 mb-2">
                   <span>{berita.tanggal}</span>
-                  <span>&bull;</span>
-                  <span class="font-medium text-slate-700">{berita.penulis || 'Pemdes Timpik'}</span>
+                
                 </div>
 
                 <h3 class="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
@@ -363,9 +362,7 @@ const heroSlides = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
       
       <div class="max-w-2xl">
-        <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 block mb-1">
-          Kewilayahan Administratif
-        </span>
+
         <h2 class="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
           Direktori 4 Dusun Desa Timpik
         </h2>
@@ -379,7 +376,7 @@ const heroSlides = [
           <div class="bg-white rounded-xl border border-slate-200 p-6 flex flex-col justify-between hover:border-blue-400 hover:shadow-sm transition-all">
             <div>
               <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
-                <span class="font-mono text-xs font-bold text-blue-700">DUSUN 0{idx + 1}</span>
+                {/* <span class="font-mono text-xs font-bold text-blue-700">DUSUN 0{idx + 1}</span> */}
                 <span class="text-[10px] font-bold text-slate-600 px-2 py-0.5 rounded bg-slate-100">
                   {dusun.jumlah_rt}
                 </span>
@@ -389,9 +386,9 @@ const heroSlides = [
                 {dusun.nama}
               </h3>
 
-              <p class="text-xs font-semibold text-blue-700 mt-0.5 mb-2">
+              {/* <p class="text-xs font-semibold text-blue-700 mt-0.5 mb-2">
                 {dusun.potensi_utama}
-              </p>
+              </p> */}
 
               <p class="text-xs text-slate-600 leading-relaxed line-clamp-3">
                 {dusun.deskripsi}
@@ -421,52 +418,38 @@ const heroSlides = [
         <div class="lg:col-span-8 p-8 sm:p-10 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-6">
           <div class="space-y-4">
             <span class="text-[10px] font-bold uppercase tracking-wider text-blue-800 bg-blue-100/70 px-2.5 py-1 rounded border border-blue-200 inline-block">
-              Ketahanan Pangan & Irigasi
+              Butuh surat keterangan?
             </span>
             <h3 class="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
-              Lumbung Pangan & Pertanian Sawah 243 Hektar
-            </h3>
+              Ajukan pelayanan surat menyurat desa secara online, tanpa perlu antre.            </h3>
             <p class="text-slate-700 text-sm leading-relaxed max-w-2xl">
-              Didukung oleh sistem tata kelola debit air saluran irigasi mandiri <strong>P3A "Bogo Wastro"</strong> serta <strong>GAPOKTAN "Putri Kencana"</strong>, areal persawahan Desa Timpik mampu menghasilkan panen padi berkualitas dan menjaga stabilitas stok gabah masyarakat desa.
+Dengan memanfaatkan sistem formulir digital, pengajuan dokumen seperti SKU, SKD, SKCK, dan SKTM dapat dilakukan dari rumah. Warga dapat melacak status berkas secara transparan melalui nomor tiket yang diberikan.
             </p>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div class="p-4 rounded-xl bg-white border border-slate-200">
-                <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider">Irigasi P3A Bogo Wastro:</h4>
-                <p class="text-xs text-slate-600 mt-1">Jadwal pembagian giliran debit air sawah secara adil bagi petani 4 dusun.</p>
-              </div>
-              <div class="p-4 rounded-xl bg-white border border-slate-200">
-                <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider">Lumbung Pangan Mandiri:</h4>
-                <p class="text-xs text-slate-600 mt-1">LPM Putri Kencana menjaga stok gabah & ketahanan pangan jangka panjang.</p>
-              </div>
-            </div>
           </div>
 
           <div class="pt-4 border-t border-slate-200">
-            <a href="/potensi" class="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1.5">
-              <span>Eksplorasi Sektor Pertanian & Agraris Lengkap</span>
+            <a href="/layanan-surat" class="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1.5">
+              <span>Layanan Surat</span>
               <span>&rarr;</span>
             </a>
           </div>
         </div>
 
         <!-- Sektor Seni Budaya Wayang & Angguk (4 cols) -->
-        <div class="lg:col-span-4 p-8 rounded-2xl bg-civic-navy text-white flex flex-col justify-between space-y-6 shadow-md border border-slate-800">
-          <div class="space-y-4">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-sky-300 bg-sky-900/50 px-2.5 py-1 rounded border border-sky-400/30 inline-block font-mono">
-              Warisan Budaya Adiluhung
-            </span>
+        <div class="lg:col-span-4 p-8 rounded-2xl bg-gradient-to-br from-black to-blue-900 text-white flex flex-col justify-between space-y-6 shadow-md border border-slate-800">
+          <div class="space-y-4 ">
             <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">
-              Wayang Orang Badoyo & Seni Angguk
+              Atau Hubungi Daftar Kontak Desa untuk Pertanyaan Layanan
             </h3>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Kesenian Wayang Orang tradisional di Dusun Bogo dan kesenian bernafas religi Angguk Alhidayah di Dusun Sumber terus dilestarikan lintas generasi sebagai kebanggaan identitas kultural masyarakat Desa Timpik.
+              Tim admin desa siap membantu menjawab pertanyaan terkait layanan surat, pengaduan warga, dan informasi kegiatan desa. Silakan hubungi melalui WhatsApp atau telepon resmi desa.
             </p>
           </div>
 
           <div class="pt-4 border-t border-slate-800">
-            <a href="/potensi#kesenian" class="text-xs font-bold text-sky-400 hover:text-sky-300 flex items-center gap-1.5">
-              <span>Dokumentasi Pentas Seni Budaya</span>
+            <a href="/kontak" class="text-xs font-bold text-sky-400 hover:text-sky-300 flex items-center gap-1.5">
+              <span>Daftar Kontak Desa</span>
               <span>&rarr;</span>
             </a>
           </div>

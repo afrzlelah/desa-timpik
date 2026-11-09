@@ -27,7 +27,7 @@ const categories = [
       </nav>
 
       <div class="max-w-3xl space-y-4">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/10 text-slate-200 border border-white/15 text-xs font-semibold uppercase tracking-wider">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-sky-50/10 text-slate-200 border border-white/15 text-xs font-semibold uppercase tracking-wider">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
           <span>Pelayanan Publik Terpadu Satu Pintu</span>
         </div>
@@ -78,7 +78,7 @@ const categories = [
   </section>
 
   <!-- Interactive Search & Filtering Bar -->
-  <section class="py-5 bg-white border-b border-slate-200 sticky top-16 z-30 shadow-xs">
+  <section class="py-5 bg-sky-50 border-b border-slate-200 sticky top-16 z-30 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row items-center justify-between gap-4">
         
@@ -91,7 +91,7 @@ const categories = [
             type="text"
             id="search-input"
             placeholder="Cari surat (misal: SKU, domisili, SKCK, SKTM)..."
-            class="w-full pl-10 pr-10 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+            class="w-full pl-10 pr-10 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-sky-50 transition-all"
           />
           <button id="clear-search-btn" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 hidden" aria-label="Hapus Pencarian">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -136,7 +136,7 @@ const categories = [
       <!-- Grid Katalog Layanan Surat -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="surat-cards-container">
         {suratData.map((surat) => (
-          <article class="surat-card bg-white rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-sm transition-all p-6 flex flex-col justify-between" data-category={surat.kategori}>
+          <article class="surat-card bg-sky-50 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-sm transition-all p-6 flex flex-col justify-between" data-category={surat.kategori}>
             <div class="space-y-3">
               <div class="flex items-center justify-between pb-2 border-b border-slate-100">
                 <span class="font-mono text-[10px] font-bold text-blue-700">
@@ -213,7 +213,7 @@ const categories = [
       </div>
 
       <!-- Empty State -->
-      <div id="no-results" class="hidden py-16 bg-white rounded-xl border border-slate-200 text-center space-y-3">
+      <div id="no-results" class="hidden py-16 bg-sky-50 rounded-xl border border-slate-200 text-center space-y-3">
         <svg class="w-10 h-10 text-slate-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         <h3 class="text-sm font-bold text-slate-800">Tidak ada layanan surat yang cocok</h3>
         <p class="text-xs text-slate-500 max-w-sm mx-auto">
@@ -226,7 +226,7 @@ const categories = [
 
   <!-- GUIDANCE MODAL (Pop-up Persyaratan Berkas) -->
   <div id="guidance-modal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative modal-enter border border-slate-200 max-h-[90vh] overflow-y-auto">
+    <div class="bg-sky-50 rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative modal-enter border border-slate-200 max-h-[90vh] overflow-y-auto">
       <div class="flex items-start justify-between pb-4 border-b border-slate-100">
         <div>
           <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 font-mono">Panduan Pengajuan Dokumen</span>
@@ -280,7 +280,7 @@ const categories = [
   </div>
 
   <!-- FAQ Section: Accordion Ramping & Elegan -->
-  <section class="py-14 bg-white border-t border-slate-200">
+  <section class="py-14 bg-sky-50 border-t border-slate-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       
       <div class="text-center max-w-xl mx-auto">
@@ -378,7 +378,7 @@ const categories = [
       const hasGform = surat.link_gform && surat.link_gform.trim() !== '' && surat.link_gform !== '#';
 
       return `
-        <article class="surat-card bg-white rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-sm transition-all p-6 flex flex-col justify-between" data-category="${surat.kategori}">
+        <article class="surat-card bg-sky-50 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-sm transition-all p-6 flex flex-col justify-between" data-category="${surat.kategori}">
           <div class="space-y-3">
             <div class="flex items-center justify-between pb-2 border-b border-slate-100">
               <span class="font-mono text-[10px] font-bold text-blue-700">
