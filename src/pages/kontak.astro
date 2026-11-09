@@ -1,0 +1,500 @@
+---
+import Layout from '../layouts/Layout.astro';
+import kontakData from '../data/kontak.json';
+
+const { operasional, kontak_darurat } = kontakData;
+---
+
+<Layout
+  title="Direktori Kontak & Komunikasi Resmi Desa Timpik"
+  description="Pusat informasi kontak resmi Balai Desa Timpik, jam operasional pelayanan, direktori telepon darurat 24 jam medis, ambulans, Babinsa, serta form kirim pesan langsung."
+>
+  <!-- Architectural Civic Header -->
+  <section class="bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400 mb-5" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-sky-300 transition-colors">Beranda</a>
+        <span class="text-slate-600">/</span>
+        <span class="text-sky-300 font-bold">Kontak & Pusat Layanan</span>
+      </nav>
+
+      <div class="max-w-3xl space-y-3">
+        <div class="flex items-center gap-2.5">
+          <span class="h-px w-6 bg-sky-400"></span>
+          <span class="text-xs font-mono uppercase tracking-widest text-sky-300 font-bold">Saluran Resmi Pemerintah Desa</span>
+        </div>
+        
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+          Direktori Kontak & Pelayanan Warga
+        </h1>
+        
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed pt-1">
+          Hubungi aparatur Balai Desa Timpik, koordinasi perangkat 4 dusun, akses kontak siaga 24 jam medis & ketertiban, serta sampaikan aspirasi warga melalui saluran terpadu.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 1: Balai Desa Operational & Direct Desk Ledger -->
+  <section class="py-10 bg-civic-sand/30 border-b border-civic-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-civic-border bg-white border border-civic-border shadow-xs">
+        
+        <!-- Kolom 1: Balai Desa & Jam Kerja -->
+        <div class="p-6 sm:p-8 flex flex-col justify-between space-y-6">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="text-[10px] font-mono uppercase tracking-widest text-civic-muted" id="view-nama-kantor">{operasional.nama_kantor}</span>
+              <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold" id="view-status-badge">
+                {operasional.status_layanan}
+              </span>
+            </div>
+            
+            <h2 class="text-lg font-serif font-bold text-civic-navy">Jam Pelayanan Tatap Muka</h2>
+            <p class="text-xs text-civic-muted mt-1 leading-relaxed" id="view-alamat-kantor">
+              {operasional.alamat}
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-civic-border/60 space-y-2 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-civic-muted">Senin &ndash; Kamis:</span>
+              <strong class="font-mono text-civic-navy font-bold" id="view-jam-senin-kamis">{operasional.jam_senin_kamis}</strong>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-civic-muted">Jumat:</span>
+              <strong class="font-mono text-civic-navy font-bold" id="view-jam-jumat">{operasional.jam_jumat}</strong>
+            </div>
+            <p class="text-[11px] text-civic-muted italic pt-1 border-t border-dashed border-civic-border" id="view-keterangan-layanan">
+              {operasional.keterangan_layanan}
+            </p>
+          </div>
+        </div>
+
+        <!-- Kolom 2: WhatsApp Pelayanan Warga -->
+        <div class="p-6 sm:p-8 flex flex-col justify-between space-y-6 bg-slate-50/40">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-700 font-bold">Layanan Daring Warga</span>
+              <span class="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 bg-emerald-100 text-emerald-800 font-semibold">Respon Cepat</span>
+            </div>
+
+            <h2 class="text-lg font-serif font-bold text-civic-navy">WhatsApp Helpdesk Pelayanan</h2>
+            <p class="text-xs text-civic-muted mt-1 leading-relaxed">
+              Konsultasi persyaratan berkas surat, panduan pengisian formulir permohonan, atau tindak lanjut dokumen administrasi kependudukan.
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-civic-border/60">
+            <a
+              id="view-wa-link"
+              href={`https://wa.me/${operasional.telepon.replace(/[^0-9]/g, '')}?text=Halo%20Admin%20Pelayanan%20Desa%20Timpik,%20saya%20ingin%20berkonsultasi%20mengenai%20pelayanan%20surat`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full py-2.5 px-4 bg-emerald-800 hover:bg-emerald-900 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2"
+            >
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.92-9.91-9.92z"/></svg>
+              <span id="view-wa-text">Chat WhatsApp ({operasional.telepon})</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Kolom 3: Email Resmi Kedinasan -->
+        <div class="p-6 sm:p-8 flex flex-col justify-between space-y-6">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="text-[10px] font-mono uppercase tracking-widest text-civic-muted">Korespondensi</span>
+              <span class="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 bg-slate-100 text-slate-700 font-semibold">Resmi</span>
+            </div>
+
+            <h2 class="text-lg font-serif font-bold text-civic-navy">Surat Dinas & Kemitraan</h2>
+            <p class="text-xs text-civic-muted mt-1 leading-relaxed">
+              Penerimaan surat kedinasan, kemitraan perguruan tinggi / KKN, instansi vertikal, maupun kerjasama pembangunan desa.
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-civic-border/60">
+            <a
+              id="view-email-link"
+              href={`mailto:${operasional.email}`}
+              class="w-full py-2.5 px-4 bg-civic-navy hover:bg-civic-navy/90 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2 truncate"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span id="view-email-text" class="truncate">{operasional.email}</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 2: Form Kirim Pesan & Lokasi Fisik Balai Desa -->
+  <section class="py-14 sm:py-16 bg-civic-cream flex-grow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        
+        <!-- Form Kirim Pesan / Pertanyaan Warga -->
+        <div class="lg:col-span-7 bg-white p-6 sm:p-8 border border-civic-border shadow-xs space-y-6">
+          <div class="border-b border-civic-border pb-4">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-civic-gold block">
+              Formulir Komunikasi Terpadu
+            </span>
+            <h2 class="text-2xl font-serif font-black text-civic-navy mt-1">Kirim Pertanyaan atau Masukan</h2>
+            <p class="text-xs text-civic-muted mt-1 leading-relaxed">
+              Pesan Anda akan dirangkai dan diteruskan secara langsung ke nomor WhatsApp petugas pelayanan Balai Desa Timpik.
+            </p>
+          </div>
+
+          <form id="form-kontak-publik" class="space-y-4 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="contact-nama" class="block font-mono uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
+                  Nama Lengkap <span class="text-rose-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="contact-nama"
+                  required
+                  placeholder="Contoh: Bpk. Budi Santoso"
+                  class="w-full px-3.5 py-2.5 border border-civic-border text-xs text-civic-navy bg-civic-sand/20 focus:bg-white focus:outline-none focus:border-civic-navy font-sans"
+                />
+              </div>
+
+              <div>
+                <label for="contact-dusun" class="block font-mono uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
+                  Wilayah / Dusun <span class="text-rose-600">*</span>
+                </label>
+                <select
+                  id="contact-dusun"
+                  required
+                  class="w-full px-3.5 py-2.5 border border-civic-border text-xs text-civic-navy bg-white focus:outline-none focus:border-civic-navy font-sans"
+                >
+                  <option value="Dusun Krajan">Dusun Krajan</option>
+                  <option value="Dusun Sumber">Dusun Sumber</option>
+                  <option value="Dusun Bogo">Dusun Bogo</option>
+                  <option value="Dusun Kencana">Dusun Kencana</option>
+                  <option value="Luar Desa Timpik">Warga Luar Desa Timpik</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="contact-telepon" class="block font-mono uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
+                  Nomor WhatsApp / HP <span class="text-rose-600">*</span>
+                </label>
+                <input
+                  type="tel"
+                  id="contact-telepon"
+                  required
+                  placeholder="Contoh: 081234567890"
+                  class="w-full px-3.5 py-2.5 border border-civic-border text-xs text-civic-navy bg-civic-sand/20 focus:bg-white focus:outline-none focus:border-civic-navy font-sans font-mono"
+                />
+              </div>
+
+              <div>
+                <label for="contact-kategori" class="block font-mono uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
+                  Kategori Keperluan
+                </label>
+                <select
+                  id="contact-kategori"
+                  class="w-full px-3.5 py-2.5 border border-civic-border text-xs text-civic-navy bg-white focus:outline-none focus:border-civic-navy font-sans"
+                >
+                  <option value="Pelayanan Administrasi & Surat">Pelayanan Administrasi & Surat</option>
+                  <option value="Pertanian & Irigasi (P3A / Gapoktan)">Pertanian & Irigasi (P3A / Gapoktan)</option>
+                  <option value="Pembangunan & Fasilitas Dusun">Pembangunan & Fasilitas Dusun</option>
+                  <option value="Kemitraan KKN & Lembaga">Kemitraan KKN & Lembaga</option>
+                  <option value="Pertanyaan Umum">Pertanyaan Umum Lainnya</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="contact-pesan" class="block font-mono uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
+                Isi Pesan / Pertanyaan <span class="text-rose-600">*</span>
+              </label>
+              <textarea
+                id="contact-pesan"
+                rows="4"
+                required
+                placeholder="Tuliskan secara ringkas pesan, pertanyaan, atau permohonan informasi Anda..."
+                class="w-full px-3.5 py-2.5 border border-civic-border text-xs text-civic-navy bg-civic-sand/20 focus:bg-white focus:outline-none focus:border-civic-navy font-sans leading-relaxed"
+              ></textarea>
+            </div>
+
+            <div class="pt-2">
+              <button
+                type="submit"
+                class="w-full py-3 px-6 bg-blue-700 hover:bg-blue-800 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2 rounded shadow-xs"
+              >
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.92-9.91-9.92z"/></svg>
+                <span>Kirim Pesan ke WhatsApp Pelayanan Balai Desa</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Peta Interaktif & Rute -->
+        <div class="lg:col-span-5 bg-white p-6 sm:p-8 border border-civic-border shadow-xs space-y-4">
+          <div class="border-b border-civic-border pb-3">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-blue-700 font-bold block">Lokasi & Navigasi</span>
+            <h2 class="text-xl font-serif font-black text-civic-navy mt-0.5">Kompleks Balai Desa Timpik</h2>
+            <p class="text-xs text-civic-muted mt-0.5">Patokan: Jalan Utama Dusun Krajan arah Susukan &ndash; Kaliwungu.</p>
+          </div>
+
+          <div class="border border-civic-border bg-slate-100 overflow-hidden">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15828.69482161642!2d110.57500000000002!3d-7.335000000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a7837b2d55555%3A0x1234567890abcdef!2sTimpik%2C%20Susukan%2C%20Semarang%20Regency%2C%20Central%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
+              width="100%"
+              height="260"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Peta Kantor Balai Desa Timpik"
+              class="w-full grayscale contrast-125 hover:grayscale-0 transition-all duration-300"
+            ></iframe>
+          </div>
+
+          <div class="space-y-3 pt-2 text-xs">
+            <div class="p-3 bg-civic-sand/30 border border-civic-border text-civic-navy space-y-1">
+              <p class="font-bold">Aksesibilitas Wilayah:</p>
+              <p class="text-[11px] text-civic-muted leading-relaxed">
+                Dapat dijangkau dengan kendaraan roda dua maupun roda empat melalui rute Susukan &ndash; Kemetul &ndash; Timpik. Area parkir pendopo balai desa tersedia luas bagi warga.
+              </p>
+            </div>
+
+            <a
+              href="https://maps.google.com/?q=Balai+Desa+Timpik+Susukan+Semarang"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full py-2.5 px-4 bg-civic-sand hover:bg-civic-border/60 text-civic-navy font-mono text-xs uppercase tracking-wider font-bold border border-civic-border transition-colors flex items-center justify-center gap-1.5"
+            >
+              <svg class="w-4 h-4 text-civic-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              <span>Petunjuk Arah Google Maps</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Emergency Hotline Ledger: Buku Telepon Siaga Warga -->
+      <div class="border-t border-civic-border pt-12">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="w-2.5 h-2.5 bg-rose-600 animate-pulse"></span>
+              <span class="text-xs font-mono uppercase tracking-widest text-rose-700 font-bold">Siaga Darurat 24 Jam</span>
+            </div>
+            <h2 class="text-2xl font-serif font-black text-civic-navy">Buku Telepon Siaga Warga</h2>
+          </div>
+          <p class="text-xs text-civic-muted max-w-md">
+            Layanan tanggap darurat medis, keamanan teritorial, dan saluran irigasi pertanian Desa Timpik yang dikelola aparatur.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="emergency-cards-grid">
+          {kontak_darurat.map((item) => (
+            <div class="bg-white border border-civic-border p-5 flex flex-col justify-between space-y-4 shadow-xs">
+              <div>
+                <div class="flex items-center justify-between gap-1 mb-2 pb-2 border-b border-civic-border/60">
+                  <span class={`text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 border ${
+                    item.badge_color === 'emerald' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' :
+                    item.badge_color === 'teal' ? 'bg-teal-50 text-teal-800 border-teal-200' :
+                    item.badge_color === 'blue' ? 'bg-blue-50 text-blue-800 border-blue-200' :
+                    'bg-rose-50 text-rose-800 border-rose-200'
+                  }`}>
+                    {item.kategori}
+                  </span>
+                  <span class="text-[10px] font-mono text-civic-muted font-semibold truncate">&bull; {item.ketersediaan}</span>
+                </div>
+                
+                <h3 class="text-sm font-serif font-bold text-civic-navy leading-snug">{item.nama}</h3>
+                <p class="text-[11px] font-mono text-civic-muted mt-0.5 mb-1.5">{item.instansi}</p>
+                <p class="text-xs text-civic-muted leading-relaxed line-clamp-2">{item.deskripsi}</p>
+              </div>
+
+              <div class="pt-3 border-t border-civic-border/60">
+                {item.tipe_kontak === 'whatsapp' ? (
+                  <a
+                    href={`https://wa.me/${item.nomor.replace(/[^0-9]/g, '')}?text=Halo%20${encodeURIComponent(item.nama)},%20butuh%20bantuan%20segera`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="w-full py-2 px-3 bg-emerald-800 hover:bg-emerald-900 text-white font-mono text-xs uppercase tracking-wider text-center block transition-colors"
+                  >
+                    Hubungi WhatsApp
+                  </a>
+                ) : (
+                  <a
+                    href={`tel:${item.nomor.replace(/[^0-9]/g, '')}`}
+                    class="w-full py-2 px-3 bg-civic-navy hover:bg-civic-navy/90 text-white font-mono text-xs uppercase tracking-wider text-center block transition-colors"
+                  >
+                    Telepon ({item.nomor})
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+</Layout>
+
+<script is:inline define:vars={{ initialKontak: kontakData }}>
+  const STORAGE_KEY = 'timpik_kontak_data';
+
+  function getLocalData() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && parsed.operasional && Array.isArray(parsed.kontak_darurat)) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn('Gagal membaca kontak lokal', e);
+    }
+    return initialKontak;
+  }
+
+  let liveData = getLocalData();
+
+  function hydratePublicPage() {
+    const op = liveData.operasional || {};
+    
+    // Update Operasional info
+    const elNama = document.getElementById('view-nama-kantor');
+    if (elNama && op.nama_kantor) elNama.textContent = op.nama_kantor;
+
+    const elStatus = document.getElementById('view-status-badge');
+    if (elStatus && op.status_layanan) {
+      elStatus.textContent = op.status_layanan;
+      if (op.status_layanan === 'Tutup Libur') {
+        elStatus.className = 'text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-rose-300 bg-rose-50 text-rose-800 font-bold';
+      } else if (op.status_layanan === 'Buka Terbatas') {
+        elStatus.className = 'text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-amber-300 bg-amber-50 text-amber-800 font-bold';
+      } else {
+        elStatus.className = 'text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold';
+      }
+    }
+
+    const elAlamat = document.getElementById('view-alamat-kantor');
+    if (elAlamat && op.alamat) elAlamat.textContent = op.alamat;
+
+    const elJamSK = document.getElementById('view-jam-senin-kamis');
+    if (elJamSK && op.jam_senin_kamis) elJamSK.textContent = op.jam_senin_kamis;
+
+    const elJamJumat = document.getElementById('view-jam-jumat');
+    if (elJamJumat && op.jam_jumat) elJamJumat.textContent = op.jam_jumat;
+
+    const elKet = document.getElementById('view-keterangan-layanan');
+    if (elKet && op.keterangan_layanan) elKet.textContent = op.keterangan_layanan;
+
+    const elWaLink = document.getElementById('view-wa-link');
+    const elWaText = document.getElementById('view-wa-text');
+    if (elWaLink && op.telepon) {
+      const cleanTel = op.telepon.replace(/[^0-9]/g, '');
+      elWaLink.href = `https://wa.me/${cleanTel}?text=Halo%20Admin%20Pelayanan%20Desa%20Timpik,%20saya%20ingin%20berkonsultasi%20mengenai%20pelayanan%20surat`;
+      if (elWaText) elWaText.textContent = `Chat WhatsApp (${op.telepon})`;
+    }
+
+    const elEmailLink = document.getElementById('view-email-link');
+    const elEmailText = document.getElementById('view-email-text');
+    if (elEmailLink && op.email) {
+      elEmailLink.href = `mailto:${op.email}`;
+      if (elEmailText) elEmailText.textContent = op.email;
+    }
+
+    // Update Emergency Hotline Grid with consistent civic ledger styling
+    const grid = document.getElementById('emergency-cards-grid');
+    if (grid && Array.isArray(liveData.kontak_darurat)) {
+      grid.innerHTML = liveData.kontak_darurat.map(item => {
+        let badgeStyle = 'bg-rose-50 text-rose-800 border-rose-200';
+        let btnStyle = 'bg-rose-800 hover:bg-rose-900';
+
+        if (item.badge_color === 'emerald') {
+          badgeStyle = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+          btnStyle = 'bg-emerald-800 hover:bg-emerald-900';
+        } else if (item.badge_color === 'teal') {
+          badgeStyle = 'bg-teal-50 text-teal-800 border-teal-200';
+          btnStyle = 'bg-teal-800 hover:bg-teal-900';
+        } else if (item.badge_color === 'blue') {
+          badgeStyle = 'bg-blue-50 text-blue-800 border-blue-200';
+          btnStyle = 'bg-civic-navy hover:bg-civic-navy/90';
+        }
+
+        const cleanNo = (item.nomor || '').replace(/[^0-9]/g, '');
+
+        return `
+          <div class="bg-white border border-civic-border p-5 flex flex-col justify-between space-y-4 shadow-xs">
+            <div>
+              <div class="flex items-center justify-between gap-1 mb-2 pb-2 border-b border-civic-border/60">
+                <span class="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 border ${badgeStyle}">
+                  ${item.kategori}
+                </span>
+                <span class="text-[10px] font-mono text-civic-muted font-semibold truncate">&bull; ${item.ketersediaan}</span>
+              </div>
+              
+              <h3 class="text-sm font-serif font-bold text-civic-navy leading-snug">${item.nama}</h3>
+              <p class="text-[11px] font-mono text-civic-muted mt-0.5 mb-1.5">${item.instansi}</p>
+              <p class="text-xs text-civic-muted leading-relaxed line-clamp-2">${item.deskripsi}</p>
+            </div>
+
+            <div class="pt-3 border-t border-civic-border/60">
+              ${item.tipe_kontak === 'whatsapp' ? `
+                <a
+                  href="https://wa.me/${cleanNo}?text=Halo%20${encodeURIComponent(item.nama)},%20butuh%20bantuan%20segera"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-full py-2 px-3 ${btnStyle} text-white font-mono text-xs uppercase tracking-wider text-center block transition-colors"
+                >
+                  Hubungi WhatsApp
+                </a>
+              ` : `
+                <a
+                  href="tel:${cleanNo}"
+                  class="w-full py-2 px-3 bg-civic-navy hover:bg-civic-navy/90 text-white font-mono text-xs uppercase tracking-wider text-center block transition-colors"
+                >
+                  Telepon (${item.nomor})
+                </a>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+
+  // Quick WhatsApp message sender
+  const formKontak = document.getElementById('form-kontak-publik');
+  if (formKontak) {
+    formKontak.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nama = document.getElementById('contact-nama')?.value?.trim() || '';
+      const dusun = document.getElementById('contact-dusun')?.value || '';
+      const telepon = document.getElementById('contact-telepon')?.value?.trim() || '';
+      const kategori = document.getElementById('contact-kategori')?.value || '';
+      const pesan = document.getElementById('contact-pesan')?.value?.trim() || '';
+
+      const targetWa = (liveData.operasional?.telepon || '081234567890').replace(/[^0-9]/g, '');
+      const text = `Halo Admin Pelayanan Balai Desa Timpik,%0A%0ASaya ingin menyampaikan pesan / pertanyaan:%0A- *Nama:* ${encodeURIComponent(nama)}%0A- *Dusun:* ${encodeURIComponent(dusun)}%0A- *No. HP:* ${encodeURIComponent(telepon)}%0A- *Kategori:* ${encodeURIComponent(kategori)}%0A%0A*Isi Pesan:*%0A${encodeURIComponent(pesan)}%0A%0ATerima kasih.`;
+
+      window.open(`https://wa.me/${targetWa}?text=${text}`, '_blank');
+    });
+  }
+
+  // Check and hydrate immediately if localStorage data exists
+  if (localStorage.getItem(STORAGE_KEY)) {
+    hydratePublicPage();
+  }
+</script>

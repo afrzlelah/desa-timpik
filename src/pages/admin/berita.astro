@@ -1,0 +1,520 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import beritaData from '../../data/berita.json';
+---
+
+<AdminLayout title="Kelola Portal Berita & Informasi Desa" activeMenu="berita">
+  
+  <div class="space-y-6 max-w-7xl mx-auto">
+    
+    <!-- Top Action Bar -->
+    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-100 text-blue-800">
+            Publikasi Resmi Desa Timpik
+          </span>
+          <span class="text-xs text-slate-400">&bull;</span>
+          <span class="text-xs text-slate-500 font-medium" id="berita-total-indicator">Total: {beritaData.length} Artikel</span>
+        </div>
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Manajemen Berita & Publikasi Desa</h1>
+        <p class="text-xs text-slate-500 mt-1">
+          Tambah berita kegiatan baru, sunting artikel publik, atau arsipkan dokumentasi kegiatan Pemdes dan mahasiswa KKN.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          id="btn-download-json-berita"
+          class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-300 transition-colors flex items-center gap-1.5"
+          title="Ekspor data berita saat ini ke format berita.json untuk commit repositori"
+        >
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Unduh JSON</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-reset-berita-default"
+          class="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold text-xs border border-rose-200 transition-colors"
+          title="Kembalikan artikel ke data awal bawaan sistem"
+        >
+          Reset Default
+        </button>
+
+        <button
+          type="button"
+          id="btn-tambah-berita"
+          class="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-md shadow-blue-700/20 transition-all flex items-center gap-1.5"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <span>Tulis Berita Baru</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter & Pencarian Berita -->
+    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="relative w-full sm:w-80">
+        <input
+          type="text"
+          id="search-berita"
+          placeholder="Cari judul artikel, penulis, atau topik..."
+          class="w-full pl-9 pr-4 py-2 rounded-lg border border-slate-300 text-xs text-slate-800 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all"
+        />
+        <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+
+      <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0" id="filter-kategori-berita">
+        <button type="button" class="btn-filter-kategori px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-700 text-white" data-kat="all">Semua</button>
+        <button type="button" class="btn-filter-kategori px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700" data-kat="Program KKN">Program KKN</button>
+        <button type="button" class="btn-filter-kategori px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700" data-kat="Pertanian & Agraris">Pertanian</button>
+        <button type="button" class="btn-filter-kategori px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700" data-kat="Kesenian & Budaya">Budaya</button>
+        <button type="button" class="btn-filter-kategori px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700" data-kat="Kesehatan & Keluarga">Kesehatan</button>
+      </div>
+    </div>
+
+    <!-- Table of News Articles -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[11px] border-b border-slate-200 font-bold">
+            <tr>
+              <th class="p-4 w-20">Foto</th>
+              <th class="p-4">Judul & Ringkasan</th>
+              <th class="p-4 w-36">Kategori & Tag</th>
+              <th class="p-4 w-36">Penulis & Tanggal</th>
+              <th class="p-4 w-32 text-right">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="berita-tbody" class="divide-y divide-slate-100 text-slate-700 font-medium">
+            <!-- Rendered by client JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div id="berita-empty-state" class="hidden p-12 text-center">
+        <svg class="w-12 h-12 text-slate-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+        <p class="text-sm font-bold text-slate-700">Tidak ada artikel yang cocok</p>
+        <p class="text-xs text-slate-400 mt-1">Coba sesuaikan kata kunci pencarian atau kategori filter.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal Tambah / Edit Berita -->
+  <div id="modal-berita" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div>
+          <h3 id="modal-berita-title" class="text-base font-bold text-slate-900">Tulis Berita Baru</h3>
+          <p class="text-[11px] text-slate-500">Artikel akan otomatis terpublikasi di halaman Berita Desa Timpik</p>
+        </div>
+        <button type="button" id="btn-close-modal-berita" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form id="form-berita" class="p-6 overflow-y-auto space-y-4 text-xs flex-grow">
+        <input type="hidden" id="berita-edit-id" value="" />
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Judul Artikel <span class="text-rose-500">*</span></label>
+          <input
+            type="text"
+            id="berita-input-judul"
+            required
+            placeholder="Contoh: Kerja Bakti Normalisasi Saluran Irigasi Dusun Bogo..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Kategori <span class="text-rose-500">*</span></label>
+            <select
+              id="berita-input-kategori"
+              required
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white"
+            >
+              <option value="Program KKN">Program KKN</option>
+              <option value="Pertanian & Agraris">Pertanian & Agraris</option>
+              <option value="Kesenian & Budaya">Kesenian & Budaya</option>
+              <option value="Kesehatan & Keluarga">Kesehatan & Keluarga</option>
+              <option value="Pemerintahan & Pelayanan">Pemerintahan & Pelayanan</option>
+              <option value="Pembangunan & Infrastruktur">Pembangunan & Infrastruktur</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Tanggal Publikasi <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="berita-input-tanggal"
+              required
+              placeholder="Contoh: 08 November 2026"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Penulis / Sumber Berita <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="berita-input-penulis"
+              required
+              placeholder="Contoh: Pemerintah Desa Timpik / Tim KKN"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Tag / Label Singkat</label>
+            <input
+              type="text"
+              id="berita-input-tag"
+              placeholder="Contoh: Gotong Royong, Pertanian, Stunting"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">URL Foto Sampul (Thumbnail)</label>
+          <input
+            type="text"
+            id="berita-input-gambar"
+            placeholder="/images/balai-desa-timpik.jpg atau https://..."
+            class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <div class="flex items-center gap-2 mt-1.5 text-[11px] text-slate-500">
+            <span>Pilihan cepat foto lokal:</span>
+            <button type="button" class="btn-preset-img text-blue-600 hover:underline" data-url="/images/balai-desa-timpik.jpg">Balai Desa</button>
+            <span>&bull;</span>
+            <button type="button" class="btn-preset-img text-blue-600 hover:underline" data-url="/images/gapura-desa-timpik.jpg">Gapura</button>
+            <span>&bull;</span>
+            <button type="button" class="btn-preset-img text-blue-600 hover:underline" data-url="/images/kelembagaan-desa-timpik.jpg">Kelembagaan</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Ringkasan Berita (Muncul di Kartu Depan) <span class="text-rose-500">*</span></label>
+          <textarea
+            id="berita-input-ringkasan"
+            rows="2"
+            required
+            placeholder="Ringkasan 1-2 kalimat pengantar isi berita..."
+            class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          ></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Konten Lengkap Berita <span class="text-rose-500">*</span></label>
+          <textarea
+            id="berita-input-konten"
+            rows="6"
+            required
+            placeholder="Tuliskan isi berita secara lengkap di sini..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600 font-mono leading-relaxed"
+          ></textarea>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            id="btn-cancel-modal-berita"
+            class="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold"
+          >
+            Batal
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold shadow-md shadow-blue-700/20"
+          >
+            Simpan & Terbitkan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</AdminLayout>
+
+<script is:inline define:vars={{ defaultBerita: beritaData }}>
+  const STORAGE_KEY = 'timpik_berita_list';
+
+  function getStoredBerita() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.warn('Gagal membaca berita localStorage', e);
+    }
+    return [...defaultBerita];
+  }
+
+  function saveStoredBerita(list) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    } catch (e) {
+      console.error('Gagal menyimpan berita', e);
+    }
+  }
+
+  let beritaState = getStoredBerita();
+  let currentSearch = '';
+  let currentCategory = 'all';
+
+  function renderTable() {
+    const tbody = document.getElementById('berita-tbody');
+    const emptyState = document.getElementById('berita-empty-state');
+    const totalIndicator = document.getElementById('berita-total-indicator');
+
+    if (!tbody) return;
+
+    if (totalIndicator) {
+      totalIndicator.textContent = `Total: ${beritaState.length} Artikel`;
+    }
+
+    const filtered = beritaState.filter(item => {
+      const matchSearch = !currentSearch || 
+        item.judul.toLowerCase().includes(currentSearch) ||
+        (item.penulis && item.penulis.toLowerCase().includes(currentSearch)) ||
+        (item.tag && item.tag.toLowerCase().includes(currentSearch));
+
+      const matchCat = currentCategory === 'all' || item.kategori === currentCategory;
+      return matchSearch && matchCat;
+    });
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '';
+      if (emptyState) emptyState.classList.remove('hidden');
+      return;
+    }
+
+    if (emptyState) emptyState.classList.add('hidden');
+
+    tbody.innerHTML = filtered.map(b => `
+      <tr class="hover:bg-slate-50/80 transition-colors">
+        <td class="p-4">
+          <img src="${b.gambar || '/images/balai-desa-timpik.jpg'}" alt="${b.judul}" class="w-16 h-12 rounded-lg object-cover bg-slate-100 border border-slate-200" onerror="this.src='/images/balai-desa-timpik.jpg'"/>
+        </td>
+        <td class="p-4">
+          <a href="/berita/${b.id}" target="_blank" class="text-sm font-bold text-slate-900 hover:text-blue-700 hover:underline line-clamp-1 block">
+            ${b.judul}
+          </a>
+          <p class="text-[11px] text-slate-500 line-clamp-2 mt-0.5">${b.ringkasan || ''}</p>
+        </td>
+        <td class="p-4">
+          <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200 mb-1">
+            ${b.kategori}
+          </span>
+          ${b.tag ? `<div class="text-[10px] text-slate-400 font-medium">#${b.tag}</div>` : ''}
+        </td>
+        <td class="p-4">
+          <div class="font-bold text-slate-800 text-xs">${b.penulis || 'Pemdes Timpik'}</div>
+          <div class="text-[11px] text-slate-400">${b.tanggal}</div>
+        </td>
+        <td class="p-4 text-right">
+          <div class="flex items-center justify-end gap-1.5">
+            <button
+              type="button"
+              class="btn-edit-berita px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 font-bold text-xs transition-colors border border-slate-200"
+              data-id="${b.id}"
+              title="Sunting Artikel"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              class="btn-delete-berita px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs transition-colors border border-rose-200"
+              data-id="${b.id}"
+              data-judul="${b.judul}"
+              title="Hapus Artikel"
+            >
+              Hapus
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    attachTableEvents();
+  }
+
+  function attachTableEvents() {
+    document.querySelectorAll('.btn-edit-berita').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        openEditModal(id);
+      });
+    });
+
+    document.querySelectorAll('.btn-delete-berita').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const judul = btn.getAttribute('data-judul');
+        if (confirm(`Yakin ingin menghapus artikel berita ini?\n\n"${judul}"`)) {
+          beritaState = beritaState.filter(item => item.id !== id);
+          saveStoredBerita(beritaState);
+          renderTable();
+        }
+      });
+    });
+  }
+
+  // Modal Handling
+  const modal = document.getElementById('modal-berita');
+  const modalTitle = document.getElementById('modal-berita-title');
+  const form = document.getElementById('form-berita');
+  const editIdInput = document.getElementById('berita-edit-id');
+  const judulInput = document.getElementById('berita-input-judul');
+  const kategoriInput = document.getElementById('berita-input-kategori');
+  const tanggalInput = document.getElementById('berita-input-tanggal');
+  const penulisInput = document.getElementById('berita-input-penulis');
+  const tagInput = document.getElementById('berita-input-tag');
+  const gambarInput = document.getElementById('berita-input-gambar');
+  const ringkasanInput = document.getElementById('berita-input-ringkasan');
+  const kontenInput = document.getElementById('berita-input-konten');
+
+  function openCreateModal() {
+    if (!modal) return;
+    modalTitle.textContent = 'Tulis Berita Baru';
+    editIdInput.value = '';
+    form.reset();
+
+    // Default tanggal hari ini dalam format Bahasa Indonesia
+    const now = new Date();
+    const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    tanggalInput.value = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+    penulisInput.value = 'Pemerintah Desa Timpik';
+    gambarInput.value = '/images/balai-desa-timpik.jpg';
+
+    modal.classList.remove('hidden');
+  }
+
+  function openEditModal(id) {
+    const item = beritaState.find(b => b.id === id);
+    if (!item || !modal) return;
+
+    modalTitle.textContent = 'Sunting Berita: ' + item.judul;
+    editIdInput.value = item.id;
+    judulInput.value = item.judul || '';
+    kategoriInput.value = item.kategori || 'Program KKN';
+    tanggalInput.value = item.tanggal || '';
+    penulisInput.value = item.penulis || '';
+    tagInput.value = item.tag || '';
+    gambarInput.value = item.gambar || '';
+    ringkasanInput.value = item.ringkasan || '';
+    kontenInput.value = item.konten || '';
+
+    modal.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    if (modal) modal.classList.add('hidden');
+  }
+
+  // Preset Buttons
+  document.querySelectorAll('.btn-preset-img').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const url = btn.getAttribute('data-url');
+      if (gambarInput && url) gambarInput.value = url;
+    });
+  });
+
+  document.getElementById('btn-tambah-berita')?.addEventListener('click', openCreateModal);
+  document.getElementById('btn-close-modal-berita')?.addEventListener('click', closeModal);
+  document.getElementById('btn-cancel-modal-berita')?.addEventListener('click', closeModal);
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const isEdit = !!editIdInput.value;
+
+    if (isEdit) {
+      const idx = beritaState.findIndex(b => b.id === editIdInput.value);
+      if (idx !== -1) {
+        beritaState[idx] = {
+          ...beritaState[idx],
+          judul: judulInput.value.trim(),
+          kategori: kategoriInput.value,
+          tanggal: tanggalInput.value.trim(),
+          penulis: penulisInput.value.trim(),
+          tag: tagInput.value.trim(),
+          gambar: gambarInput.value.trim() || '/images/balai-desa-timpik.jpg',
+          ringkasan: ringkasanInput.value.trim(),
+          konten: kontenInput.value.trim()
+        };
+      }
+    } else {
+      const slug = judulInput.value.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '')
+        .substring(0, 40) + '-' + Date.now().toString().slice(-4);
+
+      const newItem = {
+        id: slug,
+        judul: judulInput.value.trim(),
+        kategori: kategoriInput.value,
+        tanggal: tanggalInput.value.trim(),
+        penulis: penulisInput.value.trim(),
+        tag: tagInput.value.trim(),
+        gambar: gambarInput.value.trim() || '/images/balai-desa-timpik.jpg',
+        ringkasan: ringkasanInput.value.trim(),
+        konten: kontenInput.value.trim()
+      };
+      beritaState.unshift(newItem);
+    }
+
+    saveStoredBerita(beritaState);
+    closeModal();
+    renderTable();
+    alert(isEdit ? 'Artikel berhasil diperbarui!' : 'Berita baru berhasil diterbitkan ke portal publik!');
+  });
+
+  // Search & Filter
+  document.getElementById('search-berita')?.addEventListener('input', (e) => {
+    currentSearch = e.target.value.toLowerCase().trim();
+    renderTable();
+  });
+
+  document.querySelectorAll('.btn-filter-kategori').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.btn-filter-kategori').forEach(b => {
+        b.className = 'btn-filter-kategori px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700';
+      });
+      btn.className = 'btn-filter-kategori px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-700 text-white';
+      currentCategory = btn.getAttribute('data-kat');
+      renderTable();
+    });
+  });
+
+  // Download JSON
+  document.getElementById('btn-download-json-berita')?.addEventListener('click', () => {
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(beritaState, null, 2));
+    const dlAnchorElem = document.createElement('a');
+    dlAnchorElem.setAttribute('href', dataStr);
+    dlAnchorElem.setAttribute('download', 'berita.json');
+    dlAnchorElem.click();
+  });
+
+  // Reset Default
+  document.getElementById('btn-reset-berita-default')?.addEventListener('click', () => {
+    if (confirm('Yakin ingin mereset seluruh daftar berita ke data default awal?')) {
+      localStorage.removeItem(STORAGE_KEY);
+      beritaState = [...defaultBerita];
+      renderTable();
+      alert('Data berita telah dikembalikan ke data default bawaan.');
+    }
+  });
+
+  // Initial load
+  renderTable();
+</script>
+

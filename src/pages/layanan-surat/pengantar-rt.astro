@@ -1,0 +1,215 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import profilData from '../../data/profil.json';
+---
+
+<Layout
+  title="Generator Cetak Surat Pengantar RT/RW Mandiri - Desa Timpik"
+  description="Layanan cetak mandiri blanko Surat Pengantar RT/RW resmi Desa Timpik, Kecamatan Susukan, Kabupaten Semarang. Siap dicetak langsung dari smartphone atau komputer."
+>
+  <!-- Architectural Civic Header (Screen Only) -->
+  <section class="print:hidden bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl space-y-4">
+        <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-civic-cream transition-colors">Beranda</a>
+          <span class="text-slate-600">/</span>
+          <a href="/layanan-surat" class="hover:text-civic-cream transition-colors">Layanan Persuratan</a>
+          <span class="text-slate-600">/</span>
+          <span class="text-civic-gold">Cetak Pengantar RT/RW</span>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <span class="h-px w-6 bg-civic-gold"></span>
+          <span class="text-[10px] font-mono uppercase tracking-widest text-civic-gold font-bold">
+            Format Baku Standar Administrasi Warga
+          </span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+          Cetak Mandiri Surat Pengantar RT/RW
+        </h1>
+
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed pt-1 font-sans">
+          Isi data diri singkat di bawah untuk menghasilkan lembar Surat Pengantar RT/RW standar Desa Timpik yang rapi, siap diprint, dan dimintakan tanda tangan Ketua RT/RW setempat.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Input Form (Screen Only) -->
+  <section class="print:hidden py-10 bg-civic-sand/30 border-b border-civic-border">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white p-6 sm:p-8 border border-civic-border shadow-xs space-y-6">
+        <div class="flex items-center justify-between pb-4 border-b border-civic-border">
+          <div>
+            <span class="text-[10px] font-mono uppercase tracking-widest text-civic-gold block">Formulir Generator</span>
+            <h2 class="text-lg font-serif font-bold text-civic-navy mt-0.5">Pengisian Data Surat Pengantar</h2>
+          </div>
+          <span class="text-xs font-mono text-civic-muted">*Otomatis terformat saat dicetak</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans">
+          <div>
+            <label class="font-mono text-[11px] font-bold text-civic-navy uppercase tracking-wider block mb-1.5">Nama Lengkap Sesuai KTP:</label>
+            <input type="text" id="in-nama" value="Ahmad Santoso" class="w-full px-3.5 py-2.5 border border-civic-border bg-civic-sand/20 text-civic-navy focus:bg-white focus:outline-none focus:border-civic-navy"/>
+          </div>
+          <div>
+            <label class="font-mono text-[11px] font-bold text-civic-navy uppercase tracking-wider block mb-1.5">NIK (16 Digit):</label>
+            <input type="text" id="in-nik" value="3322081504850002" class="w-full px-3.5 py-2.5 border border-civic-border bg-civic-sand/20 text-civic-navy font-mono focus:bg-white focus:outline-none focus:border-civic-navy"/>
+          </div>
+          <div>
+            <label class="font-mono text-[11px] font-bold text-civic-navy uppercase tracking-wider block mb-1.5">Tempat, Tanggal Lahir:</label>
+            <input type="text" id="in-ttl" value="Semarang, 15 April 1985" class="w-full px-3.5 py-2.5 border border-civic-border bg-civic-sand/20 text-civic-navy focus:bg-white focus:outline-none focus:border-civic-navy"/>
+          </div>
+          <div>
+            <label class="font-mono text-[11px] font-bold text-civic-navy uppercase tracking-wider block mb-1.5">Pekerjaan:</label>
+            <input type="text" id="in-pekerjaan" value="Petani / Pekebun" class="w-full px-3.5 py-2.5 border border-civic-border bg-civic-sand/20 text-civic-navy focus:bg-white focus:outline-none focus:border-civic-navy"/>
+          </div>
+          <div>
+            <label class="font-mono text-[11px] font-bold text-civic-navy uppercase tracking-wider block mb-1.5">Wilayah Dusun:</label>
+            <select id="in-dusun" class="w-full px-3.5 py-2.5 border border-civic-border bg-white text-civic-navy focus:outline-none focus:border-civic-navy">
+              {profilData.dusun.map((d) => (
+                <option value={d.nama}>{d.nama}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label class="font-mono text-[11px] font-bold text-civic-navy uppercase tracking-wider block mb-1.5">Nomor RT / RW:</label>
+            <input type="text" id="in-rtrw" value="RT 02 / RW 01" class="w-full px-3.5 py-2.5 border border-civic-border bg-civic-sand/20 text-civic-navy font-mono focus:bg-white focus:outline-none focus:border-civic-navy"/>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="font-mono text-[11px] font-bold text-civic-navy uppercase tracking-wider block mb-1.5">Keperluan Pengurusan Surat:</label>
+            <input type="text" id="in-keperluan" value="Pengurusan Surat Keterangan Usaha (SKU) di Balai Desa Timpik" class="w-full px-3.5 py-2.5 border border-civic-border bg-civic-sand/20 text-civic-navy focus:bg-white focus:outline-none focus:border-civic-navy"/>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-civic-border">
+          <p class="text-xs text-civic-muted font-sans">Pratinjau lembar cetak diperbarui secara langsung di bawah ini.</p>
+          <button
+            type="button"
+            onclick="window.print()"
+            class="px-6 py-3 bg-civic-navy hover:bg-civic-navy/90 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center gap-2 border border-civic-navy"
+          >
+            <svg class="w-4 h-4 fill-none stroke-current" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+            <span>Cetak Dokumen Sekarang (PDF / Print)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Format Dokumen Fisik Standar Resmi (Tampil di Layar & Saat Print) -->
+  <section class="py-12 bg-slate-200/60 print:bg-white print:py-0 flex-grow">
+    <div class="max-w-[210mm] mx-auto bg-white p-10 sm:p-14 shadow-2xl print:shadow-none print:p-0 print:m-0 font-serif text-slate-900 border border-civic-border print:border-none">
+      
+      <!-- Kop Surat RT / RW -->
+      <div class="text-center pb-4 border-b-2 border-slate-900">
+        <h3 class="text-base font-bold uppercase tracking-wider">Rukun Tetangga / Rukun Warga</h3>
+        <h2 class="text-lg font-black uppercase tracking-wider" id="out-kop-dusun">Dusun Bogo - Desa Timpik</h2>
+        <p class="text-xs text-slate-600 font-sans mt-0.5">Kecamatan Susukan, Kabupaten Semarang, Provinsi Jawa Tengah &ndash; Kode Pos 50774</p>
+      </div>
+
+      <!-- Judul Surat -->
+      <div class="text-center py-6">
+        <h1 class="text-lg font-bold underline uppercase tracking-wide">Surat Pengantar RT / RW</h1>
+        <p class="text-xs font-mono mt-1">Nomor: &nbsp; &nbsp; &nbsp; / &nbsp; &nbsp; &nbsp; / &nbsp; &nbsp; &nbsp; / 2026</p>
+      </div>
+
+      <!-- Isi Pembuka -->
+      <p class="text-xs leading-relaxed mb-4">
+        Yang bertanda tangan di bawah ini Ketua RT / RW menerangkan dengan sebenarnya bahwa:
+      </p>
+
+      <!-- Biodata Tabel -->
+      <table class="w-full text-xs mb-6 space-y-2">
+        <tbody>
+          <tr class="align-top">
+            <td class="w-36 py-1">Nama Lengkap</td>
+            <td class="w-4 py-1">:</td>
+            <td class="py-1 font-bold" id="out-nama">Ahmad Santoso</td>
+          </tr>
+          <tr class="align-top">
+            <td class="py-1">NIK</td>
+            <td class="py-1">:</td>
+            <td class="py-1 font-mono font-bold" id="out-nik">3322081504850002</td>
+          </tr>
+          <tr class="align-top">
+            <td class="py-1">Tempat, Tanggal Lahir</td>
+            <td class="py-1">:</td>
+            <td class="py-1" id="out-ttl">Semarang, 15 April 1985</td>
+          </tr>
+          <tr class="align-top">
+            <td class="py-1">Pekerjaan</td>
+            <td class="py-1">:</td>
+            <td class="py-1" id="out-pekerjaan">Petani / Pekebun</td>
+          </tr>
+          <tr class="align-top">
+            <td class="py-1">Alamat Tinggal</td>
+            <td class="py-1">:</td>
+            <td class="py-1" id="out-alamat">RT 02 / RW 01, Dusun Bogo, Desa Timpik, Kec. Susukan, Kab. Semarang</td>
+          </tr>
+          <tr class="align-top">
+            <td class="py-1">Keperluan</td>
+            <td class="py-1">:</td>
+            <td class="py-1 font-semibold" id="out-keperluan">Pengurusan Surat Keterangan Usaha (SKU) di Balai Desa Timpik</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Penutup -->
+      <p class="text-xs leading-relaxed mb-8">
+        Orang tersebut di atas adalah benar-benar warga penduduk RT / RW kami dan berkelakuan baik dalam kehidupan bermasyarakat. Surat pengantar ini dibuat sebagai kelengkapan permohonan administrasi di Kantor Balai Desa Timpik.
+      </p>
+
+      <!-- Tanda Tangan -->
+      <div class="grid grid-cols-2 text-center text-xs pt-4">
+        <div>
+          <p class="mb-16">Mengetahui,<br/><strong>Ketua RW Setempat</strong></p>
+          <p>( .................................................... )</p>
+        </div>
+        <div>
+          <p class="mb-16">Timpik, .............................. 2026<br/><strong>Ketua RT Setempat</strong></p>
+          <p>( .................................................... )</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const inNama = document.getElementById('in-nama') as HTMLInputElement;
+  const inNik = document.getElementById('in-nik') as HTMLInputElement;
+  const inTtl = document.getElementById('in-ttl') as HTMLInputElement;
+  const inPekerjaan = document.getElementById('in-pekerjaan') as HTMLInputElement;
+  const inDusun = document.getElementById('in-dusun') as HTMLSelectElement;
+  const inRtrw = document.getElementById('in-rtrw') as HTMLInputElement;
+  const inKeperluan = document.getElementById('in-keperluan') as HTMLInputElement;
+
+  const outKopDusun = document.getElementById('out-kop-dusun');
+  const outNama = document.getElementById('out-nama');
+  const outNik = document.getElementById('out-nik');
+  const outTtl = document.getElementById('out-ttl');
+  const outPekerjaan = document.getElementById('out-pekerjaan');
+  const outAlamat = document.getElementById('out-alamat');
+  const outKeperluan = document.getElementById('out-keperluan');
+
+  function syncData() {
+    if (outNama && inNama) outNama.textContent = inNama.value || '...........................................';
+    if (outNik && inNik) outNik.textContent = inNik.value || '...........................................';
+    if (outTtl && inTtl) outTtl.textContent = inTtl.value || '...........................................';
+    if (outPekerjaan && inPekerjaan) outPekerjaan.textContent = inPekerjaan.value || '...........................................';
+    if (outKeperluan && inKeperluan) outKeperluan.textContent = inKeperluan.value || '...........................................';
+    
+    const dusunVal = inDusun ? inDusun.value : 'Dusun Bogo';
+    const rtrwVal = inRtrw ? inRtrw.value : 'RT 01 / RW 01';
+    
+    if (outKopDusun) outKopDusun.textContent = `${dusunVal} - Desa Timpik`;
+    if (outAlamat) outAlamat.textContent = `${rtrwVal}, ${dusunVal}, Desa Timpik, Kec. Susukan, Kab. Semarang`;
+  }
+
+  [inNama, inNik, inTtl, inPekerjaan, inDusun, inRtrw, inKeperluan].forEach((el) => {
+    if (el) el.addEventListener('input', syncData);
+  });
+</script>

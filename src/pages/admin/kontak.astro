@@ -1,0 +1,646 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import kontakData from '../../data/kontak.json';
+---
+
+<AdminLayout title="Kelola Informasi Operasional & Kontak Darurat" activeMenu="kontak">
+  
+  <div class="space-y-8 max-w-7xl mx-auto">
+    
+    <!-- Top Action Bar -->
+    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-100 text-blue-800">
+            Pusat Informasi & Saluran Siaga Warga
+          </span>
+          <span class="text-xs text-slate-400">&bull;</span>
+          <span class="text-xs text-slate-500 font-medium" id="kontak-total-indicator">Total: {kontakData.kontak_darurat.length} Kontak Siaga</span>
+        </div>
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Manajemen Kontak & Informasi Publik</h1>
+        <p class="text-xs text-slate-500 mt-1">
+          Atur jam operasional kantor Balai Desa, nomor WhatsApp pelayanan, serta kelola daftar kontak darurat (ambulan, bidan, babinsa, irigasi).
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          id="btn-download-json-kontak"
+          class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-300 transition-colors flex items-center gap-1.5"
+          title="Ekspor data kontak dan jam kerja saat ini ke format kontak.json"
+        >
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Unduh JSON</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-reset-kontak-default"
+          class="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold text-xs border border-rose-200 transition-colors"
+          title="Kembalikan data kontak ke setelan bawaan awal"
+        >
+          Reset Default
+        </button>
+
+        <a
+          href="/kontak"
+          target="_blank"
+          class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs transition-colors flex items-center gap-1.5"
+        >
+          <span>Lihat Halaman Publik &rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Alert Simpan Sukses -->
+    <div id="alert-kontak-success" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">✓</span>
+        <span id="alert-kontak-msg">Perubahan data berhasil disimpan dan langsung aktif di halaman publik!</span>
+      </div>
+      <button type="button" onclick="this.parentElement.classList.add('hidden')" class="text-emerald-700 font-bold text-sm">&times;</button>
+    </div>
+
+    <!-- Bagian 1: Pengaturan Jam Kerja & Kantor Balai Desa -->
+    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Informasi Jam Kerja & Kontak Kantor Balai Desa</span>
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">Informasi ini otomatis tampil di footer web, halaman Kontak, dan beranda warga.</p>
+        </div>
+      </div>
+
+      <form id="form-operasional" class="space-y-4 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Nama Kantor / Instansi <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="op-nama"
+              required
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Status Pelayanan Hari Ini <span class="text-rose-500">*</span></label>
+            <select
+              id="op-status"
+              required
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white"
+            >
+              <option value="Buka Normal">Buka Normal (Pelayanan Aktif)</option>
+              <option value="Buka Terbatas">Buka Terbatas (Musyawarah / Kegiatan Lapangan)</option>
+              <option value="Tutup Libur">Tutup (Akhir Pekan / Libur Nasional)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Jam Pelayanan Senin - Kamis <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="op-jam-senin-kamis"
+              required
+              placeholder="Contoh: 08.00 - 15.00 WIB"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Jam Pelayanan Jumat <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="op-jam-jumat"
+              required
+              placeholder="Contoh: 08.00 - 11.30 WIB"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Nomor WhatsApp Pelayanan Warga <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="op-telepon"
+              required
+              placeholder="Contoh: 0812-3456-7890"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Email Resmi Balai Desa <span class="text-rose-500">*</span></label>
+            <input
+              type="email"
+              id="op-email"
+              required
+              placeholder="Contoh: desatimpik.susukan@gmail.com"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Alamat Lengkap Kantor Balai Desa <span class="text-rose-500">*</span></label>
+          <input
+            type="text"
+            id="op-alamat"
+            required
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Keterangan / Pengumuman Singkat Pelayanan</label>
+          <input
+            type="text"
+            id="op-keterangan"
+            placeholder="Contoh: Pelayanan tatap muka dan permohonan surat online aktif di Balai Desa Timpik"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+        </div>
+
+        <div class="pt-2 flex justify-end">
+          <button
+            type="submit"
+            class="px-5 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-md shadow-blue-700/20 transition-all flex items-center gap-1.5"
+          >
+            <span>Simpan Informasi Operasional Kantor</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Bagian 2: Daftar Kontak Darurat & Hotline Warga -->
+    <div class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-rose-600 animate-ping"></span>
+            <span>Daftar Kontak Darurat & Hotline Siaga 24 Jam</span>
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">Kelola kontak Bidan, Ambulans Desa, Babinsa/Bhabinkamtibmas, Posko Irigasi, atau tambahkan posko baru.</p>
+        </div>
+
+        <button
+          type="button"
+          id="btn-tambah-kontak"
+          class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md shadow-rose-600/20 transition-all flex items-center gap-1.5"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <span>Tambah Kontak Darurat Baru</span>
+        </button>
+      </div>
+
+      <!-- Grid Kartu Kontak Darurat -->
+      <div id="kontak-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Rendered by client JS -->
+      </div>
+
+      <div id="kontak-empty-state" class="hidden bg-white p-12 rounded-2xl border border-slate-200 text-center">
+        <p class="text-sm font-bold text-slate-700">Belum ada kontak darurat yang terdaftar</p>
+        <p class="text-xs text-slate-400 mt-1">Klik tombol "+ Tambah Kontak Darurat Baru" di atas untuk menambahkan nomor siaga.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal Tambah / Edit Kontak Darurat -->
+  <div id="modal-kontak" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div>
+          <h3 id="modal-kontak-title" class="text-base font-bold text-slate-900">Tambah Kontak Darurat Baru</h3>
+          <p class="text-[11px] text-slate-500">Kontak ini akan langsung dapat dihubungi oleh warga di halaman /kontak</p>
+        </div>
+        <button type="button" id="btn-close-modal-kontak" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form id="form-kontak-item" class="p-6 overflow-y-auto space-y-4 text-xs flex-grow">
+        <input type="hidden" id="kontak-edit-id" value="" />
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nama Layanan / Petugas <span class="text-rose-500">*</span></label>
+          <input
+            type="text"
+            id="kontak-input-nama"
+            required
+            placeholder="Contoh: Bidan Desa Timpik / Driver Mobil Siaga Dusun..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-600"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Kategori Layanan <span class="text-rose-500">*</span></label>
+            <select
+              id="kontak-input-kategori"
+              required
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white"
+            >
+              <option value="Medis & Kesehatan">Medis & Kesehatan</option>
+              <option value="Transportasi Darurat">Transportasi Darurat</option>
+              <option value="Keamanan & Kamtibmas">Keamanan & Kamtibmas</option>
+              <option value="Pertanian & Irigasi">Pertanian & Irigasi</option>
+              <option value="Fasilitas Rujukan Medis">Fasilitas Rujukan Medis</option>
+              <option value="Penanggulangan Bencana">Penanggulangan Bencana</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Instansi / Unit Penanggung Jawab <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="kontak-input-instansi"
+              required
+              placeholder="Contoh: Poskesdes / Pemdes Timpik / Polsek"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-600"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Nomor Telepon / WhatsApp <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="kontak-input-nomor"
+              required
+              placeholder="Contoh: 081234567890 atau (0298) 123456"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-600"
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Tipe Panggilan <span class="text-rose-500">*</span></label>
+            <select
+              id="kontak-input-tipe"
+              required
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white"
+            >
+              <option value="whatsapp">WhatsApp Langsung</option>
+              <option value="telepon">Telepon Suara (Panggilan Telepon)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Ketersediaan / Jam Siaga <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="kontak-input-ketersediaan"
+              required
+              placeholder="Contoh: Aktif 24 Jam / Siaga di Balai Desa"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-600"
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Warna Badge Aksen</label>
+            <select
+              id="kontak-input-color"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white"
+            >
+              <option value="rose">Merah (Darurat / Medis)</option>
+              <option value="emerald">Hijau (Keamanan / Babinsa)</option>
+              <option value="teal">Toska (Pertanian & Irigasi)</option>
+              <option value="blue">Biru (Umum / Rujukan)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Uraian / Deskripsi Layanan <span class="text-rose-500">*</span></label>
+          <textarea
+            id="kontak-input-deskripsi"
+            rows="3"
+            required
+            placeholder="Jelaskan peran tugas kontak ini saat dihubungi warga desa..."
+            class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-600"
+          ></textarea>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            id="btn-cancel-modal-kontak"
+            class="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold"
+          >
+            Batal
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold shadow-md shadow-rose-600/20"
+          >
+            Simpan Kontak
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</AdminLayout>
+
+<script is:inline define:vars={{ defaultKontak: kontakData }}>
+  const STORAGE_KEY = 'timpik_kontak_data';
+
+  function getStoredData() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && parsed.operasional && Array.isArray(parsed.kontak_darurat)) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn('Gagal membaca kontak dari localStorage', e);
+    }
+    return JSON.parse(JSON.stringify(defaultKontak));
+  }
+
+  function saveStoredData(data) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      showSuccessAlert('Perubahan kontak dan operasional berhasil disimpan!');
+    } catch (e) {
+      console.error('Gagal menyimpan kontak', e);
+    }
+  }
+
+  function showSuccessAlert(msg) {
+    const alertBox = document.getElementById('alert-kontak-success');
+    const alertMsg = document.getElementById('alert-kontak-msg');
+    if (alertBox && alertMsg) {
+      alertMsg.textContent = msg;
+      alertBox.classList.remove('hidden');
+      setTimeout(() => {
+        alertBox.classList.add('hidden');
+      }, 4000);
+    }
+  }
+
+  let state = getStoredData();
+
+  // 1. Inisialisasi Form Operasional
+  function populateOperasionalForm() {
+    const op = state.operasional || {};
+    document.getElementById('op-nama').value = op.nama_kantor || '';
+    document.getElementById('op-status').value = op.status_layanan || 'Buka Normal';
+    document.getElementById('op-jam-senin-kamis').value = op.jam_senin_kamis || '';
+    document.getElementById('op-jam-jumat').value = op.jam_jumat || '';
+    document.getElementById('op-telepon').value = op.telepon || '';
+    document.getElementById('op-email').value = op.email || '';
+    document.getElementById('op-alamat').value = op.alamat || '';
+    document.getElementById('op-keterangan').value = op.keterangan_layanan || '';
+  }
+
+  document.getElementById('form-operasional')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    state.operasional = {
+      ...state.operasional,
+      nama_kantor: document.getElementById('op-nama').value.trim(),
+      status_layanan: document.getElementById('op-status').value,
+      jam_senin_kamis: document.getElementById('op-jam-senin-kamis').value.trim(),
+      jam_jumat: document.getElementById('op-jam-jumat').value.trim(),
+      telepon: document.getElementById('op-telepon').value.trim(),
+      email: document.getElementById('op-email').value.trim(),
+      alamat: document.getElementById('op-alamat').value.trim(),
+      keterangan_layanan: document.getElementById('op-keterangan').value.trim()
+    };
+    saveStoredData(state);
+  });
+
+  // 2. Render Cards Kontak Darurat
+  function getBadgeClasses(color) {
+    switch(color) {
+      case 'emerald':
+        return 'bg-emerald-50 text-emerald-800 border-emerald-200';
+      case 'teal':
+        return 'bg-teal-50 text-teal-800 border-teal-200';
+      case 'blue':
+        return 'bg-blue-50 text-blue-800 border-blue-200';
+      default:
+        return 'bg-rose-50 text-rose-800 border-rose-200';
+    }
+  }
+
+  function renderKontakCards() {
+    const container = document.getElementById('kontak-cards-container');
+    const emptyState = document.getElementById('kontak-empty-state');
+    const totalIndicator = document.getElementById('kontak-total-indicator');
+
+    if (!container) return;
+
+    const list = state.kontak_darurat || [];
+    if (totalIndicator) {
+      totalIndicator.textContent = `Total: ${list.length} Kontak Siaga`;
+    }
+
+    if (list.length === 0) {
+      container.innerHTML = '';
+      if (emptyState) emptyState.classList.remove('hidden');
+      return;
+    }
+
+    if (emptyState) emptyState.classList.add('hidden');
+
+    container.innerHTML = list.map(item => `
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded text-[10px] font-bold border ${getBadgeClasses(item.badge_color)}">
+              ${item.kategori}
+            </span>
+            <span class="text-[11px] font-semibold text-slate-500">
+              ● ${item.ketersediaan}
+            </span>
+          </div>
+
+          <h3 class="text-base font-bold text-slate-900 leading-snug">${item.nama}</h3>
+          <p class="text-[11px] text-blue-700 font-semibold mb-2">${item.instansi}</p>
+          
+          <p class="text-xs text-slate-600 leading-relaxed">${item.deskripsi}</p>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="text-slate-400 font-medium">Nomor:</span>
+            <span class="font-mono font-bold text-slate-800">${item.nomor}</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+          <span class="text-[11px] text-slate-400 uppercase font-semibold">Tipe: ${item.tipe_kontak}</span>
+          <div class="flex items-center gap-1.5">
+            <button
+              type="button"
+              class="btn-edit-kontak px-3 py-1 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 font-bold text-xs transition-colors border border-slate-200"
+              data-id="${item.id}"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              class="btn-delete-kontak px-3 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs transition-colors border border-rose-200"
+              data-id="${item.id}"
+              data-nama="${item.nama}"
+            >
+              Hapus
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    attachCardEvents();
+  }
+
+  function attachCardEvents() {
+    document.querySelectorAll('.btn-edit-kontak').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        openEditModal(id);
+      });
+    });
+
+    document.querySelectorAll('.btn-delete-kontak').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const nama = btn.getAttribute('data-nama');
+        if (confirm(`Yakin ingin menghapus kontak darurat ini?\n\n"${nama}"`)) {
+          state.kontak_darurat = state.kontak_darurat.filter(item => item.id !== id);
+          saveStoredData(state);
+          renderKontakCards();
+        }
+      });
+    });
+  }
+
+  // 3. Modal Tambah / Edit Kontak
+  const modal = document.getElementById('modal-kontak');
+  const modalTitle = document.getElementById('modal-kontak-title');
+  const formKontakItem = document.getElementById('form-kontak-item');
+  const editIdInput = document.getElementById('kontak-edit-id');
+  const namaInput = document.getElementById('kontak-input-nama');
+  const kategoriInput = document.getElementById('kontak-input-kategori');
+  const instansiInput = document.getElementById('kontak-input-instansi');
+  const nomorInput = document.getElementById('kontak-input-nomor');
+  const tipeInput = document.getElementById('kontak-input-tipe');
+  const ketersediaanInput = document.getElementById('kontak-input-ketersediaan');
+  const colorInput = document.getElementById('kontak-input-color');
+  const deskripsiInput = document.getElementById('kontak-input-deskripsi');
+
+  function openCreateModal() {
+    if (!modal) return;
+    modalTitle.textContent = 'Tambah Kontak Darurat Baru';
+    editIdInput.value = '';
+    formKontakItem.reset();
+    ketersediaanInput.value = 'Aktif 24 Jam';
+    modal.classList.remove('hidden');
+  }
+
+  function openEditModal(id) {
+    const item = (state.kontak_darurat || []).find(k => k.id === id);
+    if (!item || !modal) return;
+
+    modalTitle.textContent = 'Sunting Kontak: ' + item.nama;
+    editIdInput.value = item.id;
+    namaInput.value = item.nama || '';
+    kategoriInput.value = item.kategori || 'Medis & Kesehatan';
+    instansiInput.value = item.instansi || '';
+    nomorInput.value = item.nomor || '';
+    tipeInput.value = item.tipe_kontak || 'whatsapp';
+    ketersediaanInput.value = item.ketersediaan || 'Aktif 24 Jam';
+    colorInput.value = item.badge_color || 'rose';
+    deskripsiInput.value = item.deskripsi || '';
+
+    modal.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    if (modal) modal.classList.add('hidden');
+  }
+
+  document.getElementById('btn-tambah-kontak')?.addEventListener('click', openCreateModal);
+  document.getElementById('btn-close-modal-kontak')?.addEventListener('click', closeModal);
+  document.getElementById('btn-cancel-modal-kontak')?.addEventListener('click', closeModal);
+
+  formKontakItem?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const isEdit = !!editIdInput.value;
+
+    if (isEdit) {
+      const idx = state.kontak_darurat.findIndex(k => k.id === editIdInput.value);
+      if (idx !== -1) {
+        state.kontak_darurat[idx] = {
+          ...state.kontak_darurat[idx],
+          nama: namaInput.value.trim(),
+          kategori: kategoriInput.value,
+          instansi: instansiInput.value.trim(),
+          nomor: nomorInput.value.trim(),
+          tipe_kontak: tipeInput.value,
+          ketersediaan: ketersediaanInput.value.trim(),
+          badge_color: colorInput.value,
+          deskripsi: deskripsiInput.value.trim()
+        };
+      }
+    } else {
+      const slug = 'kontak-' + namaInput.value.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '')
+        .substring(0, 30) + '-' + Date.now().toString().slice(-4);
+
+      const newItem = {
+        id: slug,
+        nama: namaInput.value.trim(),
+        kategori: kategoriInput.value,
+        instansi: instansiInput.value.trim(),
+        nomor: nomorInput.value.trim(),
+        tipe_kontak: tipeInput.value,
+        ketersediaan: ketersediaanInput.value.trim(),
+        badge_color: colorInput.value,
+        deskripsi: deskripsiInput.value.trim()
+      };
+      state.kontak_darurat.push(newItem);
+    }
+
+    saveStoredData(state);
+    closeModal();
+    renderKontakCards();
+  });
+
+  // 4. Unduh JSON
+  document.getElementById('btn-download-json-kontak')?.addEventListener('click', () => {
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state, null, 2));
+    const dlAnchorElem = document.createElement('a');
+    dlAnchorElem.setAttribute('href', dataStr);
+    dlAnchorElem.setAttribute('download', 'kontak.json');
+    dlAnchorElem.click();
+  });
+
+  // 5. Reset Default
+  document.getElementById('btn-reset-kontak-default')?.addEventListener('click', () => {
+    if (confirm('Yakin ingin mereset seluruh kontak dan info jam operasional ke data bawaan awal?')) {
+      localStorage.removeItem(STORAGE_KEY);
+      state = JSON.parse(JSON.stringify(defaultKontak));
+      populateOperasionalForm();
+      renderKontakCards();
+      showSuccessAlert('Data kontak berhasil dikembalikan ke default.');
+    }
+  });
+
+  // Initial load
+  populateOperasionalForm();
+  renderKontakCards();
+</script>
+

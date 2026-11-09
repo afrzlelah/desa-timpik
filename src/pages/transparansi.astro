@@ -1,0 +1,272 @@
+---
+import Layout from '../layouts/Layout.astro';
+import profilData from '../data/profil.json';
+
+const apbdes = profilData.transparansi_apbdes;
+---
+
+<Layout
+  title="Transparansi APBDes & Akuntabilitas Anggaran Desa Timpik"
+  description="Keterbukaan informasi publik dan laporan transparansi Anggaran Pendapatan dan Belanja Desa (APBDes) Desa Timpik, Kecamatan Susukan, Kabupaten Semarang."
+>
+  <!-- Architectural Civic Header -->
+  <section class="bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400 mb-5" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-sky-300 transition-colors">Beranda</a>
+        <span class="text-slate-600">/</span>
+        <span class="text-sky-300 font-bold">Transparansi APBDes</span>
+      </nav>
+
+      <div class="max-w-3xl space-y-3">
+        <div class="flex items-center gap-2.5">
+          <span class="h-px w-6 bg-sky-400"></span>
+          <span class="text-xs font-mono uppercase tracking-widest text-sky-300 font-bold">Keterbukaan Informasi Keuangan Publik</span>
+        </div>
+        
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight" id="view-tahun-title">
+          Transparansi APBDes Desa Timpik {apbdes.tahun}
+        </h1>
+        
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed pt-1">
+          Laporan pertanggungjawaban realisasi penerimaan Dana Desa (APBN Pusat), Alokasi Dana Desa (ADD Pemkab Semarang), Pendapatan Asli Desa, serta penyaluran pembiayaan irigasi sawah 243 Ha dan infrastruktur dusun.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Total Summary Ledger Bar -->
+  <section class="py-10 bg-civic-sand/30 border-b border-civic-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-civic-border bg-white border border-civic-border shadow-xs">
+        
+        <div class="p-6 sm:p-8 space-y-2">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-civic-muted block" id="view-tahun-card">
+            Total Penerimaan Kas Desa {apbdes.tahun}
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-serif font-black text-civic-navy tracking-tight" id="view-total-pendapatan-card">
+            {apbdes.total_pendapatan}
+          </h2>
+          <p class="text-xs text-civic-muted font-sans pt-1">
+            Dana Desa (APBN), ADD Kab. Semarang, PAD & Bagi Hasil Pajak.
+          </p>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-2 bg-slate-50/40">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-800 font-bold block">
+            Alokasi Pembangunan & Irigasi
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-serif font-black text-emerald-900 tracking-tight" id="view-belanja-pembangunan-card">
+            {apbdes.belanja_pembangunan}
+          </h2>
+          <p class="text-xs text-civic-muted font-sans pt-1">
+            Normalisasi saluran P3A Bogo Wastro, jalan usaha tani & infrastruktur.
+          </p>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-2">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-blue-700 font-bold block">
+            Biaya Pengurusan Surat Warga
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-serif font-black text-civic-navy tracking-tight" id="view-biaya-pelayanan-card">
+            {apbdes.biaya_pelayanan_warga || "Rp 0,- (Gratis)"}
+          </h2>
+          <p class="text-xs text-civic-muted font-sans pt-1">
+            100% Bebas Biaya Administrasi & Pungli bagi seluruh warga.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Rincian Neraca APBDes (Dual-Column Accounting Ledger) -->
+  <section class="py-14 sm:py-16 bg-civic-cream flex-grow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+        
+        <!-- Tabel Penerimaan Desa -->
+        <div class="bg-white border border-civic-border shadow-xs">
+          <div class="p-6 sm:p-8 border-b border-civic-border flex items-center justify-between gap-4">
+            <div>
+              <span class="text-[10px] font-mono uppercase tracking-widest text-blue-700 font-bold block">Buku Kas Masuk</span>
+              <h3 class="text-xl font-serif font-black text-civic-navy mt-0.5">Struktur Penerimaan Kas Desa</h3>
+              <p class="text-xs text-civic-muted mt-0.5">Komponen pendapatan APBDes berdasarkan sumber anggaran resmi.</p>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-1 bg-civic-sand text-civic-navy border border-civic-border font-bold">
+              Penerimaan
+            </span>
+          </div>
+
+          <div class="divide-y divide-civic-border text-xs sm:text-sm">
+            <div class="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-civic-sand/20 transition-colors">
+              <div>
+                <span class="font-bold text-civic-navy block">1. Dana Desa (Transfer APBN Pusat)</span>
+                <span class="text-xs text-civic-muted">Alokasi pemerintah pusat untuk pembangunan & BLT</span>
+              </div>
+              <strong class="font-mono text-civic-navy font-bold text-right shrink-0" id="view-dana-desa">{apbdes.dana_desa}</strong>
+            </div>
+
+            <div class="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-civic-sand/20 transition-colors">
+              <div>
+                <span class="font-bold text-civic-navy block">2. Alokasi Dana Desa (ADD Kab. Semarang)</span>
+                <span class="text-xs text-civic-muted">Penghasilan tetap aparatur dan operasional balai desa</span>
+              </div>
+              <strong class="font-mono text-civic-navy font-bold text-right shrink-0" id="view-add">{apbdes.alokasi_dana_desa}</strong>
+            </div>
+
+            <div class="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-civic-sand/20 transition-colors">
+              <div>
+                <span class="font-bold text-civic-navy block">3. Bagi Hasil Pajak & Retribusi Daerah</span>
+                <span class="text-xs text-civic-muted">Pajak bumi bangunan & retribusi Pemerintah Daerah</span>
+              </div>
+              <strong class="font-mono text-civic-navy font-bold text-right shrink-0" id="view-lain-lain">{apbdes.lain_lain}</strong>
+            </div>
+
+            <div class="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-civic-sand/20 transition-colors">
+              <div>
+                <span class="font-bold text-civic-navy block">4. Pendapatan Asli Desa (PADes & BUMDes)</span>
+                <span class="text-xs text-civic-muted">Hasil pengelolaan aset tanah kas desa & unit usaha</span>
+              </div>
+              <strong class="font-mono text-civic-navy font-bold text-right shrink-0" id="view-pad">{apbdes.pad_desa}</strong>
+            </div>
+
+            <div class="p-5 bg-civic-navy text-white flex items-center justify-between font-mono text-sm sm:text-base">
+              <span class="uppercase tracking-wider font-bold">Total Penerimaan:</span>
+              <strong class="text-sky-300 font-bold text-base sm:text-lg" id="view-total-penerimaan">{apbdes.total_pendapatan}</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabel Belanja Desa -->
+        <div class="bg-white border border-civic-border shadow-xs">
+          <div class="p-6 sm:p-8 border-b border-civic-border flex items-center justify-between gap-4">
+            <div>
+              <span class="text-[10px] font-mono uppercase tracking-widest text-blue-700 font-bold block">Buku Realisasi Pengeluaran</span>
+              <h3 class="text-xl font-serif font-black text-civic-navy mt-0.5">Alokasi Belanja & Kegiatan Warga</h3>
+              <p class="text-xs text-civic-muted mt-0.5">Penyaluran anggaran untuk program fisik, sosial, dan ketahanan pangan.</p>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold">
+              Penyaluran
+            </span>
+          </div>
+
+          <div class="divide-y divide-civic-border text-xs sm:text-sm">
+            <div class="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-civic-sand/20 transition-colors">
+              <div>
+                <span class="font-bold text-civic-navy block">1. Pembangunan Fisik, Jalan & Irigasi Sawah</span>
+                <span class="text-xs text-civic-muted">Pemeliharaan saluran air tani 243 Ha & jalan 4 dusun</span>
+              </div>
+              <strong class="font-mono text-emerald-900 font-bold text-right shrink-0" id="view-belanja-pembangunan">{apbdes.belanja_pembangunan}</strong>
+            </div>
+
+            <div class="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-civic-sand/20 transition-colors">
+              <div>
+                <span class="font-bold text-civic-navy block">2. Penyelenggaraan Pemerintahan Desa</span>
+                <span class="text-xs text-civic-muted">Honorarium perangkat, operasional kantor & IT layanan</span>
+              </div>
+              <strong class="font-mono text-civic-navy font-bold text-right shrink-0" id="view-belanja-pemerintahan">{apbdes.belanja_pemerintahan}</strong>
+            </div>
+
+            <div class="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-civic-sand/20 transition-colors">
+              <div>
+                <span class="font-bold text-civic-navy block">3. Pemberdayaan Petani & BUMDes</span>
+                <span class="text-xs text-civic-muted">Dukungan Gapoktan, bibit unggul padi, dan ketahanan pangan</span>
+              </div>
+              <strong class="font-mono text-civic-navy font-bold text-right shrink-0" id="view-belanja-pemberdayaan">{apbdes.pemberdayaan_masyarakat}</strong>
+            </div>
+
+            <div class="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-civic-sand/20 transition-colors">
+              <div>
+                <span class="font-bold text-civic-navy block">4. Pembinaan Seni Budaya & Keagamaan</span>
+                <span class="text-xs text-civic-muted">Pelestarian Wayang Orang Badoyo, Angguk, dan kerukunan</span>
+              </div>
+              <strong class="font-mono text-civic-navy font-bold text-right shrink-0" id="view-belanja-pembinaan">{apbdes.pembinaan_budaya}</strong>
+            </div>
+
+            <div class="p-5 bg-emerald-900 text-white flex items-center justify-between font-mono text-sm sm:text-base">
+              <span class="uppercase tracking-wider font-bold">Status Audit:</span>
+              <strong class="text-emerald-200 font-bold text-sm sm:text-base">Akuntabel & Tepat Sasaran</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Maklumat Integritas & Bebas Pungutan Liar (Civic Decree Banner) -->
+      <div class="border border-civic-navy bg-civic-navy text-white p-8 sm:p-10 shadow-sm relative overflow-hidden">
+        <div class="max-w-3xl space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="h-px w-6 bg-sky-400"></span>
+            <span class="text-[10px] font-mono uppercase tracking-widest text-sky-300 font-bold">Maklumat Keterbukaan Publik</span>
+          </div>
+
+          <h3 class="text-2xl sm:text-3xl font-serif font-black tracking-tight text-white">
+            Pakta Integritas Pelayanan Publik Desa Timpik
+          </h3>
+
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+            Pemerintah Desa Timpik berkomitmen menjunjung tinggi asas transparansi anggaran dan menjamin bahwa seluruh proses permohonan surat administrasi kependudukan (SKU, SKTM, Pengantar SKCK, Domisili, dll.) <strong>100% BEBAS BIAYA (Rp 0,-)</strong>. Apabila warga menemukan indikasi pungutan liar, silakan gunakan kanal pengaduan resmi.
+          </p>
+
+          <div class="pt-4 flex flex-wrap gap-4">
+            <a
+              href="/layanan-aduan"
+              class="px-5 py-2.5 bg-rose-700 hover:bg-rose-800 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center gap-2 rounded"
+            >
+              <span>Lapor Pungutan Liar / Aduan Anggaran</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+
+            <a
+              href="/layanan-surat"
+              class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors rounded shadow-xs"
+            >
+              Katalog Surat Online Bebas Pungli
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Dynamic client-side hydration from localStorage (Admin updates)
+  try {
+    const raw = localStorage.getItem('timpik_apbdes_data');
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (data && data.total_pendapatan) {
+        const setTxt = (id: string, val: string | undefined) => {
+          const el = document.getElementById(id);
+          if (el && val) el.textContent = val;
+        };
+
+        if (data.tahun) {
+          setTxt('view-tahun-title', `Transparansi APBDes Desa Timpik ${data.tahun}`);
+          setTxt('view-tahun-card', `Total Penerimaan Kas Desa ${data.tahun}`);
+        }
+        setTxt('view-total-pendapatan-card', data.total_pendapatan);
+        setTxt('view-belanja-pembangunan-card', data.belanja_pembangunan);
+        setTxt('view-biaya-pelayanan-card', data.biaya_pelayanan_warga || 'Rp 0,- (Gratis)');
+        setTxt('view-dana-desa', data.dana_desa);
+        setTxt('view-add', data.alokasi_dana_desa);
+        setTxt('view-lain-lain', data.lain_lain);
+        setTxt('view-pad', data.pad_desa);
+        setTxt('view-total-penerimaan', data.total_pendapatan);
+        setTxt('view-belanja-pembangunan', data.belanja_pembangunan);
+        setTxt('view-belanja-pemerintahan', data.belanja_pemerintahan);
+        setTxt('view-belanja-pemberdayaan', data.pemberdayaan_masyarakat);
+        setTxt('view-belanja-pembinaan', data.pembinaan_budaya);
+      }
+    }
+  } catch (err) {
+    console.warn('Gagal hidrasi APBDes publik:', err);
+  }
+</script>

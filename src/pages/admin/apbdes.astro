@@ -1,0 +1,383 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import profilData from '../../data/profil.json';
+
+const defaultApbdes = profilData.transparansi_apbdes;
+---
+
+<AdminLayout title="Manajemen Transparansi APBDes" activeMenu="apbdes">
+  
+  <div class="space-y-6 max-w-7xl mx-auto">
+    
+    <!-- Top Action Bar -->
+    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-100 text-blue-800">
+            Akuntabilitas Publik
+          </span>
+          <span class="text-xs text-slate-400">&bull;</span>
+          <span class="text-xs text-slate-500 font-medium" id="apbdes-status-indicator">Tahun Anggaran {defaultApbdes.tahun}</span>
+        </div>
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Manajemen Transparansi APBDes & Realisasi Anggaran</h1>
+        <p class="text-xs text-slate-500 mt-1">
+          Kelola rincian pendapatan desa (Dana Desa, ADD, PAD), alokasi belanja fisik & irigasi, serta publikasi akuntabilitas publik warga.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          id="btn-download-json-apbdes"
+          class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-300 transition-colors flex items-center gap-1.5"
+          title="Ekspor data APBDes saat ini ke format JSON"
+        >
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Unduh JSON</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-reset-apbdes-default"
+          class="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold text-xs border border-rose-200 transition-colors"
+          title="Kembalikan angka anggaran ke setelan awal"
+        >
+          Reset Default
+        </button>
+
+        <a
+          href="/transparansi"
+          target="_blank"
+          class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs transition-colors flex items-center gap-1.5"
+        >
+          <span>Lihat Halaman Publik &rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Alert Sukses Simpan -->
+    <div id="alert-apbdes-saved" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">✓</span>
+        <span>Perubahan angka APBDes berhasil disimpan! Data langsung terupdate di halaman publik (/transparansi).</span>
+      </div>
+      <button type="button" onclick="this.parentElement.classList.add('hidden')" class="text-emerald-700 font-bold">&times;</button>
+    </div>
+
+    <!-- Panel Form Edit Anggaran -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Kolom Kiri: Form Input -->
+      <div class="lg:col-span-8 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+        
+        <div class="pb-4 border-b border-slate-100 flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Formulir Anggaran Pendapatan & Belanja Desa</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Semua nominal yang Anda perbarui akan langsung terlihat oleh warga desa.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-600">Tahun:</span>
+            <input
+              type="text"
+              id="edit-tahun"
+              value={defaultApbdes.tahun}
+              class="w-20 px-2.5 py-1 rounded-lg border border-slate-300 font-mono font-bold text-xs text-blue-800 text-center focus:ring-2 focus:ring-blue-600 focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <form id="form-apbdes" class="space-y-6 text-xs">
+          
+          <!-- Bagian A: Ringkasan Total -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+            <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+              <span>Ringkasan Total Anggaran</span>
+            </h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="font-bold text-slate-700 block mb-1">Total Pendapatan Desa:</label>
+                <input
+                  type="text"
+                  id="edit-total-pendapatan"
+                  value={defaultApbdes.total_pendapatan}
+                  required
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono font-bold text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none bg-white"
+                  placeholder="Contoh: Rp 1.428.560.000"
+                />
+              </div>
+
+              <div>
+                <label class="font-bold text-slate-700 block mb-1">Total Belanja Pembangunan Sawah & Fisik (Kartu Highlight):</label>
+                <input
+                  type="text"
+                  id="edit-belanja-pembangunan"
+                  value={defaultApbdes.belanja_pembangunan}
+                  required
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono font-bold text-emerald-800 focus:ring-2 focus:ring-blue-600 focus:outline-none bg-white"
+                  placeholder="Contoh: Rp 684.200.000"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Bagian B: Rincian 4 Sumber Penerimaan -->
+          <div class="space-y-3">
+            <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2 border-b border-slate-100 pb-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+              <span>1. Rincian Sumber Pendapatan Kas Desa</span>
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="font-semibold text-slate-700 block mb-1">1. Dana Desa (Transfer APBN Pusat):</label>
+                <input
+                  type="text"
+                  id="edit-dana-desa"
+                  value={defaultApbdes.dana_desa}
+                  required
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono text-slate-800 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-700 block mb-1">2. Alokasi Dana Desa (ADD Kab. Semarang):</label>
+                <input
+                  type="text"
+                  id="edit-add"
+                  value={defaultApbdes.alokasi_dana_desa}
+                  required
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono text-slate-800 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-700 block mb-1">3. Bagi Hasil Pajak & Retribusi Daerah:</label>
+                <input
+                  type="text"
+                  id="edit-lain-lain"
+                  value={defaultApbdes.lain_lain}
+                  required
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono text-slate-800 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-700 block mb-1">4. Pendapatan Asli Desa (BUMDes & Aset Kas):</label>
+                <input
+                  type="text"
+                  id="edit-pad-desa"
+                  value={defaultApbdes.pad_desa}
+                  required
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono text-slate-800 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Bagian C: Rincian 4 Pos Belanja -->
+          <div class="space-y-3 pt-2">
+            <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2 border-b border-slate-100 pb-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+              <span>2. Rincian Penyaluran Belanja & Kegiatan Warga</span>
+            </h3>
+
+            <div class="space-y-3">
+              <div>
+                <label class="font-semibold text-slate-700 block mb-1">1. Bidang Penyelenggaraan Pemerintahan Desa:</label>
+                <input
+                  type="text"
+                  id="edit-belanja-pemerintahan"
+                  value={defaultApbdes.belanja_pemerintahan}
+                  required
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono text-slate-800 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-700 block mb-1">2. Bidang Pemberdayaan Masyarakat (Gapoktan, Petani, PKK):</label>
+                <input
+                  type="text"
+                  id="edit-pemberdayaan-masyarakat"
+                  value={defaultApbdes.pemberdayaan_masyarakat}
+                  required
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono text-slate-800 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label class="font-semibold text-slate-700 block mb-1">3. Bidang Pembinaan Seni Budaya, Olahraga & Keagamaan:</label>
+                <input
+                  type="text"
+                  id="edit-pembinaan-budaya"
+                  value={defaultApbdes.pembinaan_budaya}
+                  required
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono text-slate-800 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Bagian D: Jaminan Pelayanan Warga -->
+          <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200">
+            <label class="font-bold text-blue-900 block mb-1">Biaya Pelayanan Administrasi Warga (Jaminan Bebas Pungli):</label>
+            <input
+              type="text"
+              id="edit-biaya-pelayanan"
+              value={defaultApbdes.biaya_pelayanan_warga || "Rp 0,- (100% Bebas Pungli)"}
+              required
+              class="w-full px-3.5 py-2 rounded-xl border border-blue-300 font-bold text-blue-950 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white"
+            />
+          </div>
+
+          <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+            <button
+              type="submit"
+              class="px-6 py-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-md shadow-blue-700/20 transition-all flex items-center gap-1.5"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <span>Simpan & Publikasikan APBDes ke Halaman Warga</span>
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+      <!-- Kolom Kanan: Pratinjau & Pedoman Keuangan -->
+      <div class="lg:col-span-4 space-y-4">
+        
+        <div class="bg-[#0B1E36] text-white p-6 rounded-2xl border border-slate-800 shadow-lg space-y-4">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-sky-400 block font-mono">Jaminan Keterbukaan Publik</span>
+          <h3 class="text-base font-bold">Biaya Layanan Administrasi Warga</h3>
+          <p class="text-3xl font-black text-emerald-400" id="preview-biaya-layanan">Rp 0,-</p>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Seluruh pelayanan surat desa di Balai Desa Timpik bebas dari segala bentuk pungutan liar sesuai komitmen Pakta Integritas Pemerintah Desa Timpik.
+          </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-xs text-slate-600 space-y-3">
+          <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Petunjuk Sinkronisasi Real-Time:</span>
+          </h4>
+          <p class="leading-relaxed">
+            Data yang disimpan pada modul ini langsung disimpan ke penyimpanan lokal browser (<code>timpik_apbdes_data</code>) dan dihidrasi otomatis di halaman <a href="/transparansi" target="_blank" class="text-blue-700 font-bold underline">/transparansi</a> tanpa jeda build.
+          </p>
+          <p class="leading-relaxed">
+            Gunakan tombol <strong>"Unduh JSON"</strong> jika Anda ingin menyimpan salinan data ini untuk komit repositori git permanen.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</AdminLayout>
+
+<script is:inline define:vars={{ defaultApbdesData: defaultApbdes }}>
+  const STORAGE_KEY = 'timpik_apbdes_data';
+
+  function getStoredApbdes() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && parsed.total_pendapatan) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn('Gagal membaca apbdes dari storage', e);
+    }
+    return JSON.parse(JSON.stringify(defaultApbdesData));
+  }
+
+  function saveStoredApbdes(data) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      const alertBox = document.getElementById('alert-apbdes-saved');
+      if (alertBox) {
+        alertBox.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+          alertBox.classList.add('hidden');
+        }, 5000);
+      }
+    } catch (e) {
+      console.error('Gagal menyimpan APBDes', e);
+    }
+  }
+
+  let state = getStoredApbdes();
+
+  function populateForm() {
+    document.getElementById('edit-tahun').value = state.tahun || '2026';
+    document.getElementById('edit-total-pendapatan').value = state.total_pendapatan || '';
+    document.getElementById('edit-belanja-pembangunan').value = state.belanja_pembangunan || '';
+    document.getElementById('edit-dana-desa').value = state.dana_desa || '';
+    document.getElementById('edit-add').value = state.alokasi_dana_desa || '';
+    document.getElementById('edit-lain-lain').value = state.lain_lain || '';
+    document.getElementById('edit-pad-desa').value = state.pad_desa || '';
+    document.getElementById('edit-belanja-pemerintahan').value = state.belanja_pemerintahan || '';
+    document.getElementById('edit-pemberdayaan-masyarakat').value = state.pemberdayaan_masyarakat || '';
+    document.getElementById('edit-pembinaan-budaya').value = state.pembinaan_budaya || '';
+    document.getElementById('edit-biaya-pelayanan').value = state.biaya_pelayanan_warga || 'Rp 0,- (100% Bebas Pungli)';
+
+    const indicator = document.getElementById('apbdes-status-indicator');
+    if (indicator) indicator.textContent = `Tahun Anggaran ${state.tahun || '2026'}`;
+  }
+
+  const form = document.getElementById('form-apbdes');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      state = {
+        tahun: document.getElementById('edit-tahun').value.trim(),
+        total_pendapatan: document.getElementById('edit-total-pendapatan').value.trim(),
+        belanja_pembangunan: document.getElementById('edit-belanja-pembangunan').value.trim(),
+        dana_desa: document.getElementById('edit-dana-desa').value.trim(),
+        alokasi_dana_desa: document.getElementById('edit-add').value.trim(),
+        lain_lain: document.getElementById('edit-lain-lain').value.trim(),
+        pad_desa: document.getElementById('edit-pad-desa').value.trim(),
+        belanja_pemerintahan: document.getElementById('edit-belanja-pemerintahan').value.trim(),
+        pemberdayaan_masyarakat: document.getElementById('edit-pemberdayaan-masyarakat').value.trim(),
+        pembinaan_budaya: document.getElementById('edit-pembinaan-budaya').value.trim(),
+        biaya_pelayanan_warga: document.getElementById('edit-biaya-pelayanan').value.trim()
+      };
+      saveStoredApbdes(state);
+      const indicator = document.getElementById('apbdes-status-indicator');
+      if (indicator) indicator.textContent = `Tahun Anggaran ${state.tahun}`;
+    });
+  }
+
+  // Unduh JSON
+  document.getElementById('btn-download-json-apbdes')?.addEventListener('click', () => {
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state, null, 2));
+    const dlAnchorElem = document.createElement('a');
+    dlAnchorElem.setAttribute('href', dataStr);
+    dlAnchorElem.setAttribute('download', 'apbdes.json');
+    dlAnchorElem.click();
+  });
+
+  // Reset Default
+  document.getElementById('btn-reset-apbdes-default')?.addEventListener('click', () => {
+    if (confirm('Yakin ingin mereset seluruh angka APBDes ke data awal bawaan?')) {
+      localStorage.removeItem(STORAGE_KEY);
+      state = JSON.parse(JSON.stringify(defaultApbdesData));
+      populateForm();
+      const alertBox = document.getElementById('alert-apbdes-saved');
+      if (alertBox) {
+        alertBox.classList.remove('hidden');
+        alertBox.querySelector('span:nth-child(2)').textContent = 'Data APBDes berhasil dikembalikan ke bawaan awal!';
+        setTimeout(() => alertBox.classList.add('hidden'), 4000);
+      }
+    }
+  });
+
+  // Initial load
+  populateForm();
+</script>

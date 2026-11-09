@@ -1,0 +1,55 @@
+[
+  {
+    "id": "TPK-2026-001",
+    "nik_masked": "332208******0012",
+    "nama_pemohon_masked": "Su***to",
+    "dusun": "Dusun Bogo",
+    "jenis_surat": "Surat Keterangan Usaha (SKU)",
+    "tanggal_pengajuan": "08 Nov 2026, 09:15 WIB",
+    "status": "siap_diambil",
+    "status_label": "Siap Diambil di Balai Desa",
+    "estimasi_selesai": "08 Nov 2026, 14:00 WIB",
+    "catatan": "Surat telah ditandatangani Kepala Desa dan diberi stempel basah. Silakan bawa fotokopi KTP/KK ke Balai Desa Timpik pada jam pelayanan.",
+    "petugas": "Kasi Pelayanan"
+  },
+  {
+    "id": "TPK-2026-002",
+    "nik_masked": "332208******0045",
+    "nama_pemohon_masked": "Wa***di",
+    "dusun": "Dusun Timpik Krajan",
+    "jenis_surat": "Surat Pengantar SKCK",
+    "tanggal_pengajuan": "08 Nov 2026, 11:20 WIB",
+    "status": "diproses",
+    "status_label": "Proses Penandatanganan Kades",
+    "estimasi_selesai": "09 Nov 2026, 10:00 WIB",
+    "catatan": "Berkas persyaratan KTP dan pengantar RT lengkap. Sedang menunggu pengesahan Kepala Desa.",
+    "petugas": "Kasi Pemerintahan"
+  },
+  {
+    "id": "TPK-2026-003",
+    "nik_masked": "332208******0078",
+    "nama_pemohon_masked": "Nu***ti",
+    "dusun": "Dusun Sumber",
+    "jenis_surat": "Surat Keterangan Tidak Mampu (SKTM)",
+    "tanggal_pengajuan": "08 Nov 2026, 13:45 WIB",
+    "status": "verifikasi",
+    "status_label": "Verifikasi Berkas Kependudukan",
+    "estimasi_selesai": "09 Nov 2026, 13:00 WIB",
+    "catatan": "Petugas sedang mencocokkan kelengkapan data dalam database DTKS dan Kartu Keluarga.",
+    "petugas": "Kasi Kesejahteraan"
+  },
+  {
+    "id": "TPK-2026-004",
+    "nik_masked": "332208******0089",
+    "nama_pemohon_masked": "Tr***no",
+    "dusun": "Dusun Kencana",
+    "jenis_surat": "Surat Keterangan Domisili (SKD)",
+    "tanggal_pengajuan": "08 Nov 2026, 15:10 WIB",
+    "status": "diterima",
+    "status_label": "Pengajuan Diterima Sistem",
+    "estimasi_selesai": "09 Nov 2026, 15:00 WIB",
+    "catatan": "Formulir pendaftaran telah masuk antrean verifikasi petugas loket Balai Desa Timpik.",
+    "petugas": "Operator Siaga"
+  }
+]
+

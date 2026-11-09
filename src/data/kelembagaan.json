@@ -1,0 +1,142 @@
+[
+  {
+    "id": "bpd",
+    "nama": "Badan Permusyawaratan Desa (BPD)",
+    "singkatan": "BPD",
+    "kategori": "Pemerintahan & Pengawasan",
+    "dusun_terkait": "krajan",
+    "surat_terkait": ["sktm", "beda-nama"],
+    "deskripsi": "Lembaga permusyawaratan dan perwakilan masyarakat desa yang menjalankan fungsi legislasi desa, menampung dan menyalurkan aspirasi masyarakat Desa Timpik, serta mengawasi kinerja Kepala Desa dan Pemerintah Desa.",
+    "fokus": ["Legislasi Perdes", "Penyerapan Aspirasi Warga", "Pengawasan Anggaran Desa"]
+  },
+  {
+    "id": "pkk",
+    "nama": "Tim Penggerak Pemberdayaan Kesejahteraan Keluarga",
+    "singkatan": "TP PKK",
+    "kategori": "Pemberdayaan Perempuan & Keluarga",
+    "dusun_terkait": "sumber",
+    "surat_terkait": ["sktm", "kelahiran"],
+    "deskripsi": "Gerakan nasional pemberdayaan masyarakat yang berakar dari dan untuk keluarga demi terwujudnya keluarga Desa Timpik yang beriman, sehat, sejahtera, dan mandiri melalui 10 Program Pokok PKK.",
+    "fokus": ["Kesehatan Ibu & Anak", "Posyandu Balita & Lansia", "Peningkatan Ekonomi Keluarga"]
+  },
+  {
+    "id": "lpmd",
+    "nama": "Lembaga Pemberdayaan Masyarakat Desa",
+    "singkatan": "LPMD",
+    "kategori": "Pemberdayaan Masyarakat",
+    "dusun_terkait": "krajan",
+    "surat_terkait": ["pindah", "skd"],
+    "deskripsi": "Wadah yang dibentuk atas prakarsa masyarakat sebagai mitra Pemerintah Desa Timpik dalam menampung dan mewujudkan aspirasi serta kebutuhan masyarakat di bidang pembangunan fisik dan sosial.",
+    "fokus": ["Perencanaan Pembangunan", "Gotong Royong Masyarakat", "Pemeliharaan Infrastruktur Desa"]
+  },
+  {
+    "id": "ppdi",
+    "nama": "Persatuan Perangkat Desa Indonesia",
+    "singkatan": "PPDI",
+    "kategori": "Aparatur Desa",
+    "dusun_terkait": "krajan",
+    "surat_terkait": ["sku", "skd", "skck", "kematian", "kelahiran"],
+    "deskripsi": "Organisasi profesi perhimpunan para perangkat desa yang bertugas memperkuat sinergi pelayanan birokrasi, tata kelola pemerintahan, dan pelayanan publik bagi seluruh warga Desa Timpik.",
+    "fokus": ["Tata Kelola Birokrasi", "Pelayanan Surat & Administrasi", "Integritas Perangkat Desa"]
+  },
+  {
+    "id": "karang-taruna",
+    "nama": "Karang Taruna \"Margo Ngudi Utomo\"",
+    "singkatan": "Margo Ngudi Utomo",
+    "kategori": "Kepemudaan & Olahraga",
+    "dusun_terkait": "krajan",
+    "surat_terkait": ["skck", "izin-seni"],
+    "deskripsi": "Wadah pembinaan dan pengembangan generasi muda Desa Timpik untuk menumbuhkan kepedulian sosial, kreativitas kepemudaan, keolahragaan, serta pelestarian seni budaya lokal.",
+    "fokus": ["Kegiatan Pemuda & Olahraga", "Penggerak Acara Budaya", "Kewirausahaan Pemuda"]
+  },
+  {
+    "id": "satlinmas",
+    "nama": "Satuan Perlindungan Masyarakat",
+    "singkatan": "SATLINMAS",
+    "kategori": "Ketentraman & Ketertiban",
+    "dusun_terkait": "krajan",
+    "surat_terkait": ["izin-seni", "skck"],
+    "deskripsi": "Satuan warga terlatih yang disiapkan untuk membantu penanggulangan bencana, menjaga keamanan lingkungan desa, ketentraman perhelatan warga, serta perlindungan masyarakat di wilayah Timpik.",
+    "fokus": ["Ronda & Keamanan Lingkungan", "Siaga Bencana Alam", "Pengamanan Acara Desa"]
+  },
+  {
+    "id": "bumdes",
+    "nama": "Badan Usaha Milik Desa \"Makmur\"",
+    "singkatan": "BUMDes Makmur",
+    "kategori": "Perekonomian Desa",
+    "dusun_terkait": "kencana",
+    "surat_terkait": ["sku"],
+    "deskripsi": "Badan usaha milik desa yang mengelola potensi ekonomi Desa Timpik, membuka unit usaha agraris, pengelolaan sarana desa, dan kemitraan guna mendongkrak Pendapatan Asli Desa (PADes).",
+    "fokus": ["Pengelolaan Aset Desa", "Distribusi Sarana Pertanian", "Pemberdayaan UMKM Warga"]
+  },
+  {
+    "id": "gapoktan",
+    "nama": "Gabungan Kelompok Tani \"Putri Kencana\"",
+    "singkatan": "GAPOKTAN Putri Kencana",
+    "kategori": "Pertanian & Agraris",
+    "dusun_terkait": "kencana",
+    "surat_terkait": ["sku", "tanah"],
+    "deskripsi": "Wadah persatuan kelompok-kelompok tani di Desa Timpik untuk koordinasi pengadaan bibit unggul, pupuk bersubsidi, mekanisasi pertanian modern, serta peningkatan produktivitas hasil panen padi dan palawija.",
+    "fokus": ["Distribusi Benih & Pupuk", "Modernisasi Alat Pertanian", "Ketahanan Pangan Agraris"]
+  },
+  {
+    "id": "p3a",
+    "nama": "Perkumpulan Petani Pemakai Air \"Bogo Wastro\"",
+    "singkatan": "P3A Bogo Wastro",
+    "kategori": "Pengairan & Irigasi",
+    "dusun_terkait": "bogo",
+    "surat_terkait": ["sku", "tanah"],
+    "deskripsi": "Organisasi pengelola jaringan irigasi persawahan di Desa Timpik yang mengatur tata pembagian debit air persawahan secara adil, pembersihan saluran irigasi tersier, dan konservasi sumber mata air.",
+    "fokus": ["Pengaturan Debit Air Sawah", "Normalisasi Saluran Irigasi", "Konservasi Sumber Air"]
+  },
+  {
+    "id": "pokdarwis",
+    "nama": "Kelompok Sadar Wisata",
+    "singkatan": "POKDARWIS",
+    "kategori": "Pariwisata & Budaya",
+    "dusun_terkait": "bogo",
+    "surat_terkait": ["izin-seni"],
+    "deskripsi": "Kelompok penggerak pariwisata yang bertugas mengidentifikasi dan mempromosikan potensi agrowisata pedesaan, wisata edukasi kesenian rakyat, serta keramahtamahan Sapta Pesona di Desa Timpik.",
+    "fokus": ["Wisata Budaya & Edukasi", "Promosi Potensi Kesenian", "Sapta Pesona Lingkungan"]
+  },
+  {
+    "id": "babinsa-bhabinkamtibmas",
+    "nama": "BABINSA & BHABINKAMTIBMAS",
+    "singkatan": "TNI - POLRI",
+    "kategori": "Keamanan & Pertahanan",
+    "dusun_terkait": "krajan",
+    "surat_terkait": ["skck", "izin-seni"],
+    "deskripsi": "Unsur Pembina Desa dari Koramil 07/Susukan (Kodim 0714/Salatiga) dan Polsek Susukan (Polres Semarang) yang mendampingi warga dalam memelihara kondusifitas Kamtibmas dan pertahanan wilayah.",
+    "fokus": ["Kamtibmas Wilayah", "Penyelesaian Sengketa Warga", "Penyuluhan Hukum"]
+  },
+  {
+    "id": "perpustakaan",
+    "nama": "Perpustakaan Desa \"Sumber Ilmu\"",
+    "singkatan": "Sumber Ilmu",
+    "kategori": "Pendidikan & Literasi",
+    "dusun_terkait": "krajan",
+    "surat_terkait": ["sktm"],
+    "deskripsi": "Pusat sumber belajar dan ruang baca publik masyarakat Desa Timpik, menyediakan koleksi buku bacaan anak, literasi pertanian, buku keterampilan, dan sarana belajar santai bagi pelajar serta warga.",
+    "fokus": ["Pojok Baca & Literasi Anak", "Buku Panduan Pertanian", "Edukasi Warga"]
+  },
+  {
+    "id": "lpm-pangan",
+    "nama": "Lumbung Pangan Masyarakat \"Putri Kencana\"",
+    "singkatan": "LPM Putri Kencana",
+    "kategori": "Ketahanan Pangan",
+    "dusun_terkait": "kencana",
+    "surat_terkait": ["sku"],
+    "deskripsi": "Sarana penyimpanan dan pengelolaan cadangan pangan beras masyarakat Desa Timpik guna menjamin stabilitas pasokan pangan saat musim tanam dan antisipasi masa paceklik.",
+    "fokus": ["Cadangan Pangan Beras", "Stabilitas Harga Gabah", "Ketahanan Pangan Darurat"]
+  },
+  {
+    "id": "kampung-kb",
+    "nama": "Kampung KB \"Putri Mandiri\"",
+    "singkatan": "Kampung KB",
+    "kategori": "Kependudukan & Keluarga",
+    "dusun_terkait": "sumber",
+    "surat_terkait": ["kelahiran", "sktm"],
+    "deskripsi": "Satuan wilayah tingkat desa yang mengintegrasikan program kependudukan, keluarga berencana, pembangunan keluarga, dan pembangunan sektor terkait untuk mewujudkan keluarga berkualitas.",
+    "fokus": ["Pencegahan Stunting", "Keluarga Berencana", "Ketahanan Lansia & Remaja"]
+  }
+]

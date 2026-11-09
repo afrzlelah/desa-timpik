@@ -1,0 +1,282 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import trackingData from '../../data/tracking.json';
+---
+
+<Layout
+  title="Lacak Status Permohonan Surat Online - Desa Timpik"
+  description="Layanan pelacakan status permohonan surat administrasi warga Desa Timpik secara mandiri, transparan, dan real-time menggunakan nomor tiket atau NIK."
+>
+  <!-- Architectural Civic Header -->
+  <section class="bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl space-y-4">
+        <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-sky-300 transition-colors">Beranda</a>
+          <span class="text-slate-600">/</span>
+          <a href="/layanan-surat" class="hover:text-sky-300 transition-colors">Layanan Persuratan</a>
+          <span class="text-slate-600">/</span>
+          <span class="text-sky-300 font-bold">Lacak Status Surat</span>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <span class="h-px w-6 bg-sky-400"></span>
+          <span class="text-[10px] font-mono uppercase tracking-widest text-sky-300 font-bold">
+            Pelacakan Mandiri & Transparansi Warga
+          </span>
+        </div>
+        
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+          Lacak Status Surat Warga
+        </h1>
+        
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed pt-1 font-sans">
+          Ketahui posisi dan tahapan verifikasi berkas permohonan surat administrasi Anda secara transparan tanpa perlu bolak-balik menanyakan ke Balai Desa Timpik.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Input Pencarian Tiket / NIK -->
+  <section class="py-10 bg-civic-sand/30 border-b border-civic-border">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white p-6 sm:p-8 border border-civic-border shadow-xs space-y-4">
+        <label for="tracking-input" class="block font-serif font-bold text-civic-navy text-base">
+          Masukkan Nomor Registrasi Tiket atau 4 Digit Terakhir NIK:
+        </label>
+        
+        <div class="flex flex-col sm:flex-row gap-3">
+          <div class="relative flex-grow">
+            <input
+              type="text"
+              id="tracking-input"
+              placeholder="Contoh: TPK-2026-001 atau 0012"
+              class="w-full px-4 py-3 border border-civic-border bg-civic-sand/20 text-civic-navy text-xs sm:text-sm font-mono uppercase focus:bg-white focus:outline-none focus:border-civic-navy transition-all"
+            />
+          </div>
+          <button
+            type="button"
+            id="btn-lacak"
+            class="px-6 py-3 bg-civic-navy hover:bg-civic-navy/90 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2 border border-civic-navy shrink-0"
+          >
+            <svg class="w-4 h-4 fill-none stroke-current" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <span>Cek Status</span>
+          </button>
+        </div>
+
+        <div class="pt-2 flex flex-wrap items-center justify-between text-xs font-mono text-civic-muted gap-2 border-t border-civic-border/60">
+          <span>Contoh Tiket Aktif: 
+            <button type="button" class="sample-ticket text-civic-navy font-bold hover:underline" data-code="TPK-2026-001">TPK-2026-001</button>,
+            <button type="button" class="sample-ticket text-civic-navy font-bold hover:underline" data-code="TPK-2026-002">TPK-2026-002</button>,
+            <button type="button" class="sample-ticket text-civic-navy font-bold hover:underline" data-code="TPK-2026-003">TPK-2026-003</button>
+          </span>
+          <span class="text-emerald-800 font-semibold">Privasi Terproteksi UU PDP</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Output Hasil Pelacakan -->
+  <section class="py-14 sm:py-16 bg-civic-cream flex-grow">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Placeholder Saat Belum Mencari -->
+      <div id="tracking-placeholder" class="text-center py-12 border border-dashed border-civic-border bg-white p-8">
+        <div class="w-12 h-12 bg-civic-sand text-civic-navy border border-civic-border flex items-center justify-center mx-auto mb-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <h3 class="font-serif font-bold text-civic-navy text-base">Silakan Masukkan Kode Tiket Pengajuan</h3>
+        <p class="text-xs text-civic-muted max-w-sm mx-auto mt-1 leading-relaxed font-sans">
+          Nomor tiket tercantum pada pesan konfirmasi setelah Anda menyelesaikan pengisian Google Form Layanan Surat Desa Timpik.
+        </p>
+      </div>
+
+      <!-- Hasil Ditemukan -->
+      <div id="tracking-result" class="hidden space-y-6">
+        
+        <div class="bg-white border border-civic-border p-6 sm:p-8 shadow-xs space-y-6">
+          
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-civic-border">
+            <div>
+              <span class="text-[10px] font-mono uppercase tracking-widest text-blue-700 font-bold block">Nomor Registrasi Tiket</span>
+              <h2 id="res-id" class="text-2xl font-serif font-black text-civic-navy font-mono mt-0.5">TPK-2026-001</h2>
+            </div>
+            <div id="res-status-badge" class="px-3 py-1 font-mono text-xs uppercase tracking-wider font-bold border border-civic-border bg-civic-sand text-civic-navy">
+              Siap Diambil
+            </div>
+          </div>
+
+          <!-- Rincian Berkas -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+            <div class="p-3.5 border border-civic-border bg-civic-sand/20">
+              <span class="text-civic-muted font-mono uppercase text-[10px] block">Jenis Surat</span>
+              <strong id="res-jenis" class="text-civic-navy font-serif text-sm mt-0.5 block leading-tight">SKU Usaha</strong>
+            </div>
+            <div class="p-3.5 border border-civic-border bg-civic-sand/20">
+              <span class="text-civic-muted font-mono uppercase text-[10px] block">Pemohon</span>
+              <strong id="res-pemohon" class="text-civic-navy font-mono text-sm mt-0.5 block leading-tight">Su***to</strong>
+            </div>
+            <div class="p-3.5 border border-civic-border bg-civic-sand/20 col-span-2 sm:col-span-1">
+              <span class="text-civic-muted font-mono uppercase text-[10px] block">Wilayah Kadus</span>
+              <strong id="res-dusun" class="text-civic-navy font-serif text-sm mt-0.5 block leading-tight">Dusun Bogo</strong>
+            </div>
+          </div>
+
+          <!-- Linimasa Alur 4 Tahap -->
+          <div class="pt-4 border-t border-civic-border">
+            <h4 class="font-serif font-bold text-civic-navy text-sm mb-4">Linimasa Progres Verifikasi:</h4>
+            
+            <div class="space-y-4 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-px before:bg-civic-border">
+              
+              <!-- Tahap 1 -->
+              <div class="flex items-start gap-4 relative z-10" id="step-1">
+                <span class="w-6 h-6 bg-civic-navy text-white flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5">✓</span>
+                <div>
+                  <h5 class="font-serif font-bold text-civic-navy text-xs sm:text-sm">1. Pengajuan Formulir Masuk</h5>
+                  <p class="text-[11px] font-mono text-civic-muted mt-0.5" id="res-tgl-masuk">08 Nov 2026, 09:15 WIB</p>
+                </div>
+              </div>
+
+              <!-- Tahap 2 -->
+              <div class="flex items-start gap-4 relative z-10" id="step-2">
+                <span class="w-6 h-6 bg-civic-navy text-white flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5" id="step-2-icon">✓</span>
+                <div>
+                  <h5 class="font-serif font-bold text-civic-navy text-xs sm:text-sm">2. Verifikasi Dokumen & Identitas (Kasi Pelayanan)</h5>
+                  <p class="text-[11px] font-sans text-civic-muted mt-0.5">Pemeriksaan kesesuaian berkas KTP, KK, dan data pengantar RT/RW.</p>
+                </div>
+              </div>
+
+              <!-- Tahap 3 -->
+              <div class="flex items-start gap-4 relative z-10" id="step-3">
+                <span class="w-6 h-6 bg-civic-navy text-white flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5" id="step-3-icon">✓</span>
+                <div>
+                  <h5 class="font-serif font-bold text-civic-navy text-xs sm:text-sm">3. Penandatanganan Kepala Desa Timpik</h5>
+                  <p class="text-[11px] font-sans text-civic-muted mt-0.5">Pengesahan dokumen dan pembubuhan cap stempel resmi kantor balai desa.</p>
+                </div>
+              </div>
+
+              <!-- Tahap 4 -->
+              <div class="flex items-start gap-4 relative z-10" id="step-4">
+                <span class="w-6 h-6 bg-civic-navy text-white flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5" id="step-4-icon">✓</span>
+                <div>
+                  <h5 class="font-serif font-bold text-civic-navy text-xs sm:text-sm">4. Selesai & Siap Diambil di Loket Balai Desa</h5>
+                  <p class="text-[11px] font-sans text-civic-muted mt-0.5">Dokumen fisik siap diserahkan kepada pemohon tanpa dipungut biaya (Rp 0,-).</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Catatan Resmi Petugas -->
+          <div class="p-4 border border-civic-border bg-civic-sand/30 text-xs text-civic-ink">
+            <strong class="font-mono text-civic-navy uppercase text-[10px] block mb-1">Catatan Resmi Petugas Pelayanan:</strong>
+            <p id="res-catatan" class="leading-relaxed font-sans">Surat telah selesai diverifikasi dan siap diserahkan.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Hasil Tidak Ditemukan -->
+      <div id="tracking-not-found" class="hidden text-center py-10 bg-white border border-rose-300 p-6">
+        <div class="w-10 h-10 bg-rose-50 border border-rose-200 text-rose-700 flex items-center justify-center mx-auto mb-3">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </div>
+        <h3 class="font-serif font-bold text-civic-navy text-base">Data Permohonan Tidak Ditemukan</h3>
+        <p class="text-xs text-civic-muted max-w-sm mx-auto mt-1 leading-relaxed font-sans">
+          Pastikan kode tiket atau 4 digit NIK yang Anda masukkan sudah sesuai. Pengajuan yang baru saja dikirim membutuhkan waktu sinkronisasi ke sistem.
+        </p>
+      </div>
+
+    </div>
+  </section>
+</Layout>
+
+<script define:vars={{ trackingData }}>
+  const input = document.getElementById('tracking-input');
+  const btn = document.getElementById('btn-lacak');
+  const placeholder = document.getElementById('tracking-placeholder');
+  const resultBox = document.getElementById('tracking-result');
+  const notFoundBox = document.getElementById('tracking-not-found');
+  const sampleBtns = document.querySelectorAll('.sample-ticket');
+
+  const resId = document.getElementById('res-id');
+  const resBadge = document.getElementById('res-status-badge');
+  const resJenis = document.getElementById('res-jenis');
+  const resPemohon = document.getElementById('res-pemohon');
+  const resDusun = document.getElementById('res-dusun');
+  const resTgl = document.getElementById('res-tgl-masuk');
+  const resCatatan = document.getElementById('res-catatan');
+
+  const step2Icon = document.getElementById('step-2-icon');
+  const step3Icon = document.getElementById('step-3-icon');
+  const step4Icon = document.getElementById('step-4-icon');
+
+  function doSearch(keyword) {
+    const q = keyword.trim().toUpperCase();
+    if (!q) return;
+
+    const found = trackingData.find((item) => 
+      item.id.toUpperCase() === q || 
+      item.nik_masked.endsWith(q) ||
+      item.id.toUpperCase().includes(q)
+    );
+
+    if (found) {
+      if (placeholder) placeholder.classList.add('hidden');
+      if (notFoundBox) notFoundBox.classList.add('hidden');
+      if (resultBox) resultBox.classList.remove('hidden');
+
+      if (resId) resId.textContent = found.id;
+      if (resJenis) resJenis.textContent = found.jenis_surat;
+      if (resPemohon) resPemohon.textContent = found.nama_pemohon_masked;
+      if (resDusun) resDusun.textContent = found.dusun;
+      if (resTgl) resTgl.textContent = found.tanggal_pengajuan;
+      if (resCatatan) resCatatan.textContent = found.catatan;
+
+      if (resBadge) {
+        resBadge.textContent = found.status_label;
+        if (found.status === 'siap_diambil') {
+          resBadge.className = 'px-3 py-1 font-mono text-xs uppercase tracking-wider font-bold border border-emerald-300 bg-emerald-50 text-emerald-900';
+          if (step2Icon) { step2Icon.textContent = '✓'; step2Icon.className = 'w-6 h-6 bg-emerald-800 text-white flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5'; }
+          if (step3Icon) { step3Icon.textContent = '✓'; step3Icon.className = 'w-6 h-6 bg-emerald-800 text-white flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5'; }
+          if (step4Icon) { step4Icon.textContent = '✓'; step4Icon.className = 'w-6 h-6 bg-emerald-800 text-white flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5'; }
+        } else if (found.status === 'diproses') {
+          resBadge.className = 'px-3 py-1 font-mono text-xs uppercase tracking-wider font-bold border border-civic-border bg-civic-sand text-civic-navy';
+          if (step2Icon) { step2Icon.textContent = '✓'; step2Icon.className = 'w-6 h-6 bg-emerald-800 text-white flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5'; }
+          if (step3Icon) { step3Icon.textContent = '⏳'; step3Icon.className = 'w-6 h-6 bg-civic-navy text-white flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5 animate-pulse'; }
+          if (step4Icon) { step4Icon.textContent = '4'; step4Icon.className = 'w-6 h-6 bg-slate-200 text-slate-500 flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5'; }
+        } else if (found.status === 'verifikasi') {
+          resBadge.className = 'px-3 py-1 font-mono text-xs uppercase tracking-wider font-bold border border-blue-300 bg-blue-50 text-blue-900';
+          if (step2Icon) { step2Icon.textContent = '⏳'; step2Icon.className = 'w-6 h-6 bg-blue-600 text-white flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5 animate-pulse'; }
+          if (step3Icon) { step3Icon.textContent = '3'; step3Icon.className = 'w-6 h-6 bg-slate-200 text-slate-500 flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5'; }
+          if (step4Icon) { step4Icon.textContent = '4'; step4Icon.className = 'w-6 h-6 bg-slate-200 text-slate-500 flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5'; }
+        } else {
+          resBadge.className = 'px-3 py-1 font-mono text-xs uppercase tracking-wider font-bold border border-slate-300 bg-slate-100 text-slate-800';
+          if (step2Icon) { step2Icon.textContent = '2'; step2Icon.className = 'w-6 h-6 bg-slate-200 text-slate-500 flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5'; }
+          if (step3Icon) { step3Icon.textContent = '3'; step3Icon.className = 'w-6 h-6 bg-slate-200 text-slate-500 flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5'; }
+          if (step4Icon) { step4Icon.textContent = '4'; step4Icon.className = 'w-6 h-6 bg-slate-200 text-slate-500 flex items-center justify-center text-xs font-mono font-bold shrink-0 mt-0.5'; }
+        }
+      }
+    } else {
+      if (placeholder) placeholder.classList.add('hidden');
+      if (resultBox) resultBox.classList.add('hidden');
+      if (notFoundBox) notFoundBox.classList.remove('hidden');
+    }
+  }
+
+  if (btn && input) {
+    btn.addEventListener('click', () => doSearch(input.value));
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') doSearch(input.value);
+    });
+  }
+
+  sampleBtns.forEach((sBtn) => {
+    sBtn.addEventListener('click', () => {
+      const code = sBtn.getAttribute('data-code') || '';
+      if (input) input.value = code;
+      doSearch(code);
+    });
+  });
+</script>

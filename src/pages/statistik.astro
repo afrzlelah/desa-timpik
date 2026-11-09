@@ -1,0 +1,246 @@
+---
+import Layout from '../layouts/Layout.astro';
+import profilData from '../data/profil.json';
+---
+
+<Layout
+  title="Statistik & Demografi Publik Desa Timpik"
+  description="Data statistik kependudukan resmi Desa Timpik, Kecamatan Susukan, Kabupaten Semarang: jumlah penduduk, mata pencaharian petani 76%, luas lahan agraris 243 Ha, dan data per dusun."
+>
+  <!-- Architectural Civic Header -->
+  <section class="bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400 mb-5" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-sky-300 transition-colors">Beranda</a>
+        <span class="text-slate-600">/</span>
+        <span class="text-sky-300 font-bold">Statistik Kependudukan</span>
+      </nav>
+
+      <div class="max-w-3xl space-y-3">
+        <div class="flex items-center gap-2.5">
+          <span class="h-px w-6 bg-sky-400"></span>
+          <span class="text-xs font-mono uppercase tracking-widest text-sky-300 font-bold">Keterbukaan Data Demografi Publik</span>
+        </div>
+        
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+          Statistik & Demografi Desa Timpik
+        </h1>
+        
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed pt-1">
+          Penyajian data agregat kependudukan resmi, sebaran demografi 4 dusun, rasio gender, serta struktur mata pencaharian sektor agraris Desa Timpik, Kecamatan Susukan tahun 2026.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4 Monographic Indicator Bar -->
+  <section class="py-10 bg-civic-sand/30 border-b border-civic-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-civic-border bg-white border border-civic-border shadow-xs">
+        
+        <div class="p-6 sm:p-8 space-y-2">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-civic-muted block">Total Penduduk</span>
+          <h2 class="text-3xl sm:text-4xl font-serif font-black text-civic-navy tracking-tight">
+            {profilData.statistik.total_penduduk}
+          </h2>
+          <p class="text-xs text-civic-muted font-sans">Tersebar di 4 wilayah kadus</p>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-2">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-civic-muted block">Kepala Keluarga</span>
+          <h2 class="text-3xl sm:text-4xl font-serif font-black text-civic-navy tracking-tight">
+            {profilData.statistik.total_kk}
+          </h2>
+          <p class="text-xs text-civic-muted font-sans">Tercatat dalam administrasi KK</p>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-2">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-civic-muted block">Luas Wilayah</span>
+          <h2 class="text-3xl sm:text-4xl font-serif font-black text-civic-navy tracking-tight">
+            {profilData.statistik.luas_wilayah}
+          </h2>
+          <p class="text-xs text-civic-muted font-sans">± 7,2 hingga 7,3 km² daratan</p>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-2 bg-slate-50/40">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-800 font-bold block">Lahan Pertanian</span>
+          <h2 class="text-3xl sm:text-4xl font-serif font-black text-emerald-900 tracking-tight">
+            {profilData.statistik.lahan_pertanian}
+          </h2>
+          <p class="text-xs text-civic-muted font-sans">Padi sawah irigasi & palawija</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Gender & Mata Pencaharian (Dual-Column Ledger) -->
+  <section class="py-14 sm:py-16 bg-civic-cream border-b border-civic-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+        
+        <!-- Komposisi Jenis Kelamin -->
+        <div class="bg-white border border-civic-border shadow-xs">
+          <div class="p-6 sm:p-8 border-b border-civic-border flex items-center justify-between gap-4">
+            <div>
+              <span class="text-[10px] font-mono uppercase tracking-widest text-civic-gold block">Demografi</span>
+              <h3 class="text-xl font-serif font-black text-civic-navy mt-0.5">Komposisi Jenis Kelamin</h3>
+              <p class="text-xs text-civic-muted mt-0.5">Perbandingan seimbang penduduk laki-laki dan perempuan.</p>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-1 bg-civic-sand text-civic-navy border border-civic-border font-bold">
+              Tahun 2026
+            </span>
+          </div>
+
+          <div class="p-6 sm:p-8 space-y-6">
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs font-mono font-bold">
+                <span class="text-civic-navy flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 bg-civic-navy inline-block"></span> Laki-laki ({profilData.statistik.laki_laki})
+                </span>
+                <span class="text-civic-navy">50.2%</span>
+              </div>
+              <div class="w-full h-2.5 bg-civic-sand border border-civic-border/60">
+                <div class="h-full bg-civic-navy" style="width: 50.2%"></div>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs font-mono font-bold">
+                <span class="text-civic-navy flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 bg-sky-500 inline-block"></span> Perempuan ({profilData.statistik.perempuan})
+                </span>
+                <span class="text-sky-600 font-bold">49.8%</span>
+              </div>
+              <div class="w-full h-2.5 bg-civic-sand border border-civic-border/60">
+                <div class="h-full bg-sky-500" style="width: 49.8%"></div>
+              </div>
+            </div>
+
+            <div class="p-4 border-l-2 border-civic-navy bg-civic-sand/30 text-xs text-civic-ink leading-relaxed">
+              Rasio jenis kelamin Desa Timpik berada dalam keseimbangan yang ideal (sex ratio 101), mencerminkan stabilitas demografi yang sehat bagi ketahanan keluarga dan ketersediaan tenaga kerja produktif di bidang persawahan.
+            </div>
+          </div>
+        </div>
+
+        <!-- Mata Pencaharian Utama -->
+        <div class="bg-white border border-civic-border shadow-xs">
+          <div class="p-6 sm:p-8 border-b border-civic-border flex items-center justify-between gap-4">
+            <div>
+              <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-800 block">Ketenagakerjaan</span>
+              <h3 class="text-xl font-serif font-black text-civic-navy mt-0.5">Struktur Mata Pencaharian</h3>
+              <p class="text-xs text-civic-muted mt-0.5">Sebaran profesi dan urat nadi perekonomian warga desa.</p>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold">
+              Agraris
+            </span>
+          </div>
+
+          <div class="p-6 sm:p-8 space-y-6">
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs font-mono font-bold">
+                <span class="text-civic-navy">Petani & Peternak Sawah (76%)</span>
+                <span class="text-emerald-900 font-bold">{profilData.statistik.pekerjaan_petani}</span>
+              </div>
+              <div class="w-full h-2.5 bg-civic-sand border border-civic-border/60">
+                <div class="h-full bg-emerald-800" style="width: 76%"></div>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs font-mono font-bold">
+                <span class="text-civic-navy">Pedagang, UMKM & Jasa (14%)</span>
+                <span class="text-blue-700 font-bold">{profilData.statistik.pekerjaan_wiraswasta}</span>
+              </div>
+              <div class="w-full h-2.5 bg-civic-sand border border-civic-border/60">
+                <div class="h-full bg-blue-600" style="width: 14%"></div>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs font-mono font-bold">
+                <span class="text-civic-navy">Pegawai Swasta, ASN & Lainnya (10%)</span>
+                <span class="text-civic-muted font-bold">{profilData.statistik.pekerjaan_lainnya}</span>
+              </div>
+              <div class="w-full h-2.5 bg-civic-sand border border-civic-border/60">
+                <div class="h-full bg-slate-400" style="width: 10%"></div>
+              </div>
+            </div>
+
+            <div class="p-4 border-l-2 border-emerald-800 bg-emerald-50/40 text-xs text-civic-ink leading-relaxed">
+              Dominasi 76% pada sektor pertanian menempatkan koordinasi GAPOKTAN Putri Kencana dan P3A Bogo Wastro sebagai urat nadi ketahanan pangan utama masyarakat Desa Timpik.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Sebaran Penduduk per Dusun (Civic Ledger Table) -->
+  <section class="py-14 sm:py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-blue-700 font-bold block mb-1">Distribusi Teritorial</span>
+          <h2 class="text-2xl sm:text-3xl font-serif font-black text-civic-navy">Sebaran Penduduk & Dusun</h2>
+        </div>
+        <p class="text-xs text-civic-muted max-w-md">
+          Rincian pembagian rukun tetangga dan fokus keunggulan masing-masing dusun di Desa Timpik.
+        </p>
+      </div>
+
+      <div class="border border-civic-border overflow-x-auto">
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead class="bg-civic-navy text-white text-[10px] font-mono uppercase tracking-wider">
+            <tr>
+              <th class="p-4 sm:p-5">Wilayah Dusun</th>
+              <th class="p-4 sm:p-5">Jumlah RT / RW</th>
+              <th class="p-4 sm:p-5">Keunggulan & Potensi</th>
+              <th class="p-4 sm:p-5">Karakteristik Wilayah</th>
+              <th class="p-4 sm:p-5 text-right">Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-civic-border text-civic-ink font-sans">
+            {profilData.dusun.map((dusun, idx) => (
+              <tr class="hover:bg-civic-sand/20 transition-colors">
+                <td class="p-4 sm:p-5 font-serif font-bold text-civic-navy text-sm sm:text-base">
+                  <span class="font-mono text-xs text-blue-700 font-bold mr-2">0{idx + 1}</span>
+                  <a href={`/dusun/${dusun.id}`} class="hover:text-blue-700">
+                    {dusun.nama}
+                  </a>
+                </td>
+                <td class="p-4 sm:p-5 font-mono text-civic-navy font-bold">
+                  {dusun.jumlah_rt}
+                </td>
+                <td class="p-4 sm:p-5">
+                  <span class="inline-block px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-900 font-mono text-xs font-bold">
+                    {dusun.potensi_utama}
+                  </span>
+                </td>
+                <td class="p-4 sm:p-5 text-civic-muted text-xs">
+                  {dusun.deskripsi}
+                </td>
+                <td class="p-4 sm:p-5 text-right font-mono">
+                  <a
+                    href={`/dusun/${dusun.id}`}
+                    class="text-xs font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider"
+                  >
+                    Detail &rarr;
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+</Layout>

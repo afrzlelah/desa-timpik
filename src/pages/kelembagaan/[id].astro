@@ -1,0 +1,192 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getAllLembaga, getLembagaById } from '../../lib/data';
+
+export function getStaticPaths() {
+  const allLembaga = getAllLembaga();
+  return allLembaga.map((lembaga) => ({
+    params: { id: lembaga.id }
+  }));
+}
+
+const { id } = Astro.params;
+const lembaga = getLembagaById(id || '');
+
+if (!lembaga) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout
+  title={`${lembaga.singkatan} - ${lembaga.nama}`}
+  description={lembaga.deskripsi}
+>
+  <!-- Architectural Civic Header -->
+  <section class="bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="space-y-4">
+        <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-sky-300 transition-colors">Beranda</a>
+          <span class="text-slate-600">/</span>
+          <a href="/kelembagaan" class="hover:text-sky-300 transition-colors">Kelembagaan</a>
+          <span class="text-slate-600">/</span>
+          <span class="text-sky-300 font-bold">{lembaga.singkatan}</span>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <span class="h-px w-6 bg-sky-400"></span>
+          <span class="text-[10px] font-mono uppercase tracking-widest text-sky-300 font-bold">
+            {lembaga.kategori}
+          </span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+          {lembaga.nama}
+        </h1>
+
+        <p class="text-slate-300 text-sm sm:text-base max-w-3xl leading-relaxed pt-1 font-sans">
+          {lembaga.deskripsi}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fokus Kerja & Wilayah Dusun Ledger -->
+  <section class="py-10 bg-civic-sand/30 border-b border-civic-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-civic-border bg-white border border-civic-border shadow-xs">
+        
+        <!-- Fokus Kerja -->
+        <div class="p-6 sm:p-8 space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-blue-600"></span>
+            <h3 class="font-serif font-bold text-civic-navy text-base">
+              Fokus & Program Kerja Lembaga
+            </h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            {lembaga.fokus.map((fokus) => (
+              <span class="text-xs font-mono bg-civic-sand/40 text-civic-navy font-semibold px-3 py-1.5 border border-civic-border">
+                &bull; {fokus}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <!-- Basis Wilayah -->
+        <div class="p-6 sm:p-8 space-y-4 bg-slate-50/40">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-600"></span>
+            <h3 class="font-serif font-bold text-civic-navy text-base">
+              Basis Teritorial & Wilayah Pelayanan
+            </h3>
+          </div>
+          {lembaga.dusun ? (
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <strong class="font-serif text-base text-civic-navy block">{lembaga.dusun.nama}</strong>
+                <span class="text-xs text-civic-muted font-sans">{lembaga.dusun.deskripsi}</span>
+              </div>
+              <a href={`/dusun/${lembaga.dusun.id}`} class="shrink-0 px-3 py-1.5 bg-civic-sand hover:bg-civic-border/60 text-civic-navy font-mono text-xs uppercase tracking-wider font-bold border border-civic-border transition-colors">
+                Buka Dusun &rarr;
+              </a>
+            </div>
+          ) : (
+            <p class="text-xs text-civic-muted font-sans leading-relaxed">
+              Berbasis di Kompleks Kantor Balai Desa Timpik (Dusun Krajan) dan mengampu seluruh 4 wilayah dusun secara terpadu.
+            </p>
+          )}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERCONNECTED DATA: Surat Terkait & Berita Terkait -->
+  <section class="py-14 sm:py-16 bg-civic-cream flex-grow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <!-- Layanan Surat yang Berkaitan -->
+      <div class="space-y-6">
+        <div class="border-b border-civic-border pb-4">
+          <span class="text-xs font-mono uppercase tracking-widest text-blue-700 font-bold block mb-1">Rekomendasi Layanan</span>
+          <h3 class="text-2xl font-serif font-black text-civic-navy">Layanan Administrasi Surat Terkait</h3>
+          <p class="text-xs text-civic-muted mt-1">Surat permohonan yang diverifikasi atau membutuhkan rekomendasi dari {lembaga.singkatan}</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {lembaga.suratList.length > 0 ? (
+            lembaga.suratList.map((surat) => (
+              <div class="bg-white border border-civic-border p-6 shadow-xs flex flex-col justify-between space-y-4">
+                <div>
+                  <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-civic-border bg-civic-sand text-civic-navy font-bold">
+                    {surat.kategori}
+                  </span>
+                  <h4 class="font-serif font-bold text-base text-civic-navy mt-2">
+                    <a href={`/layanan-surat/${surat.id}`} class="hover:text-blue-700 transition-colors">
+                      {surat.nama}
+                    </a>
+                  </h4>
+                  <p class="text-xs text-civic-muted mt-2 line-clamp-2 leading-relaxed">{surat.deskripsi}</p>
+                </div>
+                <div class="pt-3 border-t border-civic-border/60 flex items-center justify-between text-xs font-mono">
+                  <a href={`/layanan-surat/${surat.id}`} class="text-blue-700 hover:text-blue-900 font-bold uppercase tracking-wider">
+                    Lihat Syarat &rarr;
+                  </a>
+                  <a href={surat.link_gform} target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-blue-700 hover:bg-blue-800 text-white font-bold uppercase tracking-wider transition-colors rounded shadow-xs">
+                    Ajukan GForm
+                  </a>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div class="bg-white border border-civic-border p-6 text-xs text-civic-muted col-span-3 text-center">
+              Lembaga ini berfokus pada pembinaan sosial kemasyarakatan, stabilitas ketertiban wilayah, dan koordinasi internal desa.
+            </div>
+          )}
+        </div>
+      </div>
+
+      <!-- Berita & Liputan Terkait Lembaga -->
+      {lembaga.beritaList.length > 0 && (
+        <div class="space-y-6">
+          <div class="border-b border-civic-border pb-4">
+            <span class="text-xs font-mono uppercase tracking-widest text-blue-700 font-bold block mb-1">Publikasi Terkait</span>
+            <h3 class="text-2xl font-serif font-black text-civic-navy">Warta & Berita {lembaga.singkatan}</h3>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {lembaga.beritaList.map((berita) => (
+              <article class="bg-white border border-civic-border overflow-hidden shadow-xs flex flex-col justify-between group">
+                <div>
+                  <img src={berita.gambar} alt={berita.judul} class="w-full h-40 object-cover border-b border-civic-border"/>
+                  <div class="p-5 space-y-2">
+                    <span class="text-[10px] font-mono uppercase text-blue-700 font-bold">{berita.kategori}</span>
+                    <h4 class="font-serif font-bold text-sm sm:text-base text-civic-navy group-hover:text-blue-700 transition-colors line-clamp-2">
+                      <a href={`/berita/${berita.id}`}>
+                        {berita.judul}
+                      </a>
+                    </h4>
+                    <p class="text-xs text-civic-muted line-clamp-2 leading-relaxed">{berita.ringkasan}</p>
+                  </div>
+                </div>
+                <div class="p-5 pt-0">
+                  <a href={`/berita/${berita.id}`} class="text-xs font-mono font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider">
+                    Baca Lengkap &rarr;
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- Back to All Institutions -->
+      <div class="text-center pt-6">
+        <a href="/kelembagaan" class="px-6 py-2.5 border border-civic-border bg-white hover:bg-civic-sand text-civic-navy font-mono text-xs uppercase tracking-wider font-bold transition-colors">
+          &larr; Kembali ke Daftar 14 Kelembagaan
+        </a>
+      </div>
+
+    </div>
+  </section>
+</Layout>

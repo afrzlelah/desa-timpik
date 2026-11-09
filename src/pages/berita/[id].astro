@@ -1,0 +1,159 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getAllBerita, getBeritaById } from '../../lib/data';
+
+export function getStaticPaths() {
+  const allBerita = getAllBerita();
+  return allBerita.map((berita) => ({
+    params: { id: berita.id }
+  }));
+}
+
+const { id } = Astro.params;
+const berita = getBeritaById(id || '');
+
+if (!berita) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout
+  title={`${berita.judul}`}
+  description={berita.ringkasan}
+>
+  <!-- Architectural Civic Header -->
+  <section class="bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="space-y-4">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-sky-300 transition-colors">Beranda</a>
+          <span class="text-slate-600">/</span>
+          <a href="/berita" class="hover:text-sky-300 transition-colors">Warta Desa</a>
+          <span class="text-slate-600">/</span>
+          <span class="text-sky-300 font-bold truncate max-w-xs">{berita.kategori}</span>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 bg-blue-600/30 text-sky-200 border border-blue-400/30 font-bold">
+            {berita.kategori}
+          </span>
+          {berita.tag && (
+            <span class="text-[10px] font-mono text-slate-400">
+              #{berita.tag}
+            </span>
+          )}
+        </div>
+
+        <h1 class="text-2xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+          {berita.judul}
+        </h1>
+
+        <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-slate-300 pt-3 border-t border-slate-800">
+          <span class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            {berita.tanggal}
+          </span>
+          <span class="text-slate-600">&bull;</span>
+          <span>Penulis: <strong class="text-white">{berita.penulis}</strong></span>
+          <span class="text-slate-600">&bull;</span>
+          <span>Desa Timpik, Susukan</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Article Body -->
+  <article class="py-12 sm:py-16 bg-civic-cream flex-grow">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Featured Image -->
+      <div class="border border-civic-border bg-slate-100 overflow-hidden shadow-xs mb-8">
+        <img
+          src={berita.gambar}
+          alt={berita.judul}
+          class="w-full h-auto max-h-[500px] object-cover"
+        />
+        <div class="p-3 bg-white border-t border-civic-border text-[11px] font-mono text-civic-muted flex items-center justify-between">
+          <span>Dokumentasi Kegiatan Desa Timpik</span>
+          <span>Kec. Susukan &bull; Kab. Semarang</span>
+        </div>
+      </div>
+
+      <!-- Lead Summary (Editorial Box) -->
+      <div class="p-6 bg-white border-l-4 border-civic-navy border-t border-r border-b border-civic-border text-civic-navy font-serif text-base sm:text-lg leading-relaxed mb-8 shadow-xs">
+        {berita.ringkasan}
+      </div>
+
+      <!-- Article Content -->
+      <div class="bg-white border border-civic-border p-6 sm:p-10 shadow-xs space-y-6 text-civic-ink text-sm sm:text-base leading-relaxed">
+        <p class="first-letter:text-4xl first-letter:font-serif first-letter:font-black first-letter:float-left first-letter:mr-3 first-letter:text-civic-navy">
+          {berita.konten}
+        </p>
+        <p>
+          Melalui kegiatan dan pemberitaan ini, koordinasi antar perangkat desa, tokoh masyarakat, dan unsur pemuda terus diperkuat. Sinergi ini menjadi bukti nyata komitmen Pemerintah Desa Timpik dalam memberikan pelayanan terbaik bagi warga, menggerakkan ketahanan pangan agraris persawahan 243 Hektar, serta merawat warisan budaya luhur Wayang Orang Badoyo.
+        </p>
+
+        <!-- INTERCONNECTED DATA SECTION (Terintegrasi ke Dusun & Lembaga) -->
+        <div class="pt-8 border-t border-civic-border mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          
+          {berita.dusun && (
+            <div class="p-4 border border-civic-border bg-civic-sand/20 flex items-start gap-3">
+              <span class="text-base">📍</span>
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-widest text-civic-muted block">Wilayah Terkait:</span>
+                <a href={`/dusun/${berita.dusun.id}`} class="text-sm font-serif font-bold text-civic-navy hover:text-blue-700 transition-colors">
+                  {berita.dusun.nama} &rarr;
+                </a>
+                <p class="text-xs text-civic-muted mt-0.5 line-clamp-1">{berita.dusun.potensi_utama}</p>
+              </div>
+            </div>
+          )}
+
+          {berita.lembaga && (
+            <div class="p-4 border border-civic-border bg-civic-sand/20 flex items-start gap-3">
+              <span class="text-base">👥</span>
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-widest text-civic-muted block">Kelembagaan Pengampu:</span>
+                <a href={`/kelembagaan/${berita.lembaga.id}`} class="text-sm font-serif font-bold text-civic-navy hover:text-blue-700 transition-colors">
+                  {berita.lembaga.singkatan} &ndash; {berita.lembaga.nama} &rarr;
+                </a>
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+
+      <!-- Related Articles -->
+      {berita.relatedBerita && berita.relatedBerita.length > 0 && (
+        <div class="mt-12 pt-8 border-t border-civic-border">
+          <div class="flex items-center gap-2 mb-6">
+            <span class="h-px w-6 bg-blue-600"></span>
+            <h3 class="text-xl font-serif font-bold text-civic-navy">Warta Terkait Lainnya</h3>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            {berita.relatedBerita.map((rel) => (
+              <a href={`/berita/${rel.id}`} class="block p-5 bg-white border border-civic-border hover:border-blue-500 transition-all group">
+                <span class="text-[10px] font-mono uppercase tracking-wider text-blue-700 font-bold">{rel.kategori}</span>
+                <h4 class="font-serif font-bold text-xs sm:text-sm text-civic-navy group-hover:text-blue-700 transition-colors line-clamp-2 mt-1">
+                  {rel.judul}
+                </h4>
+                <span class="text-[11px] font-mono text-civic-muted mt-2 block">{rel.tanggal}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- Action Back Button -->
+      <div class="mt-10 flex justify-center">
+        <a href="/berita" class="px-6 py-2.5 border border-civic-border bg-white hover:bg-civic-sand text-civic-navy font-mono text-xs uppercase tracking-wider font-bold transition-colors">
+          &larr; Kembali ke Arsip Warta
+        </a>
+      </div>
+
+    </div>
+  </article>
+</Layout>

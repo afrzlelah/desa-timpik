@@ -1,0 +1,400 @@
+---
+import Layout from '../layouts/Layout.astro';
+import beritaData from '../data/berita.json';
+
+const categories = [
+  'Semua Kategori',
+  'Program KKN',
+  'Pertanian & Agraris',
+  'Kesenian & Budaya',
+  'Kesehatan & Keluarga'
+];
+---
+
+<Layout
+  title="Warta Resmi & Publikasi Desa Timpik"
+  description="Kabar terkini seputar kegiatan Desa Timpik, Kecamatan Susukan, Kabupaten Semarang: program kerja KKN, agenda pertanian Gapoktan, pementasan wayang orang, dan pengumuman desa."
+>
+  <!-- Architectural Civic Header -->
+  <section class="bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400 mb-5" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-sky-300 transition-colors">Beranda</a>
+        <span class="text-slate-600">/</span>
+        <span class="text-sky-300 font-bold">Warta & Publikasi</span>
+      </nav>
+
+      <div class="max-w-3xl space-y-3">
+        <div class="flex items-center gap-2.5">
+          <span class="h-px w-6 bg-sky-400"></span>
+          <span class="text-xs font-mono uppercase tracking-widest text-sky-300 font-bold">Warta Resmi Pemerintah Desa Timpik</span>
+        </div>
+        
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+          Portal Berita & Kabar Desa
+        </h1>
+        
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed pt-1">
+          Catatan kemajuan pembangunan fisik, kegiatan pengabdian mahasiswa KKN, rembuk tani Gapoktan, hingga pelestarian tradisi seni wayang orang warga Desa Timpik.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Filter & Search Section (Civic Control Bar) -->
+  <section class="py-4 bg-white border-b border-civic-border sticky top-16 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        
+        <!-- Search Input -->
+        <div class="relative w-full md:w-96">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-civic-muted">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <input
+            type="text"
+            id="berita-search-input"
+            placeholder="Cari judul berita, topik, atau kata kunci..."
+            class="w-full pl-10 pr-4 py-2 border border-civic-border bg-civic-sand/20 text-civic-navy text-xs font-sans focus:outline-none focus:border-civic-navy focus:bg-white"
+          />
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="flex items-center gap-1 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+          {categories.map((cat, idx) => (
+            <button
+              type="button"
+              data-category={cat}
+              class={`berita-filter-btn px-3 py-1.5 text-xs font-mono uppercase tracking-wider transition-all whitespace-nowrap border ${
+                idx === 0
+                  ? 'bg-civic-navy text-white border-civic-navy font-bold active-berita-filter'
+                  : 'bg-white text-civic-muted border-civic-border hover:text-civic-navy hover:bg-civic-sand/30 font-medium'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- News Gazette Grid -->
+  <section class="py-12 sm:py-16 bg-civic-cream flex-grow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="berita-grid">
+        {beritaData.map((berita) => (
+          <article
+            class="berita-card bg-white border border-civic-border shadow-xs hover:border-civic-navy transition-all duration-200 flex flex-col justify-between group"
+            data-judul={berita.judul.toLowerCase()}
+            data-kategori={berita.kategori}
+            data-ringkasan={berita.ringkasan.toLowerCase()}
+          >
+            <div>
+              <div class="relative h-48 overflow-hidden bg-slate-100 border-b border-civic-border">
+                <img
+                  src={berita.gambar}
+                  alt={berita.judul}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  onerror="this.src='/images/balai-desa-timpik.jpg'"
+                />
+                <span class="absolute top-3 left-3 text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 bg-civic-navy/90 text-white font-bold border border-white/20">
+                  {berita.kategori}
+                </span>
+              </div>
+
+              <div class="p-5 sm:p-6 space-y-3">
+                <div class="flex items-center gap-2 text-[11px] font-mono text-civic-muted">
+                  <span>{berita.tanggal}</span>
+                  <span>&bull;</span>
+                  <span class="truncate">{berita.penulis}</span>
+                </div>
+
+                <h2 class="text-base sm:text-lg font-serif font-bold text-civic-navy group-hover:text-blue-700 transition-colors leading-snug line-clamp-2">
+                  <a href={`/berita/${berita.id}`}>
+                    {berita.judul}
+                  </a>
+                </h2>
+
+                <p class="text-xs text-civic-muted line-clamp-3 leading-relaxed">
+                  {berita.ringkasan}
+                </p>
+              </div>
+            </div>
+
+            <div class="p-5 sm:p-6 pt-0 border-t border-civic-border/60 mt-4 grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                class="btn-baca-berita-page py-2 px-3 text-xs font-mono uppercase tracking-wider text-civic-navy bg-civic-sand/40 hover:bg-civic-sand border border-civic-border transition-colors flex items-center justify-center font-bold"
+                data-berita-id={berita.id}
+                data-berita-judul={berita.judul}
+                data-berita-kategori={berita.kategori}
+                data-berita-tanggal={berita.tanggal}
+                data-berita-penulis={berita.penulis}
+                data-berita-konten={berita.konten}
+                data-berita-gambar={berita.gambar}
+              >
+                <span>Baca Cepat</span>
+              </button>
+              <a
+                href={`/berita/${berita.id}`}
+                class="py-2 px-3 text-xs font-mono uppercase tracking-wider text-white bg-civic-navy hover:bg-civic-navy/90 transition-colors flex items-center justify-center gap-1 font-bold"
+              >
+                <span>Detail &rarr;</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div id="berita-no-results" class="hidden py-16 text-center border border-dashed border-civic-border bg-white mt-8">
+        <svg class="w-12 h-12 text-civic-muted mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+        <p class="text-sm font-serif font-bold text-civic-navy">Tidak ada warta berita yang ditemukan</p>
+        <p class="text-xs text-civic-muted mt-1">Coba gunakan kata kunci pencarian lain atau pilih kategori Semua.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Modal Baca Berita Detail (Archival Reading Sheet) -->
+  <div id="berita-page-modal" class="fixed inset-0 z-50 hidden bg-civic-navy/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white border border-civic-border max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button id="close-modal-berita-btn" class="absolute top-5 right-5 p-2 text-civic-muted hover:text-civic-navy transition-colors font-mono" aria-label="Tutup Berita">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 pb-2 border-b border-civic-border">
+          <span id="modal-page-kategori" class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-civic-border bg-civic-sand text-civic-navy font-bold">
+            Kategori
+          </span>
+          <span id="modal-page-tanggal" class="text-xs font-mono text-civic-muted">
+            Tanggal
+          </span>
+        </div>
+
+        <h3 id="modal-page-judul" class="text-xl sm:text-2xl font-serif font-black text-civic-navy leading-snug">
+          Judul Berita
+        </h3>
+
+        <div class="border border-civic-border overflow-hidden h-56 sm:h-72 w-full bg-slate-100">
+          <img id="modal-page-gambar" src="" alt="Gambar Berita" class="w-full h-full object-cover"/>
+        </div>
+
+        <div class="pt-2">
+          <p id="modal-page-konten" class="text-xs sm:text-sm text-civic-ink leading-relaxed whitespace-pre-line font-sans">
+            Konten lengkap berita...
+          </p>
+        </div>
+
+        <div class="pt-4 border-t border-civic-border flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-civic-muted">
+          <span>Penulis: <strong id="modal-page-penulis" class="text-civic-navy">Pemerintah Desa Timpik</strong></span>
+          <div class="flex items-center gap-2">
+            <a id="modal-page-permalink" href="#" class="px-4 py-2 bg-civic-navy hover:bg-civic-navy/90 text-white font-bold transition-colors">
+              Halaman Artikel &rarr;
+            </a>
+            <button id="close-modal-berita-bottom" class="px-4 py-2 border border-civic-border bg-civic-sand hover:bg-civic-border/60 text-civic-navy font-bold transition-colors">
+              Tutup
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script is:inline define:vars={{ initialBerita: beritaData }}>
+  const STORAGE_KEY = 'timpik_berita_list';
+
+  function getLocalBerita() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.warn('Gagal membaca berita localStorage', e);
+    }
+    return initialBerita;
+  }
+
+  let beritaList = getLocalBerita();
+  let activeCat = 'Semua Kategori';
+  let searchWord = '';
+
+  function renderBeritaCards() {
+    const grid = document.getElementById('berita-grid');
+    const noResults = document.getElementById('berita-no-results');
+    if (!grid) return;
+
+    const filtered = beritaList.filter(b => {
+      const matchCat = activeCat === 'Semua Kategori' || b.kategori === activeCat;
+      const matchSearch = !searchWord ||
+        b.judul.toLowerCase().includes(searchWord) ||
+        (b.ringkasan && b.ringkasan.toLowerCase().includes(searchWord)) ||
+        (b.penulis && b.penulis.toLowerCase().includes(searchWord));
+
+      return matchCat && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      if (noResults) noResults.classList.remove('hidden');
+      return;
+    }
+
+    if (noResults) noResults.classList.add('hidden');
+
+    grid.innerHTML = filtered.map(b => `
+      <article
+        class="berita-card bg-white border border-civic-border shadow-xs hover:border-civic-navy transition-all duration-200 flex flex-col justify-between group"
+        data-judul="${b.judul.toLowerCase()}"
+        data-kategori="${b.kategori}"
+        data-ringkasan="${(b.ringkasan || '').toLowerCase()}"
+      >
+        <div>
+          <div class="relative h-48 overflow-hidden bg-slate-100 border-b border-civic-border">
+            <img
+              src="${b.gambar || '/images/balai-desa-timpik.jpg'}"
+              alt="${b.judul}"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              onerror="this.src='/images/balai-desa-timpik.jpg'"
+            />
+            <span class="absolute top-3 left-3 text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 bg-civic-navy/90 text-white font-bold border border-white/20">
+              ${b.kategori}
+            </span>
+          </div>
+
+          <div class="p-5 sm:p-6 space-y-3">
+            <div class="flex items-center gap-2 text-[11px] font-mono text-civic-muted">
+              <span>${b.tanggal}</span>
+              <span>&bull;</span>
+              <span class="truncate">${b.penulis || 'Pemdes Timpik'}</span>
+            </div>
+
+            <h2 class="text-base sm:text-lg font-serif font-bold text-civic-navy group-hover:text-blue-700 transition-colors leading-snug line-clamp-2">
+              <a href="/berita/${b.id}">
+                ${b.judul}
+              </a>
+            </h2>
+
+            <p class="text-xs text-civic-muted line-clamp-3 leading-relaxed">
+              ${b.ringkasan || ''}
+            </p>
+          </div>
+        </div>
+
+        <div class="p-5 sm:p-6 pt-0 border-t border-civic-border/60 mt-4 grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            class="btn-baca-berita-page py-2 px-3 text-xs font-mono uppercase tracking-wider text-civic-navy bg-civic-sand/40 hover:bg-civic-sand border border-civic-border transition-colors flex items-center justify-center font-bold"
+            data-berita-id="${b.id}"
+            data-berita-judul="${b.judul}"
+            data-berita-kategori="${b.kategori}"
+            data-berita-tanggal="${b.tanggal}"
+            data-berita-penulis="${b.penulis || 'Pemdes Timpik'}"
+            data-berita-konten="${encodeURIComponent(b.konten || b.ringkasan || '')}"
+            data-berita-gambar="${b.gambar || '/images/balai-desa-timpik.jpg'}"
+          >
+            <span>Baca Cepat</span>
+          </button>
+          <a
+            href="/berita/${b.id}"
+            class="py-2 px-3 text-xs font-mono uppercase tracking-wider text-white bg-civic-navy hover:bg-civic-navy/90 transition-colors flex items-center justify-center gap-1 font-bold"
+          >
+            <span>Detail &rarr;</span>
+          </a>
+        </div>
+      </article>
+    `).join('');
+
+    attachBacaEvents();
+  }
+
+  function attachBacaEvents() {
+    const modal = document.getElementById('berita-page-modal');
+    const modalJudul = document.getElementById('modal-page-judul');
+    const modalKategori = document.getElementById('modal-page-kategori');
+    const modalTanggal = document.getElementById('modal-page-tanggal');
+    const modalPenulis = document.getElementById('modal-page-penulis');
+    const modalKonten = document.getElementById('modal-page-konten');
+    const modalGambar = document.getElementById('modal-page-gambar');
+    const modalPermalink = document.getElementById('modal-page-permalink');
+
+    document.querySelectorAll('.btn-baca-berita-page').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-berita-id') || '';
+        const judul = btn.getAttribute('data-berita-judul') || '';
+        const kategori = btn.getAttribute('data-berita-kategori') || '';
+        const tanggal = btn.getAttribute('data-berita-tanggal') || '';
+        const penulis = btn.getAttribute('data-berita-penulis') || '';
+        const rawKonten = btn.getAttribute('data-berita-konten') || '';
+        const gambar = btn.getAttribute('data-berita-gambar') || '';
+
+        if (modalJudul) modalJudul.textContent = judul;
+        if (modalKategori) modalKategori.textContent = kategori;
+        if (modalTanggal) modalTanggal.textContent = tanggal;
+        if (modalPenulis) modalPenulis.textContent = penulis;
+        if (modalKonten) modalKonten.textContent = decodeURIComponent(rawKonten);
+        if (modalGambar) modalGambar.src = gambar;
+        if (modalPermalink && id) modalPermalink.href = `/berita/${id}`;
+
+        if (modal) {
+          modal.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    });
+  }
+
+  // Modal logic
+  const modal = document.getElementById('berita-page-modal');
+  const closeBtn = document.getElementById('close-modal-berita-btn');
+  const closeBottomBtn = document.getElementById('close-modal-berita-bottom');
+
+  function closeModal() {
+    if (modal) {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  closeBtn?.addEventListener('click', closeModal);
+  closeBottomBtn?.addEventListener('click', closeModal);
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Search input
+  const searchInput = document.getElementById('berita-search-input');
+  searchInput?.addEventListener('input', (e) => {
+    searchWord = e.target.value.trim().toLowerCase();
+    renderBeritaCards();
+  });
+
+  // Filter Buttons
+  const filterBtns = document.querySelectorAll('.berita-filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => {
+        b.className = 'berita-filter-btn px-3 py-1.5 text-xs font-mono uppercase tracking-wider whitespace-nowrap bg-white text-civic-muted border border-civic-border hover:text-civic-navy hover:bg-civic-sand/30 font-medium';
+      });
+      btn.className = 'berita-filter-btn px-3 py-1.5 text-xs font-mono uppercase tracking-wider whitespace-nowrap bg-civic-navy text-white border border-civic-navy font-bold active-berita-filter';
+      activeCat = btn.getAttribute('data-category') || 'Semua Kategori';
+      renderBeritaCards();
+    });
+  });
+
+  // Check localStorage and re-render if updated
+  if (localStorage.getItem(STORAGE_KEY)) {
+    renderBeritaCards();
+  } else {
+    attachBacaEvents();
+  }
+</script>

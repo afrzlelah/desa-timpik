@@ -1,0 +1,187 @@
+[
+  {
+    "id": "sku",
+    "nama": "Surat Keterangan Usaha (SKU)",
+    "kategori": "Usaha & Ekonomi",
+    "kode": "470/SKU/TPK",
+    "lembaga_terkait": ["bumdes", "gapoktan"],
+    "deskripsi": "Surat keterangan resmi dari Pemerintah Desa Timpik yang menyatakan bahwa pemohon benar-benar memiliki kegiatan usaha di wilayah Desa Timpik. Umumnya digunakan untuk pengajuan Kredit Usaha Rakyat (KUR), legalitas UMKM tani/ternak, atau bantuan modal usaha.",
+    "syarat": [
+      "Surat Pengantar dari Ketua RT dan RW setempat",
+      "Fotokopi KTP Elektronik pemohon",
+      "Fotokopi Kartu Keluarga (KK) pemohon",
+      "Foto dokumentasi tempat usaha / aktivitas usaha",
+      "Keterangan jenis usaha dan lama usaha berjalan"
+    ],
+    "waktu_proses": "1 x 24 Jam Kerja",
+    "biaya": "Rp 0,- (Gratis)",
+    "link_gform": "https://docs.google.com/forms/d/e/1FAIpQLSc_PLACEHOLDER_SKU/viewform",
+    "badge_color": "emerald"
+  },
+  {
+    "id": "skd",
+    "nama": "Surat Keterangan Domisili (SKD)",
+    "kategori": "Kependudukan",
+    "kode": "470/SKD/TPK",
+    "lembaga_terkait": ["ppdi", "lpmd"],
+    "deskripsi": "Surat yang menerangkan bahwa seseorang secara sah berdomisili dan bertempat tinggal di wilayah Desa Timpik, Kecamatan Susukan, baik sebagai penduduk tetap maupun penduduk sementara.",
+    "syarat": [
+      "Surat Pengantar Ketua RT & RW tempat berdomisili",
+      "Fotokopi KTP Elektronik & Kartu Keluarga (KK)",
+      "Surat pernyataan domisili bermaterai (bagi warga dari luar desa)",
+      "Pas foto berwarna 3x4 (1 lembar)"
+    ],
+    "waktu_proses": "1 x 24 Jam Kerja",
+    "biaya": "Rp 0,- (Gratis)",
+    "link_gform": "https://docs.google.com/forms/d/e/1FAIpQLSc_PLACEHOLDER_SKD/viewform",
+    "badge_color": "blue"
+  },
+  {
+    "id": "skck",
+    "nama": "Surat Pengantar SKCK",
+    "kategori": "Izin & Rekomendasi",
+    "kode": "331/SKCK/TPK",
+    "lembaga_terkait": ["babinsa-bhabinkamtibmas", "satlinmas", "karang-taruna"],
+    "deskripsi": "Surat pengantar kelakuan baik dari Pemerintah Desa Timpik sebagai persyaratan utama penerbitan Surat Keterangan Catatan Kepolisian (SKCK) di Polsek Susukan atau Polres Semarang.",
+    "syarat": [
+      "Surat Pengantar dari Ketua RT & RW",
+      "Fotokopi KTP Elektronik dan Kartu Keluarga (KK)",
+      "Fotokopi Akta Kelahiran atau Ijazah Terakhir",
+      "Pas foto 4x6 latar belakang merah (2 lembar)"
+    ],
+    "waktu_proses": "1 x 24 Jam Kerja",
+    "biaya": "Rp 0,- (Gratis)",
+    "link_gform": "https://docs.google.com/forms/d/e/1FAIpQLSc_PLACEHOLDER_SKCK/viewform",
+    "badge_color": "purple"
+  },
+  {
+    "id": "sktm",
+    "nama": "Surat Keterangan Tidak Mampu (SKTM)",
+    "kategori": "Kesejahteraan Sosial",
+    "kode": "401/SKTM/TPK",
+    "lembaga_terkait": ["pkk", "bpd"],
+    "deskripsi": "Surat keterangan status sosial ekonomi untuk warga Desa Timpik yang membutuhkan rekomendasi beasiswa pendidikan (KIP-K/PIP), keringanan biaya perawatan medis rumah sakit, bantuan sosial, atau pengajuan bantuan hukum.",
+    "syarat": [
+      "Surat Pengantar RT/RW yang menerangkan kondisi ekonomi keluarga",
+      "Fotokopi KTP Kepala Keluarga & Kartu Keluarga (KK)",
+      "Foto kondisi rumah (tampak depan dan ruang dalam)",
+      "Surat pernyataan tidak mampu bermaterai 10.000",
+      "Kartu KIS/BPJS atau Kartu Bantuan Sosial (jika ada)"
+    ],
+    "waktu_proses": "1 x 24 Jam Kerja",
+    "biaya": "Rp 0,- (Gratis)",
+    "link_gform": "https://docs.google.com/forms/d/e/1FAIpQLSc_PLACEHOLDER_SKTM/viewform",
+    "badge_color": "amber"
+  },
+  {
+    "id": "kematian",
+    "nama": "Surat Keterangan Kematian",
+    "kategori": "Kependudukan",
+    "kode": "472/KM/TPK",
+    "lembaga_terkait": ["ppdi"],
+    "deskripsi": "Surat pelaporan dan pencatatan peristiwa kematian warga untuk penerbitan Akta Kematian Disdukcapil, pengurusan klaim santunan/BPJS Ketenagakerjaan, hak waris, serta penutupan data kependudukan.",
+    "syarat": [
+      "Surat Keterangan Kematian dari RS / Dokter / Bidan / RT",
+      "KTP & KK asli almarhum/almarhumah",
+      "Fotokopi KTP pelapor (ahli waris / keluarga)",
+      "Fotokopi KTP dua orang saksi kematian"
+    ],
+    "waktu_proses": "1 x 24 Jam Kerja",
+    "biaya": "Rp 0,- (Gratis)",
+    "link_gform": "https://docs.google.com/forms/d/e/1FAIpQLSc_PLACEHOLDER_KEMATIAN/viewform",
+    "badge_color": "red"
+  },
+  {
+    "id": "kelahiran",
+    "nama": "Surat Pengantar Akta Kelahiran",
+    "kategori": "Kependudukan",
+    "kode": "474/KL/TPK",
+    "lembaga_terkait": ["pkk", "kampung-kb", "ppdi"],
+    "deskripsi": "Surat pengantar bagi bayi yang baru lahir di Desa Timpik guna pendaftaran Nomor Induk Kependudukan (NIK) baru ke dalam Kartu Keluarga serta penerbitan Akta Kelahiran dari Dinas Kependudukan dan Catatan Sipil Kab. Semarang.",
+    "syarat": [
+      "Surat Keterangan Kelahiran dari Bidan / Rumah Sakit / Puskesmas",
+      "Fotokopi Buku Nikah / Akta Perkawinan orang tua (legalisir)",
+      "KTP Asli Suami dan Istri",
+      "Kartu Keluarga (KK) Asli orang tua",
+      "Fotokopi KTP dua orang saksi kelahiran"
+    ],
+    "waktu_proses": "1 x 24 Jam Kerja",
+    "biaya": "Rp 0,- (Gratis)",
+    "link_gform": "https://docs.google.com/forms/d/e/1FAIpQLSc_PLACEHOLDER_KELAHIRAN/viewform",
+    "badge_color": "blue"
+  },
+  {
+    "id": "pindah",
+    "nama": "Surat Pengantar Pindah Penduduk (SKPWNI)",
+    "kategori": "Kependudukan",
+    "kode": "475/PND/TPK",
+    "lembaga_terkait": ["ppdi", "lpmd"],
+    "deskripsi": "Surat pengantar perpindahan domisili warga Desa Timpik yang berpindah tempat tinggal ke desa lain, luar kecamatan, maupun luar kabupaten/provinsi.",
+    "syarat": [
+      "Surat Pengantar dari Ketua RT dan RW setempat",
+      "KTP Elektronik asli seluruh anggota keluarga yang pindah",
+      "Kartu Keluarga (KK) asli",
+      "Pas foto berwarna 3x4 (3 lembar) kepala keluarga",
+      "Alamat tujuan pindah lengkap (RT, RW, Desa, Kecamatan, Kab/Kota)"
+    ],
+    "waktu_proses": "1-2 Hari Kerja",
+    "biaya": "Rp 0,- (Gratis)",
+    "link_gform": "https://docs.google.com/forms/d/e/1FAIpQLSc_PLACEHOLDER_PINDAH/viewform",
+    "badge_color": "blue"
+  },
+  {
+    "id": "izin-seni",
+    "nama": "Surat Izin Rekomendasi Pentas Seni & Keramaian",
+    "kategori": "Izin & Rekomendasi",
+    "kode": "300/IZN/TPK",
+    "lembaga_terkait": ["pokdarwis", "karang-taruna", "babinsa-bhabinkamtibmas", "satlinmas"],
+    "deskripsi": "Surat izin dan rekomendasi kegiatan keramaian masyarakat atau pentas seni budaya (Wayang Orang Badoyo, Karawitan, Angguk, hajatan perkawinan) di wilayah Desa Timpik untuk diteruskan ke Forkopimcam Susukan, Babinsa, dan Bhabinkamtibmas.",
+    "syarat": [
+      "Surat permohonan tertulis ketua panitia / paguyuban seni / sohibul hajat",
+      "Fotokopi KTP Penanggung Jawab acara",
+      "Surat persetujuan lingkungan sekitar lokasi (diketahui Ketua RT/RW)",
+      "Susunan acara, jadwal waktu, dan estimasi jumlah pengunjung"
+    ],
+    "waktu_proses": "1 x 24 Jam Kerja",
+    "biaya": "Rp 0,- (Gratis)",
+    "link_gform": "https://docs.google.com/forms/d/e/1FAIpQLSc_PLACEHOLDER_IZIN_SENI/viewform",
+    "badge_color": "purple"
+  },
+  {
+    "id": "beda-nama",
+    "nama": "Surat Keterangan Beda Identitas / Nama",
+    "kategori": "Kependudukan",
+    "kode": "470/BDN/TPK",
+    "lembaga_terkait": ["ppdi", "bpd"],
+    "deskripsi": "Surat keterangan resmi yang menegaskan bahwa nama atau data tanggal lahir yang berbeda pada dua dokumen negara (misalnya antara KTP, KK, Ijazah, Buku Nikah, atau Paspor) adalah menunjuk pada orang yang sama.",
+    "syarat": [
+      "Surat Pengantar RT/RW",
+      "Fotokopi KTP & KK yang bersangkutan",
+      "Fotokopi dokumen yang memuat perbedaan data (Ijazah / Buku Nikah / Sertifikat)",
+      "Surat pernyataan beda nama bermaterai 10.000"
+    ],
+    "waktu_proses": "1 x 24 Jam Kerja",
+    "biaya": "Rp 0,- (Gratis)",
+    "link_gform": "https://docs.google.com/forms/d/e/1FAIpQLSc_PLACEHOLDER_BEDA_NAMA/viewform",
+    "badge_color": "blue"
+  },
+  {
+    "id": "tanah",
+    "nama": "Surat Keterangan Penguasaan Fisik Tanah (Sporadik)",
+    "kategori": "Usaha & Ekonomi",
+    "kode": "590/TNH/TPK",
+    "lembaga_terkait": ["gapoktan", "p3a", "ppdi"],
+    "deskripsi": "Surat keterangan riwayat dan penguasaan fisik sebidang tanah pertanian atau pekarangan di Desa Timpik untuk kelengkapan berkas administrasi pertanahan atau pendaftaran sertifikat PTSL.",
+    "syarat": [
+      "Surat Pengantar RT/RW lokasi bidang tanah",
+      "Fotokopi SPPT PBB tahun berjalan yang lunas",
+      "Fotokopi KTP & KK pemohon / pemilik tanah",
+      "Bukti riwayat perolehan tanah (Letter C / Hibah / Jual Beli)",
+      "Surat pernyataan batas-batas tanah yang disetujui tetangga berbatasan"
+    ],
+    "waktu_proses": "2 x 24 Jam Kerja",
+    "biaya": "Rp 0,- (Gratis)",
+    "link_gform": "https://docs.google.com/forms/d/e/1FAIpQLSc_PLACEHOLDER_TANAH/viewform",
+    "badge_color": "emerald"
+  }
+]

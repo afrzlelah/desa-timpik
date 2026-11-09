@@ -1,0 +1,257 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getAllSurat, getSuratById } from '../../lib/data';
+
+export function getStaticPaths() {
+  const allSurat = getAllSurat();
+  return allSurat.map((surat) => ({
+    params: { id: surat.id }
+  }));
+}
+
+const { id } = Astro.params;
+const surat = getSuratById(id || '');
+
+if (!surat) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout
+  title={`${surat.nama} - Layanan Persuratan Desa Timpik`}
+  description={surat.deskripsi}
+>
+  <!-- Architectural Civic Header -->
+  <section class="bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="space-y-4 max-w-3xl">
+        
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-sky-300 transition-colors">Beranda</a>
+          <span class="text-slate-600">/</span>
+          <a href="/layanan-surat" class="hover:text-sky-300 transition-colors">Layanan Persuratan</a>
+          <span class="text-slate-600">/</span>
+          <span class="text-sky-300 font-bold">{surat.kode}</span>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 bg-blue-600/30 text-sky-200 border border-blue-400/30 font-bold">
+            {surat.kategori}
+          </span>
+          <span class="text-[10px] font-mono px-2 py-0.5 border border-slate-700 bg-slate-800 text-slate-300">
+            {surat.kode}
+          </span>
+        </div>
+
+        <h1 class="text-2xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+          {surat.nama}
+        </h1>
+
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed pt-1 font-sans">
+          {surat.deskripsi}
+        </p>
+
+        <!-- Service Guarantee Ledger Strip -->
+        <div class="flex flex-wrap items-center gap-3 pt-3 text-xs font-mono">
+          <span class="bg-white/10 px-3 py-1.5 border border-white/20 text-slate-200">
+            Tarif Resmi: <strong class="text-sky-300 font-bold">{surat.biaya}</strong>
+          </span>
+          <span class="bg-white/10 px-3 py-1.5 border border-white/20 text-slate-200">
+            Waktu Proses: <strong class="text-white">{surat.waktu_proses}</strong>
+          </span>
+          <span class="bg-white/10 px-3 py-1.5 border border-white/20 text-slate-200">
+            Lokasi: <strong class="text-white">Balai Desa Timpik</strong>
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Body Content -->
+  <section class="py-14 sm:py-16 bg-civic-cream flex-grow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        
+        <!-- Left: Requirements & Flow Details -->
+        <div class="lg:col-span-7 space-y-8">
+          
+          <!-- Requirements Ledger -->
+          <div class="bg-white border border-civic-border p-6 sm:p-8 shadow-xs space-y-4">
+            <div class="flex items-center justify-between border-b border-civic-border pb-3">
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-widest text-blue-700 font-bold block">Kelengkapan Administrasi</span>
+                <h2 class="text-lg font-serif font-bold text-civic-navy mt-0.5">
+                  Persyaratan Dokumen Wajib
+                </h2>
+              </div>
+              <span class="text-xs font-mono font-bold text-civic-navy bg-civic-sand px-2.5 py-1 border border-civic-border">
+                {surat.syarat.length} Dokumen
+              </span>
+            </div>
+
+            <p class="text-xs text-civic-muted leading-relaxed font-sans">
+              Pastikan Anda telah menyiapkan foto/scan berkas asli di bawah ini sebelum melanjutkan pengisian formulir permohonan.
+            </p>
+
+            <ul class="space-y-2 pt-2">
+              {surat.syarat.map((item, idx) => (
+                <li class="flex items-start gap-3 p-3 border border-civic-border bg-civic-sand/20">
+                  <span class="font-mono text-xs text-blue-700 font-bold shrink-0 mt-0.5">
+                    0{idx + 1}.
+                  </span>
+                  <span class="text-xs sm:text-sm text-civic-ink font-medium leading-relaxed font-sans">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- 4 Steps Procedure Flow -->
+          <div class="bg-white border border-civic-border p-6 sm:p-8 shadow-xs space-y-4">
+            <div class="border-b border-civic-border pb-3">
+              <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-800 font-bold block">Standard Operating Procedure</span>
+              <h3 class="text-lg font-serif font-bold text-civic-navy mt-0.5">Tahapan Alur Pelayanan</h3>
+            </div>
+            
+            <ol class="space-y-3 text-xs sm:text-sm text-civic-ink font-sans">
+              <li class="flex items-start gap-3">
+                <span class="font-mono text-xs font-bold text-civic-navy bg-civic-sand border border-civic-border px-2 py-0.5 shrink-0 mt-0.5">1</span>
+                <span>Siapkan foto dokumen persyaratan sesuai daftar checklist di atas.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="font-mono text-xs font-bold text-civic-navy bg-civic-sand border border-civic-border px-2 py-0.5 shrink-0 mt-0.5">2</span>
+                <span>Klik tombol <strong>"Buka Formulir Pengajuan Online"</strong> dan lengkapi data pemohon sesuai KTP/KK.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="font-mono text-xs font-bold text-civic-navy bg-civic-sand border border-civic-border px-2 py-0.5 shrink-0 mt-0.5">3</span>
+                <span>Petugas pelayanan Balai Desa Timpik memverifikasi keabsahan data dalam waktu 1x24 jam kerja.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="font-mono text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-300 px-2 py-0.5 shrink-0 mt-0.5">4</span>
+                <span>Warga menerima notifikasi saat dokumen fisik siap diambil atau diterbitkan bertanda-tangan basah.</span>
+              </li>
+            </ol>
+          </div>
+
+        </div>
+
+        <!-- Right: Apply Panel & Related Institutions -->
+        <div class="lg:col-span-5 space-y-6">
+          
+          <!-- Apply Action Panel -->
+          <div class="border border-civic-navy bg-civic-navy text-white p-6 sm:p-8 shadow-xs space-y-5">
+            <div>
+              <span class="text-[10px] font-mono uppercase tracking-widest text-sky-300 font-bold block">
+                Formulir Daring Terverifikasi
+              </span>
+              <h3 class="text-xl font-serif font-bold mt-1 text-white">Ajukan Permohonan Surat</h3>
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed font-sans">
+                Akses formulir digital resmi Pemerintah Desa Timpik untuk mengisi data permohonan sekarang.
+              </p>
+            </div>
+
+            <div id="detail-cta-container">
+              {surat.link_gform && surat.link_gform !== '#' ? (
+                <a
+                  id="btn-detail-gform"
+                  href={surat.link_gform}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-full py-3 px-5 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <span>Buka Formulir Pengajuan Online</span>
+                  <svg class="w-4 h-4 fill-none stroke-current" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+              ) : (
+                <div class="p-4 bg-white/5 border border-white/10 text-center font-sans">
+                  <p class="text-xs text-sky-300 font-bold mb-1">Formulir Online Belum Tersedia</p>
+                  <p class="text-[11px] text-slate-300 mb-3">Silakan bawa berkas fisik persyaratan langsung ke Kantor Balai Desa Timpik pada jam pelayanan.</p>
+                  <a href="/kontak" class="inline-block text-xs font-mono uppercase tracking-wider font-bold text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 transition-colors">
+                    Hubungi Petugas Desa
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <div class="pt-4 border-t border-slate-700/80 text-xs font-mono text-slate-300 space-y-1.5">
+              <p class="flex items-center gap-2">✓ Tarif: <strong class="text-white">Rp 0,- (100% Bebas Pungli)</strong></p>
+              <p class="flex items-center gap-2">✓ Estimasi: <strong class="text-white">{surat.waktu_proses}</strong></p>
+              <p class="flex items-center gap-2">✓ Layanan: <strong class="text-white">Senin &ndash; Jumat</strong></p>
+            </div>
+          </div>
+
+          <!-- Lembaga Terkait yang Memproses -->
+          {surat.lembagaList.length > 0 && (
+            <div class="bg-white border border-civic-border p-6 shadow-xs space-y-3">
+              <span class="text-[10px] font-mono uppercase tracking-widest text-blue-700 font-bold block">Lembaga Terkait</span>
+              <div class="space-y-2">
+                {surat.lembagaList.map((lembaga) => (
+                  <a href={`/kelembagaan/${lembaga.id}`} class="block p-3 border border-civic-border bg-civic-sand/20 hover:border-civic-navy transition-colors">
+                    <span class="text-xs font-mono font-bold text-civic-navy block">{lembaga.singkatan}</span>
+                    <span class="text-xs text-civic-muted line-clamp-1 font-sans">{lembaga.nama}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Quick Return -->
+          <div class="text-center pt-2">
+            <a href="/layanan-surat" class="text-xs font-mono uppercase tracking-wider font-bold text-blue-700 hover:text-blue-900 transition-colors">
+              &larr; Kembali ke Katalog Layanan Surat
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</Layout>
+
+<script is:inline define:vars={{ suratId: surat.id }}>
+  // Check if admin has updated the GForm link for this letter in localStorage
+  try {
+    const stored = localStorage.getItem('timpik_surat_list');
+    if (stored) {
+      const list = JSON.parse(stored);
+      if (Array.isArray(list)) {
+        const found = list.find(item => item.id === suratId);
+        if (found) {
+          const container = document.getElementById('detail-cta-container');
+          if (container) {
+            const hasLink = found.link_gform && found.link_gform.trim() !== '' && found.link_gform !== '#';
+            if (hasLink) {
+              container.innerHTML = `
+                <a
+                  href="${found.link_gform}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-full py-3 px-5 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <span>Buka Formulir Pengajuan Online</span>
+                  <svg class="w-4 h-4 fill-none stroke-current" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+              `;
+            } else {
+              container.innerHTML = `
+                <div class="p-4 bg-white/5 border border-white/10 text-center font-sans">
+                  <p class="text-xs text-sky-300 font-bold mb-1">Formulir Online Belum Diaktifkan Admin</p>
+                  <p class="text-[11px] text-slate-300 mb-3">Silakan ajukan dokumen persyaratan secara langsung ke Kantor Balai Desa Timpik pada hari kerja.</p>
+                  <a href="/kontak" class="inline-block text-xs font-mono uppercase tracking-wider font-bold text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 transition-colors">
+                    Hubungi Petugas Desa
+                  </a>
+                </div>
+              `;
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Gagal membaca sinkronisasi surat detail', e);
+  }
+</script>

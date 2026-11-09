@@ -1,0 +1,84 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+
+const aduanList = [
+  {
+    "id": "ADU-2026-01",
+    "pelapor": "Bpk. Sutrisno (Warga Dusun Bogo)",
+    "kategori": "Infrastruktur Irigasi Sawah",
+    "tanggal": "07 Nov 2026",
+    "uraian": "Pintu pembagi air irigasi tersier di perbatasan sawah blok timur Dusun Bogo tersumbat endapan lumpur dan sampah ranting, debit air ke sawah bagian bawah berkurang.",
+    "status": "Dalam Investigasi",
+    "disposisi_kepada": "Pengurus P3A Bogo Wastro & Kadus Bogo"
+  },
+  {
+    "id": "ADU-2026-02",
+    "pelapor": "Ibu Maryatun (Warga Dusun Sumber)",
+    "kategori": "Fasilitas Umum & Penerangan Jalan",
+    "tanggal": "06 Nov 2026",
+    "uraian": "Lampu penerangan jalan desa (PJU) dekat tikungan gapura batas Dusun Sumber mati sejak dua malam lalu, rawan kecelakaan bagi pengendara malam.",
+    "status": "Disposisi Selesai",
+    "disposisi_kepada": "Kasi Kesejahteraan / Petugas Listrik Desa"
+  }
+];
+---
+
+<AdminLayout title="Disposisi Aduan Warga" activeMenu="aduan">
+  
+  <div class="space-y-6 max-w-7xl mx-auto">
+    
+    <div>
+      <h1 class="text-2xl font-black text-slate-900 tracking-tight">Pusat Disposisi Aduan & Aspirasi Masyarakat</h1>
+      <p class="text-xs text-slate-500 mt-1">Kelola laporan warga masuk dari Google Form Aduan, tetapkan penanggung jawab, dan perbarui penyelesaian.</p>
+    </div>
+
+    <!-- Daftar Aduan Cards -->
+    <div class="space-y-4">
+      {aduanList.map((aduan) => (
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4">
+          
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div>
+              <span class="text-[10px] font-mono font-bold text-slate-400 block uppercase">No. Register Laporan: {aduan.id}</span>
+              <h3 class="text-base font-bold text-slate-900 mt-0.5">{aduan.kategori}</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-slate-400">Masuk: {aduan.tanggal}</span>
+              <span class={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                aduan.status === 'Disposisi Selesai' ? 'bg-emerald-100 text-emerald-800' : 'bg-sky-100 text-sky-800'
+              }`}>
+                {aduan.status}
+              </span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-700 leading-relaxed">
+            <span class="font-bold text-slate-900 block mb-1">Uraian Laporan Warga:</span>
+            "{aduan.uraian}"
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-3 text-xs pt-2">
+            <div>
+              <span class="text-slate-400">Disposisi Penanganan:</span>
+              <strong class="text-blue-700 ml-1 font-bold">{aduan.disposisi_kepada}</strong>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button
+                type="button"
+                onclick="alert('Tindak lanjut laporan berhasil diperbarui.')"
+                class="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs transition-colors"
+              >
+                Perbarui Status Penanganan &rarr;
+              </button>
+            </div>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+
+</AdminLayout>
+

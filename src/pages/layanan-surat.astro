@@ -1,0 +1,583 @@
+---
+import Layout from '../layouts/Layout.astro';
+import suratData from '../data/surat.json';
+
+const categories = [
+  'Semua Kategori',
+  'Kependudukan',
+  'Usaha & Ekonomi',
+  'Kesejahteraan Sosial',
+  'Izin & Rekomendasi'
+];
+---
+
+<Layout 
+  title="Katalog Layanan Surat Administrasi Warga"
+  description="Katalog resmi pengajuan surat administrasi warga Desa Timpik, Kecamatan Susukan, Kabupaten Semarang. Proses transparan, biaya Rp 0,- bebas pungli, dan terhubung ke formulir digital desa."
+>
+  <!-- Civic Header Banner (Solid Sovereign Navy) -->
+  <section class="bg-[#0C1C30] text-white border-b border-slate-800 py-12 lg:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs text-slate-400 mb-4" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-white transition-colors">Beranda</a>
+        <span class="text-slate-600">/</span>
+        <span class="text-sky-300 font-semibold">Layanan Administrasi Persuratan</span>
+      </nav>
+
+      <div class="max-w-3xl space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/10 text-slate-200 border border-white/15 text-xs font-semibold uppercase tracking-wider">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span>Pelayanan Publik Terpadu Satu Pintu</span>
+        </div>
+        
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+          Katalog Layanan Surat Warga
+        </h1>
+        
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          Pusat permohonan surat keterangan usaha, domisili, perizinan, dan dokumen kependudukan Desa Timpik. Pengajuan dilakukan secara mandiri lewat formulir digital resmi, diverifikasi oleh aparatur desa, dan bebas dari segala pungutan liar.
+        </p>
+
+        <!-- Service Guarantees Strip -->
+        <div class="flex flex-wrap items-center gap-3 pt-2 text-xs text-slate-300">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-slate-900 border border-slate-700">
+            <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            Biaya: <strong class="text-white">Rp 0,- (100% Gratis)</strong>
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-slate-900 border border-slate-700">
+            <svg class="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            Waktu Proses: <strong class="text-white">1x24 Jam Kerja</strong>
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-slate-900 border border-slate-700">
+            <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            Verifikasi: <strong class="text-white">Formulir Terenkripsi</strong>
+          </span>
+        </div>
+
+        <!-- Quick Action Shortcuts -->
+        <div class="flex flex-wrap items-center gap-3 pt-3">
+          <a
+            href="/layanan-surat/lacak"
+            class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-900/30 transition-colors flex items-center gap-1.5"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <span>Lacak Status Tiket Surat Warga &rarr;</span>
+          </a>
+          <a
+            href="/layanan-surat/pengantar-rt"
+            class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-semibold text-xs transition-colors flex items-center gap-1.5"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+            <span>Cetak Blangko Pengantar RT/RW</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Search & Filtering Bar -->
+  <section class="py-5 bg-white border-b border-slate-200 sticky top-16 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        
+        <!-- Search Input Field -->
+        <div class="relative w-full md:w-96">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Cari surat (misal: SKU, domisili, SKCK, SKTM)..."
+            class="w-full pl-10 pr-10 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+          />
+          <button id="clear-search-btn" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 hidden" aria-label="Hapus Pencarian">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Category Pills -->
+        <div class="flex flex-wrap items-center gap-1.5 w-full md:w-auto overflow-x-auto pb-1 md:pb-0" id="category-filters">
+          {categories.map((cat, idx) => (
+            <button
+              type="button"
+              data-category={cat}
+              class={`filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
+                idx === 0
+                  ? 'bg-blue-700 text-white font-bold active-filter shadow-xs'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+      </div>
+
+      <!-- Result Counter -->
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-500 pt-3 border-t border-slate-100">
+        <div>
+          Menampilkan <span id="displayed-count" class="font-bold text-slate-900">{suratData.length}</span> jenis surat permohonan aktif.
+        </div>
+        <button id="reset-filter-btn" class="text-blue-700 font-bold hover:underline">
+          Reset Filter
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Konten Utama: Katalog Surat Terstruktur -->
+  <section class="py-12 bg-slate-50/70 flex-grow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      
+      <!-- Grid Katalog Layanan Surat -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="surat-cards-container">
+        {suratData.map((surat) => (
+          <article class="surat-card bg-white rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-sm transition-all p-6 flex flex-col justify-between" data-category={surat.kategori}>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                <span class="font-mono text-[10px] font-bold text-blue-700">
+                  {surat.kode || `REG-${surat.id.toUpperCase()}`}
+                </span>
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-100">
+                  {surat.kategori}
+                </span>
+              </div>
+
+              <h2 class="text-base font-bold text-slate-950 leading-snug">
+                {surat.nama}
+              </h2>
+
+              <p class="text-xs text-slate-600 leading-relaxed line-clamp-2">
+                {surat.deskripsi}
+              </p>
+
+              <!-- Syarat Berkas Preview -->
+              <div class="pt-2 border-t border-slate-100 space-y-1">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Syarat Berkas:</span>
+                <ul class="text-[11px] text-slate-600 space-y-0.5">
+                  {surat.syarat.slice(0, 3).map((s) => (
+                    <li class="flex items-center gap-1.5 truncate">
+                      <span class="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
+                      <span class="truncate">{s}</span>
+                    </li>
+                  ))}
+                  {surat.syarat.length > 3 && (
+                    <li class="text-[10px] text-slate-400 italic">
+                      +{surat.syarat.length - 3} berkas lainnya
+                    </li>
+                  )}
+                </ul>
+              </div>
+            </div>
+
+            <!-- Card Actions -->
+            <div class="pt-5 mt-4 border-t border-slate-100 space-y-2">
+              <div class="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  class="btn-panduan w-full py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center"
+                  data-surat-id={surat.id}
+                  data-surat-nama={surat.nama}
+                  data-surat-syarat={JSON.stringify(surat.syarat)}
+                  data-surat-gform={surat.link_gform}
+                >
+                  Lihat Syarat
+                </button>
+
+                {surat.link_gform && surat.link_gform !== '#' ? (
+                  <a
+                    href={surat.link_gform}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-action-gform w-full py-2 px-2.5 rounded-lg text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors text-center flex items-center justify-center gap-1"
+                  >
+                    <span>Ajukan Online</span>
+                    <svg class="w-3 h-3 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  </a>
+                ) : (
+                  <a
+                    href={`/layanan-surat/${surat.id}`}
+                    class="w-full py-2 px-2.5 rounded-lg text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors text-center flex items-center justify-center"
+                  >
+                    <span>Detail Surat</span>
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Empty State -->
+      <div id="no-results" class="hidden py-16 bg-white rounded-xl border border-slate-200 text-center space-y-3">
+        <svg class="w-10 h-10 text-slate-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <h3 class="text-sm font-bold text-slate-800">Tidak ada layanan surat yang cocok</h3>
+        <p class="text-xs text-slate-500 max-w-sm mx-auto">
+          Coba periksa kembali ejaan kata kunci pencarian Anda atau gunakan tombol Reset Filter di atas.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GUIDANCE MODAL (Pop-up Persyaratan Berkas) -->
+  <div id="guidance-modal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative modal-enter border border-slate-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-start justify-between pb-4 border-b border-slate-100">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 font-mono">Panduan Pengajuan Dokumen</span>
+          <h3 id="modal-title" class="text-lg font-black text-slate-950 mt-0.5">Nama Surat</h3>
+        </div>
+        <button id="close-modal-btn" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100" aria-label="Tutup">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="py-4 space-y-4 text-xs">
+        <div>
+          <h4 class="font-bold text-slate-900 text-xs mb-2">Checklist Berkas yang Harus Disiapkan:</h4>
+          <ul id="modal-requirements-list" class="space-y-1.5">
+            <!-- Dynamically injected -->
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1 text-slate-600">
+          <h5 class="font-bold text-slate-900 text-[11px] uppercase">Alur Verifikasi:</h5>
+          <ol class="list-decimal list-inside space-y-1 text-[11px]">
+            <li>Warga mengisi data dan mengunggah foto berkas lewat link formulir resmi.</li>
+            <li>Petugas Balai Desa Timpik memverifikasi kelengkapan berkas Anda.</li>
+            <li>Surat dicetak, ditandatangani Kepala Desa, dan dibubuhi stempel basah.</li>
+            <li>Warga menerima konfirmasi siap ambil di Balai Desa Timpik.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+        <a id="modal-detail-link" href="#" class="text-xs font-bold text-blue-700 hover:underline">
+          Halaman Lengkap &rarr;
+        </a>
+        <div class="flex items-center gap-2">
+          <button id="cancel-modal-btn" class="px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+            Tutup
+          </button>
+          <a
+            id="modal-gform-link"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-5 py-2 rounded-lg text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors flex items-center gap-1.5"
+          >
+            <span>Buka Formulir Online</span>
+            <svg class="w-3.5 h-3.5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ Section: Accordion Ramping & Elegan -->
+  <section class="py-14 bg-white border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="text-center max-w-xl mx-auto">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 font-mono">Pertanyaan Umum Warga</span>
+        <h2 class="text-xl sm:text-2xl font-black text-slate-950 mt-1">
+          Tanya Jawab Seputar Layanan Surat
+        </h2>
+      </div>
+
+      <div class="space-y-3 text-xs sm:text-sm">
+        <details class="group bg-slate-50 p-4 rounded-xl border border-slate-200 transition-all">
+          <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between list-none">
+            <span>Berapa lama proses pembuatan surat hingga selesai?</span>
+            <span class="transition group-open:rotate-180 text-blue-700">&darr;</span>
+          </summary>
+          <p class="text-slate-600 text-xs mt-2.5 leading-relaxed">
+            Pengajuan yang masuk pada jam kerja diverifikasi dalam waktu maksimal <strong>1 x 24 Jam Kerja</strong>. Jika berkas lengkap, surat dapat diambil langsung di loket pelayanan Balai Desa Timpik.
+          </p>
+        </details>
+
+        <details class="group bg-slate-50 p-4 rounded-xl border border-slate-200 transition-all">
+          <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between list-none">
+            <span>Apakah ada biaya administrasi untuk permohonan surat?</span>
+            <span class="transition group-open:rotate-180 text-blue-700">&darr;</span>
+          </summary>
+          <p class="text-slate-600 text-xs mt-2.5 leading-relaxed">
+            <strong>Tidak ada pungutan biaya sama sekali (Rp 0,- / 100% Bebas Pungli).</strong> Seluruh pengurusan administrasi surat-menyurat warga di Pemerintah Desa Timpik gratis.
+          </p>
+        </details>
+
+        <details class="group bg-slate-50 p-4 rounded-xl border border-slate-200 transition-all">
+          <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between list-none">
+            <span>Bagaimana jika warga kesulitan mengisi formulir online?</span>
+            <span class="transition group-open:rotate-180 text-blue-700">&darr;</span>
+          </summary>
+          <p class="text-slate-600 text-xs mt-2.5 leading-relaxed">
+            Warga yang membutuhkan pendampingan dipersilakan datang langsung ke loket pelayanan Balai Desa Timpik pada jam kerja. Petugas staf pelayanan siap membantu pengisian berkas formulir hingga selesai.
+          </p>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+</Layout>
+
+<script is:inline define:vars={{ initialSurat: suratData }}>
+  const STORAGE_KEY = 'timpik_surat_list';
+
+  function getLocalSurat() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.warn('Gagal membaca data surat localStorage', e);
+    }
+    return initialSurat;
+  }
+
+  let suratList = getLocalSurat();
+  let activeCategory = 'Semua Kategori';
+  let searchTerm = '';
+
+  function renderGrid() {
+    const container = document.getElementById('surat-cards-container');
+    const noResults = document.getElementById('no-results');
+    const displayedCount = document.getElementById('displayed-count');
+
+    if (!container) return;
+
+    const filtered = suratList.filter(item => {
+      const matchCat = activeCategory === 'Semua Kategori' || item.kategori === activeCategory;
+      const matchSearch = !searchTerm ||
+        item.nama.toLowerCase().includes(searchTerm) ||
+        item.deskripsi.toLowerCase().includes(searchTerm) ||
+        (item.kode && item.kode.toLowerCase().includes(searchTerm)) ||
+        item.syarat.some(s => s.toLowerCase().includes(searchTerm));
+      return matchCat && matchSearch;
+    });
+
+    if (displayedCount) displayedCount.textContent = filtered.length.toString();
+
+    if (filtered.length === 0) {
+      container.innerHTML = '';
+      if (noResults) noResults.classList.remove('hidden');
+      return;
+    }
+
+    if (noResults) noResults.classList.add('hidden');
+
+    container.innerHTML = filtered.map(surat => {
+      const hasGform = surat.link_gform && surat.link_gform.trim() !== '' && surat.link_gform !== '#';
+
+      return `
+        <article class="surat-card bg-white rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-sm transition-all p-6 flex flex-col justify-between" data-category="${surat.kategori}">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span class="font-mono text-[10px] font-bold text-blue-700">
+                ${surat.kode || `REG-${surat.id.toUpperCase()}`}
+              </span>
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-100">
+                ${surat.kategori}
+              </span>
+            </div>
+
+            <h2 class="text-base font-bold text-slate-950 leading-snug">
+              ${surat.nama}
+            </h2>
+
+            <p class="text-xs text-slate-600 leading-relaxed line-clamp-2">
+              ${surat.deskripsi}
+            </p>
+
+            <div class="pt-2 border-t border-slate-100 space-y-1">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Syarat Berkas:</span>
+              <ul class="text-[11px] text-slate-600 space-y-0.5">
+                ${surat.syarat.slice(0, 3).map(s => `
+                  <li class="flex items-center gap-1.5 truncate">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
+                    <span class="truncate">${s}</span>
+                  </li>
+                `).join('')}
+                ${surat.syarat.length > 3 ? `
+                  <li class="text-[10px] text-slate-400 italic">
+                    +${surat.syarat.length - 3} berkas lainnya
+                  </li>
+                ` : ''}
+              </ul>
+            </div>
+          </div>
+
+          <div class="pt-5 mt-4 border-t border-slate-100 space-y-2">
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                class="btn-panduan w-full py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center"
+                data-surat-id="${surat.id}"
+                data-surat-nama="${surat.nama}"
+                data-surat-syarat='${JSON.stringify(surat.syarat)}'
+                data-surat-gform="${surat.link_gform || ''}"
+              >
+                Lihat Syarat
+              </button>
+
+              ${hasGform ? `
+                <a
+                  href="${surat.link_gform}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-action-gform w-full py-2 px-2.5 rounded-lg text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors text-center flex items-center justify-center gap-1"
+                >
+                  <span>Ajukan Online</span>
+                  <svg class="w-3 h-3 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+              ` : `
+                <a
+                  href="/layanan-surat/${surat.id}"
+                  class="w-full py-2 px-2.5 rounded-lg text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors text-center flex items-center justify-center"
+                >
+                  <span>Detail Surat</span>
+                </a>
+              `}
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    attachModalEvents();
+  }
+
+  function attachModalEvents() {
+    const modal = document.getElementById('guidance-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalReqList = document.getElementById('modal-requirements-list');
+    const modalGformLink = document.getElementById('modal-gform-link');
+    const modalDetailLink = document.getElementById('modal-detail-link');
+
+    document.querySelectorAll('.btn-panduan').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-surat-id') || '';
+        const nama = btn.getAttribute('data-surat-nama') || '';
+        const syaratRaw = btn.getAttribute('data-surat-syarat') || '[]';
+        const gform = btn.getAttribute('data-surat-gform') || '';
+
+        if (modalTitle) modalTitle.textContent = nama;
+        if (modalDetailLink) modalDetailLink.href = `/layanan-surat/${id}`;
+
+        if (modalGformLink) {
+          if (gform && gform.trim() !== '' && gform !== '#') {
+            modalGformLink.href = gform;
+            modalGformLink.classList.remove('hidden');
+          } else {
+            modalGformLink.classList.add('hidden');
+          }
+        }
+
+        if (modalReqList) {
+          modalReqList.innerHTML = '';
+          try {
+            const arr = JSON.parse(syaratRaw);
+            arr.forEach(s => {
+              const li = document.createElement('li');
+              li.className = 'flex items-start gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200';
+              li.innerHTML = `
+                <svg class="w-4 h-4 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span class="text-slate-800 leading-tight">${s}</span>
+              `;
+              modalReqList.appendChild(li);
+            });
+          } catch (e) {
+            console.error(e);
+          }
+        }
+
+        if (modal) {
+          modal.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    });
+  }
+
+  // Modal close
+  const modal = document.getElementById('guidance-modal');
+  const closeModalBtn = document.getElementById('close-modal-btn');
+  const cancelModalBtn = document.getElementById('cancel-modal-btn');
+
+  function closeModal() {
+    if (modal) {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  closeModalBtn?.addEventListener('click', closeModal);
+  cancelModalBtn?.addEventListener('click', closeModal);
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Search
+  const searchInput = document.getElementById('search-input');
+  const clearSearchBtn = document.getElementById('clear-search-btn');
+
+  searchInput?.addEventListener('input', (e) => {
+    searchTerm = e.target.value.trim().toLowerCase();
+    if (clearSearchBtn) {
+      if (searchTerm.length > 0) clearSearchBtn.classList.remove('hidden');
+      else clearSearchBtn.classList.add('hidden');
+    }
+    renderGrid();
+  });
+
+  clearSearchBtn?.addEventListener('click', () => {
+    if (searchInput) searchInput.value = '';
+    searchTerm = '';
+    clearSearchBtn.classList.add('hidden');
+    renderGrid();
+  });
+
+  // Filters
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => {
+        b.className = 'filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200';
+      });
+      btn.className = 'filter-btn px-3.5 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap bg-blue-700 text-white active-filter shadow-xs';
+      activeCategory = btn.getAttribute('data-category') || 'Semua Kategori';
+      renderGrid();
+    });
+  });
+
+  // Reset
+  document.getElementById('reset-filter-btn')?.addEventListener('click', () => {
+    if (searchInput) searchInput.value = '';
+    searchTerm = '';
+    if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
+    filterBtns.forEach((b, idx) => {
+      if (idx === 0) {
+        b.className = 'filter-btn px-3.5 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap bg-blue-700 text-white active-filter shadow-xs';
+        activeCategory = 'Semua Kategori';
+      } else {
+        b.className = 'filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200';
+      }
+    });
+    renderGrid();
+  });
+
+  // Initial load or localStorage hydration
+  if (localStorage.getItem(STORAGE_KEY)) {
+    renderGrid();
+  } else {
+    attachModalEvents();
+  }
+</script>

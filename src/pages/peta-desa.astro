@@ -1,0 +1,146 @@
+---
+import Layout from '../layouts/Layout.astro';
+import profilData from '../data/profil.json';
+---
+
+<Layout
+  title="Peta Wilayah & Geografis Desa Timpik"
+  description="Peta wilayah administratif Desa Timpik, Kecamatan Susukan, Kabupaten Semarang: batas wilayah, letak 4 dusun, akses jalan, dan lokasi Balai Desa."
+>
+  <!-- Architectural Civic Header -->
+  <section class="bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400 mb-5" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-sky-300 transition-colors">Beranda</a>
+        <span class="text-slate-600">/</span>
+        <span class="text-sky-300 font-bold">Peta Wilayah</span>
+      </nav>
+
+      <div class="max-w-3xl space-y-3">
+        <div class="flex items-center gap-2.5">
+          <span class="h-px w-6 bg-sky-400"></span>
+          <span class="text-xs font-mono uppercase tracking-widest text-sky-300 font-bold">Geospasial & Batas Teritorial</span>
+        </div>
+        
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+          Peta Wilayah & Geografis Desa
+        </h1>
+        
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed pt-1">
+          Peta administratif batas wilayah, persebaran 4 dusun (Krajan, Sumber, Bogo, Kencana), topografi lereng Merbabu, letak fasilitas umum, dan rute akses menuju Balai Desa Timpik, Kecamatan Susukan.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Peta Embed & Lokasi Strategis -->
+  <section class="py-14 sm:py-16 bg-white border-b border-civic-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-14">
+        
+        <!-- Peta Interaktif Frame -->
+        <div class="lg:col-span-8 border border-civic-border shadow-xs bg-slate-100 overflow-hidden">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15828.69482161642!2d110.57500000000002!3d-7.335000000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a7837b2d55555%3A0x1234567890abcdef!2sTimpik%2C%20Susukan%2C%20Semarang%20Regency%2C%20Central%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
+            width="100%"
+            height="460"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Peta Desa Timpik Google Maps"
+            class="w-full h-[460px] grayscale contrast-125 hover:grayscale-0 transition-all duration-300"
+          ></iframe>
+          <div class="p-4 bg-civic-navy text-white flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-emerald-400"></span>
+              <span>Titik Pusat: Balai Desa Timpik, Dusun Krajan</span>
+            </span>
+            <a
+              href="https://maps.google.com/?q=Balai+Desa+Timpik+Susukan+Semarang"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold transition-colors flex items-center gap-1.5 uppercase tracking-wider text-[11px] rounded shadow-xs"
+            >
+              <span>Buka Google Maps &rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Info Batas Wilayah & Geospasial -->
+        <div class="lg:col-span-4 space-y-6">
+          <div class="border border-civic-border bg-civic-sand/20 shadow-xs">
+            <div class="p-5 border-b border-civic-border bg-civic-sand/40">
+              <h3 class="font-serif font-bold text-civic-navy text-base">
+                Batas Wilayah Administratif
+              </h3>
+            </div>
+            
+            <div class="p-5 space-y-3 text-xs">
+              <div class="p-3 bg-white border border-civic-border">
+                <span class="text-civic-muted font-mono uppercase text-[10px] block">Sebelah Utara:</span>
+                <strong class="font-serif text-civic-navy text-sm font-bold">Desa Kemetul & Kenteng</strong>
+              </div>
+              <div class="p-3 bg-white border border-civic-border">
+                <span class="text-civic-muted font-mono uppercase text-[10px] block">Sebelah Timur:</span>
+                <strong class="font-serif text-civic-navy text-sm font-bold">Desa Ketapang & Koripan</strong>
+              </div>
+              <div class="p-3 bg-white border border-civic-border">
+                <span class="text-civic-muted font-mono uppercase text-[10px] block">Sebelah Selatan:</span>
+                <strong class="font-serif text-civic-navy text-sm font-bold">Kecamatan Kaliwungu</strong>
+              </div>
+              <div class="p-3 bg-white border border-civic-border">
+                <span class="text-civic-muted font-mono uppercase text-[10px] block">Sebelah Barat:</span>
+                <strong class="font-serif text-civic-navy text-sm font-bold">Desa Badran & Bakalrejo</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-civic-border bg-white p-5 shadow-xs space-y-2 text-xs">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-blue-700 font-bold block">Topografi & Hidrologi</span>
+            <p class="text-civic-ink leading-relaxed">
+              Desa Timpik berada pada ketinggian <strong>± 450 – 600 meter di atas permukaan laut (dpl)</strong> di lereng Merbabu. Wilayahnya dialiri jaringan irigasi persawahan teknis yang dikelola oleh perkumpulan <strong>P3A Bogo Wastro</strong>.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 4 Dusun dalam Peta -->
+      <div>
+        <div class="border-b border-civic-border pb-4 mb-8">
+          <span class="text-xs font-mono uppercase tracking-widest text-blue-700 font-bold block mb-1">Struktur Kewilayahan</span>
+          <h3 class="text-2xl font-serif font-black text-civic-navy">Pembagian 4 Wilayah Dusun</h3>
+          <p class="text-xs text-civic-muted mt-1">Struktur kadus di bawah naungan administrasi Pemerintah Desa Timpik</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {profilData.dusun.map((dusun, idx) => (
+            <div class="bg-white border border-civic-border p-6 shadow-xs flex flex-col justify-between space-y-4">
+              <div>
+                <span class="text-xs font-mono text-blue-700 font-bold block mb-1">0{idx + 1}</span>
+                <h4 class="font-serif font-bold text-lg text-civic-navy">{dusun.nama}</h4>
+                <p class="text-xs text-civic-muted mt-2 leading-relaxed">{dusun.deskripsi}</p>
+              </div>
+
+              <div class="pt-3 border-t border-civic-border/60">
+                <a
+                  href={`/dusun/${dusun.id}`}
+                  class="text-xs font-mono font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider inline-flex items-center gap-1"
+                >
+                  <span>Buka Peta Dusun</span>
+                  <span>&rarr;</span>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+</Layout>

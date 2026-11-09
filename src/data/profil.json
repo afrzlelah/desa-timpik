@@ -1,0 +1,94 @@
+{
+  "nama_desa": "Desa Timpik",
+  "kecamatan": "Kecamatan Susukan",
+  "kabupaten": "Kabupaten Semarang",
+  "provinsi": "Jawa Tengah",
+  "kode_pos": "50774",
+  "alamat_kantor": "Jl. Raya Balai Desa Timpik, Kec. Susukan, Kab. Semarang, Jawa Tengah 50774",
+  "telepon": "0812-3456-7890",
+  "email": "desatimpik.susukan@gmail.com",
+  "jam_layanan": "Senin - Kamis: 08.00 - 15.00 WIB | Jumat: 08.00 - 11.30 WIB",
+  "visi": "Terwujudnya Desa Timpik yang Maju, Sejahtera, Mandiri Berbasis Pertanian Berkelanjutan dan Berkeadaban Budaya Adiluhung.",
+  "misi": [
+    "Meningkatkan kualitas pelayanan administrasi publik yang cepat, transparan, dan terpercaya bagi seluruh warga.",
+    "Mengembangkan perekonomian desa berbasis sektor agraris modern dan penguatan ketahanan pangan lokal.",
+    "Melestarikan dan mempromosikan kekayaan seni budaya tradisional seperti Wayang Orang, Karawitan, dan Angguk.",
+    "Mewujudkan tata kelola pemerintahan desa yang bersih, akuntabel, dan bebas dari korupsi.",
+    "Meningkatkan kualitas infrastruktur pertanian, irigasi, dan aksesibilitas fasilitas publik masyarakat."
+  ],
+  "dusun": [
+    {
+      "id": "bogo",
+      "nama": "Dusun Bogo",
+      "panggilan": "Bogo",
+      "deskripsi": "Sentra kesenian Wayang Orang (Badoyo), tradisi budaya adiluhung, dan hamparan sawah subur P3A Bogo Wastro.",
+      "kepala_dusun": "Bapak Kadus Bogo",
+      "potensi_utama": "Wayang Orang, Pertanian Padi, Karawitan",
+      "jumlah_rt": "4 RT / 1 RW",
+      "jumlah_penduduk": "740 Jiwa",
+      "luas": "68 Ha"
+    },
+    {
+      "id": "sumber",
+      "nama": "Dusun Sumber",
+      "panggilan": "Sumber",
+      "deskripsi": "Pusat kesenian bernafas religi Angguk Alhidayah, sumber mata air alami pengairan desa, dan kerukunan warga.",
+      "kepala_dusun": "Bapak Kadus Sumber",
+      "potensi_utama": "Seni Angguk, Konservasi Mata Air, Palawija",
+      "jumlah_rt": "3 RT / 1 RW",
+      "jumlah_penduduk": "630 Jiwa",
+      "luas": "54 Ha"
+    },
+    {
+      "id": "krajan",
+      "nama": "Dusun Timpik Krajan",
+      "panggilan": "Krajan",
+      "deskripsi": "Pusat tata kelola pemerintahan desa, kantor Balai Desa, pendopo pertemuan, dan perpustakaan desa Sumber Ilmu.",
+      "kepala_dusun": "Bapak Kadus Krajan",
+      "potensi_utama": "Pelayanan Publik, Balai Desa, UMKM Perdagangan",
+      "jumlah_rt": "5 RT / 2 RW",
+      "jumlah_penduduk": "820 Jiwa",
+      "luas": "61 Ha"
+    },
+    {
+      "id": "kencana",
+      "nama": "Dusun Kencana",
+      "panggilan": "Kencana",
+      "deskripsi": "Kawasan lumbung pangan masyarakat mandiri LPM Putri Kencana, pembibitan tani modern, dan persawahan terpadu.",
+      "kepala_dusun": "Bapak Kadus Kencana",
+      "potensi_utama": "Lumbung Pangan Padi, Gapoktan, Peternakan",
+      "jumlah_rt": "4 RT / 1 RW",
+      "jumlah_penduduk": "655 Jiwa",
+      "luas": "60 Ha"
+    }
+  ],
+  "statistik": {
+    "total_penduduk": "2.845 Jiwa",
+    "total_kk": "872 KK",
+    "luas_wilayah": "243 Ha",
+    "lahan_pertanian": "189 Ha (78%)",
+    "laki_laki": "1.430 Jiwa",
+    "perempuan": "1.415 Jiwa",
+    "pekerjaan_petani": "76%",
+    "pekerjaan_wiraswasta": "14%",
+    "pekerjaan_lainnya": "10%"
+  },
+  "transparansi_apbdes": {
+    "tahun": "2026",
+    "total_pendapatan": "Rp 1.428.560.000",
+    "dana_desa": "Rp 812.450.000",
+    "alokasi_dana_desa": "Rp 415.800.000",
+    "pad_desa": "Rp 98.310.000",
+    "lain_lain": "Rp 102.000.000",
+    "belanja_pembangunan": "Rp 684.200.000",
+    "belanja_pemerintahan": "Rp 395.100.000",
+    "pemberdayaan_masyarakat": "Rp 215.000.000",
+    "pembinaan_budaya": "Rp 84.260.000",
+    "biaya_pelayanan_warga": "Rp 0,- (100% Gratis)"
+  },
+  "sosial_media": {
+    "instagram": "https://instagram.com/desatimpik_official",
+    "facebook": "https://facebook.com/desatimpiksusukan",
+    "youtube": "https://youtube.com/@DesaTimpikSemarang"
+  }
+}

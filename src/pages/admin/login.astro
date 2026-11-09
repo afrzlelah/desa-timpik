@@ -1,0 +1,128 @@
+---
+import '../../styles/global.css';
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Masuk Sesi &bull; Administrator Desa Timpik</title>
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body class="bg-civic-navy text-slate-100 min-h-screen flex flex-col justify-between antialiased selection:bg-blue-600 selection:text-white font-sans">
+    
+    <!-- Top Header Bar -->
+    <header class="border-b border-civic-border/30 px-6 py-4 bg-civic-navy">
+      <div class="max-w-6xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 bg-slate-800 text-sky-300 border border-slate-700 flex items-center justify-center font-bold text-xs">
+            DT
+          </div>
+          <div>
+            <span class="text-sm font-serif font-bold text-white block leading-tight">Pemerintah Desa Timpik</span>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Kec. Susukan &bull; Kab. Semarang</span>
+          </div>
+        </div>
+        <a href="/" class="text-xs font-mono uppercase tracking-wider text-slate-400 hover:text-white transition-colors flex items-center gap-1.5">
+          <span>&larr; Web Publik</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Login Frame (Editorial Civic Style) -->
+    <main class="flex-grow flex items-center justify-center p-4 py-12">
+      <div class="max-w-md w-full bg-white text-civic-navy border border-civic-border p-8 sm:p-10 shadow-2xl space-y-6">
+        
+        <div class="space-y-1.5 text-center">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-blue-700 font-bold block">
+            Portal Khusus Aparatur
+          </span>
+          <h1 class="text-2xl font-serif font-black text-civic-navy tracking-tight">Login Administrator Desa</h1>
+          <p class="text-xs text-civic-muted font-sans">Pengelolaan Layanan Surat, Portal Berita, APBDes & Agenda Desa</p>
+        </div>
+
+        <!-- Alert Error -->
+        <div id="login-error" class="hidden p-3 border border-rose-300 bg-rose-50 text-rose-800 text-xs font-mono font-bold text-center">
+          Nama pengguna atau kata sandi tidak cocok.
+        </div>
+
+        <!-- Form Login -->
+        <form id="form-login" class="space-y-4">
+          <div>
+            <label for="username" class="block text-[11px] font-mono font-bold uppercase tracking-wider text-civic-navy mb-1.5">Nama Pengguna (Username):</label>
+            <input
+              type="text"
+              id="username"
+              value="admin"
+              required
+              class="w-full px-3.5 py-2.5 border border-civic-border bg-civic-sand/20 text-xs font-mono text-civic-navy focus:bg-white focus:outline-none focus:border-civic-navy transition-all"
+              placeholder="Masukkan username"
+            />
+          </div>
+
+          <div>
+            <label for="password" class="block text-[11px] font-mono font-bold uppercase tracking-wider text-civic-navy mb-1.5">Kata Sandi (Password):</label>
+            <input
+              type="password"
+              id="password"
+              required
+              class="w-full px-3.5 py-2.5 border border-civic-border bg-civic-sand/20 text-xs font-mono text-civic-navy focus:bg-white focus:outline-none focus:border-civic-navy transition-all"
+              placeholder="Masukkan kata sandi"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3 px-4 bg-blue-700 hover:bg-blue-800 text-white font-mono text-xs uppercase tracking-wider font-bold transition-all flex items-center justify-center gap-2 rounded shadow-xs"
+          >
+            <span>Masuk ke Panel Admin</span>
+            <span>&rarr;</span>
+          </button>
+        </form>
+
+        <!-- Kredensial Bawaan Uji Coba -->
+        <div class="p-3.5 border border-civic-border bg-civic-sand/30 text-xs text-civic-navy space-y-1">
+          <span class="font-mono uppercase text-[10px] text-civic-muted font-bold block">Kredensial Akses Uji Coba:</span>
+          <div class="flex items-center justify-between text-xs font-mono">
+            <span>Username: <strong class="text-civic-navy font-bold">admin</strong></span>
+            <span>Password: <strong class="text-civic-navy font-bold">admin123</strong></span>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-civic-border/30 px-6 py-4 text-center text-xs font-mono text-slate-500">
+      &copy; {new Date().getFullYear()} Pemerintah Desa Timpik &bull; Sistem Administrasi Resmi
+    </footer>
+
+    <script>
+      const form = document.getElementById('form-login') as HTMLFormElement;
+      const userInput = document.getElementById('username') as HTMLInputElement;
+      const passInput = document.getElementById('password') as HTMLInputElement;
+      const errBox = document.getElementById('login-error');
+
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const u = userInput ? userInput.value.trim().toLowerCase() : '';
+          const p = passInput ? passInput.value.trim() : '';
+
+          if ((u === 'admin' || u === 'timpik') && (p === 'admin123' || p === '123456' || p === 'timpik2026')) {
+            sessionStorage.setItem('timpik_admin_user', JSON.stringify({
+              role: 'Admin',
+              name: 'Administrator Desa Timpik',
+              loginAt: new Date().toISOString()
+            }));
+            window.location.href = '/admin/dashboard';
+          } else {
+            if (errBox) errBox.classList.remove('hidden');
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

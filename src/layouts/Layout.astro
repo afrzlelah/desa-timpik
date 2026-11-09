@@ -1,0 +1,666 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Website Resmi Pemerintah Desa Timpik, Kecamatan Susukan, Kabupaten Semarang, Jawa Tengah. Portal informasi desa agraris, transparansi, 4 dusun, potensi kesenian budaya, dan layanan administrasi online."
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title} | Desa Timpik - Kec. Susukan, Kab. Semarang</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="Desa Timpik, Susukan, Kabupaten Semarang, 4 Dusun Timpik, Bogo, Sumber, Krajan, Kencana, Desa Agraris, Wayang Orang Badoyo, Layanan Surat Timpik, Aduan Warga, KKN Timpik" />
+    <meta name="author" content="Pemerintah Desa Timpik & Tim KKN" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={`${title} | Desa Timpik`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/images/gapura-desa-timpik.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content={`${title} | Desa Timpik`} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content="/images/gapura-desa-timpik.jpg" />
+
+    <!-- Security Headers via Meta -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+  </head>
+  <body class="bg-white text-slate-900 antialiased flex flex-col min-h-screen font-sans selection:bg-blue-100 selection:text-blue-900">
+    
+    <!-- Top Sovereign Masthead Bar (Elegant Deep Navy) -->
+    <!-- <aside aria-label="Informasi Resmi Pemerintahan" class="bg-[#0B1E36] text-slate-300 text-[11px] py-1.5 px-4 border-b border-slate-800">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span class="font-bold text-white tracking-wide uppercase text-[10px]">Portal Resmi</span>
+          <span class="text-slate-600">&bull;</span>
+          <span class="text-slate-300">Pemerintah Desa Timpik, Kec. Susukan, Kab. Semarang</span>
+        </div>
+        <div class="hidden sm:flex items-center gap-4 text-[11px]">
+          <span class="text-slate-400" id="header-jam-kerja">Senin–Kamis 08.00–15.00 WIB &bull; Jumat 08.00–11.30 WIB</span>
+          <span class="text-slate-700">|</span>
+          <a href="/kontak" class="text-blue-300 hover:text-white font-semibold transition-colors flex items-center gap-1">
+            <span>Pusat Layanan Warga</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </div>
+    </aside> -->
+
+    <!-- Main Navigation Header (Clean Crisp White & Elegant Blue) -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 transition-all shadow-xs">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          
+          <!-- Left: Official Civic Identity Lockup -->
+          <div class="flex items-center gap-3">
+            <a href="/" class="flex items-center gap-3 group focus:outline-none" aria-label="Beranda Desa Timpik">
+              <div class="w-10 h-10 rounded-lg bg-[#0B1E36] text-white flex items-center justify-center border border-blue-900/60 shadow-xs group-hover:border-blue-500 transition-colors">
+                <svg class="w-5 h-5 text-blue-300" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 3.3L19 9v4.2c0 4.38-2.98 8.49-7 9.6-4.02-1.11-7-5.22-7-9.6V9l7-3.7z"/>
+                </svg>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-base font-black tracking-tight text-slate-950 uppercase leading-none group-hover:text-blue-700 transition-colors">
+                  Desa Timpik
+                </span>
+              </div>
+            </a>
+
+            <!-- Quick Search Trigger -->
+            <button
+              type="button"
+              id="global-search-trigger"
+              aria-label="Cari Layanan atau Informasi"
+              class="hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-500 hover:text-blue-700 hover:border-blue-300 text-xs transition-all focus:outline-none ml-2"
+              title="Pencarian Cepat"
+            >
+              <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              <span class="text-[11px] text-slate-400">Cari...</span>
+              <kbd class="hidden md:inline-block text-[9px] font-mono px-1 py-0.2 bg-white rounded text-slate-400 border border-slate-200">Ctrl+K</kbd>
+            </button>
+          </div>
+
+          <!-- Center: Clean Grouped Menu Items (Organized & Uncluttered) -->
+          <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-[13px] font-semibold text-slate-700">
+            <!-- 1. Beranda -->
+            <a
+              href="/"
+              class={`px-2.5 py-1.5 rounded-lg transition-colors relative ${currentPath === '/' ? 'text-blue-900 font-bold bg-blue-50/80' : 'hover:text-blue-700 hover:bg-slate-50'}`}
+            >
+              Beranda
+            </a>
+
+            <!-- 2. Profil Desa (Dropdown Group) -->
+            <div class="relative group" id="dropdown-profil-nav">
+              <button
+                type="button"
+                id="btn-nav-profil"
+                aria-haspopup="true"
+                class={`px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors ${currentPath.startsWith('/profil') || currentPath.startsWith('/pemerintahan') || currentPath.startsWith('/kelembagaan') ? 'text-blue-900 font-bold bg-blue-50/80' : 'hover:text-blue-700 hover:bg-slate-50'}`}
+              >
+                <span>Profil Desa</span>
+                <svg class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+
+              <div
+                id="menu-nav-profil"
+                class="absolute left-0 top-full pt-2 w-64 hidden group-hover:block z-50 transition-all duration-150"
+              >
+                <div class="bg-white rounded-xl shadow-xl border border-slate-200 p-2 space-y-1 text-xs">
+                  <a href="/profil" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
+                    <strong class="block text-slate-900">Profil & Wilayah</strong>
+                    <span class="text-[11px] text-slate-500">Sejarah, visi misi & 4 dusun</span>
+                  </a>
+                  <a href="/pemerintahan" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
+                    <strong class="block text-slate-900">Pemerintahan & SOTK</strong>
+                    <span class="text-[11px] text-slate-500">Aparatur desa & kepala dusun</span>
+                  </a>
+                  <a href="/kelembagaan" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
+                    <strong class="block text-slate-900">14 Kelembagaan Resmi</strong>
+                    <span class="text-[11px] text-slate-500">BPD, PKK, Gapoktan, P3A, dll</span>
+                  </a>
+                  <a href="/potensi" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
+                    <strong class="block text-slate-900">Potensi & Seni Budaya</strong>
+                    <span class="text-[11px] text-slate-500">Sawah 243 Ha & Wayang Orang</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Informasi & Kabar (Dropdown Group) -->
+            <div class="relative group" id="dropdown-info-nav">
+              <button
+                type="button"
+                id="btn-nav-info"
+                aria-haspopup="true"
+                class={`px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors ${currentPath.startsWith('/info-desa') || currentPath.startsWith('/agenda') || currentPath.startsWith('/berita') ? 'text-blue-900 font-bold bg-blue-50/80' : 'hover:text-blue-700 hover:bg-slate-50'}`}
+              >
+                <span>Informasi</span>
+                <svg class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+
+              <div
+                id="menu-nav-info"
+                class="absolute left-0 top-full pt-2 w-64 hidden group-hover:block z-50 transition-all duration-150"
+              >
+                <div class="bg-white rounded-xl shadow-xl border border-slate-200 p-2 space-y-1 text-xs">
+                  <a href="/info-desa" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
+                    <strong class="block text-slate-900">Pusat Informasi & Pengumuman</strong>
+                    <span class="text-[11px] text-slate-500">Kabar kedinasan & jam kantor</span>
+                  </a>
+                  <a href="/berita" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
+                    <strong class="block text-slate-900">Warta Berita Desa</strong>
+                    <span class="text-[11px] text-slate-500">Dokumentasi kegiatan & artikel</span>
+                  </a>
+                  <a href="/agenda" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
+                    <strong class="block text-slate-900">Kalender Kegiatan</strong>
+                    <span class="text-[11px] text-slate-500">Jadwal musrenbang, posyandu & warga</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Data & Transparansi (Dropdown Group) -->
+            <div class="relative group" id="dropdown-data-nav">
+              <button
+                type="button"
+                id="btn-nav-data"
+                aria-haspopup="true"
+                class={`px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors ${currentPath.startsWith('/statistik') || currentPath.startsWith('/peta-desa') || currentPath.startsWith('/transparansi') ? 'text-blue-900 font-bold bg-blue-50/80' : 'hover:text-blue-700 hover:bg-slate-50'}`}
+              >
+                <span>Data & Transparansi</span>
+                <svg class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+
+              <div
+                id="menu-nav-data"
+                class="absolute left-0 top-full pt-2 w-64 hidden group-hover:block z-50 transition-all duration-150"
+              >
+                <div class="bg-white rounded-xl shadow-xl border border-slate-200 p-2 space-y-1 text-xs">
+                  <a href="/transparansi" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
+                    <strong class="block text-slate-900">Transparansi APBDes</strong>
+                    <span class="text-[11px] text-slate-500">Realisasi anggaran & dana desa</span>
+                  </a>
+                  <a href="/statistik" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
+                    <strong class="block text-slate-900">Statistik Kependudukan</strong>
+                    <span class="text-[11px] text-slate-500">Demografi, KK, & mata pencaharian</span>
+                  </a>
+                  <a href="/peta-desa" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
+                    <strong class="block text-slate-900">Peta Wilayah & Geografis</strong>
+                    <span class="text-[11px] text-slate-500">Batas teritorial 4 dusun</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Kontak -->
+            <a
+              href="/kontak"
+              class={`px-2.5 py-1.5 rounded-lg transition-colors ${currentPath.startsWith('/kontak') ? 'text-blue-900 font-bold bg-blue-50/80' : 'hover:text-blue-700 hover:bg-slate-50'}`}
+            >
+              Kontak
+            </a>
+          </nav>
+
+          <!-- Right Action: Aduan Warga & Layanan Surat -->
+          <div class="hidden sm:flex items-center gap-2">
+            <a
+              href="/layanan-aduan"
+              class={`text-xs font-semibold px-3 py-2 rounded-lg transition-colors ${currentPath.startsWith('/layanan-aduan') ? 'text-blue-900 bg-blue-50 font-bold' : 'text-slate-600 hover:text-blue-700 hover:bg-blue-50/60'}`}
+            >
+              Aduan Warga
+            </a>
+
+            <a
+              href="/layanan-surat"
+              class="px-4 py-2 rounded-lg text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors flex items-center gap-1.5 shadow-sm"
+            >
+              <svg class="w-3.5 h-3.5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Layanan Surat</span>
+            </a>
+          </div>
+
+          <!-- Mobile Hamburger Menu Button -->
+          <div class="flex lg:hidden items-center gap-2">
+            <a
+              href="/layanan-surat"
+              class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-blue-700 text-white flex items-center gap-1 sm:hidden"
+            >
+              <span>Surat</span>
+            </a>
+            <button
+              id="mobile-menu-btn"
+              type="button"
+              aria-label="Buka Menu Navigasi"
+              class="p-2 rounded-lg text-slate-700 hover:bg-slate-100 focus:outline-none"
+            >
+              <svg class="w-6 h-6" id="menu-icon-open" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+              <svg class="w-6 h-6 hidden" id="menu-icon-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown Menu (Grouped & Clean) -->
+      <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-3 shadow-xl max-h-[85vh] overflow-y-auto">
+        <a href="/" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-800 hover:bg-slate-50">
+          Beranda
+        </a>
+
+        <!-- Mobile Profil Submenu -->
+        <div class="border-y border-slate-200 py-2.5 space-y-1">
+          <div class="px-3 text-[10px] font-mono uppercase tracking-wider text-blue-700 font-bold">Profil & Pemerintahan</div>
+          <a href="/profil" class="block px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-800 hover:bg-blue-50/60 hover:text-blue-700">
+            &bull; Profil Wilayah & Sejarah Desa
+          </a>
+          <a href="/pemerintahan" class="block px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-800 hover:bg-blue-50/60 hover:text-blue-700">
+            &bull; Pemerintahan & SOTK Pamong
+          </a>
+          <a href="/kelembagaan" class="block px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-800 hover:bg-blue-50/60 hover:text-blue-700">
+            &bull; 14 Kelembagaan Resmi Desa
+          </a>
+          <a href="/potensi" class="block px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-800 hover:bg-blue-50/60 hover:text-blue-700">
+            &bull; Potensi Sawah 243 Ha & Wayang Orang
+          </a>
+        </div>
+
+        <!-- Mobile Info Submenu -->
+        <div class="border-b border-slate-200 pb-2.5 space-y-1">
+          <div class="px-3 text-[10px] font-mono uppercase tracking-wider text-blue-700 font-bold">Informasi & Warta</div>
+          <a href="/info-desa" class="block px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-800 hover:bg-blue-50/60 hover:text-blue-700">
+            &bull; Pusat Informasi & Pengumuman
+          </a>
+          <a href="/berita" class="block px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-800 hover:bg-blue-50/60 hover:text-blue-700">
+            &bull; Warta Berita Desa Timpik
+          </a>
+          <a href="/agenda" class="block px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-800 hover:bg-blue-50/60 hover:text-blue-700">
+            &bull; Kalender Kegiatan & Musrenbang
+          </a>
+        </div>
+
+        <!-- Mobile Data Submenu -->
+        <div class="border-b border-slate-200 pb-2.5 space-y-1">
+          <div class="px-3 text-[10px] font-mono uppercase tracking-wider text-blue-700 font-bold">Data & Transparansi</div>
+          <a href="/transparansi" class="block px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-800 hover:bg-blue-50/60 hover:text-blue-700">
+            &bull; Transparansi Neraca APBDes
+          </a>
+          <a href="/statistik" class="block px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-800 hover:bg-blue-50/60 hover:text-blue-700">
+            &bull; Statistik & Demografi Penduduk
+          </a>
+          <a href="/peta-desa" class="block px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-800 hover:bg-blue-50/60 hover:text-blue-700">
+            &bull; Peta Wilayah & 4 Dusun
+          </a>
+        </div>
+
+        <a href="/kontak" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-800 hover:bg-slate-50">
+          Kontak & Balai Desa
+        </a>
+
+        <!-- Layanan Buttons -->
+        <div class="pt-2 border-t border-slate-200 space-y-2">
+          <a href="/layanan-surat" class="block w-full py-2.5 rounded-lg text-center font-bold text-xs bg-blue-700 text-white shadow-xs hover:bg-blue-800">
+            Layanan Surat Mandiri Online
+          </a>
+          <a href="/layanan-aduan" class="block w-full py-2.5 rounded-lg text-center font-bold text-xs bg-slate-100 text-slate-800 border border-slate-200 hover:bg-slate-200">
+            Salurkan Aduan & Aspirasi Warga
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Global Search Quick Modal -->
+    <div id="quick-search-modal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-xs flex items-start justify-center pt-24 p-4">
+      <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl modal-enter space-y-4 border border-slate-200">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2 text-slate-900 font-bold text-sm">
+            <svg class="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <span>Pencarian Cepat Portal Desa Timpik</span>
+          </div>
+          <button id="close-search-modal" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100" aria-label="Tutup Pencarian">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <input
+          type="text"
+          id="modal-search-input"
+          placeholder="Ketik surat (SKU, SKCK), agenda, dusun, atau berita..."
+          class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white"
+        />
+
+        <!-- Live Results Container -->
+        <div id="modal-search-results" class="space-y-1.5 max-h-72 overflow-y-auto hidden"></div>
+
+        <div id="modal-quick-links" class="space-y-2 text-xs">
+          <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Pintasan Utama:</span>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="/layanan-surat" class="p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 text-slate-800 hover:text-blue-900 font-medium border border-slate-200 transition-colors">
+              Pengajuan Surat Online
+            </a>
+            <a href="/layanan-aduan" class="p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 text-slate-800 hover:text-blue-900 font-medium border border-slate-200 transition-colors">
+              Formulir Aduan Warga
+            </a>
+            <a href="/agenda" class="p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 text-slate-800 hover:text-blue-900 font-medium border border-slate-200 transition-colors">
+              Kalender Kegiatan Desa
+            </a>
+            <a href="/transparansi" class="p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 text-slate-800 hover:text-blue-900 font-medium border border-slate-200 transition-colors">
+              Transparansi APBDes
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Slot -->
+    <main class="flex-grow">
+      <slot />
+    </main>
+
+    <!-- Official Sovereign Village Footer (Deep Navy & Crisp White) -->
+    <footer class="bg-[#0B1E36] text-slate-300 border-t border-slate-800 mt-auto">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+          
+          <!-- Column 1: Identitas Desa (5 cols) -->
+          <div class="lg:col-span-4 space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-slate-800 text-blue-400 flex items-center justify-center font-black text-sm border border-slate-700">
+                <svg class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 3.3L19 9v4.2c0 4.38-2.98 8.49-7 9.6-4.02-1.11-7-5.22-7-9.6V9l7-3.7z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-base font-black text-white uppercase tracking-tight">Pemerintah Desa Timpik</h3>
+                <p class="text-[11px] text-slate-400">Kecamatan Susukan, Kabupaten Semarang</p>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
+              Mewujudkan tata kelola birokrasi yang dekat dengan warga, transparan, dan berkeadaban berbasis tradisi agraris berkelanjutan dan kesenian adiluhung Jawa.
+            </p>
+
+            <div class="pt-2 text-[11px] text-slate-400 space-y-1">
+              <p>Kode Desa (Kemendagri): <strong>33.22.11.2003</strong></p>
+              <p>Kode Pos: <strong>50774</strong></p>
+            </div>
+          </div>
+
+          <!-- Column 2: Navigasi Menu (3 cols) -->
+          <div class="lg:col-span-2 space-y-3">
+            <h4 class="text-white font-bold text-xs uppercase tracking-wider pb-2 border-b border-slate-800">
+              Navigasi Portal
+            </h4>
+            <ul class="space-y-2 text-xs text-slate-400">
+              <li><a href="/" class="hover:text-white transition-colors">Beranda Utama</a></li>
+              <li><a href="/profil" class="hover:text-white transition-colors">Profil & Sejarah</a></li>
+              <li><a href="/info-desa" class="hover:text-white transition-colors">Pusat Informasi Desa</a></li>
+              <li><a href="/agenda" class="hover:text-white transition-colors">Kalender Kegiatan</a></li>
+              <li><a href="/statistik" class="hover:text-white transition-colors">Statistik Kependudukan</a></li>
+              <li><a href="/peta-desa" class="hover:text-white transition-colors">Peta Batas Wilayah</a></li>
+              <li><a href="/berita" class="hover:text-white transition-colors">Portal Berita</a></li>
+              <li><a href="/potensi" class="hover:text-white transition-colors">Potensi & Seni Budaya</a></li>
+              <li><a href="/transparansi" class="hover:text-white transition-colors">Transparansi APBDes</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Layanan Surat & Aduan (3 cols) -->
+          <div class="lg:col-span-3 space-y-3">
+            <h4 class="text-white font-bold text-xs uppercase tracking-wider pb-2 border-b border-slate-800">
+              Layanan Warga
+            </h4>
+            <ul class="space-y-2 text-xs text-slate-400">
+              <li><a href="/layanan-surat" class="text-blue-300 hover:text-white font-semibold transition-colors">Katalog Surat Mandiri</a></li>
+              <li><a href="/layanan-surat/lacak" class="hover:text-white transition-colors">Lacak Status Surat</a></li>
+              <li><a href="/layanan-surat/pengantar-rt" class="hover:text-white transition-colors">Cetak Blangko Pengantar RT</a></li>
+              <li><a href="/layanan-aduan" class="text-blue-300 hover:text-white font-semibold transition-colors">Saluran Pengaduan Warga</a></li>
+              <li><a href="/kontak" class="hover:text-white transition-colors">Hotline Darurat 24 Jam</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 4: Balai Desa & Kontak (3 cols) -->
+          <div class="lg:col-span-3 space-y-3">
+            <h4 class="text-white font-bold text-xs uppercase tracking-wider pb-2 border-b border-slate-800">
+              Kantor Balai Desa
+            </h4>
+            <div class="space-y-2 text-xs text-slate-400">
+              <p class="leading-relaxed" id="global-footer-alamat">
+                Jl. Raya Balai Desa Timpik, Kec. Susukan, Kab. Semarang, Jawa Tengah 50774
+              </p>
+              <p class="font-mono text-slate-200" id="global-footer-telepon">
+                0812-3456-7890 (WA Pelayanan)
+              </p>
+              <p class="font-mono text-slate-400" id="global-footer-email">
+                desatimpik.susukan@gmail.com
+              </p>
+              <div class="pt-2">
+                <a
+                  id="global-footer-maps"
+                  href="https://maps.google.com/?q=Balai+Desa+Timpik+Susukan+Semarang"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs transition-colors"
+                >
+                  <svg class="w-3.5 h-3.5 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  <span>Buka di Google Maps</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom Line: Legal, KKN Credit & Discreet Footer Login -->
+        <div class="mt-14 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <div>
+            &copy; {new Date().getFullYear()} Pemerintah Desa Timpik. Dikembangkan dalam Sinergi Tim KKN.
+          </div>
+
+          <div>
+            <!-- Login Aparatur Strictly in Footer -->
+            <a
+              href="/admin/login"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700/80 transition-colors text-[11px]"
+            >
+              <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              <span>Login Aparatur</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Client Scripts: Global Navigation, Hydration & Search Modal -->
+    <script>
+      // 1. Mobile Menu Toggle
+      const mobileBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const iconOpen = document.getElementById('menu-icon-open');
+      const iconClose = document.getElementById('menu-icon-close');
+
+      if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', () => {
+          const isHidden = mobileMenu.classList.contains('hidden');
+          if (isHidden) {
+            mobileMenu.classList.remove('hidden');
+            iconOpen?.classList.add('hidden');
+            iconClose?.classList.remove('hidden');
+          } else {
+            mobileMenu.classList.add('hidden');
+            iconOpen?.classList.remove('hidden');
+            iconClose?.classList.add('hidden');
+          }
+        });
+      }
+
+      // 2. Global Quick Search Modal (Ctrl+K or trigger)
+      const searchTrigger = document.getElementById('global-search-trigger');
+      const searchModal = document.getElementById('quick-search-modal');
+      const closeSearch = document.getElementById('close-search-modal');
+      const searchInput = document.getElementById('modal-search-input') as HTMLInputElement | null;
+      const resultsContainer = document.getElementById('modal-search-results');
+      const quickLinks = document.getElementById('modal-quick-links');
+
+      let searchDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+
+      function openSearch() {
+        if (searchModal) {
+          searchModal.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+          setTimeout(() => searchInput?.focus(), 50);
+        }
+      }
+
+      function closeSearchModal() {
+        if (searchModal) {
+          searchModal.classList.add('hidden');
+          document.body.style.overflow = '';
+          if (searchInput) searchInput.value = '';
+          if (resultsContainer) {
+            resultsContainer.innerHTML = '';
+            resultsContainer.classList.add('hidden');
+          }
+          if (quickLinks) quickLinks.classList.remove('hidden');
+        }
+      }
+
+      searchTrigger?.addEventListener('click', openSearch);
+      closeSearch?.addEventListener('click', closeSearchModal);
+
+      // Keyboard Shortcut Ctrl+K / Cmd+K / Esc
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+          e.preventDefault();
+          if (searchModal?.classList.contains('hidden')) {
+            openSearch();
+          } else {
+            closeSearchModal();
+          }
+        }
+        if (e.key === 'Escape' && !searchModal?.classList.contains('hidden')) {
+          closeSearchModal();
+        }
+      });
+
+      // Search input live query
+      searchInput?.addEventListener('input', (e) => {
+        const query = (e.target as HTMLInputElement).value.trim();
+        if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+
+        if (!query) {
+          if (resultsContainer) {
+            resultsContainer.innerHTML = '';
+            resultsContainer.classList.add('hidden');
+          }
+          if (quickLinks) quickLinks.classList.remove('hidden');
+          return;
+        }
+
+        searchDebounceTimer = setTimeout(async () => {
+          try {
+            const res = await fetch(`/api/search.json?q=${encodeURIComponent(query)}`);
+            if (res.ok) {
+              const data = await res.json();
+              renderSearchResults(data.results || []);
+            }
+          } catch (err) {
+            console.warn('Gagal mencari:', err);
+          }
+        }, 200);
+      });
+
+      function renderSearchResults(results: Array<{ title: string; category: string; description: string; url: string }>) {
+        if (!resultsContainer) return;
+
+        if (quickLinks) quickLinks.classList.add('hidden');
+        resultsContainer.classList.remove('hidden');
+
+        if (results.length === 0) {
+          resultsContainer.innerHTML = `
+            <div class="py-6 text-center text-xs text-slate-400">
+              Tidak ditemukan hasil untuk pencarian tersebut. Coba kata kunci lain (misal: SKU, beras, Bogo).
+            </div>
+          `;
+          return;
+        }
+
+        resultsContainer.innerHTML = results.map(item => `
+          <a
+            href="${item.url}"
+            class="block p-3 rounded-xl hover:bg-blue-50/70 border border-transparent hover:border-blue-200 transition-colors"
+          >
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-xs font-bold text-slate-900">${item.title}</span>
+              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">${item.category}</span>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1 line-clamp-1">${item.description}</p>
+          </a>
+        `).join('');
+      }
+
+      // Close search modal when clicking outside
+      searchModal?.addEventListener('click', (e) => {
+        if (e.target === searchModal) closeSearchModal();
+      });
+
+      // 3. Dynamic Footer Hydration from timpik_kontak_data (if updated by Admin)
+      try {
+        const storedKontak = localStorage.getItem('timpik_kontak_data');
+        if (storedKontak) {
+          const parsed = JSON.parse(storedKontak);
+          if (parsed && parsed.operasional) {
+            const op = parsed.operasional;
+            const ftAlamat = document.getElementById('global-footer-alamat');
+            if (ftAlamat && op.alamat) ftAlamat.textContent = op.alamat;
+
+            const ftTelepon = document.getElementById('global-footer-telepon');
+            if (ftTelepon && op.telepon) ftTelepon.textContent = `${op.telepon} (WA Pelayanan)`;
+
+            const ftEmail = document.getElementById('global-footer-email');
+            if (ftEmail && op.email) ftEmail.textContent = op.email;
+
+            const hdJam = document.getElementById('header-jam-kerja');
+            if (hdJam && op.jam_senin_kamis) {
+              hdJam.textContent = `Senin–Kamis ${op.jam_senin_kamis} • Jumat ${op.jam_jumat || '08.00–11.30 WIB'}`;
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Gagal membaca kontak lokal untuk footer', err);
+      }
+    </script>
+  </body>
+</html>

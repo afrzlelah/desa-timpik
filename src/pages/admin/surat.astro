@@ -1,0 +1,665 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import suratData from '../../data/surat.json';
+import trackingData from '../../data/tracking.json';
+---
+
+<AdminLayout title="Kelola Layanan Surat & Link GForm" activeMenu="surat">
+  
+  <div class="space-y-6 max-w-7xl mx-auto">
+    
+    <!-- Top Action Bar -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Pengelolaan Layanan Surat & Link GForm</h1>
+        <p class="text-xs text-slate-500 mt-1">Tambah, perbarui berkas syarat, ganti atau hapus link Google Form permohonan surat warga.</p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          id="btn-tambah-surat"
+          class="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-sm transition-all flex items-center gap-1.5"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <span>+ Tambah Surat Baru</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-export-surat-json"
+          class="px-3.5 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-xs transition-colors flex items-center gap-1.5"
+          title="Unduh data surat terbaru format JSON untuk arsip/git"
+        >
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Unduh JSON</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-reset-surat"
+          class="px-3 py-2 rounded-xl text-xs text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+          title="Kembalikan ke data bawaan awal"
+        >
+          Reset Default
+        </button>
+      </div>
+    </div>
+
+    <!-- Alert Notifikasi Interaktif -->
+    <div id="toast-surat" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold flex items-center justify-between shadow-sm">
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        <span id="toast-text">Data surat berhasil disimpan dan langsung aktif di web publik!</span>
+      </div>
+      <button type="button" onclick="this.parentElement.classList.add('hidden')" class="text-emerald-700 text-sm font-bold">&times;</button>
+    </div>
+
+    <!-- Tab Navigasi: Master Surat vs Antrean Permohonan Masuk -->
+    <div class="border-b border-slate-200 flex gap-4 text-xs font-bold">
+      <button
+        type="button"
+        id="tab-btn-master"
+        class="pb-3 border-b-2 border-blue-700 text-blue-700 px-1 transition-colors"
+      >
+        Katalog Surat & Link Google Form (<span id="count-master-surat">{suratData.length}</span>)
+      </button>
+      <button
+        type="button"
+        id="tab-btn-antrean"
+        class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-1 transition-colors"
+      >
+        Antrean Berkas Masuk Warga (<span id="count-antrean-surat">{trackingData.length}</span>)
+      </button>
+    </div>
+
+    <!-- PENCARIAN & FILTER (Untuk Katalog Surat) -->
+    <div id="section-master-surat" class="space-y-4">
+      
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-slate-200">
+        <div class="relative w-full sm:w-80">
+          <input
+            type="text"
+            id="search-surat-admin"
+            placeholder="Cari surat atau kode..."
+            class="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <svg class="w-4 h-4 text-slate-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+
+        <div class="flex items-center gap-2 w-full sm:w-auto text-xs text-slate-500">
+          <span>Kategori:</span>
+          <select id="filter-kategori-admin" class="px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <option value="Semua">Semua Kategori</option>
+            <option value="Kependudukan">Kependudukan</option>
+            <option value="Usaha & Ekonomi">Usaha & Ekonomi</option>
+            <option value="Kesejahteraan Sosial">Kesejahteraan Sosial</option>
+            <option value="Izin & Rekomendasi">Izin & Rekomendasi</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- TABEL KATALOG SURAT (DESKTOP & MOBILE CARDS) -->
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs" id="table-master-surat">
+            <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[11px] border-b border-slate-200 font-semibold">
+              <tr>
+                <th class="p-3.5">Kode & Nama Surat</th>
+                <th class="p-3.5">Kategori</th>
+                <th class="p-3.5">Link Google Form</th>
+                <th class="p-3.5">Syarat</th>
+                <th class="p-3.5">Waktu / Biaya</th>
+                <th class="p-3.5 text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-slate-700" id="tbody-surat">
+              <!-- Rendered via Client Script / Hydration -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BAGIAN 2: ANTREAN PERMOHONAN MASUK (Lacak Status) -->
+    <div id="section-antrean-surat" class="hidden space-y-4">
+      <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+        <span>Kelola status pemrosesan dokumen warga. Setiap perubahan status langsung terlihat di halaman <code>/layanan-surat/lacak</code>.</span>
+        <a href="/layanan-surat/lacak" target="_blank" class="text-blue-700 font-bold hover:underline">Buka Lacak Publik &rarr;</a>
+      </div>
+
+      <div class="space-y-3" id="container-antrean">
+        {trackingData.map((item, idx) => (
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded text-xs">{item.id}</span>
+                <span class="font-bold text-slate-900 text-sm">{item.jenis_surat}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-slate-400">{item.tanggal_pengajuan}</span>
+                <span class={`status-badge px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
+                  item.status === 'siap_diambil' ? 'bg-emerald-100 text-emerald-800' :
+                  item.status === 'diproses' ? 'bg-blue-100 text-blue-800' : 'bg-sky-100 text-sky-800'
+                }`} id={`antrean-badge-${item.id}`}>
+                  {item.status_label}
+                </span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-slate-600">
+              <div>Pemohon: <strong class="text-slate-900">{item.nama_pemohon_masked}</strong> ({item.nik_masked})</div>
+              <div>Wilayah: <strong class="text-slate-900">{item.dusun}</strong></div>
+              <div>Catatan: <span class="italic">{item.catatan}</span></div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs">
+              <div class="flex items-center gap-1.5">
+                <span class="text-slate-500 font-semibold">Ubah Status:</span>
+                <button
+                  type="button"
+                  class="btn-ubah-status px-2.5 py-1 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-800 font-semibold border border-sky-200"
+                  data-id={item.id}
+                  data-status="verifikasi"
+                  data-label="Verifikasi Berkas"
+                >
+                  Verifikasi
+                </button>
+                <button
+                  type="button"
+                  class="btn-ubah-status px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-800 font-semibold border border-blue-200"
+                  data-id={item.id}
+                  data-status="diproses"
+                  data-label="Ttd Kades"
+                >
+                  Ttd Kades
+                </button>
+                <button
+                  type="button"
+                  class="btn-ubah-status px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold border border-emerald-200"
+                  data-id={item.id}
+                  data-status="siap_diambil"
+                  data-label="Siap Diambil di Balai Desa"
+                >
+                  Siap Diambil
+                </button>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <a
+                  href="/layanan-surat/pengantar-rt"
+                  target="_blank"
+                  class="text-blue-700 hover:underline font-semibold"
+                >
+                  Cetak Lembar Pengantar &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL FORM: TAMBAH & EDIT SURAT -->
+  <div id="modal-form-surat" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto space-y-4">
+      
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h2 id="modal-surat-title" class="text-base font-bold text-slate-900">Tambah Layanan Surat Baru</h2>
+        <button type="button" id="btn-close-modal-surat" class="text-slate-400 hover:text-slate-700 text-lg font-bold">&times;</button>
+      </div>
+
+      <form id="form-surat" class="space-y-3.5 text-xs">
+        <input type="hidden" id="form-surat-id" />
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Nama Layanan Surat *</label>
+            <input
+              type="text"
+              id="form-surat-nama"
+              placeholder="Contoh: Surat Pengantar Nikah (N1-N4)"
+              required
+              class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Kode Surat Singkat *</label>
+            <input
+              type="text"
+              id="form-surat-kode"
+              placeholder="Contoh: SP-NIKAH"
+              required
+              class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 font-mono uppercase"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Kategori Surat *</label>
+            <select id="form-surat-kategori" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white">
+              <option value="Kependudukan">Kependudukan</option>
+              <option value="Usaha & Ekonomi">Usaha & Ekonomi</option>
+              <option value="Kesejahteraan Sosial">Kesejahteraan Sosial</option>
+              <option value="Izin & Rekomendasi">Izin & Rekomendasi</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Estimasi Waktu Proses</label>
+            <input
+              type="text"
+              id="form-surat-waktu"
+              value="1x24 Jam Kerja"
+              class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Deskripsi Singkat Keperluan Surat</label>
+          <textarea
+            id="form-surat-deskripsi"
+            rows="2"
+            placeholder="Jelaskan fungsi surat ini untuk warga..."
+            class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          ></textarea>
+        </div>
+
+        <!-- LINK GOOGLE FORM (FITUR UTAMA USER) -->
+        <div class="p-3.5 rounded-xl bg-blue-50/70 border border-blue-200 space-y-1.5">
+          <label class="block font-bold text-blue-950">
+            Tautan Link Google Form (Formulir Online Warga)
+          </label>
+          <p class="text-[11px] text-slate-600 leading-relaxed">
+            Masukkan link Google Form resmi yang telah dibuat oleh tim KKN / perangkat desa. Jika ingin menonaktifkan pengajuan online untuk surat ini, kosongkan kolom tautan di bawah.
+          </p>
+          <div class="flex items-center gap-2">
+            <input
+              type="url"
+              id="form-surat-gform"
+              placeholder="https://docs.google.com/forms/d/e/.../viewform"
+              class="flex-grow px-3 py-2 rounded-lg border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white font-mono text-[11px]"
+            />
+            <button
+              type="button"
+              id="btn-clear-gform"
+              class="px-2.5 py-2 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 font-bold text-[11px]"
+              title="Hapus / Kosongkan Link GForm"
+            >
+              Hapus Link
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">
+            Persyaratan Berkas Wajib (Tulis 1 berkas per baris)
+          </label>
+          <textarea
+            id="form-surat-syarat"
+            rows="3"
+            placeholder="Foto KTP Asli Pemohon&#10;Foto Kartu Keluarga (KK)&#10;Surat Pengantar dari Ketua RT/RW setempat"
+            class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          ></textarea>
+        </div>
+
+        <div class="border-t border-slate-100 pt-3 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            id="btn-cancel-modal-surat"
+            class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 font-semibold"
+          >
+            Batal
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold shadow-sm"
+          >
+            Simpan Perubahan
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</AdminLayout>
+
+<script define:vars={{ defaultSuratData: suratData }}>
+  const STORAGE_KEY = 'timpik_surat_list';
+
+  // Load from LocalStorage or initialize with default JSON
+  function getSuratList() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) return JSON.parse(stored);
+    } catch (e) {
+      console.error(e);
+    }
+    return defaultSuratData;
+  }
+
+  function saveSuratList(list) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    // Trigger custom event so any other open public pages re-hydrate immediately
+    window.dispatchEvent(new Event('timpik_surat_updated'));
+  }
+
+  let currentList = getSuratList();
+
+  // Elements
+  const tbody = document.getElementById('tbody-surat');
+  const countMaster = document.getElementById('count-master-surat');
+  const searchInput = document.getElementById('search-surat-admin');
+  const filterCat = document.getElementById('filter-kategori-admin');
+
+  const tabMaster = document.getElementById('tab-btn-master');
+  const tabAntrean = document.getElementById('tab-btn-antrean');
+  const secMaster = document.getElementById('section-master-surat');
+  const secAntrean = document.getElementById('section-antrean-surat');
+
+  const modal = document.getElementById('modal-form-surat');
+  const modalTitle = document.getElementById('modal-surat-title');
+  const btnTambah = document.getElementById('btn-tambah-surat');
+  const btnCloseModal = document.getElementById('btn-close-modal-surat');
+  const btnCancelModal = document.getElementById('btn-cancel-modal-surat');
+  const formSurat = document.getElementById('form-surat');
+
+  const formId = document.getElementById('form-surat-id');
+  const formNama = document.getElementById('form-surat-nama');
+  const formKode = document.getElementById('form-surat-kode');
+  const formKategori = document.getElementById('form-surat-kategori');
+  const formWaktu = document.getElementById('form-surat-waktu');
+  const formDeskripsi = document.getElementById('form-surat-deskripsi');
+  const formGform = document.getElementById('form-surat-gform');
+  const formSyarat = document.getElementById('form-surat-syarat');
+  const btnClearGform = document.getElementById('btn-clear-gform');
+
+  const btnExport = document.getElementById('btn-export-surat-json');
+  const btnReset = document.getElementById('btn-reset-surat');
+  const toast = document.getElementById('toast-surat');
+  const toastText = document.getElementById('toast-text');
+
+  function showToast(msg) {
+    if (toast && toastText) {
+      toastText.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 5000);
+    }
+  }
+
+  // Render Table
+  function renderTable() {
+    if (!tbody) return;
+    const search = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const cat = filterCat ? filterCat.value : 'Semua';
+
+    const filtered = currentList.filter(s => {
+      const matchCat = cat === 'Semua' || s.kategori === cat;
+      const matchSearch = !search || 
+        s.nama.toLowerCase().includes(search) || 
+        s.kode.toLowerCase().includes(search) ||
+        s.deskripsi.toLowerCase().includes(search);
+      return matchCat && matchSearch;
+    });
+
+    if (countMaster) countMaster.textContent = currentList.length;
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="p-8 text-center text-slate-400">
+            Tidak ada layanan surat yang cocok dengan pencarian.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = filtered.map((s, idx) => {
+      const hasGform = s.link_gform && s.link_gform.trim().length > 5;
+      return `
+        <tr class="hover:bg-slate-50 transition-colors">
+          <td class="p-3.5">
+            <span class="font-mono text-[11px] font-bold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded mr-1.5">${s.kode}</span>
+            <strong class="text-slate-900 text-xs">${s.nama}</strong>
+            <p class="text-[11px] text-slate-500 line-clamp-1 mt-0.5">${s.deskripsi || ''}</p>
+          </td>
+          <td class="p-3.5 whitespace-nowrap">
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-700">${s.kategori}</span>
+          </td>
+          <td class="p-3.5">
+            ${hasGform ? `
+              <div class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+                <a href="${s.link_gform}" target="_blank" class="text-blue-700 hover:underline font-mono text-[11px] truncate max-w-[140px] block" title="${s.link_gform}">
+                  ${s.link_gform}
+                </a>
+              </div>
+            ` : `
+              <span class="text-[11px] text-slate-400 italic">Belum disetel / Offline</span>
+            `}
+          </td>
+          <td class="p-3.5 whitespace-nowrap text-slate-600">
+            ${s.syarat ? s.syarat.length : 0} berkas
+          </td>
+          <td class="p-3.5 whitespace-nowrap text-[11px] text-slate-500">
+            <div>${s.waktu_proses || '1x24 Jam'}</div>
+            <div class="font-bold text-emerald-700">${s.biaya || 'Rp 0,-'}</div>
+          </td>
+          <td class="p-3.5 text-right whitespace-nowrap">
+            <div class="flex items-center justify-end gap-1.5">
+              <button
+                type="button"
+                class="btn-edit-surat px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-[11px] transition-colors"
+                data-id="${s.id}"
+              >
+                Edit / GForm
+              </button>
+              <button
+                type="button"
+                class="btn-hapus-surat px-2 py-1 rounded-lg text-slate-400 hover:text-rose-700 hover:bg-rose-50 text-[11px] font-semibold transition-colors"
+                data-id="${s.id}"
+                data-nama="${s.nama}"
+                title="Hapus jenis surat ini"
+              >
+                Hapus
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    // Attach listeners to dynamic buttons
+    document.querySelectorAll('.btn-edit-surat').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        openEditModal(id);
+      });
+    });
+
+    document.querySelectorAll('.btn-hapus-surat').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const nama = btn.getAttribute('data-nama');
+        if (confirm(`Yakin ingin menghapus layanan "${nama}"? Surat ini tidak akan muncul lagi di web publik.`)) {
+          currentList = currentList.filter(item => item.id !== id);
+          saveSuratList(currentList);
+          renderTable();
+          showToast(`Layanan "${nama}" telah dihapus.`);
+        }
+      });
+    });
+  }
+
+  // Open Modal Add
+  function openAddModal() {
+    if (!formSurat) return;
+    formSurat.reset();
+    if (formId) formId.value = '';
+    if (modalTitle) modalTitle.textContent = 'Tambah Layanan Surat Baru';
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  // Open Modal Edit
+  function openEditModal(id) {
+    const s = currentList.find(item => item.id === id);
+    if (!s || !formSurat) return;
+
+    if (formId) formId.value = s.id;
+    if (formNama) formNama.value = s.nama || '';
+    if (formKode) formKode.value = s.kode || '';
+    if (formKategori) formKategori.value = s.kategori || 'Kependudukan';
+    if (formWaktu) formWaktu.value = s.waktu_proses || '1x24 Jam Kerja';
+    if (formDeskripsi) formDeskripsi.value = s.deskripsi || '';
+    if (formGform) formGform.value = s.link_gform || '';
+    if (formSyarat) formSyarat.value = s.syarat ? s.syarat.join('\n') : '';
+
+    if (modalTitle) modalTitle.textContent = `Edit Layanan: ${s.nama}`;
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    if (modal) modal.classList.add('hidden');
+  }
+
+  // Clear GForm shortcut
+  if (btnClearGform && formGform) {
+    btnClearGform.addEventListener('click', () => {
+      formGform.value = '';
+      formGform.focus();
+    });
+  }
+
+  // Save Form (Add or Edit)
+  if (formSurat) {
+    formSurat.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = formId ? formId.value : '';
+      const nama = formNama ? formNama.value.trim() : '';
+      const kode = formKode ? formKode.value.trim().toUpperCase() : '';
+      const kategori = formKategori ? formKategori.value : 'Kependudukan';
+      const waktu = formWaktu ? formWaktu.value.trim() : '1x24 Jam Kerja';
+      const deskripsi = formDeskripsi ? formDeskripsi.value.trim() : '';
+      const gform = formGform ? formGform.value.trim() : '';
+      const syaratRaw = formSyarat ? formSyarat.value.trim() : '';
+      const syarat = syaratRaw ? syaratRaw.split('\n').map(l => l.trim()).filter(Boolean) : [];
+
+      if (!nama || !kode) {
+        alert('Mohon isi nama dan kode surat.');
+        return;
+      }
+
+      if (id) {
+        // Update existing
+        const idx = currentList.findIndex(item => item.id === id);
+        if (idx !== -1) {
+          currentList[idx] = {
+            ...currentList[idx],
+            nama,
+            kode,
+            kategori,
+            waktu_proses: waktu,
+            deskripsi,
+            link_gform: gform,
+            syarat
+          };
+          showToast(`Layanan "${nama}" & Link GForm berhasil diperbarui!`);
+        }
+      } else {
+        // Create new
+        const newId = kode.toLowerCase().replace(/[^a-z0-9]/g, '-');
+        const newSurat = {
+          id: newId,
+          nama,
+          kode,
+          kategori,
+          deskripsi,
+          syarat,
+          waktu_proses: waktu,
+          biaya: 'Rp 0,- (Gratis)',
+          link_gform: gform,
+          lembaga_terkait: 'balai-desa'
+        };
+        currentList.push(newSurat);
+        showToast(`Layanan "${nama}" berhasil ditambahkan ke web publik!`);
+      }
+
+      saveSuratList(currentList);
+      renderTable();
+      closeModal();
+    });
+  }
+
+  // Export JSON file
+  if (btnExport) {
+    btnExport.addEventListener('click', () => {
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(currentList, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute('href', dataStr);
+      downloadAnchor.setAttribute('download', 'surat.json');
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    });
+  }
+
+  // Reset to default
+  if (btnReset) {
+    btnReset.addEventListener('click', () => {
+      if (confirm('Yakin ingin mereset seluruh katalog surat ke data awal? Perubahan khusus yang telah Anda buat akan dikembalikan.')) {
+        localStorage.removeItem(STORAGE_KEY);
+        currentList = [...defaultSuratData];
+        saveSuratList(currentList);
+        renderTable();
+        showToast('Katalog surat dikembalikan ke bawaan awal.');
+      }
+    });
+  }
+
+  // Tabs switching
+  if (tabMaster && tabAntrean && secMaster && secAntrean) {
+    tabMaster.addEventListener('click', () => {
+      tabMaster.className = 'pb-3 border-b-2 border-blue-700 text-blue-700 px-1 transition-colors';
+      tabAntrean.className = 'pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-1 transition-colors';
+      secMaster.classList.remove('hidden');
+      secAntrean.classList.add('hidden');
+    });
+
+    tabAntrean.addEventListener('click', () => {
+      tabAntrean.className = 'pb-3 border-b-2 border-blue-700 text-blue-700 px-1 transition-colors';
+      tabMaster.className = 'pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-1 transition-colors';
+      secAntrean.classList.remove('hidden');
+      secMaster.classList.add('hidden');
+    });
+  }
+
+  // Ubah status antrean
+  document.querySelectorAll('.btn-ubah-status').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-id');
+      const label = btn.getAttribute('data-label');
+      const badge = document.getElementById(`antrean-badge-${id}`);
+      if (badge) {
+        badge.textContent = label;
+        showToast(`Status permohonan [${id}] diubah menjadi "${label}".`);
+      }
+    });
+  });
+
+  if (btnTambah) btnTambah.addEventListener('click', openAddModal);
+  if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
+  if (btnCancelModal) btnCancelModal.addEventListener('click', closeModal);
+  if (searchInput) searchInput.addEventListener('input', renderTable);
+  if (filterCat) filterCat.addEventListener('change', renderTable);
+
+  // Initial render
+  renderTable();
+</script>

@@ -1,0 +1,519 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import agendaData from '../../data/agenda.json';
+---
+
+<AdminLayout title="Kelola Agenda & Kalender Kegiatan Desa" activeMenu="agenda">
+  
+  <div class="space-y-6 max-w-7xl mx-auto">
+    
+    <!-- Top Action Bar -->
+    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-100 text-blue-800">
+            Jadwal Publik Desa Timpik
+          </span>
+          <span class="text-xs text-slate-400">&bull;</span>
+          <span class="text-xs text-slate-500 font-medium" id="agenda-total-indicator">Total: {agendaData.length} Agenda Kegiatan</span>
+        </div>
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Manajemen Agenda & Kegiatan Desa</h1>
+        <p class="text-xs text-slate-500 mt-1">
+          Atur jadwal pertemuan warga, giliran air irigasi, posyandu dusun, hingga gladi wayang orang yang tampil di kalender publik.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          id="btn-download-json-agenda"
+          class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-300 transition-colors flex items-center gap-1.5"
+          title="Ekspor jadwal agenda ke format agenda.json"
+        >
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Unduh JSON</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-reset-agenda-default"
+          class="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold text-xs border border-rose-200 transition-colors"
+        >
+          Reset Default
+        </button>
+
+        <a
+          href="/info-desa#agenda"
+          target="_blank"
+          class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs transition-colors flex items-center gap-1.5"
+        >
+          <span>Lihat Halaman Publik &rarr;</span>
+        </a>
+
+        <button
+          type="button"
+          id="btn-tambah-agenda"
+          class="px-4 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-md shadow-blue-700/20 transition-all flex items-center gap-1.5"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <span>Jadwalkan Agenda Baru</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter & Pencarian Agenda -->
+    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="relative w-full sm:w-80">
+        <input
+          type="text"
+          id="search-agenda"
+          placeholder="Cari nama agenda, lokasi, atau panitia..."
+          class="w-full pl-9 pr-4 py-2 rounded-lg border border-slate-300 text-xs text-slate-800 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all"
+        />
+        <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+
+      <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0" id="filter-kategori-agenda">
+        <button type="button" class="btn-filter-agenda px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-700 text-white" data-kat="all">Semua</button>
+        <button type="button" class="btn-filter-agenda px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700" data-kat="Pertanian">Pertanian</button>
+        <button type="button" class="btn-filter-agenda px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700" data-kat="Kesehatan">Kesehatan</button>
+        <button type="button" class="btn-filter-agenda px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700" data-kat="Kebudayaan">Kebudayaan</button>
+        <button type="button" class="btn-filter-agenda px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700" data-kat="Pemerintahan">Pemerintahan</button>
+      </div>
+    </div>
+
+    <!-- Agenda Cards Grid -->
+    <div id="agenda-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Rendered dynamically by client JS -->
+    </div>
+
+    <div id="agenda-empty-state" class="hidden bg-white p-12 rounded-2xl border border-slate-200 text-center">
+      <svg class="w-12 h-12 text-slate-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      <p class="text-sm font-bold text-slate-700">Tidak ada agenda yang cocok</p>
+      <p class="text-xs text-slate-400 mt-1">Gunakan kata kunci lain atau pilih kategori "Semua".</p>
+    </div>
+
+  </div>
+
+  <!-- Modal Tambah / Edit Agenda -->
+  <div id="modal-agenda" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div>
+          <h3 id="modal-agenda-title" class="text-base font-bold text-slate-900">Jadwalkan Agenda Baru</h3>
+          <p class="text-[11px] text-slate-500">Agenda ini akan langsung tampil di kalender publik warga Desa Timpik</p>
+        </div>
+        <button type="button" id="btn-close-modal-agenda" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form id="form-agenda" class="p-6 overflow-y-auto space-y-4 text-xs flex-grow">
+        <input type="hidden" id="agenda-edit-id" value="" />
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nama Kegiatan / Acara <span class="text-rose-500">*</span></label>
+          <input
+            type="text"
+            id="agenda-input-nama"
+            required
+            placeholder="Contoh: Musdes RKPDes 2027 / Jadwal Giliran Air Blok Krajan..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Kategori Agenda <span class="text-rose-500">*</span></label>
+            <select
+              id="agenda-input-kategori"
+              required
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white"
+            >
+              <option value="Pertanian">Pertanian</option>
+              <option value="Kesehatan">Kesehatan</option>
+              <option value="Kebudayaan">Kebudayaan</option>
+              <option value="Pemerintahan">Pemerintahan</option>
+              <option value="Pembangunan">Pembangunan</option>
+              <option value="Keagamaan">Keagamaan</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Tanggal Kegiatan <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="agenda-input-tanggal"
+              required
+              placeholder="Contoh: 20 November 2026"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Waktu Pelaksanaan <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="agenda-input-waktu"
+              required
+              placeholder="Contoh: 08.30 - 11.30 WIB"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Lokasi Kegiatan <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="agenda-input-lokasi"
+              required
+              placeholder="Contoh: Pendopo Balai Desa Timpik"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Penyelenggara / Panitia <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="agenda-input-penyelenggara"
+              required
+              placeholder="Contoh: GAPOKTAN Putri Kencana / TP PKK"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Sasaran Peserta <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              id="agenda-input-peserta"
+              required
+              placeholder="Contoh: Seluruh Petani 4 Dusun / Warga Lansia"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Deskripsi Singkat Acara <span class="text-rose-500">*</span></label>
+          <textarea
+            id="agenda-input-deskripsi"
+            rows="3"
+            required
+            placeholder="Jelaskan tujuan kegiatan dan hal penting yang perlu diketahui warga..."
+            class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          ></textarea>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            id="btn-cancel-modal-agenda"
+            class="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold"
+          >
+            Batal
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold shadow-md shadow-blue-700/20"
+          >
+            Simpan Agenda
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</AdminLayout>
+
+<script is:inline define:vars={{ defaultAgenda: agendaData }}>
+  const STORAGE_KEY = 'timpik_agenda_list';
+
+  function getStoredAgenda() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.warn('Gagal membaca agenda localStorage', e);
+    }
+    return [...defaultAgenda];
+  }
+
+  function saveStoredAgenda(list) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    } catch (e) {
+      console.error('Gagal menyimpan agenda', e);
+    }
+  }
+
+  let agendaState = getStoredAgenda();
+  let currentSearch = '';
+  let currentCategory = 'all';
+
+  function getCategoryBadge(kategori) {
+    switch (kategori) {
+      case 'Pertanian':
+        return 'bg-emerald-50 text-emerald-800 border-emerald-200';
+      case 'Kesehatan':
+        return 'bg-rose-50 text-rose-800 border-rose-200';
+      case 'Kebudayaan':
+        return 'bg-indigo-50 text-indigo-900 border-indigo-200';
+      default:
+        return 'bg-blue-50 text-blue-800 border-blue-200';
+    }
+  }
+
+  function renderCards() {
+    const container = document.getElementById('agenda-cards-container');
+    const emptyState = document.getElementById('agenda-empty-state');
+    const totalIndicator = document.getElementById('agenda-total-indicator');
+
+    if (!container) return;
+
+    if (totalIndicator) {
+      totalIndicator.textContent = `Total: ${agendaState.length} Agenda Kegiatan`;
+    }
+
+    const filtered = agendaState.filter(item => {
+      const matchSearch = !currentSearch ||
+        item.nama.toLowerCase().includes(currentSearch) ||
+        (item.lokasi && item.lokasi.toLowerCase().includes(currentSearch)) ||
+        (item.penyelenggara && item.penyelenggara.toLowerCase().includes(currentSearch));
+
+      const matchCat = currentCategory === 'all' || item.kategori === currentCategory;
+      return matchSearch && matchCat;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = '';
+      if (emptyState) emptyState.classList.remove('hidden');
+      return;
+    }
+
+    if (emptyState) emptyState.classList.add('hidden');
+
+    container.innerHTML = filtered.map(a => `
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-2.5">
+            <span class="px-2.5 py-0.5 rounded text-[10px] font-bold border ${getCategoryBadge(a.kategori)}">
+              ${a.kategori}
+            </span>
+            <span class="text-[11px] font-semibold text-slate-500 flex items-center gap-1">
+              <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              ${a.tanggal}
+            </span>
+          </div>
+
+          <h3 class="text-base font-bold text-slate-900 leading-snug">${a.nama}</h3>
+          
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">${a.deskripsi}</p>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 space-y-1.5 text-xs text-slate-600">
+            <div class="flex items-center gap-2">
+              <span class="text-slate-400 font-semibold w-24 shrink-0">⏰ Waktu:</span>
+              <span class="font-medium text-slate-800">${a.waktu}</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-slate-400 font-semibold w-24 shrink-0">📍 Lokasi:</span>
+              <span class="font-medium text-slate-800">${a.lokasi}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-slate-400 font-semibold w-24 shrink-0">👥 Panitia:</span>
+              <span class="font-medium text-slate-800">${a.penyelenggara}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
+          <span class="text-[11px] text-slate-500">Peserta: <strong class="text-slate-700">${a.peserta || 'Warga Desa'}</strong></span>
+          <div class="flex items-center gap-1.5">
+            <button
+              type="button"
+              class="btn-edit-agenda px-3 py-1 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 font-bold text-xs transition-colors border border-slate-200"
+              data-id="${a.id}"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              class="btn-delete-agenda px-3 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs transition-colors border border-rose-200"
+              data-id="${a.id}"
+              data-nama="${a.nama}"
+            >
+              Hapus
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    attachCardEvents();
+  }
+
+  function attachCardEvents() {
+    document.querySelectorAll('.btn-edit-agenda').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        openEditModal(id);
+      });
+    });
+
+    document.querySelectorAll('.btn-delete-agenda').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const nama = btn.getAttribute('data-nama');
+        if (confirm(`Yakin ingin membatalkan dan menghapus agenda ini?\n\n"${nama}"`)) {
+          agendaState = agendaState.filter(item => item.id !== id);
+          saveStoredAgenda(agendaState);
+          renderCards();
+        }
+      });
+    });
+  }
+
+  // Modal Handling
+  const modal = document.getElementById('modal-agenda');
+  const modalTitle = document.getElementById('modal-agenda-title');
+  const form = document.getElementById('form-agenda');
+  const editIdInput = document.getElementById('agenda-edit-id');
+  const namaInput = document.getElementById('agenda-input-nama');
+  const kategoriInput = document.getElementById('agenda-input-kategori');
+  const tanggalInput = document.getElementById('agenda-input-tanggal');
+  const waktuInput = document.getElementById('agenda-input-waktu');
+  const lokasiInput = document.getElementById('agenda-input-lokasi');
+  const penyelenggaraInput = document.getElementById('agenda-input-penyelenggara');
+  const pesertaInput = document.getElementById('agenda-input-peserta');
+  const deskripsiInput = document.getElementById('agenda-input-deskripsi');
+
+  function openCreateModal() {
+    if (!modal) return;
+    modalTitle.textContent = 'Jadwalkan Agenda Baru';
+    editIdInput.value = '';
+    form.reset();
+    penyelenggaraInput.value = 'Pemerintah Desa Timpik';
+    lokasiInput.value = 'Pendopo Balai Desa Timpik';
+    pesertaInput.value = 'Warga Desa Timpik';
+    modal.classList.remove('hidden');
+  }
+
+  function openEditModal(id) {
+    const item = agendaState.find(a => a.id === id);
+    if (!item || !modal) return;
+
+    modalTitle.textContent = 'Sunting Agenda: ' + item.nama;
+    editIdInput.value = item.id;
+    namaInput.value = item.nama || '';
+    kategoriInput.value = item.kategori || 'Pemerintahan';
+    tanggalInput.value = item.tanggal || '';
+    waktuInput.value = item.waktu || '';
+    lokasiInput.value = item.lokasi || '';
+    penyelenggaraInput.value = item.penyelenggara || '';
+    pesertaInput.value = item.peserta || '';
+    deskripsiInput.value = item.deskripsi || '';
+
+    modal.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    if (modal) modal.classList.add('hidden');
+  }
+
+  document.getElementById('btn-tambah-agenda')?.addEventListener('click', openCreateModal);
+  document.getElementById('btn-close-modal-agenda')?.addEventListener('click', closeModal);
+  document.getElementById('btn-cancel-modal-agenda')?.addEventListener('click', closeModal);
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const isEdit = !!editIdInput.value;
+
+    if (isEdit) {
+      const idx = agendaState.findIndex(a => a.id === editIdInput.value);
+      if (idx !== -1) {
+        agendaState[idx] = {
+          ...agendaState[idx],
+          nama: namaInput.value.trim(),
+          kategori: kategoriInput.value,
+          tanggal: tanggalInput.value.trim(),
+          waktu: waktuInput.value.trim(),
+          lokasi: lokasiInput.value.trim(),
+          penyelenggara: penyelenggaraInput.value.trim(),
+          peserta: pesertaInput.value.trim(),
+          deskripsi: deskripsiInput.value.trim()
+        };
+      }
+    } else {
+      const slug = 'agenda-' + namaInput.value.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '')
+        .substring(0, 35) + '-' + Date.now().toString().slice(-4);
+
+      const newItem = {
+        id: slug,
+        nama: namaInput.value.trim(),
+        kategori: kategoriInput.value,
+        tanggal: tanggalInput.value.trim(),
+        waktu: waktuInput.value.trim(),
+        lokasi: lokasiInput.value.trim(),
+        penyelenggara: penyelenggaraInput.value.trim(),
+        peserta: pesertaInput.value.trim(),
+        deskripsi: deskripsiInput.value.trim()
+      };
+      agendaState.unshift(newItem);
+    }
+
+    saveStoredAgenda(agendaState);
+    closeModal();
+    renderCards();
+    alert(isEdit ? 'Agenda berhasil diperbarui!' : 'Agenda baru berhasil dijadwalkan!');
+  });
+
+  // Search & Filter
+  document.getElementById('search-agenda')?.addEventListener('input', (e) => {
+    currentSearch = e.target.value.toLowerCase().trim();
+    renderCards();
+  });
+
+  document.querySelectorAll('.btn-filter-agenda').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.btn-filter-agenda').forEach(b => {
+        b.className = 'btn-filter-agenda px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700';
+      });
+      btn.className = 'btn-filter-agenda px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-700 text-white';
+      currentCategory = btn.getAttribute('data-kat');
+      renderCards();
+    });
+  });
+
+  // Download JSON
+  document.getElementById('btn-download-json-agenda')?.addEventListener('click', () => {
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(agendaState, null, 2));
+    const dlAnchorElem = document.createElement('a');
+    dlAnchorElem.setAttribute('href', dataStr);
+    dlAnchorElem.setAttribute('download', 'agenda.json');
+    dlAnchorElem.click();
+  });
+
+  // Reset Default
+  document.getElementById('btn-reset-agenda-default')?.addEventListener('click', () => {
+    if (confirm('Yakin ingin mereset kalender agenda ke jadwal awal?')) {
+      localStorage.removeItem(STORAGE_KEY);
+      agendaState = [...defaultAgenda];
+      renderCards();
+      alert('Jadwal agenda dikembalikan ke default.');
+    }
+  });
+
+  // Initial render
+  renderCards();
+</script>
+

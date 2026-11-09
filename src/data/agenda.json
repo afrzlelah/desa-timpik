@@ -1,0 +1,68 @@
+[
+  {
+    "id": "agenda-peluncuran-portal",
+    "nama": "Sosialisasi & Bimbingan Teknis Portal Layanan Surat Online Mandiri",
+    "tanggal": "08 November 2026",
+    "waktu": "09.00 - 12.00 WIB",
+    "lokasi": "Pendopo Balai Desa Timpik",
+    "penyelenggara": "Pemerintah Desa Timpik & Tim KKN",
+    "kategori": "Pemerintahan",
+    "deskripsi": "Pelatihan tata cara pengajuan surat mandiri online tanpa antre bagi pengurus RT/RW dan perwakilan generasi muda 4 dusun.",
+    "peserta": "Perangkat Desa, Ketua RT/RW, Karang Taruna, & Warga Umum"
+  },
+  {
+    "id": "agenda-rembuk-tani-musim-tanam",
+    "nama": "Rembuk Tani & Pembagian Giliran Debit Air Musim Tanam II",
+    "tanggal": "15 November 2026",
+    "waktu": "08.30 - 11.30 WIB",
+    "lokasi": "Balai Pertemuan Poktan Putri Kencana, Dusun Kencana",
+    "penyelenggara": "P3A Bogo Wastro & GAPOKTAN Putri Kencana",
+    "kategori": "Pertanian",
+    "deskripsi": "Musyawarah bersama seluruh ketua kelompok tani 4 dusun mengenai jadwal pengaliran saluran sekunder irigasi dan pengajuan alokasi pupuk bersubsidi.",
+    "peserta": "Seluruh Petani & Penggarap Sawah Desa Timpik"
+  },
+  {
+    "id": "agenda-posyandu-balita-lansia",
+    "nama": "Posyandu Balita & Posbindu Lansia Terpadu Kampung KB",
+    "tanggal": "18 November 2026",
+    "waktu": "08.00 - 11.00 WIB",
+    "lokasi": "Poskesdes Balai Desa Timpik Krajan",
+    "penyelenggara": "TP-PKK & Kampung KB Putri Mandiri",
+    "kategori": "Kesehatan",
+    "deskripsi": "Penimbangan berat badan balita, pengukuran tinggi badan pencegahan stunting, PMT bergizi, cek gula darah, dan tensi gratis bagi lansia.",
+    "peserta": "Ibu Hamil, Balita (0-5 th), & Warga Usia Lanjut"
+  },
+  {
+    "id": "agenda-latihan-wayang-badoyo",
+    "nama": "Gladi Resik & Latihan Rutin Paguyuban Wayang Orang Badoyo",
+    "tanggal": "21 November 2026",
+    "waktu": "19.30 - 23.00 WIB",
+    "lokasi": "Sanggar Seni Budaya, Dusun Bogo",
+    "penyelenggara": "Paguyuban Wayang Orang Badoyo Dusun Bogo",
+    "kategori": "Kebudayaan",
+    "deskripsi": "Latihan karawitan pengiring dan gladi adegan lakon pewayangan tradisional oleh generasi muda dan sesepuh Dusun Bogo.",
+    "peserta": "Warga Dusun Bogo & Terbuka untuk Penonton Umum"
+  },
+  {
+    "id": "agenda-musdes-rkpdes-2027",
+    "nama": "Musyawarah Desa (Musdes) Penyusunan RKPDes & Transparansi APBDes",
+    "tanggal": "26 November 2026",
+    "waktu": "09.00 - 13.00 WIB",
+    "lokasi": "Pendopo Balai Desa Timpik",
+    "penyelenggara": "BPD & Pemerintah Desa Timpik",
+    "kategori": "Pemerintahan",
+    "deskripsi": "Penetapan usulan prioritas pembangunan fisik jalan usaha tani, normalisasi drainase, dan alokasi bantuan sosial masyarakat.",
+    "peserta": "BPD, LPMD, Ketua RT/RW se-Desa Timpik, & Tokoh Masyarakat"
+  },
+  {
+    "id": "agenda-kerja-bakti-irigasi",
+    "nama": "Kerja Bakti Gotong Royong Normalisasi Saluran Irigasi Sawah",
+    "tanggal": "02 Desember 2026",
+    "waktu": "07.00 - 10.30 WIB",
+    "lokasi": "Pintu Air Utama P3A, Dusun Bogo",
+    "penyelenggara": "P3A Bogo Wastro & Linmas Desa",
+    "kategori": "Pertanian",
+    "deskripsi": "Pembersihan endapan lumpur dan sampah gulma pada tanggul sekunder saluran air persawahan 243 Ha sebelum musim tanam raya.",
+    "peserta": "Seluruh Anggota P3A & Warga Petani 4 Dusun"
+  }
+]

@@ -1,0 +1,479 @@
+---
+import Layout from '../layouts/Layout.astro';
+import profilData from '../data/profil.json';
+import agendaData from '../data/agenda.json';
+import kontakData from '../data/kontak.json';
+
+const { dusun, statistik } = profilData;
+const { operasional } = kontakData;
+
+const categories = [
+  'Semua Kategori',
+  'Pertanian',
+  'Kesehatan',
+  'Kebudayaan',
+  'Pemerintahan'
+];
+---
+
+<Layout
+  title="Pusat Informasi & Pengumuman Resmi Desa Timpik"
+  description="Pusat informasi terpadu Pemerintah Desa Timpik, Kecamatan Susukan, Kabupaten Semarang: pengumuman balai desa, kalender agenda kegiatan warga, jam pelayanan, dan profil 4 dusun."
+>
+  <!-- GovTech Header Banner (Solid Deep Navy) -->
+  <section class="bg-[#0B1E36] text-white border-b border-slate-800 py-12 lg:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs text-slate-400 mb-4" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-white transition-colors">Beranda</a>
+        <span class="text-slate-600">/</span>
+        <span class="text-blue-300 font-semibold">Pusat Informasi Desa</span>
+      </nav>
+
+      <div class="max-w-3xl space-y-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-900/60 text-blue-200 border border-blue-700/60 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Pusat Informasi & Maklumat Resmi</span>
+        </div>
+        
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+          Informasi & Pengumuman Desa Timpik
+        </h1>
+        
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          Satu pintu rujukan resmi informasi bagi masyarakat Desa Timpik: maklumat pelayanan balai desa, kalender agenda kegiatan pertanian & budaya, transparansi publik, dan direktori wilayah 4 dusun.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Papan Pengumuman Resmi Desa -->
+  <section class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Pengumuman Balai Desa Timpik
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-2xl mt-1">
+            Informasi penting yang wajib diketahui oleh warga 4 dusun mengenai administrasi, jadwal pertanian, dan bansos.
+          </p>
+        </div>
+
+        <a
+          href="/kontak"
+          class="px-4 py-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 font-bold text-xs transition-colors flex items-center gap-1.5 self-start sm:self-auto"
+        >
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <span>Pusat Bantuan Balai Desa</span>
+        </a>
+      </div>
+
+      <!-- Grid 3 Pengumuman Utama -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Pengumuman 1: Layanan Surat Digital Mandiri -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-100 text-blue-800">
+                Administrasi Surat
+              </span>
+              <span class="text-[11px] text-slate-400 font-medium">Aktif Berlaku</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 leading-snug">
+              Permohonan Dokumen Administrasi Warga Kini Dapat Diajukan Online
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Warga dapat mengurus SKU, SKTM, pengantar SKCK, surat domisili, dan surat kematian secara online dari rumah via formulir terintegrasi tanpa perlu antre di Balai Desa.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-slate-100">
+            <a href="/layanan-surat" class="text-xs font-bold text-blue-700 hover:text-blue-800 flex items-center gap-1">
+              <span>Buka Katalog Layanan Surat &rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Pengumuman 2: Jadwal Giliran Debit Air Irigasi P3A -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-teal-100 text-teal-800">
+                Pertanian & Irigasi
+              </span>
+              <span class="text-[11px] text-slate-400 font-medium">Musim Tanam II</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 leading-snug">
+              Jadwal Pembagian Giliran Aliran Air Irigasi P3A Bogo Wastro
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Pengurus P3A Bogo Wastro menetapkan rotasi debit air sawah 243 Ha untuk blok Dusun Bogo, Dusun Sumber, dan Kencana demi pemerataan suplai bibit padi musim tanam.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-slate-100">
+            <a href="/kelembagaan/p3a" class="text-xs font-bold text-teal-700 hover:text-teal-800 flex items-center gap-1">
+              <span>Lihat Detail P3A Bogo Wastro &rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Pengumuman 3: Transparansi APBDes -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                Transparansi Anggaran
+              </span>
+              <span class="text-[11px] text-slate-400 font-medium">Tahun 2026</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 leading-snug">
+              Publikasi Rincian APBDes & Alokasi Pembangunan Fisik 2026
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Warga dapat memantau keterbukaan penggunaan Dana Desa (APBN), Alokasi Dana Desa (ADD), dan PAD untuk pembangunan normalisasi saluran air dan bansos.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-slate-100">
+            <a href="/transparansi" class="text-xs font-bold text-emerald-800 hover:text-emerald-900 flex items-center gap-1">
+              <span>Buka Laporan APBDes &rarr;</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Kalender & Agenda Kegiatan Desa (Dinamis dari timpik_agenda_list) -->
+  <section id="agenda" class="py-16 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class=" md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Kalender Agenda Kegiatan Desa
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-2xl mt-1">
+            Jadwal musyawarah warga, posyandu dusun, latihan wayang orang Badoyo, dan agenda pemerintahan desa terkini.
+          </p>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <a
+            href="/agenda"
+            class="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-md shadow-blue-700/20 transition-all flex items-center justify-center gap-1.5 whitespace-nowrap"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span>Buka Kalender Bulanan &rarr;</span>
+          </a>
+
+          <div class="relative w-full sm:w-64">
+            <input
+              type="text"
+              id="info-agenda-search"
+              placeholder="Cari kegiatan atau lokasi..."
+              class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+            <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0" id="info-agenda-filters">
+            {categories.map((cat, idx) => (
+              <button
+                type="button"
+                data-category={cat}
+                class={`info-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${idx === 0 ? 'bg-blue-700 text-white shadow-sm ring-2 ring-blue-600 ring-offset-1 active-filter' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid Agenda Kegiatan -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="info-agenda-grid">
+        {agendaData.map((item) => {
+          let badgeColor = 'bg-blue-50 text-blue-800 border-blue-200';
+          if (item.kategori === 'Pertanian') badgeColor = 'bg-teal-50 text-teal-800 border-teal-200';
+          if (item.kategori === 'Kesehatan') badgeColor = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+          if (item.kategori === 'Kebudayaan') badgeColor = 'bg-indigo-50 text-indigo-800 border-indigo-200';
+          if (item.kategori === 'Pemerintahan') badgeColor = 'bg-purple-50 text-purple-800 border-purple-200';
+
+          return (
+            <article class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between gap-2">
+                  <span class={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded border ${badgeColor}`}>
+                    {item.kategori}
+                  </span>
+                  <span class="text-xs font-mono font-bold text-blue-900 bg-slate-50 px-2 py-0.5 rounded border border-slate-200">
+                    {item.tanggal}
+                  </span>
+                </div>
+
+                <h3 class="text-base font-bold text-slate-900 leading-snug">
+                  {item.nama}
+                </h3>
+
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  {item.deskripsi}
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600 pt-2 border-t border-slate-100">
+                  <div class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>{item.waktu}</span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                    <span class="truncate">{item.lokasi}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                <span>Penyelenggara: <strong class="text-slate-800">{item.penyelenggara}</strong></span>
+                <span class="font-medium text-blue-700">{item.peserta}</span>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Papan Direktori 4 Dusun Desa Timpik -->
+  <section class="py-16 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-100 px-3 py-1 rounded-full">
+          Wilayah Kependudukan
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-2">
+          Direktori 4 Dusun Desa Timpik
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mt-1">
+          Desa Timpik menaungi 4 dusun dengan keunikan potensi kesenian adiluhung, pertanian modern, dan kerukunan warga.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {dusun.map((d) => (
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-800 flex items-center justify-center font-black text-sm mb-3">
+                {d.panggilan.slice(0, 2).toUpperCase()}
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 mb-1">{d.nama}</h3>
+              <p class="text-xs text-blue-700 font-semibold mb-2">{d.potensi_utama}</p>
+              <p class="text-xs text-slate-600 leading-relaxed line-clamp-3 mb-4">{d.deskripsi}</p>
+            </div>
+
+            <div class="border-t border-slate-100 pt-3 space-y-1.5 text-xs text-slate-600">
+              <div class="flex justify-between">
+                <span class="text-slate-400">Penduduk:</span>
+                <span class="font-bold text-slate-800">{d.jumlah_penduduk}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Wilayah RT/RW:</span>
+                <span class="font-semibold text-slate-800">{d.jumlah_rt}</span>
+              </div>
+              <div class="pt-2">
+                <a
+                  href={`/dusun/${d.id}`}
+                  class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-800 hover:text-blue-700 font-bold text-xs text-center block transition-colors border border-slate-200"
+                >
+                  Detail Dusun {d.panggilan} &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Banner Pintasan Layanan Terpadu Warga -->
+  <section class="py-16 bg-[#0B1E36] text-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+      <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-900/80 text-blue-200 border border-blue-700">
+        Layanan Cepat & Tanggap
+      </span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">
+        Butuh Bantuan Administrasi atau Menghubungi Aparatur Desa?
+      </h2>
+      <p class="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
+        Pemerintah Desa Timpik menyediakan akses otomasi surat 24 jam, kontak siaga ambulans & medis, serta kanal pengaduan langsung ke balai desa.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <a
+          href="/layanan-surat"
+          class="px-5 py-3 rounded-xl font-bold text-xs bg-blue-600 hover:bg-blue-700 text-white shadow-lg transition-all"
+        >
+          📜 Buat Surat Mandiri Online
+        </a>
+        <a
+          href="/kontak"
+          class="px-5 py-3 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-all"
+        >
+          ☎️ Kontak Balai Desa & Hotline Medis
+        </a>
+        <a
+          href="/layanan-aduan"
+          class="px-5 py-3 rounded-xl font-bold text-xs bg-rose-600 hover:bg-rose-700 text-white transition-all"
+        >
+          📢 Sampaikan Aduan Warga
+        </a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<script is:inline define:vars={{ initialAgenda: agendaData }}>
+  // 1. Hydrate Operasional Balai Desa from localStorage (Admin updates)
+  try {
+    const rawKontak = localStorage.getItem('timpik_kontak_data');
+    if (rawKontak) {
+      const parsed = JSON.parse(rawKontak);
+      if (parsed && parsed.operasional) {
+        const elNama = document.getElementById('info-nama-kantor');
+        const elStatus = document.getElementById('info-status-layanan');
+        const elJam = document.getElementById('info-jam-operasional');
+
+        if (elNama && parsed.operasional.nama_kantor) elNama.textContent = parsed.operasional.nama_kantor;
+        if (elStatus && parsed.operasional.status_layanan) elStatus.textContent = parsed.operasional.status_layanan;
+        if (elJam && parsed.operasional.jam_senin_kamis) {
+          elJam.innerHTML = `Senin–Kamis: ${parsed.operasional.jam_senin_kamis} <br/>Jumat: ${parsed.operasional.jam_jumat}`;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Gagal hidrasi info operasional balai desa', e);
+  }
+
+  // 2. Hydrate Agenda from localStorage (Admin updates)
+  let agendaList = initialAgenda;
+  try {
+    const storedAgenda = localStorage.getItem('timpik_agenda_list');
+    if (storedAgenda) {
+      const parsed = JSON.parse(storedAgenda);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        agendaList = parsed;
+      }
+    }
+  } catch (e) {
+    console.warn('Gagal hidrasi agenda', e);
+  }
+
+  let activeCategory = 'Semua Kategori';
+  let searchTerm = '';
+
+  const grid = document.getElementById('info-agenda-grid');
+  const searchInput = document.getElementById('info-agenda-search');
+  const filterBtns = document.querySelectorAll('.info-filter-btn');
+
+  function renderAgenda() {
+    if (!grid) return;
+
+    const filtered = agendaList.filter(item => {
+      const matchCat = activeCategory === 'Semua Kategori' || item.kategori === activeCategory;
+      const text = `${item.nama} ${item.deskripsi} ${item.lokasi} ${item.penyelenggara}`.toLowerCase();
+      const matchSearch = searchTerm === '' || text.includes(searchTerm);
+      return matchCat && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `
+        <div class="col-span-full p-10 bg-slate-50 border border-slate-200 rounded-2xl text-center">
+          <p class="font-bold text-slate-700 text-sm">Tidak ada agenda yang cocok dengan pencarian.</p>
+          <p class="text-xs text-slate-400 mt-1">Coba gunakan kata kunci lain atau pilih Semua Kategori.</p>
+        </div>
+      `;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(item => {
+      let badgeColor = 'bg-blue-50 text-blue-800 border-blue-200';
+      if (item.kategori === 'Pertanian') badgeColor = 'bg-teal-50 text-teal-800 border-teal-200';
+      if (item.kategori === 'Kesehatan') badgeColor = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+      if (item.kategori === 'Kebudayaan') badgeColor = 'bg-indigo-50 text-indigo-800 border-indigo-200';
+      if (item.kategori === 'Pemerintahan') badgeColor = 'bg-purple-50 text-purple-800 border-purple-200';
+
+      return `
+        <article class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded border ${badgeColor}">
+                ${item.kategori}
+              </span>
+              <span class="text-xs font-mono font-bold text-blue-900 bg-slate-50 px-2 py-0.5 rounded border border-slate-200">
+                ${item.tanggal}
+              </span>
+            </div>
+
+            <h3 class="text-base font-bold text-slate-900 leading-snug">
+              ${item.nama}
+            </h3>
+
+            <p class="text-xs text-slate-600 leading-relaxed">
+              ${item.deskripsi}
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600 pt-2 border-t border-slate-100">
+              <div class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>${item.waktu}</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                <span class="truncate">${item.lokasi}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Penyelenggara: <strong class="text-slate-800">${item.penyelenggara}</strong></span>
+            <span class="font-medium text-blue-700">${item.peserta}</span>
+          </div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  // Search event
+  searchInput?.addEventListener('input', (e) => {
+    searchTerm = e.target.value.trim().toLowerCase();
+    renderAgenda();
+  });
+
+  // Filter event
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => {
+        b.className = 'info-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200';
+      });
+      btn.className = 'info-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap bg-blue-700 text-white shadow-sm ring-2 ring-blue-600 ring-offset-1 active-filter';
+      activeCategory = btn.getAttribute('data-category') || 'Semua Kategori';
+      renderAgenda();
+    });
+  });
+
+  // Initial render if localStorage has updated agenda
+  if (localStorage.getItem('timpik_agenda_list')) {
+    renderAgenda();
+  }
+</script>
+

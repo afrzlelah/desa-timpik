@@ -1,0 +1,63 @@
+{
+  "agraris": {
+    "judul": "Potensi Sektor Agraris & Pertanian",
+    "deskripsi": "Desa Timpik memiliki bentang alam subur seluas ± 243 Hektar dengan komoditas pertanian unggulan yang menjadi penopang ekonomi mayoritas warga.",
+    "luas_wilayah": "± 243 Hektar",
+    "mayoritas_mata_pencaharian": "Petani & Peternak (78%)",
+    "komoditas_utama": [
+      {
+        "nama": "Padi Sawah Berkualitas",
+        "deskripsi": "Sistem persawahan irigasi teknis yang dikelola oleh P3A Bogo Wastro dan GAPOKTAN Putri Kencana dengan produktivitas tinggi.",
+        "icon": "wheat"
+      },
+      {
+        "nama": "Palawija & Hortikultura",
+        "deskripsi": "Jagung, cabai, kacang tanah, dan sayuran segar yang mengisi masa rotasi tanam secara produktif.",
+        "icon": "sprout"
+      },
+      {
+        "nama": "Perkebunan & Buah Rakyat",
+        "deskripsi": "Kelapa, pisang, dan aneka tanaman kebun produktif yang menghiasi pekarangan dan bukit desa.",
+        "icon": "tree"
+      },
+      {
+        "nama": "Lumbung Pangan Putri Kencana",
+        "deskripsi": "Sistem ketahanan pangan mandiri untuk mengamankan stok beras warga dan menstabilkan harga pasca panen.",
+        "icon": "warehouse"
+      }
+    ]
+  },
+  "kebudayaan": {
+    "judul": "Potensi Seni, Tradisi & Kebudayaan",
+    "deskripsi": "Kekayaan tradisi adiluhung yang tetap hidup, diwariskan lintas generasi dari anak-anak, pemuda, hingga para sesepuh desa.",
+    "kesenian": [
+      {
+        "nama": "Wayang Orang (Badoyo) Dusun Bogo",
+        "lokasi": "Dusun Bogo, Desa Timpik",
+        "deskripsi": "Kesenian teater tradisional Jawa yang memadukan tarian, dialog tembang, dan lakon pewayangan epik Mahabarata & Ramayana. Menjadi kebanggaan budaya Desa Timpik yang diakui di wilayah Kecamatan Susukan.",
+        "keunikan": "Dimainkan oleh para seniman warga Dusun Bogo dengan kostum wayang lengkap dan tata rias khas tradisional."
+      },
+      {
+        "nama": "Seni Karawitan Jawa (Sekar Melati & Wedotomo)",
+        "lokasi": "Desa Timpik",
+        "deskripsi": "Ansambel gamelan Jawa laras pelog dan slendro yang aktif dilestarikan oleh paguyuban Sekar Melati dan Wedotomo. Melibatkan berbagai generasi warga dari tingkat sekolah dasar hingga kaum lansia.",
+        "keunikan": "Harmonisasi gending-gending klasik dan kreasi kontemporer pengiring upacara adat serta perhelatan budaya."
+      },
+      {
+        "nama": "Kesenian Angguk (Angguk Alhidayah)",
+        "lokasi": "Dusun Sumber, Desa Timpik",
+        "deskripsi": "Seni tari bernafaskan Islami yang dipadukan dengan syair-syair puji-pujian dan rebana, ditarikan secara serentak penuh penghayatan spiritual dan kekompakan.",
+        "keunikan": "Harmoni antara dakwah kultural dan pelestarian seni gerak tradisional."
+      },
+      {
+        "nama": "Tradisi Merti Dusun / Sedekah Bumi",
+        "lokasi": "Seluruh Dusun Desa Timpik",
+        "deskripsi": "Ungkapan rasa syukur bersama seluruh warga tani kepada Tuhan Yang Maha Esa atas kelimpahan hasil bumi, air yang mengalir, dan kerukunan warga.",
+        "keunikan": "Arak-arakan gunungan hasil panen, doa bersama di pendopo balai desa, dan pertunjukan wayang semalam suntuk."
+      }
+    ]
+  
+  }
+  
+}
+

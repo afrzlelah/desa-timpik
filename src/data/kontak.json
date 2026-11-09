@@ -1,0 +1,71 @@
+{
+  "operasional": {
+    "nama_kantor": "Kantor Balai Desa Timpik",
+    "alamat": "Jl. Raya Balai Desa Timpik, Kec. Susukan, Kab. Semarang, Jawa Tengah 50774",
+    "telepon": "0812-3456-7890",
+    "email": "desatimpik.susukan@gmail.com",
+    "jam_senin_kamis": "08.00 - 15.00 WIB",
+    "jam_jumat": "08.00 - 11.30 WIB",
+    "status_layanan": "Buka Normal",
+    "keterangan_layanan": "Pelayanan tatap muka dan permohonan surat online aktif di Balai Desa Timpik",
+    "maps_url": "https://maps.google.com/?q=Balai+Desa+Timpik+Susukan+Semarang"
+  },
+  "kontak_darurat": [
+    {
+      "id": "bidan-desa",
+      "nama": "Bidan Desa Timpik",
+      "instansi": "Poskesdes Desa Timpik",
+      "kategori": "Medis & Kesehatan",
+      "nomor": "081234567890",
+      "tipe_kontak": "whatsapp",
+      "ketersediaan": "Aktif 24 Jam",
+      "deskripsi": "Penanganan gawat darurat ibu hamil, persalinan, imunisasi, dan pertolongan pertama medis warga desa.",
+      "badge_color": "rose"
+    },
+    {
+      "id": "ambulans-desa",
+      "nama": "Mobil Siaga / Ambulans Desa",
+      "instansi": "Pemerintah Desa Timpik",
+      "kategori": "Transportasi Darurat",
+      "nomor": "081234567891",
+      "tipe_kontak": "whatsapp",
+      "ketersediaan": "Siaga di Balai Desa",
+      "deskripsi": "Fasilitas rujukan cepat warga yang membutuhkan pengantaran segera ke Puskesmas Susukan atau RSUD terdekat.",
+      "badge_color": "rose"
+    },
+    {
+      "id": "babinsa-bhabinkamtibmas",
+      "nama": "Babinsa & Bhabinkamtibmas",
+      "instansi": "Koramil & Polsek Susukan",
+      "kategori": "Keamanan & Kamtibmas",
+      "nomor": "081234567892",
+      "tipe_kontak": "whatsapp",
+      "ketersediaan": "Siaga Wilayah",
+      "deskripsi": "Pelaporan gangguan keamanan warga, perselisihan lingkungan, pencurian, pengamanan kegiatan warga, atau bencana alam.",
+      "badge_color": "emerald"
+    },
+    {
+      "id": "petugas-air-p3a",
+      "nama": "Petugas Pengairan P3A Bogo Wastro",
+      "instansi": "P3A Bogo Wastro",
+      "kategori": "Pertanian & Irigasi",
+      "nomor": "081234567893",
+      "tipe_kontak": "whatsapp",
+      "ketersediaan": "Hari Kerja & Giliran Air",
+      "deskripsi": "Konsultasi jadwal giliran debit air sawah 243 Ha, laporan pintu air tersumbat, atau kendala saluran irigasi persawahan.",
+      "badge_color": "teal"
+    },
+    {
+      "id": "puskesmas-susukan",
+      "nama": "UGD Puskesmas Susukan",
+      "instansi": "Dinas Kesehatan Kab. Semarang",
+      "kategori": "Fasilitas Rujukan Medis",
+      "nomor": "0298123456",
+      "tipe_kontak": "telepon",
+      "ketersediaan": "UGD 24 Jam",
+      "deskripsi": "Pusat rujukan penanganan medis tingkat pertama Kecamatan Susukan untuk rawat inap darurat dan rujukan spesialis RSUD.",
+      "badge_color": "blue"
+    }
+  ]
+}
+
