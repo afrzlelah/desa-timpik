@@ -15,71 +15,211 @@ const categories = [
   title="Katalog Layanan Surat Administrasi Warga"
   description="Katalog resmi pengajuan surat administrasi warga Desa Timpik, Kecamatan Susukan, Kabupaten Semarang. Proses transparan, biaya Rp 0,- bebas pungli, dan terhubung ke formulir digital desa."
 >
-  <!-- Civic Header Banner (Solid Sovereign Navy) -->
-  <section class="bg-[#0C1C30] text-white border-b border-slate-800 py-12 lg:py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Breadcrumb -->
-      <nav class="flex items-center gap-2 text-xs text-slate-400 mb-4" aria-label="Breadcrumb">
-        <a href="/" class="hover:text-white transition-colors">Beranda</a>
-        <span class="text-slate-600">/</span>
-        <span class="text-sky-300 font-semibold">Layanan Administrasi Persuratan</span>
-      </nav>
+  <!-- Modern Service Hero -->
+  <section class="relative isolate overflow-hidden border-b border-slate-200 bg-gradient-to-r from-black/90 to-blue-800 text-white">
 
-      <div class="max-w-3xl space-y-4">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-sky-50/10 text-slate-200 border border-white/15 text-xs font-semibold uppercase tracking-wider">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-          <span>Pelayanan Publik Terpadu Satu Pintu</span>
-        </div>
-        
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
-          Katalog Layanan Surat Warga
-        </h1>
-        
-        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-          Pusat permohonan surat keterangan usaha, domisili, perizinan, dan dokumen kependudukan Desa Timpik. Pengajuan dilakukan secara mandiri lewat formulir digital resmi, diverifikasi oleh aparatur desa, dan bebas dari segala pungutan liar.
-        </p>
+    <!-- Background -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+      <div class="absolute -right-24 -top-32 h-96 w-96 rounded-full border border-white/[0.05]"></div>
+      <div class="absolute right-[12%] top-16 h-64 w-64 rounded-full bg-blue-500/[0.08] blur-[90px]"></div>
+      <div class="absolute inset-0 opacity-[0.025]" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 24px 24px;"></div>
+    </div>
 
-        <!-- Service Guarantees Strip -->
-        <div class="flex flex-wrap items-center gap-3 pt-2 text-xs text-slate-300">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-slate-900 border border-slate-700">
-            <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-            Biaya: <strong class="text-white">Rp 0,- (100% Gratis)</strong>
-          </span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-slate-900 border border-slate-700">
-            <svg class="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-            Waktu Proses: <strong class="text-white">1x24 Jam Kerja</strong>
-          </span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-slate-900 border border-slate-700">
-            <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-            Verifikasi: <strong class="text-white">Formulir Terenkripsi</strong>
-          </span>
+    <div class="relative mx-auto max-w-7xl px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
+      <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-10">
+
+        <!-- Hero Content -->
+        <div class="relative z-10 lg:col-span-7">
+
+          <!-- Breadcrumb -->
+          <nav class="mb-6 flex items-center gap-2 text-xs text-slate-400" aria-label="Breadcrumb">
+            <a href="/" class="transition hover:text-white">Beranda</a>
+            <span class="text-slate-600">/</span>
+            <span class="font-semibold text-sky-300">Layanan Administrasi Persuratan</span>
+          </nav>
+
+          
+
+          <!-- Heading -->
+          <h1 class="max-w-2xl text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-[3.1rem]">
+            Layanan Administrasi
+            <span class="block text-sky-300">Lebih Mudah,</span>
+            Lebih Transparan.
+          </h1>
+
+          <!-- Description -->
+          <p class="mt-4 max-w-xl text-sm leading-6 text-slate-300 sm:text-[15px]">
+            Ajukan surat keterangan usaha, domisili, perizinan, dan dokumen administrasi lainnya secara mandiri melalui formulir digital resmi Pemerintah Desa Timpik. Praktis, transparan, dan bebas pungutan liar.
+          </p>
+
+          <!-- Service Guarantees -->
+          <div class="mt-5 flex flex-wrap gap-2">
+            <div class="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-[11px] text-slate-300">
+              <svg class="h-4 w-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l4 4L19 6"/></svg>
+              Biaya <strong class="text-white">Rp 0,-</strong>
+            </div>
+            <div class="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-[11px] text-slate-300">
+              <svg class="h-4 w-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Proses <strong class="text-white">1x24 Jam Kerja</strong>
+            </div>
+            <div class="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-[11px] text-slate-300">
+              <svg class="h-4 w-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5-3v7a9 9 0 11-18 0V7l9-4 9 4z"/></svg>
+              Verifikasi <strong class="text-white">Resmi Desa</strong>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="/layanan-surat/lacak" class="group inline-flex min-h-11 items-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-xs font-bold text-white transition hover:bg-blue-500">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              Lacak Permohonan
+              <span class="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+            <a href="/layanan-surat/pengantar-rt" class="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/20 px-5 py-3 text-xs font-semibold text-slate-200 transition hover:border-white/40 hover:bg-white/10 hover:text-white">
+              <svg class="h-4 w-4 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v7H6z"/></svg>
+              Cetak Blangko RT/RW
+            </a>
+          </div>
+
+          <!-- Trust Information -->
+          <div class="mt-7 flex items-center gap-3 border-t border-white/10 pt-5">
+            <div class="flex -space-x-2">
+              <span class="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#0C1C30] bg-blue-600 text-[9px] font-bold">DT</span>
+              <span class="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#0C1C30] bg-emerald-600 text-[9px] font-bold">RT</span>
+              <span class="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#0C1C30] bg-slate-500 text-[9px] font-bold">RW</span>
+            </div>
+            <div>
+              <p class="text-[11px] font-semibold text-white">Pelayanan Pemerintah Desa Timpik</p>
+              <p class="mt-0.5 text-[10px] text-slate-400">Transparan, mudah, dan akuntabel.</p>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Quick Action Shortcuts -->
-        <div class="flex flex-wrap items-center gap-3 pt-3">
-          <a
-            href="/layanan-surat/lacak"
-            class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-900/30 transition-colors flex items-center gap-1.5"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            <span>Lacak Status Tiket Surat Warga &rarr;</span>
-          </a>
-          <a
-            href="/layanan-surat/pengantar-rt"
-            class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-semibold text-xs transition-colors flex items-center gap-1.5"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-            <span>Cetak Blangko Pengantar RT/RW</span>
-          </a>
+        <!-- Document Illustration -->
+      <div class="relative mx-auto flex min-h-[390px] w-full max-w-[460px] items-center justify-center sm:min-h-[420px] lg:col-span-5 lg:min-h-[460px]">
+
+        <!-- Background Decoration -->
+        <div class="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/15 blur-[85px]"></div>
+        <div class="absolute left-1/2 top-1/2 h-[350px] w-[350px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.06]"></div>
+        <div class="absolute left-1/2 top-1/2 h-[280px] w-[280px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-sky-300/10"></div>
+
+        <!-- Back Document -->
+        <div class="absolute right-5 top-8 h-64 w-48 rotate-[13deg] rounded-xl border border-slate-300/50 bg-slate-200 p-5 shadow-2xl sm:right-10">
+          <div class="flex items-center gap-2 border-b border-slate-300 pb-4">
+            <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-900 text-[10px] font-black text-white">DT</div>
+            <div>
+              <div class="h-1.5 w-20 rounded bg-slate-500"></div>
+              <div class="mt-1 h-1 w-14 rounded bg-slate-400"></div>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4">
+            <div class="mx-auto h-2 w-24 rounded bg-slate-500"></div>
+            <div class="mx-auto h-1 w-16 rounded bg-slate-400"></div>
+            <div class="space-y-2.5 pt-4">
+              <div class="h-1 w-full rounded bg-slate-300"></div>
+              <div class="h-1 w-full rounded bg-slate-300"></div>
+              <div class="h-1 w-4/5 rounded bg-slate-300"></div>
+              <div class="h-1 w-full rounded bg-slate-300"></div>
+              <div class="h-1 w-3/4 rounded bg-slate-300"></div>
+            </div>
+          </div>
+
+          <div class="absolute bottom-5 right-5 flex h-12 w-12 items-center justify-center rounded-full border-2 border-emerald-600/60 text-[8px] font-black text-emerald-700">
+            RESMI
+          </div>
         </div>
+
+        <!-- Main Document -->
+        <div class="absolute left-3 top-12 z-10 w-56 -rotate-[8deg] rounded-xl border border-slate-100 bg-white p-5 text-slate-800 shadow-2xl shadow-black/30 sm:left-7 sm:w-64">
+
+          <!-- Document Header -->
+          <div class="flex items-center gap-2.5 border-b border-slate-100 pb-4">
+            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#0C1C30] text-xs font-black text-white">DT</div>
+            <div>
+              <p class="text-[9px] font-black uppercase tracking-wide text-slate-800">Pemerintah Desa</p>
+              <p class="text-[8px] text-slate-400">Desa Timpik · Kabupaten Semarang</p>
+            </div>
+          </div>
+
+          <!-- Document Title -->
+          <div class="py-5 text-center">
+            <p class="text-[10px] font-black uppercase tracking-wider">Surat Keterangan</p>
+            <div class="mx-auto mt-2 h-0.5 w-24 bg-slate-800"></div>
+            <p class="mt-2 text-[8px] text-slate-400">Dokumen Administrasi Desa</p>
+          </div>
+
+          <!-- Document Content -->
+          <div class="space-y-3">
+            <div class="h-1 w-full rounded bg-slate-200"></div>
+            <div class="h-1 w-full rounded bg-slate-200"></div>
+            <div class="h-1 w-4/5 rounded bg-slate-200"></div>
+            <div class="h-1 w-full rounded bg-slate-200"></div>
+            <div class="h-1 w-3/4 rounded bg-slate-200"></div>
+          </div>
+
+          <!-- Signature -->
+          <div class="mt-7 flex items-end justify-between">
+            <div class="space-y-1">
+              <div class="h-1 w-14 rounded bg-slate-300"></div>
+              <div class="h-1 w-20 rounded bg-slate-200"></div>
+            </div>
+            <div class="text-center">
+              <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full border-2 border-emerald-600 text-[7px] font-black text-emerald-700">SAH</div>
+              <p class="mt-1 text-[7px] font-bold text-slate-500">Kepala Desa</p>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="mt-5 flex items-center justify-between border-t border-slate-100 pt-3">
+            <span class="text-[7px] text-slate-400">Dokumen Administrasi</span>
+            <span class="text-[7px] font-bold text-blue-700">DESA TIMPIK</span>
+          </div>
+
+        </div>
+
+        <!-- Free Service Badge -->
+        <div class="absolute left-0 top-5 z-20 flex items-center gap-2 rounded-full border border-emerald-300/20 bg-[#123C36] px-3 py-2 shadow-lg">
+          <svg class="h-4 w-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l4 4L19 6"/>
+          </svg>
+          <span class="text-[11px] font-bold text-emerald-200">100% Gratis</span>
+        </div>
+
+        <!-- Status Card -->
+        <div class="absolute bottom-7 right-0 z-20 w-56 rounded-xl border border-slate-100 bg-white p-4 text-slate-800 shadow-xl sm:w-60">
+
+          <div class="flex items-center justify-between">
+            <span class="text-[9px] font-semibold tracking-wide text-slate-400">STATUS PERMOHONAN</span>
+            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+          </div>
+
+          <div class="mt-3 flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l4 4L19 6"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-[11px] font-bold text-slate-800">Dokumen Terverifikasi</p>
+              <p class="mt-1 text-[9px] text-slate-400">Ilustrasi proses administrasi</p>
+            </div>
+          </div>
+
+          <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100">
+            <div class="h-full w-full rounded-full bg-emerald-500"></div>
+          </div>
+
+        </div>
+
+      </div>
       </div>
     </div>
   </section>
-
   <!-- Interactive Search & Filtering Bar -->
-  <section class="py-5 bg-sky-50 border-b border-slate-200 sticky top-16 z-30 shadow-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section class="sticky top-16 z-30 border-b border-slate-200/80 bg-[#F0F7FC]/95 py-3 backdrop-blur-md">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row items-center justify-between gap-4">
         
         <!-- Search Input Field -->
@@ -280,48 +420,51 @@ const categories = [
   </div>
 
   <!-- FAQ Section: Accordion Ramping & Elegan -->
-  <section class="py-14 bg-sky-50 border-t border-slate-200">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-      
-      <div class="text-center max-w-xl mx-auto">
-        <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 font-mono">Pertanyaan Umum Warga</span>
-        <h2 class="text-xl sm:text-2xl font-black text-slate-950 mt-1">
+  <section class="border-t border-slate-200 bg-sky-50 py-14">
+    <div class="mx-auto max-w-4xl space-y-8 px-4 sm:px-6 lg:px-8">
+
+      <!-- Section Heading -->
+      <div class="mx-auto max-w-xl text-center">
+        <span class="font-mono text-[10px] font-bold uppercase tracking-wider text-blue-700">Pertanyaan Umum Warga</span>
+        <h2 class="mt-1 text-xl font-black text-slate-950 sm:text-2xl">
           Tanya Jawab Seputar Layanan Surat
         </h2>
       </div>
 
+      <!-- FAQ List -->
       <div class="space-y-3 text-xs sm:text-sm">
-        <details class="group bg-slate-50 p-4 rounded-xl border border-slate-200 transition-all">
-          <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between list-none">
+
+        <details class="group rounded-xl border border-black/20 bg-white p-4 transition-colors hover:border-black/40">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-3 font-bold text-slate-900">
             <span>Berapa lama proses pembuatan surat hingga selesai?</span>
-            <span class="transition group-open:rotate-180 text-blue-700">&darr;</span>
+            <span class="shrink-0 text-blue-700 transition-transform group-open:rotate-180">&darr;</span>
           </summary>
-          <p class="text-slate-600 text-xs mt-2.5 leading-relaxed">
+          <p class="mt-2.5 text-xs leading-relaxed text-slate-600">
             Pengajuan yang masuk pada jam kerja diverifikasi dalam waktu maksimal <strong>1 x 24 Jam Kerja</strong>. Jika berkas lengkap, surat dapat diambil langsung di loket pelayanan Balai Desa Timpik.
           </p>
         </details>
 
-        <details class="group bg-slate-50 p-4 rounded-xl border border-slate-200 transition-all">
-          <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between list-none">
+        <details class="group rounded-xl border border-black/20 bg-white p-4 transition-colors hover:border-black/40">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-3 font-bold text-slate-900">
             <span>Apakah ada biaya administrasi untuk permohonan surat?</span>
-            <span class="transition group-open:rotate-180 text-blue-700">&darr;</span>
+            <span class="shrink-0 text-blue-700 transition-transform group-open:rotate-180">&darr;</span>
           </summary>
-          <p class="text-slate-600 text-xs mt-2.5 leading-relaxed">
+          <p class="mt-2.5 text-xs leading-relaxed text-slate-600">
             <strong>Tidak ada pungutan biaya sama sekali (Rp 0,- / 100% Bebas Pungli).</strong> Seluruh pengurusan administrasi surat-menyurat warga di Pemerintah Desa Timpik gratis.
           </p>
         </details>
 
-        <details class="group bg-slate-50 p-4 rounded-xl border border-slate-200 transition-all">
-          <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between list-none">
+        <details class="group rounded-xl border border-black/20 bg-white p-4 transition-colors hover:border-black/40">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-3 font-bold text-slate-900">
             <span>Bagaimana jika warga kesulitan mengisi formulir online?</span>
-            <span class="transition group-open:rotate-180 text-blue-700">&darr;</span>
+            <span class="shrink-0 text-blue-700 transition-transform group-open:rotate-180">&darr;</span>
           </summary>
-          <p class="text-slate-600 text-xs mt-2.5 leading-relaxed">
+          <p class="mt-2.5 text-xs leading-relaxed text-slate-600">
             Warga yang membutuhkan pendampingan dipersilakan datang langsung ke loket pelayanan Balai Desa Timpik pada jam kerja. Petugas staf pelayanan siap membantu pengisian berkas formulir hingga selesai.
           </p>
         </details>
-      </div>
 
+      </div>
     </div>
   </section>
 
