@@ -10,26 +10,22 @@ const apbdes = profilData.transparansi_apbdes;
   description="Keterbukaan informasi publik dan laporan transparansi Anggaran Pendapatan dan Belanja Desa (APBDes) Desa Timpik, Kecamatan Susukan, Kabupaten Semarang."
 >
   <!-- Architectural Civic Header -->
-  <section class="bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+  <section class="bg-gradient-to-r from-black/90 to-blue-800 text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
+
       <!-- Breadcrumb -->
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400 mb-5" aria-label="Breadcrumb">
-        <a href="/" class="hover:text-sky-300 transition-colors">Beranda</a>
+      <nav class="flex items-center gap-2 text-xs uppercase tracking-wider text-slate-400 mb-5" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-blue-300 transition-colors">Beranda</a>
         <span class="text-slate-600">/</span>
-        <span class="text-sky-300 font-bold">Transparansi APBDes</span>
+        <span class="text-blue-300 font-bold">Transparansi APBDes</span>
       </nav>
 
       <div class="max-w-3xl space-y-3">
-        <div class="flex items-center gap-2.5">
-          <span class="h-px w-6 bg-sky-400"></span>
-          <span class="text-xs font-mono uppercase tracking-widest text-sky-300 font-bold">Keterbukaan Informasi Keuangan Publik</span>
-        </div>
-        
+
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight" id="view-tahun-title">
           Transparansi APBDes Desa Timpik {apbdes.tahun}
         </h1>
-        
+
         <p class="text-slate-300 text-sm sm:text-base leading-relaxed pt-1">
           Laporan pertanggungjawaban realisasi penerimaan Dana Desa (APBN Pusat), Alokasi Dana Desa (ADD Pemkab Semarang), Pendapatan Asli Desa, serta penyaluran pembiayaan irigasi sawah 243 Ha dan infrastruktur dusun.
         </p>
@@ -197,40 +193,53 @@ const apbdes = profilData.transparansi_apbdes;
 
       </div>
 
-      <!-- Maklumat Integritas & Bebas Pungutan Liar (Civic Decree Banner) -->
-      <div class="border border-civic-navy bg-civic-navy text-white p-8 sm:p-10 shadow-sm relative overflow-hidden">
-        <div class="max-w-3xl space-y-4">
-          <div class="flex items-center gap-2">
-            <span class="h-px w-6 bg-sky-400"></span>
-            <span class="text-[10px] font-mono uppercase tracking-widest text-sky-300 font-bold">Maklumat Keterbukaan Publik</span>
-          </div>
+      <!-- Maklumat Integritas & Bebas Pungutan Liar -->
+      <section class="relative overflow-hidden rounded-xl bg-[#0B1E36] p-2 sm:p-3">
 
-          <h3 class="text-2xl sm:text-3xl font-serif font-black tracking-tight text-white">
-            Pakta Integritas Pelayanan Publik Desa Timpik
-          </h3>
+        <!-- Main Banner -->
+        <div class="relative overflow-hidden rounded-lg border-2 border-white/80 bg-gradient-to-br from-[#15543D] via-[#104B3B] to-[#063B30] px-5 py-12 text-center shadow-inner sm:px-10 sm:py-16">
 
-          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
-            Pemerintah Desa Timpik berkomitmen menjunjung tinggi asas transparansi anggaran dan menjamin bahwa seluruh proses permohonan surat administrasi kependudukan (SKU, SKTM, Pengantar SKCK, Domisili, dll.) <strong>100% BEBAS BIAYA (Rp 0,-)</strong>. Apabila warga menemukan indikasi pungutan liar, silakan gunakan kanal pengaduan resmi.
-          </p>
+          <!-- Subtle Background Decoration -->
+          <div class="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-emerald-300/10 blur-3xl"></div>
+          <div class="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 rounded-full bg-emerald-400/10 blur-3xl"></div>
 
-          <div class="pt-4 flex flex-wrap gap-4">
-            <a
-              href="/layanan-aduan"
-              class="px-5 py-2.5 bg-rose-700 hover:bg-rose-800 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center gap-2 rounded"
-            >
-              <span>Lapor Pungutan Liar / Aduan Anggaran</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </a>
+          <div class="relative mx-auto max-w-3xl space-y-5">
 
-            <a
-              href="/layanan-surat"
-              class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors rounded shadow-xs"
-            >
-              Katalog Surat Online Bebas Pungli
-            </a>
+            <!-- Heading -->
+            <h3 class="text-2xl font-serif font-black leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
+              Pakta Integritas Pelayanan Publik
+              <span class="block text-emerald-300">Desa Timpik</span>
+            </h3>
+
+            <!-- Description -->
+            <p class="mx-auto max-w-2xl text-xs leading-relaxed text-emerald-50/80 sm:text-sm sm:leading-relaxed">
+              Pemerintah Desa Timpik berkomitmen menjunjung tinggi asas transparansi anggaran dan menjamin bahwa seluruh proses permohonan surat administrasi kependudukan (SKU, SKTM, Pengantar SKCK, Domisili, dan lainnya)
+              <strong class="font-bold text-white">100% BEBAS BIAYA (Rp 0,-).</strong>
+              Apabila warga menemukan indikasi pungutan liar atau penyimpangan anggaran, silakan gunakan kanal pengaduan resmi.
+            </p>
+
+            <!-- CTA -->
+            <div class="flex flex-col items-center justify-center gap-3 pt-3 sm:flex-row">
+
+              <a href="/layanan-aduan" class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-white px-5 py-3 text-xs font-bold text-[#0B1E36] shadow-sm transition hover:bg-emerald-50 sm:w-auto">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 9v4m0 4h.01M10.3 3.9L2.8 17a2 2 0 001.7 3h15a2 2 0 001.7-3l-7.5-13.1a2 2 0 00-3.4 0z"/>
+                </svg>
+                Lapor Pungutan Liar / Aduan Anggaran
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6l6 6-6 6"/>
+                </svg>
+              </a>
+
+              <a href="/layanan-surat" class="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/50 bg-white/5 px-5 py-3 text-xs font-bold text-white transition hover:bg-white/10 sm:w-auto">
+                Katalog Surat Online Bebas Pungli
+              </a>
+
+            </div>
+
           </div>
         </div>
-      </div>
+      </section>
 
     </div>
   </section>
