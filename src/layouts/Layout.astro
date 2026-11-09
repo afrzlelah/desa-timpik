@@ -68,7 +68,7 @@ const currentPath = Astro.url.pathname;
     </aside> -->
 
     <!-- Main Navigation Header (Clean Crisp White & Elegant Blue) -->
-    <header class="sticky top-0 z-40 bg-blue-900 backdrop-blur-md border-b border-blue-900 text-white transition-all shadow-xs">
+    <header class="sticky top-0 z-40 bg-blue-800 backdrop-blur-md border-b border-blue-900 text-white transition-all shadow-xs">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
           
@@ -108,7 +108,7 @@ const currentPath = Astro.url.pathname;
             <!-- 1. Beranda -->
             <a
               href="/"
-              class={`px-2.5 py-1.5 rounded-lg transition-colors relative ${currentPath === '/' ? 'text-blue-900 font-bold bg-blue-50/80' : 'hover:text-blue-700 hover:bg-slate-50'}`}
+              class={`px-2.5 py-1.5 rounded-lg transition-colors relative ${currentPath === '/' ? 'text-blue-900 font-bold bg-white' : 'hover:text-blue-700 hover:bg-slate-50'}`}
             >
               Beranda
             </a>
@@ -119,7 +119,7 @@ const currentPath = Astro.url.pathname;
                 type="button"
                 id="btn-nav-profil"
                 aria-haspopup="true"
-                class={`px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors ${currentPath.startsWith('/profil') || currentPath.startsWith('/pemerintahan') || currentPath.startsWith('/kelembagaan') ? 'text-blue-900 font-bold bg-blue-50/80' : 'hover:text-blue-700 hover:bg-slate-50'}`}
+                class={`px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors ${currentPath.startsWith('/profil') || currentPath.startsWith('/pemerintahan') || currentPath.startsWith('/kelembagaan') ? 'text-blue-900 font-bold bg-blue-50' : 'hover:text-blue-700 hover:bg-slate-50'}`}
               >
                 <span>Profil Desa</span>
                 <svg class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
