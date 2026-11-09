@@ -10,23 +10,23 @@ const { operasional, kontak_darurat } = kontakData;
   description="Pusat informasi kontak resmi Balai Desa Timpik, jam operasional pelayanan, direktori telepon darurat 24 jam medis, ambulans, Babinsa, serta form kirim pesan langsung."
 >
   <!-- Architectural Civic Header -->
-  <section class="bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+  <section class="bg-gradient-to-r from-black to-blue-900 text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Breadcrumb -->
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400 mb-5" aria-label="Breadcrumb">
-        <a href="/" class="hover:text-sky-300 transition-colors">Beranda</a>
+      <nav class="flex items-center gap-2 text-xs  uppercase tracking-wider text-slate-400 mb-5" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-blue-300 transition-colors">Beranda</a>
         <span class="text-slate-600">/</span>
-        <span class="text-sky-300 font-bold">Kontak & Pusat Layanan</span>
+        <span class="text-blue-300 font-bold">Kontak & Pusat Layanan</span>
       </nav>
 
       <div class="max-w-3xl space-y-3">
-        <div class="flex items-center gap-2.5">
-          <span class="h-px w-6 bg-sky-400"></span>
-          <span class="text-xs font-mono uppercase tracking-widest text-sky-300 font-bold">Saluran Resmi Pemerintah Desa</span>
-        </div>
+        <!-- <div class="flex items-center gap-2.5">
+          <span class="h-px w-6 bg-blue-400"></span>
+          <span class="text-xs  uppercase tracking-widest text-blue-300 font-bold">Saluran Resmi Pemerintah Desa</span>
+        </div> -->
         
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl  font-black tracking-tight text-white leading-tight">
           Direktori Kontak & Pelayanan Warga
         </h1>
         
@@ -48,13 +48,13 @@ const { operasional, kontak_darurat } = kontakData;
         <div class="p-6 sm:p-8 flex flex-col justify-between space-y-6">
           <div>
             <div class="flex items-center justify-between gap-2 mb-3">
-              <span class="text-[10px] font-mono uppercase tracking-widest text-civic-muted" id="view-nama-kantor">{operasional.nama_kantor}</span>
-              <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold" id="view-status-badge">
+              <span class="text-[10px]  uppercase tracking-widest text-civic-muted" id="view-nama-kantor">{operasional.nama_kantor}</span>
+              <span class="text-[10px]  uppercase tracking-wider px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold" id="view-status-badge">
                 {operasional.status_layanan}
               </span>
             </div>
             
-            <h2 class="text-lg font-serif font-bold text-civic-navy">Jam Pelayanan Tatap Muka</h2>
+            <h2 class="text-lg  font-bold text-civic-navy">Jam Pelayanan Tatap Muka</h2>
             <p class="text-xs text-civic-muted mt-1 leading-relaxed" id="view-alamat-kantor">
               {operasional.alamat}
             </p>
@@ -63,11 +63,11 @@ const { operasional, kontak_darurat } = kontakData;
           <div class="pt-4 border-t border-civic-border/60 space-y-2 text-xs">
             <div class="flex items-center justify-between">
               <span class="text-civic-muted">Senin &ndash; Kamis:</span>
-              <strong class="font-mono text-civic-navy font-bold" id="view-jam-senin-kamis">{operasional.jam_senin_kamis}</strong>
+              <strong class=" text-civic-navy font-bold" id="view-jam-senin-kamis">{operasional.jam_senin_kamis}</strong>
             </div>
             <div class="flex items-center justify-between">
               <span class="text-civic-muted">Jumat:</span>
-              <strong class="font-mono text-civic-navy font-bold" id="view-jam-jumat">{operasional.jam_jumat}</strong>
+              <strong class=" text-civic-navy font-bold" id="view-jam-jumat">{operasional.jam_jumat}</strong>
             </div>
             <p class="text-[11px] text-civic-muted italic pt-1 border-t border-dashed border-civic-border" id="view-keterangan-layanan">
               {operasional.keterangan_layanan}
@@ -79,11 +79,11 @@ const { operasional, kontak_darurat } = kontakData;
         <div class="p-6 sm:p-8 flex flex-col justify-between space-y-6 bg-slate-50/40">
           <div>
             <div class="flex items-center justify-between gap-2 mb-3">
-              <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-700 font-bold">Layanan Daring Warga</span>
-              <span class="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 bg-emerald-100 text-emerald-800 font-semibold">Respon Cepat</span>
+              <span class="text-[10px]  uppercase tracking-widest text-emerald-700 font-bold">Layanan Daring Warga</span>
+              <span class="text-[10px]  uppercase tracking-wider px-1.5 py-0.5 bg-emerald-100 text-emerald-800 font-semibold">Respon Cepat</span>
             </div>
 
-            <h2 class="text-lg font-serif font-bold text-civic-navy">WhatsApp Helpdesk Pelayanan</h2>
+            <h2 class="text-lg  font-bold text-civic-navy">WhatsApp Helpdesk Pelayanan</h2>
             <p class="text-xs text-civic-muted mt-1 leading-relaxed">
               Konsultasi persyaratan berkas surat, panduan pengisian formulir permohonan, atau tindak lanjut dokumen administrasi kependudukan.
             </p>
@@ -95,7 +95,7 @@ const { operasional, kontak_darurat } = kontakData;
               href={`https://wa.me/${operasional.telepon.replace(/[^0-9]/g, '')}?text=Halo%20Admin%20Pelayanan%20Desa%20Timpik,%20saya%20ingin%20berkonsultasi%20mengenai%20pelayanan%20surat`}
               target="_blank"
               rel="noopener noreferrer"
-              class="w-full py-2.5 px-4 bg-emerald-800 hover:bg-emerald-900 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2"
+              class="w-full py-2.5 px-4 bg-emerald-800 hover:bg-emerald-900 text-white  text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2"
             >
               <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.92-9.91-9.92z"/></svg>
               <span id="view-wa-text">Chat WhatsApp ({operasional.telepon})</span>
@@ -107,11 +107,11 @@ const { operasional, kontak_darurat } = kontakData;
         <div class="p-6 sm:p-8 flex flex-col justify-between space-y-6">
           <div>
             <div class="flex items-center justify-between gap-2 mb-3">
-              <span class="text-[10px] font-mono uppercase tracking-widest text-civic-muted">Korespondensi</span>
-              <span class="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 bg-slate-100 text-slate-700 font-semibold">Resmi</span>
+              <span class="text-[10px]  uppercase tracking-widest text-civic-muted">Korespondensi</span>
+              <span class="text-[10px]  uppercase tracking-wider px-1.5 py-0.5 bg-slate-100 text-slate-700 font-semibold">Resmi</span>
             </div>
 
-            <h2 class="text-lg font-serif font-bold text-civic-navy">Surat Dinas & Kemitraan</h2>
+            <h2 class="text-lg  font-bold text-civic-navy">Surat Dinas & Kemitraan</h2>
             <p class="text-xs text-civic-muted mt-1 leading-relaxed">
               Penerimaan surat kedinasan, kemitraan perguruan tinggi / KKN, instansi vertikal, maupun kerjasama pembangunan desa.
             </p>
@@ -121,7 +121,7 @@ const { operasional, kontak_darurat } = kontakData;
             <a
               id="view-email-link"
               href={`mailto:${operasional.email}`}
-              class="w-full py-2.5 px-4 bg-civic-navy hover:bg-civic-navy/90 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2 truncate"
+              class="w-full py-2.5 px-4 bg-blue-800/90 hover:bg-civic-navy/90 text-white  text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2 truncate"
             >
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
               <span id="view-email-text" class="truncate">{operasional.email}</span>
@@ -143,10 +143,10 @@ const { operasional, kontak_darurat } = kontakData;
         <!-- Form Kirim Pesan / Pertanyaan Warga -->
         <div class="lg:col-span-7 bg-white p-6 sm:p-8 border border-civic-border shadow-xs space-y-6">
           <div class="border-b border-civic-border pb-4">
-            <span class="text-[10px] font-mono uppercase tracking-widest text-civic-gold block">
+            <span class="text-[10px]  uppercase tracking-widest text-civic-gold block">
               Formulir Komunikasi Terpadu
             </span>
-            <h2 class="text-2xl font-serif font-black text-civic-navy mt-1">Kirim Pertanyaan atau Masukan</h2>
+            <h2 class="text-2xl  font-black text-civic-navy mt-1">Kirim Pertanyaan atau Masukan</h2>
             <p class="text-xs text-civic-muted mt-1 leading-relaxed">
               Pesan Anda akan dirangkai dan diteruskan secara langsung ke nomor WhatsApp petugas pelayanan Balai Desa Timpik.
             </p>
@@ -155,7 +155,7 @@ const { operasional, kontak_darurat } = kontakData;
           <form id="form-kontak-publik" class="space-y-4 text-xs">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label for="contact-nama" class="block font-mono uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
+                <label for="contact-nama" class="block  uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
                   Nama Lengkap <span class="text-rose-600">*</span>
                 </label>
                 <input
@@ -168,7 +168,7 @@ const { operasional, kontak_darurat } = kontakData;
               </div>
 
               <div>
-                <label for="contact-dusun" class="block font-mono uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
+                <label for="contact-dusun" class="block  uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
                   Wilayah / Dusun <span class="text-rose-600">*</span>
                 </label>
                 <select
@@ -187,7 +187,7 @@ const { operasional, kontak_darurat } = kontakData;
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label for="contact-telepon" class="block font-mono uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
+                <label for="contact-telepon" class="block  uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
                   Nomor WhatsApp / HP <span class="text-rose-600">*</span>
                 </label>
                 <input
@@ -195,12 +195,12 @@ const { operasional, kontak_darurat } = kontakData;
                   id="contact-telepon"
                   required
                   placeholder="Contoh: 081234567890"
-                  class="w-full px-3.5 py-2.5 border border-civic-border text-xs text-civic-navy bg-civic-sand/20 focus:bg-white focus:outline-none focus:border-civic-navy font-sans font-mono"
+                  class="w-full px-3.5 py-2.5 border border-civic-border text-xs text-civic-navy bg-civic-sand/20 focus:bg-white focus:outline-none focus:border-civic-navy font-sans "
                 />
               </div>
 
               <div>
-                <label for="contact-kategori" class="block font-mono uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
+                <label for="contact-kategori" class="block  uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
                   Kategori Keperluan
                 </label>
                 <select
@@ -217,7 +217,7 @@ const { operasional, kontak_darurat } = kontakData;
             </div>
 
             <div>
-              <label for="contact-pesan" class="block font-mono uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
+              <label for="contact-pesan" class="block  uppercase tracking-wider text-[11px] text-civic-navy font-bold mb-1.5">
                 Isi Pesan / Pertanyaan <span class="text-rose-600">*</span>
               </label>
               <textarea
@@ -232,7 +232,7 @@ const { operasional, kontak_darurat } = kontakData;
             <div class="pt-2">
               <button
                 type="submit"
-                class="w-full py-3 px-6 bg-blue-700 hover:bg-blue-800 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2 rounded shadow-xs"
+                class="w-full py-3 px-6 bg-blue-700 hover:bg-blue-800 text-white  text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2 rounded shadow-xs"
               >
                 <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.92-9.91-9.92z"/></svg>
                 <span>Kirim Pesan ke WhatsApp Pelayanan Balai Desa</span>
@@ -244,8 +244,8 @@ const { operasional, kontak_darurat } = kontakData;
         <!-- Peta Interaktif & Rute -->
         <div class="lg:col-span-5 bg-white p-6 sm:p-8 border border-civic-border shadow-xs space-y-4">
           <div class="border-b border-civic-border pb-3">
-            <span class="text-[10px] font-mono uppercase tracking-widest text-blue-700 font-bold block">Lokasi & Navigasi</span>
-            <h2 class="text-xl font-serif font-black text-civic-navy mt-0.5">Kompleks Balai Desa Timpik</h2>
+            <span class="text-[10px]  uppercase tracking-widest text-blue-700 font-bold block">Lokasi & Navigasi</span>
+            <h2 class="text-xl  font-black text-civic-navy mt-0.5">Kompleks Balai Desa Timpik</h2>
             <p class="text-xs text-civic-muted mt-0.5">Patokan: Jalan Utama Dusun Krajan arah Susukan &ndash; Kaliwungu.</p>
           </div>
 
@@ -275,7 +275,7 @@ const { operasional, kontak_darurat } = kontakData;
               href="https://maps.google.com/?q=Balai+Desa+Timpik+Susukan+Semarang"
               target="_blank"
               rel="noopener noreferrer"
-              class="w-full py-2.5 px-4 bg-civic-sand hover:bg-civic-border/60 text-civic-navy font-mono text-xs uppercase tracking-wider font-bold border border-civic-border transition-colors flex items-center justify-center gap-1.5"
+              class="w-full py-2.5 px-4 bg-civic-sand hover:bg-civic-border/60 text-civic-navy  text-xs uppercase tracking-wider font-bold border border-civic-border transition-colors flex items-center justify-center gap-1.5"
             >
               <svg class="w-4 h-4 text-civic-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
               <span>Petunjuk Arah Google Maps</span>
@@ -291,9 +291,9 @@ const { operasional, kontak_darurat } = kontakData;
           <div>
             <div class="flex items-center gap-2 mb-1.5">
               <span class="w-2.5 h-2.5 bg-rose-600 animate-pulse"></span>
-              <span class="text-xs font-mono uppercase tracking-widest text-rose-700 font-bold">Siaga Darurat 24 Jam</span>
+              <span class="text-xs  uppercase tracking-widest text-rose-700 font-bold">Siaga Darurat 24 Jam</span>
             </div>
-            <h2 class="text-2xl font-serif font-black text-civic-navy">Buku Telepon Siaga Warga</h2>
+            <h2 class="text-2xl  font-black text-civic-navy">Buku Telepon Siaga Warga</h2>
           </div>
           <p class="text-xs text-civic-muted max-w-md">
             Layanan tanggap darurat medis, keamanan teritorial, dan saluran irigasi pertanian Desa Timpik yang dikelola aparatur.
@@ -305,7 +305,7 @@ const { operasional, kontak_darurat } = kontakData;
             <div class="bg-white border border-civic-border p-5 flex flex-col justify-between space-y-4 shadow-xs">
               <div>
                 <div class="flex items-center justify-between gap-1 mb-2 pb-2 border-b border-civic-border/60">
-                  <span class={`text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 border ${
+                  <span class={`text-[10px]  uppercase tracking-wider px-1.5 py-0.5 border ${
                     item.badge_color === 'emerald' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' :
                     item.badge_color === 'teal' ? 'bg-teal-50 text-teal-800 border-teal-200' :
                     item.badge_color === 'blue' ? 'bg-blue-50 text-blue-800 border-blue-200' :
@@ -313,11 +313,11 @@ const { operasional, kontak_darurat } = kontakData;
                   }`}>
                     {item.kategori}
                   </span>
-                  <span class="text-[10px] font-mono text-civic-muted font-semibold truncate">&bull; {item.ketersediaan}</span>
+                  <span class="text-[10px]  text-civic-muted font-semibold truncate">&bull; {item.ketersediaan}</span>
                 </div>
                 
-                <h3 class="text-sm font-serif font-bold text-civic-navy leading-snug">{item.nama}</h3>
-                <p class="text-[11px] font-mono text-civic-muted mt-0.5 mb-1.5">{item.instansi}</p>
+                <h3 class="text-sm  font-bold text-civic-navy leading-snug">{item.nama}</h3>
+                <p class="text-[11px]  text-civic-muted mt-0.5 mb-1.5">{item.instansi}</p>
                 <p class="text-xs text-civic-muted leading-relaxed line-clamp-2">{item.deskripsi}</p>
               </div>
 
@@ -327,14 +327,14 @@ const { operasional, kontak_darurat } = kontakData;
                     href={`https://wa.me/${item.nomor.replace(/[^0-9]/g, '')}?text=Halo%20${encodeURIComponent(item.nama)},%20butuh%20bantuan%20segera`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="w-full py-2 px-3 bg-emerald-800 hover:bg-emerald-900 text-white font-mono text-xs uppercase tracking-wider text-center block transition-colors"
+                    class="w-full py-2 px-3 bg-emerald-800 hover:bg-emerald-900 text-black  text-xs uppercase tracking-wider text-center block transition-colors"
                   >
                     Hubungi WhatsApp
                   </a>
                 ) : (
                   <a
                     href={`tel:${item.nomor.replace(/[^0-9]/g, '')}`}
-                    class="w-full py-2 px-3 bg-civic-navy hover:bg-civic-navy/90 text-white font-mono text-xs uppercase tracking-wider text-center block transition-colors"
+                    class="w-full py-2 px-3 bg-slate-800 hover:bg-green-800 text-black  text-xs uppercase tracking-wider text-center block transition-colors"
                   >
                     Telepon ({item.nomor})
                   </a>
@@ -380,11 +380,11 @@ const { operasional, kontak_darurat } = kontakData;
     if (elStatus && op.status_layanan) {
       elStatus.textContent = op.status_layanan;
       if (op.status_layanan === 'Tutup Libur') {
-        elStatus.className = 'text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-rose-300 bg-rose-50 text-rose-800 font-bold';
+        elStatus.className = 'text-[10px]  uppercase tracking-wider px-2 py-0.5 border border-rose-300 bg-rose-50 text-rose-800 font-bold';
       } else if (op.status_layanan === 'Buka Terbatas') {
-        elStatus.className = 'text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-amber-300 bg-amber-50 text-amber-800 font-bold';
+        elStatus.className = 'text-[10px]  uppercase tracking-wider px-2 py-0.5 border border-amber-300 bg-amber-50 text-amber-800 font-bold';
       } else {
-        elStatus.className = 'text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold';
+        elStatus.className = 'text-[10px]  uppercase tracking-wider px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold';
       }
     }
 
@@ -439,14 +439,14 @@ const { operasional, kontak_darurat } = kontakData;
           <div class="bg-white border border-civic-border p-5 flex flex-col justify-between space-y-4 shadow-xs">
             <div>
               <div class="flex items-center justify-between gap-1 mb-2 pb-2 border-b border-civic-border/60">
-                <span class="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 border ${badgeStyle}">
+                <span class="text-[10px]  uppercase tracking-wider px-1.5 py-0.5 border ${badgeStyle}">
                   ${item.kategori}
                 </span>
-                <span class="text-[10px] font-mono text-civic-muted font-semibold truncate">&bull; ${item.ketersediaan}</span>
+                <span class="text-[10px]  text-civic-muted font-semibold truncate">&bull; ${item.ketersediaan}</span>
               </div>
               
-              <h3 class="text-sm font-serif font-bold text-civic-navy leading-snug">${item.nama}</h3>
-              <p class="text-[11px] font-mono text-civic-muted mt-0.5 mb-1.5">${item.instansi}</p>
+              <h3 class="text-sm  font-bold text-civic-navy leading-snug">${item.nama}</h3>
+              <p class="text-[11px]  text-civic-muted mt-0.5 mb-1.5">${item.instansi}</p>
               <p class="text-xs text-civic-muted leading-relaxed line-clamp-2">${item.deskripsi}</p>
             </div>
 
@@ -456,14 +456,14 @@ const { operasional, kontak_darurat } = kontakData;
                   href="https://wa.me/${cleanNo}?text=Halo%20${encodeURIComponent(item.nama)},%20butuh%20bantuan%20segera"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="w-full py-2 px-3 ${btnStyle} text-white font-mono text-xs uppercase tracking-wider text-center block transition-colors"
+                  class="w-full py-2 px-3 ${btnStyle} text-white  text-xs uppercase tracking-wider text-center block transition-colors"
                 >
                   Hubungi WhatsApp
                 </a>
               ` : `
                 <a
                   href="tel:${cleanNo}"
-                  class="w-full py-2 px-3 bg-civic-navy hover:bg-civic-navy/90 text-white font-mono text-xs uppercase tracking-wider text-center block transition-colors"
+                  class="w-full py-2 px-3 bg-civic-navy hover:bg-civic-navy/90 text-white  text-xs uppercase tracking-wider text-center block transition-colors"
                 >
                   Telepon (${item.nomor})
                 </a>

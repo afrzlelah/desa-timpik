@@ -7,23 +7,23 @@ import Layout from '../layouts/Layout.astro';
   description="Kanal resmi penyampaian aspirasi, saran pembangunan, dan pengaduan masyarakat Desa Timpik, Kecamatan Susukan, Kabupaten Semarang."
 >
   <!-- Architectural Civic Header -->
-  <section class="bg-civic-navy text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+  <section class="bg-gradient-to-r from-black to-blue-900 text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Breadcrumb -->
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400 mb-5" aria-label="Breadcrumb">
+      <nav class="flex items-center gap-2 text-xs  uppercase tracking-wider text-slate-400 mb-5" aria-label="Breadcrumb">
         <a href="/" class="hover:text-civic-cream transition-colors">Beranda</a>
         <span class="text-slate-600">/</span>
         <span class="text-civic-gold">Pengaduan Warga</span>
       </nav>
 
       <div class="max-w-3xl space-y-3">
-        <div class="flex items-center gap-2.5">
+        <!-- <div class="flex items-center gap-2.5">
           <span class="h-px w-6 bg-civic-gold"></span>
-          <span class="text-xs font-mono uppercase tracking-widest text-civic-gold">Partisipasi & Akuntabilitas Publik</span>
-        </div>
+          <span class="text-xs  uppercase tracking-widest text-civic-gold">Partisipasi & Akuntabilitas Publik</span>
+        </div> -->
         
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl  font-black tracking-tight text-white leading-tight">
           Layanan Pengaduan & Aspirasi
         </h1>
         
@@ -43,8 +43,8 @@ import Layout from '../layouts/Layout.astro';
         <!-- Left: Saluran Pengaduan Terpadu -->
         <div class="lg:col-span-7 bg-white border border-civic-border p-6 sm:p-8 shadow-xs space-y-6">
           <div class="border-b border-civic-border pb-4">
-            <span class="text-[10px] font-mono uppercase tracking-widest text-civic-gold block">Saluran Terverifikasi</span>
-            <h2 class="text-2xl font-serif font-black text-civic-navy mt-1">Salurkan Laporan Anda</h2>
+            <span class="text-[10px]  uppercase tracking-widest text-civic-gold block">Saluran Terverifikasi</span>
+            <h2 class="text-2xl  font-black text-civic-navy mt-1">Salurkan Laporan Anda</h2>
             <p class="text-xs text-civic-muted mt-1 leading-relaxed">
               Pilih metode penyampaian yang paling nyaman bagi Anda (Formulir Daring Google Form atau WhatsApp Langsung Satgas Balai Desa).
             </p>
@@ -53,17 +53,17 @@ import Layout from '../layouts/Layout.astro';
           <!-- Channel 1: Google Form Resmi -->
           <div class="p-5 border border-civic-border bg-civic-sand/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="space-y-1">
-              <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-rose-300 bg-rose-50 text-rose-800 font-bold">
+              <span class="text-[10px]  uppercase tracking-wider px-2 py-0.5 border border-rose-300 bg-rose-50 text-rose-800 font-bold">
                 Resmi & Lampiran Bukti
               </span>
-              <h3 class="font-serif font-bold text-civic-navy text-base">Formulir Pengaduan Google Form</h3>
+              <h3 class=" font-bold text-civic-navy text-base">Formulir Pengaduan Google Form</h3>
               <p class="text-xs text-civic-muted font-sans">Cocok untuk laporan yang membutuhkan lampiran foto/dokumen pendukung.</p>
             </div>
             <a
               href="https://docs.google.com/forms/d/e/1FAIpQLSc_PLACEHOLDER_ADUAN/viewform"
               target="_blank"
               rel="noopener noreferrer"
-              class="shrink-0 px-4 py-2.5 bg-rose-800 hover:bg-rose-900 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center gap-1.5"
+              class="shrink-0 px-4 py-2.5 bg-rose-800 hover:bg-rose-900 text-white  text-xs uppercase tracking-wider font-bold transition-colors flex items-center gap-1.5"
             >
               <span>Isi Form Aduan</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
@@ -73,10 +73,10 @@ import Layout from '../layouts/Layout.astro';
           <!-- Channel 2: WhatsApp Cepat -->
           <div class="p-5 border border-civic-border bg-slate-50/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="space-y-1">
-              <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold">
+              <span class="text-[10px]  uppercase tracking-wider px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold">
                 Respon Cepat
               </span>
-              <h3 class="font-serif font-bold text-civic-navy text-base">WhatsApp Satgas Balai Desa</h3>
+              <h3 class=" font-bold text-civic-navy text-base">WhatsApp Satgas Balai Desa</h3>
               <p class="text-xs text-civic-muted font-sans">Langsung terhubung dengan operator pelayanan Balai Desa Timpik.</p>
             </div>
             <a
@@ -84,7 +84,7 @@ import Layout from '../layouts/Layout.astro';
               href="https://wa.me/6281234567890?text=Halo%20Admin%20Desa%20Timpik,%20saya%20ingin%20menyampaikan%20laporan/pengaduan"
               target="_blank"
               rel="noopener noreferrer"
-              class="shrink-0 px-4 py-2.5 bg-emerald-800 hover:bg-emerald-900 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center gap-1.5"
+              class="shrink-0 px-4 py-2.5 bg-emerald-800 hover:bg-emerald-900 text-white  text-xs uppercase tracking-wider font-bold transition-colors flex items-center gap-1.5"
             >
               <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.92-9.91-9.92z"/></svg>
               <span>Kirim via WA</span>
@@ -93,22 +93,22 @@ import Layout from '../layouts/Layout.astro';
 
           <!-- Kategori Laporan yang Dilayani -->
           <div class="pt-4 border-t border-civic-border">
-            <h4 class="font-serif font-bold text-civic-navy text-sm mb-3">Bidang Laporan yang Sering Diajukan:</h4>
+            <h4 class=" font-bold text-civic-navy text-sm mb-3">Bidang Laporan yang Sering Diajukan:</h4>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-civic-ink">
               <div class="p-3 bg-civic-sand/20 border border-civic-border">
-                <strong class="font-mono text-civic-navy block mb-0.5">Irigasi Sawah & Pertanian:</strong>
+                <strong class=" text-civic-navy block mb-0.5">Irigasi Sawah & Pertanian:</strong>
                 <span class="text-civic-muted">Kerusakan pintu air P3A Bogo Wastro, pendangkalan parit saluran air sawah.</span>
               </div>
               <div class="p-3 bg-civic-sand/20 border border-civic-border">
-                <strong class="font-mono text-civic-navy block mb-0.5">Penerangan & Jalan Dusun:</strong>
+                <strong class=" text-civic-navy block mb-0.5">Penerangan & Jalan Dusun:</strong>
                 <span class="text-civic-muted">Lampu jalan umum mati, lubang jalan antar dusun yang membahayakan.</span>
               </div>
               <div class="p-3 bg-civic-sand/20 border border-civic-border">
-                <strong class="font-mono text-civic-navy block mb-0.5">Ketertiban & Izin Keramaian:</strong>
+                <strong class=" text-civic-navy block mb-0.5">Ketertiban & Izin Keramaian:</strong>
                 <span class="text-civic-muted">Pemberitahuan acara, pengamanan pentas wayang, atau sengketa batas tanah.</span>
               </div>
               <div class="p-3 bg-civic-sand/20 border border-civic-border">
-                <strong class="font-mono text-civic-navy block mb-0.5">Bansos & Lansia Rentan:</strong>
+                <strong class=" text-civic-navy block mb-0.5">Bansos & Lansia Rentan:</strong>
                 <span class="text-civic-muted">Usulan warga lanjut usia atau keluarga rentan yang memerlukan pendataan DTKS.</span>
               </div>
             </div>
@@ -117,36 +117,36 @@ import Layout from '../layouts/Layout.astro';
 
         <!-- Right: Komitmen & Standar Pelayanan -->
         <div class="lg:col-span-5 space-y-6">
-          <div class="border border-civic-navy bg-civic-navy text-white p-6 sm:p-8 shadow-xs space-y-4">
-            <h3 class="font-serif font-bold text-lg text-civic-gold">4 Standar Penanganan Aduan</h3>
+          <div class="border border-civic-navy bg-gradient-to-r from-black to-red-900 text-white p-6 sm:p-8 shadow-xs space-y-4">
+            <h3 class=" font-bold text-lg text-civic-gold">4 Standar Penanganan Aduan</h3>
             <ul class="space-y-3.5 text-xs text-slate-300 font-sans">
               <li class="flex items-start gap-2.5">
-                <span class="font-mono text-civic-gold font-bold">01.</span>
+                <span class=" text-civic-gold font-bold">01.</span>
                 <span><strong class="text-white">Kerahasiaan Identitas:</strong> Data pribadi pelapor dilindungi kerahasiaannya.</span>
               </li>
               <li class="flex items-start gap-2.5">
-                <span class="font-mono text-civic-gold font-bold">02.</span>
+                <span class=" text-civic-gold font-bold">02.</span>
                 <span><strong class="text-white">Respon Cepat 1x24 Jam:</strong> Laporan yang masuk langsung diverifikasi perangkat tugas.</span>
               </li>
               <li class="flex items-start gap-2.5">
-                <span class="font-mono text-civic-gold font-bold">03.</span>
+                <span class=" text-civic-gold font-bold">03.</span>
                 <span><strong class="text-white">Musyawarah Solutif:</strong> Persoalan infrastruktur dibawa ke rembuk Kadus/RT/RW.</span>
               </li>
               <li class="flex items-start gap-2.5">
-                <span class="font-mono text-civic-gold font-bold">04.</span>
+                <span class=" text-civic-gold font-bold">04.</span>
                 <span><strong class="text-white">Tindak Lanjut Nyata:</strong> Hasil penyelesaian dilaporkan secara transparan.</span>
               </li>
             </ul>
           </div>
 
           <div class="bg-white border border-civic-border p-6 shadow-xs space-y-3">
-            <h4 class="font-serif font-bold text-civic-navy text-sm">Butuh Pengurusan Surat Resmi?</h4>
+            <h4 class=" font-bold text-civic-navy text-sm">Butuh Pengurusan Surat Resmi?</h4>
             <p class="text-xs text-civic-muted leading-relaxed font-sans">
               Jika Anda ingin mengajukan surat izin usaha (SKU), surat pengantar SKCK, atau surat domisili, silakan langsung menuju portal layanan surat.
             </p>
             <a
               href="/layanan-surat"
-              class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider font-bold text-civic-navy hover:text-civic-gold"
+              class="inline-flex items-center gap-1.5 text-xs  uppercase tracking-wider font-bold text-civic-navy hover:text-civic-gold"
             >
               <span>Katalog Layanan Surat &rarr;</span>
             </a>
