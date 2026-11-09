@@ -35,7 +35,7 @@ import potensiData from '../data/potensi.json';
   </section>
 
   <!-- Part 1: Sektor Agraris & Ketahanan Pangan -->
-  <section id="agraris" class="py-14 sm:py-16 bg-white border-b border-civic-border">
+  <section id="agraris" class="py-14 sm:py-16 bg-sky-50 border-b border-civic-border">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
       
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
@@ -62,7 +62,7 @@ import potensiData from '../data/potensi.json';
             <h3 class=" font-bold text-civic-navy text-base">Kelembagaan Pertanian Timpik:</h3>
           </div>
 
-          <a href="/kelembagaan/gapoktan" class="p-5 block bg-white hover:bg-civic-sand/30 transition-colors group">
+          <a href="/kelembagaan/gapoktan" class="p-5 block bg-sky-50 hover:bg-civic-sand/30 transition-colors group">
             <div class="flex items-center justify-between">
               <h4 class=" font-bold text-civic-navy group-hover:text-civic-gold text-sm">GAPOKTAN "Putri Kencana"</h4>
               <span class="text-xs  text-civic-gold font-bold">&rarr;</span>
@@ -70,7 +70,7 @@ import potensiData from '../data/potensi.json';
             <p class="text-xs text-civic-muted mt-1 leading-relaxed">Gabungan kelompok tani yang mengawal proses tanam, mekanisasi traktor & combine harvester, hingga pasca-panen.</p>
           </a>
 
-          <a href="/kelembagaan/p3a" class="p-5 block bg-white hover:bg-civic-sand/30 transition-colors group">
+          <a href="/kelembagaan/p3a" class="p-5 block bg-sky-50 hover:bg-civic-sand/30 transition-colors group">
             <div class="flex items-center justify-between">
               <h4 class=" font-bold text-civic-navy group-hover:text-civic-gold text-sm">P3A "Bogo Wastro"</h4>
               <span class="text-xs  text-civic-gold font-bold">&rarr;</span>
@@ -78,7 +78,7 @@ import potensiData from '../data/potensi.json';
             <p class="text-xs text-civic-muted mt-1 leading-relaxed">Perkumpulan petani pemakai air yang mengelola debit irigasi persawahan teknis dan pemeliharaan saluran parit.</p>
           </a>
 
-          <a href="/kelembagaan/lpm" class="p-5 block bg-white hover:bg-civic-sand/30 transition-colors group">
+          <a href="/kelembagaan/lpm" class="p-5 block bg-sky-50 hover:bg-civic-sand/30 transition-colors group">
             <div class="flex items-center justify-between">
               <h4 class=" font-bold text-civic-navy group-hover:text-civic-gold text-sm">Lumbung Pangan Masyarakat (LPM)</h4>
               <span class="text-xs  text-civic-gold font-bold">&rarr;</span>
@@ -98,7 +98,7 @@ import potensiData from '../data/potensi.json';
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {potensiData.agraris.komoditas_utama.map((item, idx) => (
-            <div class="bg-white border border-civic-border p-6 shadow-xs flex flex-col justify-between space-y-3">
+            <div class="bg-sky-50 border border-civic-border p-6 shadow-xs flex flex-col justify-between space-y-3">
               <div>
                 <span class="text-xs  text-civic-gold font-bold block mb-1">0{idx + 1}</span>
                 <h4 class=" font-bold text-base text-civic-navy">{item.nama}</h4>
@@ -135,7 +135,7 @@ import potensiData from '../data/potensi.json';
       <!-- Kesenian Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {potensiData.kebudayaan.kesenian.map((seni) => (
-          <div class="border border-civic-border/30 bg-white/5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+          <div class="border border-civic-border/30 bg-sky-50/5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
             <div class="space-y-4">
               <div class="flex items-center justify-between">
                 <a
@@ -155,7 +155,7 @@ import potensiData from '../data/potensi.json';
                 {seni.deskripsi}
               </p>
 
-              {/* <div class="p-4 bg-white/5 border border-white/10 text-xs text-white font-sans">
+              {/* <div class="p-4 bg-sky-50/5 border border-white/10 text-xs text-white font-sans">
                 <strong>Keunikan Tradisi:</strong> {seni.keunikan}
               </div> */}
             </div>
