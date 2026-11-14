@@ -276,37 +276,37 @@ const categories = [
       <!-- Grid Katalog Layanan Surat -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="surat-cards-container">
         {suratData.map((surat) => (
-          <article class="surat-card bg-sky-50 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-sm transition-all p-6 flex flex-col justify-between" data-category={surat.kategori}>
-            <div class="space-y-3">
-              <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                <span class="font-mono text-[10px] font-bold text-blue-700">
+          <article class="surat-card bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all p-6 sm:p-7 flex flex-col justify-between" data-category={surat.kategori}>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <span class="font-mono text-xs font-bold text-blue-700">
                   {surat.kode || `REG-${surat.id.toUpperCase()}`}
                 </span>
-                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-100">
+                <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-blue-50 text-blue-800 border border-blue-100">
                   {surat.kategori}
                 </span>
               </div>
 
-              <h2 class="text-base font-bold text-slate-950 leading-snug">
+              <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 leading-snug">
                 {surat.nama}
               </h2>
 
-              <p class="text-xs text-slate-600 leading-relaxed line-clamp-2">
+              <p class="text-sm text-slate-600 leading-relaxed line-clamp-3">
                 {surat.deskripsi}
               </p>
 
               <!-- Syarat Berkas Preview -->
-              <div class="pt-2 border-t border-slate-100 space-y-1">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Syarat Berkas:</span>
-                <ul class="text-[11px] text-slate-600 space-y-0.5">
+              <div class="pt-3 border-t border-slate-100 space-y-1.5">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block">Syarat Berkas:</span>
+                <ul class="text-xs text-slate-700 space-y-1">
                   {surat.syarat.slice(0, 3).map((s) => (
-                    <li class="flex items-center gap-1.5 truncate">
-                      <span class="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
+                    <li class="flex items-center gap-2 truncate">
+                      <span class="w-2 h-2 rounded-full bg-blue-600 shrink-0"></span>
                       <span class="truncate">{s}</span>
                     </li>
                   ))}
                   {surat.syarat.length > 3 && (
-                    <li class="text-[10px] text-slate-400 italic">
+                    <li class="text-xs text-slate-500 italic">
                       +{surat.syarat.length - 3} berkas lainnya
                     </li>
                   )}
@@ -315,11 +315,11 @@ const categories = [
             </div>
 
             <!-- Card Actions -->
-            <div class="pt-5 mt-4 border-t border-slate-100 space-y-2">
-              <div class="grid grid-cols-2 gap-2">
+            <div class="pt-6 mt-4 border-t border-slate-100 space-y-2">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <button
                   type="button"
-                  class="btn-panduan w-full py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center"
+                  class="btn-panduan w-full min-h-[44px] py-2.5 px-3 rounded-xl text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center"
                   data-surat-id={surat.id}
                   data-surat-nama={surat.nama}
                   data-surat-syarat={JSON.stringify(surat.syarat)}
@@ -333,15 +333,15 @@ const categories = [
                     href={surat.link_gform}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="btn-action-gform w-full py-2 px-2.5 rounded-lg text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors text-center flex items-center justify-center gap-1"
+                    class="btn-action-gform w-full min-h-[44px] py-2.5 px-3 rounded-xl text-sm font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors text-center flex items-center justify-center gap-1.5 shadow-xs"
                   >
                     <span>Ajukan Online</span>
-                    <svg class="w-3 h-3 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    <svg class="w-4 h-4 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                   </a>
                 ) : (
                   <a
                     href={`/layanan-surat/${surat.id}`}
-                    class="w-full py-2 px-2.5 rounded-lg text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors text-center flex items-center justify-center"
+                    class="w-full min-h-[44px] py-2.5 px-3 rounded-xl text-sm font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors text-center flex items-center justify-center"
                   >
                     <span>Detail Surat</span>
                   </a>
@@ -521,36 +521,36 @@ const categories = [
       const hasGform = surat.link_gform && surat.link_gform.trim() !== '' && surat.link_gform !== '#';
 
       return `
-        <article class="surat-card bg-sky-50 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-sm transition-all p-6 flex flex-col justify-between" data-category="${surat.kategori}">
-          <div class="space-y-3">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-              <span class="font-mono text-[10px] font-bold text-blue-700">
+        <article class="surat-card bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all p-6 sm:p-7 flex flex-col justify-between" data-category="${surat.kategori}">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <span class="font-mono text-xs font-bold text-blue-700">
                 ${surat.kode || `REG-${surat.id.toUpperCase()}`}
               </span>
-              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-100">
+              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-blue-50 text-blue-800 border border-blue-100">
                 ${surat.kategori}
               </span>
             </div>
 
-            <h2 class="text-base font-bold text-slate-950 leading-snug">
+            <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 leading-snug">
               ${surat.nama}
             </h2>
 
-            <p class="text-xs text-slate-600 leading-relaxed line-clamp-2">
+            <p class="text-sm text-slate-600 leading-relaxed line-clamp-3">
               ${surat.deskripsi}
             </p>
 
-            <div class="pt-2 border-t border-slate-100 space-y-1">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Syarat Berkas:</span>
-              <ul class="text-[11px] text-slate-600 space-y-0.5">
+            <div class="pt-3 border-t border-slate-100 space-y-1.5">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block">Syarat Berkas:</span>
+              <ul class="text-xs text-slate-700 space-y-1">
                 ${surat.syarat.slice(0, 3).map(s => `
-                  <li class="flex items-center gap-1.5 truncate">
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
+                  <li class="flex items-center gap-2 truncate">
+                    <span class="w-2 h-2 rounded-full bg-blue-600 shrink-0"></span>
                     <span class="truncate">${s}</span>
                   </li>
                 `).join('')}
                 ${surat.syarat.length > 3 ? `
-                  <li class="text-[10px] text-slate-400 italic">
+                  <li class="text-xs text-slate-500 italic">
                     +${surat.syarat.length - 3} berkas lainnya
                   </li>
                 ` : ''}
@@ -558,11 +558,11 @@ const categories = [
             </div>
           </div>
 
-          <div class="pt-5 mt-4 border-t border-slate-100 space-y-2">
-            <div class="grid grid-cols-2 gap-2">
+          <div class="pt-6 mt-4 border-t border-slate-100 space-y-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <button
                 type="button"
-                class="btn-panduan w-full py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center"
+                class="btn-panduan w-full min-h-[44px] py-2.5 px-3 rounded-xl text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center"
                 data-surat-id="${surat.id}"
                 data-surat-nama="${surat.nama}"
                 data-surat-syarat='${JSON.stringify(surat.syarat)}'
@@ -576,15 +576,15 @@ const categories = [
                   href="${surat.link_gform}"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="btn-action-gform w-full py-2 px-2.5 rounded-lg text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors text-center flex items-center justify-center gap-1"
+                  class="btn-action-gform w-full min-h-[44px] py-2.5 px-3 rounded-xl text-sm font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors text-center flex items-center justify-center gap-1.5 shadow-xs"
                 >
                   <span>Ajukan Online</span>
-                  <svg class="w-3 h-3 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  <svg class="w-4 h-4 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                 </a>
               ` : `
                 <a
                   href="/layanan-surat/${surat.id}"
-                  class="w-full py-2 px-2.5 rounded-lg text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors text-center flex items-center justify-center"
+                  class="w-full min-h-[44px] py-2.5 px-3 rounded-xl text-sm font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors text-center flex items-center justify-center"
                 >
                   <span>Detail Surat</span>
                 </a>

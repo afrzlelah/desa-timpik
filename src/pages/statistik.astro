@@ -39,7 +39,7 @@ import profilData from '../data/profil.json';
         
         <div class="p-6 sm:p-8 space-y-2">
           <span class="text-[10px]  uppercase tracking-widest text-civic-muted block">Total Penduduk</span>
-          <h2 class="text-3xl sm:text-4xl  font-black text-civic-navy tracking-tight">
+          <h2 id="stat-total-penduduk" class="text-3xl sm:text-4xl font-black text-civic-navy tracking-tight">
             {profilData.statistik.total_penduduk}
           </h2>
           <p class="text-xs text-civic-muted font-sans">Tersebar di 4 wilayah kadus</p>
@@ -95,7 +95,7 @@ import profilData from '../data/profil.json';
           <div class="p-6 sm:p-8 space-y-6">
             <div class="space-y-2">
               <div class="flex justify-between text-xs  font-bold">
-                <span class="text-civic-navy flex items-center gap-2">
+                <span class="text-civic-navy flex items-center gap-2" id="stat-laki-laki">
                   <span class="w-2.5 h-2.5 bg-red-800 inline-block"></span> Laki-laki ({profilData.statistik.laki_laki})
                 </span>
                 <span class="text-red-800">50.2%</span>
@@ -107,7 +107,7 @@ import profilData from '../data/profil.json';
 
             <div class="space-y-2">
               <div class="flex justify-between text-xs  font-bold">
-                <span class="text-civic-navy flex items-center gap-2">
+                <span class="text-civic-navy flex items-center gap-2" id="stat-perempuan">
                   <span class="w-2.5 h-2.5 bg-blue-800 inline-block"></span> Perempuan ({profilData.statistik.perempuan})
                 </span>
                 <span class="text-blue-800 font-bold">49.8%</span>

@@ -3,7 +3,7 @@ import '../styles/global.css';
 
 interface Props {
   title: string;
-  activeMenu?: 'dashboard' | 'surat' | 'berita' | 'agenda' | 'aduan' | 'apbdes' | 'register' | 'kontak';
+  activeMenu?: 'dashboard' | 'surat' | 'berita' | 'agenda' | 'aduan' | 'apbdes' | 'register' | 'kontak' | 'informasi';
 }
 
 const { title, activeMenu = 'dashboard' } = Astro.props;
@@ -75,6 +75,12 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
             </svg>
           </a>
 
+          <a href="/admin/informasi" title="Informasi Desa & Dusun" class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition ${activeMenu === 'informasi' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+          </a>
+
           <a href="/admin/register-ekspor" title="Buku Register" class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition ${activeMenu === 'register' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>
             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 10v6m0 0l-3-3m3 3l3-3m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5l5 5v11a2 2 0 01-2 2z"/>
@@ -126,63 +132,70 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
         </div>
 
         <!-- Main Navigation -->
-        <nav class="flex-1 space-y-1 overflow-y-auto px-3 py-4">
-          <p class="mb-3 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Menu Utama</p>
+        <nav class="flex-1 space-y-1.5 overflow-y-auto px-3 py-4">
+          <p class="mb-3 px-3 text-xs font-bold uppercase tracking-wider text-slate-400">Menu Kelola Desa</p>
 
-          <a href="/admin/dashboard" class={`flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] transition ${activeMenu === 'dashboard' ? 'bg-blue-600 font-semibold text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <a href="/admin/dashboard" class={`flex h-12 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'dashboard' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
+            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 12l9-9 9 9M5 10v10h14V10"/>
             </svg>
             <span>Ringkasan</span>
           </a>
 
-          <a href="/admin/surat" class={`flex h-10 items-center justify-between gap-3 rounded-lg px-3 text-[13px] transition ${activeMenu === 'surat' ? 'bg-blue-600 font-semibold text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
-            <span class="flex items-center gap-3">
-              <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <a href="/admin/surat" class={`flex h-12 items-center justify-between gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'surat' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
+            <span class="flex items-center gap-3.5">
+              <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5l5 5v11a2 2 0 01-2 2z"/>
               </svg>
               Kelola Surat & GForm
             </span>
-            <span id="badge-count-surat" class="rounded-md bg-blue-500/20 px-1.5 py-0.5 text-[10px] font-bold text-blue-300">10</span>
+            <span id="badge-count-surat" class="rounded-md bg-blue-500/20 px-2 py-0.5 text-xs font-bold text-blue-300">10</span>
           </a>
 
-          <a href="/admin/berita" class={`flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] transition ${activeMenu === 'berita' ? 'bg-blue-600 font-semibold text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <a href="/admin/informasi" class={`flex h-12 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'informasi' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
+            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+            <span>Informasi Desa & Dusun</span>
+          </a>
+
+          <a href="/admin/berita" class={`flex h-12 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'berita' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
+            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13V7"/>
             </svg>
             <span>Kelola Berita</span>
           </a>
 
-          <a href="/admin/agenda" class={`flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] transition ${activeMenu === 'agenda' ? 'bg-blue-600 font-semibold text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <a href="/admin/agenda" class={`flex h-12 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'agenda' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
+            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3m8 4V3M4 11h16M5 21h14a1 1 0 001-1V7a2 2 0 00-2-2H6a2 2 0 00-2 2v13a1 1 0 001 1z"/>
             </svg>
-            <span>Agenda & Info Desa</span>
+            <span>Agenda & Kegiatan</span>
           </a>
 
-          <a href="/admin/aduan" class={`flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] transition ${activeMenu === 'aduan' ? 'bg-blue-600 font-semibold text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <a href="/admin/aduan" class={`flex h-12 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'aduan' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
+            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
             </svg>
             <span>Kotak Aduan Warga</span>
           </a>
 
-          <a href="/admin/apbdes" class={`flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] transition ${activeMenu === 'apbdes' ? 'bg-blue-600 font-semibold text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <a href="/admin/apbdes" class={`flex h-12 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'apbdes' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
+            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v8m-3-6c0-1 1.3-2 3-2s3 1 3 2-1 2-3 2-3-1-3 2 1.3 2 3 2 3-1 3-2M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
             <span>Transparansi APBDes</span>
           </a>
 
-          <a href="/admin/kontak" class={`flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] transition ${activeMenu === 'kontak' ? 'bg-blue-600 font-semibold text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <a href="/admin/kontak" class={`flex h-12 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'kontak' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
+            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5a2 2 0 012-2h3l2 5-3 2a11 11 0 005 5l2-3 5 2v3a2 2 0 01-2 2A16 16 0 013 5z"/>
             </svg>
-            <span>Kelola Kontak & Hotline</span>
+            <span>Kontak & Hotline</span>
           </a>
 
-          <a href="/admin/register-ekspor" class={`flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] transition ${activeMenu === 'register' ? 'bg-blue-600 font-semibold text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <a href="/admin/register-ekspor" class={`flex h-12 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'register' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
+            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 10v6m0 0l-3-3m3 3l3-3m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5l5 5v11a2 2 0 01-2 2z"/>
             </svg>
             <span>Buku Register & Ekspor</span>
@@ -190,17 +203,17 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
         </nav>
 
         <!-- Expanded Bottom Actions -->
-        <div class="shrink-0 border-t border-slate-700 bg-[#08172b] p-3">
+        <div class="shrink-0 border-t border-slate-700 bg-[#08172b] p-3 space-y-1">
 
-          <a href="/" target="_blank" rel="noopener noreferrer" class="flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] text-slate-300 transition hover:bg-slate-800 hover:text-white">
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <a href="/" target="_blank" rel="noopener noreferrer" class="flex h-11 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold text-slate-300 transition hover:bg-slate-800 hover:text-white">
+            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M14 4h6v6m0-6L10 14M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
             </svg>
-            <span>Web Publik</span>
+            <span>Buka Web Publik &rarr;</span>
           </a>
 
-          <button type="button" data-admin-logout class="flex h-10 w-full items-center gap-3 rounded-lg px-3 text-[13px] text-rose-300 transition hover:bg-rose-950 hover:text-rose-200">
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button type="button" data-admin-logout class="flex h-11 w-full items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold text-rose-300 transition hover:bg-rose-950 hover:text-rose-200">
+            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
             </svg>
             <span>Keluar Sesi</span>

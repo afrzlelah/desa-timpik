@@ -65,34 +65,34 @@ const heroSlides = [
         Pemerintah Desa Timpik
       </h1>
 
-      <!-- Editorial Subtitle -->
-      <p class="text-sm sm:text-base md:text-lg text-slate-200 max-w-2xl mx-auto leading-relaxed font-normal mb-8 drop-shadow">
-        Harmoni kesuburan agraris 243 Hektar di lereng perbukitan Susukan, lumbung pelestarian seni Wayang Orang Badoyo, dan tata kelola birokrasi pelayanan publik yang bersih, cepat, serta berkeadaban.
+      <!-- Editorial Subtitle (Bahasa Sederhana & Ramah Warga 40+) -->
+      <p class="text-base sm:text-lg md:text-xl text-slate-100 max-w-3xl mx-auto leading-relaxed font-normal mb-8 drop-shadow">
+        Website Resmi Pemerintah Desa Timpik, Kecamatan Susukan, Kabupaten Semarang. Melayani pengurusan surat menyurat warga secara online, penyampaian pengumuman resmi desa, dan transparansi pembangunan masyarakat.
       </p>
 
-      <!-- Action Gateways -->
-      <div class="flex flex-wrap items-center justify-center gap-3">
+      <!-- Action Gateways (Tombol Besar & Mudah Diklik) -->
+      <div class="flex flex-wrap items-center justify-center gap-3.5">
         <a
           href="/layanan-surat"
-          class="px-6 py-3 rounded-lg font-bold text-xs sm:text-sm text-white bg-blue-600 hover:bg-blue-500 shadow-md shadow-blue-900/30 transition-all flex items-center gap-2"
+          class="px-7 py-3.5 rounded-xl font-black text-sm sm:text-base text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-950/40 transition-all flex items-center gap-2.5 min-h-[48px]"
         >
-          <svg class="w-4 h-4 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          <span>Layanan Surat Mandiri</span>
+          <svg class="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span>Ajukan Surat Online</span>
         </a>
 
         <a
           href="/info-desa"
-          class="px-6 py-3 rounded-lg font-semibold text-xs sm:text-sm text-white bg-slate-900/80 hover:bg-slate-900 border border-white/25 transition-all flex items-center gap-1.5"
+          class="px-6 py-3.5 rounded-xl font-bold text-sm sm:text-base text-white bg-slate-900/90 hover:bg-slate-900 border border-white/30 transition-all flex items-center gap-2 min-h-[48px]"
         >
-          <span>Pusat Informasi & Pengumuman</span>
+          <span>Pengumuman Desa</span>
           <span class="text-blue-300">&rarr;</span>
         </a>
 
         <a
           href="/kontak"
-          class="px-5 py-3 rounded-lg font-semibold text-xs sm:text-sm text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
+          class="px-6 py-3.5 rounded-xl font-bold text-sm sm:text-base text-white hover:bg-white/20 border border-white/30 transition-colors min-h-[48px] flex items-center"
         >
-          Hotline Balai Desa
+          Hubungi Balai Desa
         </a>
       </div>
 
@@ -100,26 +100,26 @@ const heroSlides = [
       <div class="mt-14 w-full max-w-4xl border-t border-white/20 pt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
         <div class="px-3">
           <span class="text-2xl sm:text-3xl font-black text-blue-300 block font-mono">4</span>
-          <p class="text-[11px] font-semibold text-white uppercase tracking-wider mt-0.5">Wilayah Dusun</p>
-          <span class="text-[10px] text-white">Bogo &bull; Sumber &bull; Krajan &bull; Kencana</span>
+          <p class="text-xs sm:text-sm font-bold text-white uppercase tracking-wider mt-0.5">Wilayah Dusun</p>
+          <span class="text-xs text-slate-200">Bogo • Sumber • Krajan • Kencana</span>
         </div>
 
         <div class="px-3 border-l border-white/15">
-          <span class="text-2xl sm:text-3xl font-black text-blue-300 block font-mono">2.845</span>
-          <p class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider mt-0.5">Jiwa Warga</p>
-          <span class="text-[10px] text-white">872 Kepala Keluarga</span>
+          <span class="text-2xl sm:text-3xl font-black text-blue-300 block font-mono" id="hero-total-warga">5.696</span>
+          <p class="text-xs sm:text-sm font-bold text-slate-200 uppercase tracking-wider mt-0.5">Jiwa Warga</p>
+          <span class="text-xs text-slate-200" id="hero-detail-warga">LK 2.848 &bull; PM 2.848</span>
         </div>
 
         <div class="px-3 border-l border-white/15">
           <span class="text-2xl sm:text-3xl font-black text-blue-300 block font-mono">243 Ha</span>
-          <p class="text-[11px] font-semibold text-white uppercase tracking-wider mt-0.5">Hamparan Sawah</p>
-          <span class="text-[10px] text-white">78% Lahan Produktif P3A</span>
+          <p class="text-xs sm:text-sm font-bold text-white uppercase tracking-wider mt-0.5">Luas Wilayah</p>
+          <span class="text-xs text-slate-200">78% Lahan Pertanian Subur</span>
         </div>
 
         <div class="px-3 border-l border-white/15">
-          <span class="text-2xl sm:text-3xl font-black text-sky-300 block font-mono">Rp 0,-</span>
-          <p class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider mt-0.5">Biaya Surat</p>
-          <span class="text-[10px] text-white">100% Bebas Pungutan Liar</span>
+          <span class="text-2xl sm:text-3xl font-black text-emerald-400 block font-mono">Rp 0,-</span>
+          <p class="text-xs sm:text-sm font-bold text-slate-200 uppercase tracking-wider mt-0.5">Biaya Surat</p>
+          <span class="text-xs text-emerald-300 font-semibold">100% Bebas Pungutan Liar</span>
         </div>
       </div>
 
@@ -162,45 +162,61 @@ const heroSlides = [
   <!-- PINTASAN CEPAT 4 PILAR PELAYANAN DESA -->
   <section class="py-10 bg-white border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 ">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-200">
         
-        <a href="/layanan-surat" class="p-6 group hover:bg-blue-50/50 shadow-lg hover:shadow-2xl transition-colors flex flex-col justify-between">
+        <a href="/layanan-surat" class="p-7 group hover:bg-blue-50/70 transition-colors flex flex-col justify-between">
           <div>
-            <h3 class="text-base font-bold text-slate-950 group-hover:text-blue-700 transition-colors">Layanan Surat Mandiri</h3>
-            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Pengajuan SKU, SKD, SKCK, dan SKTM terintegrasi Google Form tanpa antre.</p>
+            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">Layanan Surat Online</h3>
+            <p class="text-sm text-slate-600 mt-2 leading-relaxed">Pengajuan SKU, SKD, SKCK, dan SKTM praktis lewat Google Form tanpa antre.</p>
           </div>
-          <span class="mt-4 text-xs font-bold text-blue-700 group-hover:text-blue-800 flex items-center gap-1">
-            Buka Katalog Surat &rarr;
+          <span class="mt-5 text-sm font-bold text-blue-700 group-hover:text-blue-900 flex items-center gap-1.5">
+            <span>Buka Layanan Surat</span>
+            <span>&rarr;</span>
           </span>
         </a>
 
-        <a href="/layanan-surat/lacak" class="p-6 group hover:bg-blue-50/50 shadow-lg hover:shadow-2xl transition-colors flex flex-col justify-between">
+        <a href="/layanan-surat/lacak" class="p-7 group hover:bg-blue-50/70 transition-colors flex flex-col justify-between">
           <div>
-            <h3 class="text-base font-bold text-slate-950 group-hover:text-blue-700 transition-colors">Lacak Status Dokumen</h3>
-            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Cek progres penandatanganan dan kesiapan berkas Anda dengan nomor tiket.</p>
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">Lacak Berkas Surat</h3>
+            <p class="text-sm text-slate-600 mt-2 leading-relaxed">Periksa proses verifikasi dan kesiapan surat Anda dengan nomor tiket.</p>
           </div>
-          <span class="mt-4 text-xs font-bold text-blue-700 group-hover:text-blue-800 flex items-center gap-1">
-            Cek Tiket Surat &rarr;
+          <span class="mt-5 text-sm font-bold text-blue-700 group-hover:text-blue-900 flex items-center gap-1.5">
+            <span>Cek Status Dokumen</span>
+            <span>&rarr;</span>
           </span>
         </a>
 
-        <a href="/agenda" class="p-6 group hover:bg-blue-50/50 shadow-lg hover:shadow-2xl transition-colors flex flex-col justify-between">
+        <a href="/agenda" class="p-7 group hover:bg-blue-50/70 transition-colors flex flex-col justify-between">
           <div>
-            <h3 class="text-base font-bold text-slate-950 group-hover:text-blue-700 transition-colors">Agenda Kegiatan Warga</h3>
-            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Jadwal pembagian giliran debit air P3A, posyandu balita & lansia, dan musdes.</p>
+            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M4 11h16M5 21h14a1 1 0 001-1V7a2 2 0 00-2-2H6a2 2 0 00-2 2v13a1 1 0 001 1z"/></svg>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">Jadwal & Agenda Desa</h3>
+            <p class="text-sm text-slate-600 mt-2 leading-relaxed">Jadwal posyandu, giliran air tani P3A, dan pertemuan warga desa.</p>
           </div>
-          <span class="mt-4 text-xs font-bold text-blue-700 group-hover:text-blue-800 flex items-center gap-1">
-            Buka Kalender Bulanan &rarr;
+          <span class="mt-5 text-sm font-bold text-blue-700 group-hover:text-blue-900 flex items-center gap-1.5">
+            <span>Lihat Kalender</span>
+            <span>&rarr;</span>
           </span>
         </a>
 
-        <a href="/layanan-aduan" class="p-6 group hover:bg-blue-50/50 shadow-lg hover:shadow-2xl transition-colors flex flex-col justify-between">
+        <a href="/layanan-aduan" class="p-7 group hover:bg-blue-50/70 transition-colors flex flex-col justify-between">
           <div>
-            <h3 class="text-base font-bold text-slate-950 group-hover:text-blue-700 transition-colors">Aduan & Aspirasi Warga</h3>
-            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Saluran pelaporan kendala saluran irigasi, lampu jalan, dan usulan sosial.</p>
+            <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">Aduan & Aspirasi</h3>
+            <p class="text-sm text-slate-600 mt-2 leading-relaxed">Sampaikan kendala jalan, penerangan, irigasi atau usulan langsung ke aparat desa.</p>
           </div>
-          <span class="mt-4 text-xs font-bold text-blue-700 group-hover:text-blue-800 flex items-center gap-1">
-            Kirim Pengaduan &rarr;
+          <span class="mt-5 text-sm font-bold text-blue-700 group-hover:text-blue-900 flex items-center gap-1.5">
+            <span>Kirim Aduan</span>
+            <span>&rarr;</span>
           </span>
         </a>
 
@@ -311,28 +327,27 @@ const heroSlides = [
                 </span>
               </div>
 
-              <div class="p-5">
-                <div class="flex items-center gap-2 text-[11px] text-slate-500 mb-2">
+              <div class="p-6">
+                <div class="flex items-center gap-2 text-xs text-slate-500 mb-2 font-medium">
                   <span>{berita.tanggal}</span>
-                
                 </div>
 
-                <h3 class="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
+                <h3 class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
                   <a href={`/berita/${berita.id}`} class="hover:underline">
                     {berita.judul}
                   </a>
                 </h3>
 
-                <p class="text-xs text-slate-600 mt-2 line-clamp-3 leading-relaxed">
+                <p class="text-sm text-slate-600 mt-2 line-clamp-3 leading-relaxed">
                   {berita.ringkasan}
                 </p>
               </div>
             </div>
 
-            <div class="p-5 pt-0">
+            <div class="p-6 pt-0">
               <button
                 type="button"
-                class="btn-baca-berita w-full py-2 px-3 rounded-lg text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors flex items-center justify-center gap-1.5"
+                class="btn-baca-berita w-full py-3 px-4 rounded-xl text-sm font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors flex items-center justify-center gap-2 min-h-[44px]"
                 data-berita-id={berita.id}
                 data-berita-judul={berita.judul}
                 data-berita-kategori={berita.kategori}
@@ -340,8 +355,8 @@ const heroSlides = [
                 data-berita-konten={berita.konten}
                 data-berita-gambar={berita.gambar}
               >
-                <span>Baca Lengkap</span>
-                <span class="text-blue-500">&rarr;</span>
+                <span>Baca Selengkapnya</span>
+                <span class="text-blue-600 font-bold">&rarr;</span>
               </button>
             </div>
           </article>
@@ -366,33 +381,30 @@ const heroSlides = [
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {profilData.dusun.map((dusun, idx) => (
-          <div class="bg-white rounded-xl border border-slate-200 p-6 flex flex-col justify-between hover:border-blue-400 hover:shadow-sm transition-all">
+        {profilData.dusun.map((dusun) => (
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 flex flex-col justify-between hover:border-blue-400 hover:shadow-md transition-all">
             <div>
               <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
-                {/* <span class="font-mono text-xs font-bold text-blue-700">DUSUN 0{idx + 1}</span> */}
-                <span class="text-[10px] font-bold text-slate-600 px-2 py-0.5 rounded bg-slate-100">
+                <span class="text-xs font-bold text-blue-700 px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100">
                   {dusun.jumlah_rt}
                 </span>
+                <span class="text-xs font-medium text-slate-500">{dusun.luas || ''}</span>
               </div>
 
-              <h3 class="text-lg font-bold text-slate-950">
+              <h3 class="text-xl font-extrabold text-slate-900">
                 {dusun.nama}
               </h3>
 
-              {/* <p class="text-xs font-semibold text-blue-700 mt-0.5 mb-2">
-                {dusun.potensi_utama}
-              </p> */}
-
-              <p class="text-xs text-slate-600 leading-relaxed line-clamp-3">
+              <p class="text-sm text-slate-600 mt-2.5 leading-relaxed line-clamp-3">
                 {dusun.deskripsi}
               </p>
             </div>
 
-            <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-              <span class="text-slate-500 text-[11px]">{dusun.jumlah_penduduk}</span>
-              <a href={`/dusun/${dusun.id}`} class="font-bold text-blue-700 hover:text-blue-900 transition-colors">
-                Profil Dusun &rarr;
+            <div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-sm">
+              <span class="text-slate-500 font-medium text-xs">{dusun.kepala_dusun || ''}</span>
+              <a href={`/dusun/${dusun.id}`} class="font-extrabold text-blue-700 hover:text-blue-900 transition-colors flex items-center gap-1">
+                <span>Info Dusun</span>
+                <span>&rarr;</span>
               </a>
             </div>
           </div>
@@ -646,29 +658,29 @@ Dengan memanfaatkan sistem formulir digital, pengajuan dokumen seperti SKU, SKD,
                     </span>
                   </div>
 
-                  <div class="p-5">
-                    <div class="flex items-center gap-2 text-[11px] text-slate-500 mb-2">
+                  <div class="p-6">
+                    <div class="flex items-center gap-2 text-xs text-slate-500 mb-2 font-medium">
                       <span>${b.tanggal}</span>
                       <span>&bull;</span>
                       <span class="font-medium text-slate-700">${b.penulis || 'Pemdes Timpik'}</span>
                     </div>
 
-                    <h3 class="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
+                    <h3 class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
                       <a href="/berita/${b.id}" class="hover:underline">
                         ${b.judul}
                       </a>
                     </h3>
 
-                    <p class="text-xs text-slate-600 mt-2 line-clamp-3 leading-relaxed">
+                    <p class="text-sm text-slate-600 mt-2 line-clamp-3 leading-relaxed">
                       ${b.ringkasan || b.konten || ''}
                     </p>
                   </div>
                 </div>
 
-                <div class="p-5 pt-0">
+                <div class="p-6 pt-0">
                   <button
                     type="button"
-                    class="btn-baca-berita w-full py-2 px-3 rounded-lg text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors flex items-center justify-center gap-1.5"
+                    class="btn-baca-berita w-full py-3 px-4 rounded-xl text-sm font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors flex items-center justify-center gap-2 min-h-[44px]"
                     data-berita-id="${b.id}"
                     data-berita-judul="${b.judul}"
                     data-berita-kategori="${b.kategori}"
@@ -677,8 +689,8 @@ Dengan memanfaatkan sistem formulir digital, pengajuan dokumen seperti SKU, SKD,
                     data-berita-konten="${encodeURIComponent(b.konten || b.ringkasan || '')}"
                     data-berita-gambar="${b.gambar || '/images/balai-desa-timpik.jpg'}"
                   >
-                    <span>Baca Lengkap</span>
-                    <span class="text-blue-500">&rarr;</span>
+                    <span>Baca Selengkapnya</span>
+                    <span class="text-blue-600 font-bold">&rarr;</span>
                   </button>
                 </div>
               </article>
@@ -708,6 +720,26 @@ Dengan memanfaatkan sistem formulir digital, pengajuan dokumen seperti SKU, SKD,
     }
   } catch (e) {
     console.warn('Gagal hidrasi jam kerja beranda', e);
+  }
+
+  // Hydrate total warga from timpik_profil_data
+  try {
+    const rawProfil = localStorage.getItem('timpik_profil_data');
+    if (rawProfil) {
+      const parsedProfil = JSON.parse(rawProfil);
+      if (parsedProfil && parsedProfil.statistik) {
+        const elTotal = document.getElementById('hero-total-warga');
+        const elDetail = document.getElementById('hero-detail-warga');
+        if (elTotal && parsedProfil.statistik.total_penduduk) {
+          elTotal.textContent = parsedProfil.statistik.total_penduduk.replace(/[^0-9.]/g, '') || parsedProfil.statistik.total_penduduk;
+        }
+        if (elDetail && parsedProfil.statistik.laki_laki && parsedProfil.statistik.perempuan) {
+          elDetail.innerHTML = `LK ${parsedProfil.statistik.laki_laki.replace(/[^0-9.]/g, '')} &bull; PM ${parsedProfil.statistik.perempuan.replace(/[^0-9.]/g, '')}`;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Gagal hidrasi data warga beranda', e);
   }
 
   function closeBeritaModal() {

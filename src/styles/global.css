@@ -8,12 +8,13 @@
     font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
     color: #0F172A;
     background-color: #FFFFFF;
+    font-size: 18px;
   }
 
   body {
     background-color: #FFFFFF;
     color: #0F172A;
-    line-height: 1.6;
+    line-height: 1.8;
     letter-spacing: -0.011em;
   }
 
@@ -22,6 +23,13 @@
     font-family: 'Newsreader', Merriweather, Georgia, serif;
     letter-spacing: -0.02em;
   }
+}
+
+/* Readability defaults for residents using small screens or larger text settings. */
+@layer base {
+  button, a, input, select, textarea { touch-action: manipulation; }
+  button, a { min-height: 3rem; /* 48px touch target */ }
+  :focus-visible { outline: 3px solid #F4B942; outline-offset: 3px; }
 }
 
 /* Custom Scrollbar */
@@ -64,3 +72,8 @@
 .civic-hairline {
   border-color: #E2E8F0;
 }
+
+/* Raise the many compact labels and helper lines in the original UI. */
+.text-xs { font-size: .875rem !important; line-height: 1.5rem !important; }
+[class*="text-[10px]"], [class*="text-[11px]"], [class*="text-[12px]"] { font-size: .8125rem !important; line-height: 1.35rem !important; }
+.text-slate-400, .text-slate-500 { color: #475569 !important; }

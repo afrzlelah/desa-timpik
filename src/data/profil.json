@@ -25,7 +25,6 @@
       "kepala_dusun": "Bapak Kadus Bogo",
       "potensi_utama": "Wayang Orang, Pertanian Padi, Karawitan",
       "jumlah_rt": "4 RT / 1 RW",
-      "jumlah_penduduk": "740 Jiwa",
       "luas": "68 Ha"
     },
     {
@@ -36,7 +35,6 @@
       "kepala_dusun": "Bapak Kadus Sumber",
       "potensi_utama": "Seni Angguk, Konservasi Mata Air, Palawija",
       "jumlah_rt": "3 RT / 1 RW",
-      "jumlah_penduduk": "630 Jiwa",
       "luas": "54 Ha"
     },
     {
@@ -47,7 +45,6 @@
       "kepala_dusun": "Bapak Kadus Krajan",
       "potensi_utama": "Pelayanan Publik, Balai Desa, UMKM Perdagangan",
       "jumlah_rt": "5 RT / 2 RW",
-      "jumlah_penduduk": "820 Jiwa",
       "luas": "61 Ha"
     },
     {
@@ -58,17 +55,16 @@
       "kepala_dusun": "Bapak Kadus Kencana",
       "potensi_utama": "Lumbung Pangan Padi, Gapoktan, Peternakan",
       "jumlah_rt": "4 RT / 1 RW",
-      "jumlah_penduduk": "655 Jiwa",
       "luas": "60 Ha"
     }
   ],
   "statistik": {
-    "total_penduduk": "2.845 Jiwa",
+    "total_penduduk": "5.696 Jiwa",
     "total_kk": "872 KK",
     "luas_wilayah": "243 Ha",
     "lahan_pertanian": "189 Ha (78%)",
-    "laki_laki": "1.430 Jiwa",
-    "perempuan": "1.415 Jiwa",
+    "laki_laki": "2.848 Jiwa",
+    "perempuan": "2.848 Jiwa",
     "pekerjaan_petani": "76%",
     "pekerjaan_wiraswasta": "14%",
     "pekerjaan_lainnya": "10%"

@@ -16,62 +16,57 @@ const categories = [
   description="Kabar terkini seputar kegiatan Desa Timpik, Kecamatan Susukan, Kabupaten Semarang: program kerja KKN, agenda pertanian Gapoktan, pementasan wayang orang, dan pengumuman desa."
 >
   <!-- Architectural Civic Header -->
-  <section class="bg-gradient-to-r from-black/90 to-blue-900  text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+  <section class="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white border-b border-blue-800/40 pt-14 pb-12 sm:pt-16 sm:pb-14">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Breadcrumb -->
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-400 mb-5" aria-label="Breadcrumb">
-        <a href="/" class="hover:text-blue-300 transition-colors">Beranda</a>
-        <span class="text-slate-600">/</span>
-        <span class="text-blue-300 font-bold">Warta & Publikasi</span>
+      <nav class="flex items-center gap-2 text-xs sm:text-sm font-semibold uppercase tracking-wider text-blue-200 mb-5" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-white transition-colors">Beranda</a>
+        <span class="text-blue-300">/</span>
+        <span class="text-amber-400">Warta & Kabar Desa</span>
       </nav>
 
       <div class="max-w-3xl space-y-3">
-        <!-- <div class="flex items-center gap-2.5">
-          <span class="h-px w-6 bg-blue-400"></span>
-          <span class="text-xs font-mono uppercase tracking-widest text-blue-300 font-bold">Warta Resmi Pemerintah Desa Timpik</span>
-        </div> -->
-        
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight text-white leading-tight">
-          Portal Berita & Kabar Desa
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+          Portal Berita & Kabar Desa Timpik
         </h1>
         
-        <p class="text-slate-300 text-sm sm:text-base leading-relaxed pt-1">
-          Catatan kemajuan pembangunan fisik, kegiatan pengabdian mahasiswa KKN, rembuk tani Gapoktan, hingga pelestarian tradisi seni wayang orang warga Desa Timpik.
+        <p class="text-blue-100 text-base sm:text-lg leading-relaxed pt-1">
+          Informasi kemajuan pembangunan desa, kegiatan warga, jadwal panen tani, pengabdian mahasiswa, serta agenda kesenian tradisional Desa Timpik.
         </p>
       </div>
 
     </div>
   </section>
 
-  <!-- Filter & Search Section (Civic Control Bar) -->
-  <section class="py-4 bg-white border-b border-civic-border sticky top-16 z-30 shadow-xs">
+  <!-- Filter & Search Section -->
+  <section class="py-4 bg-white border-b border-slate-200 sticky top-16 z-30 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row items-center justify-between gap-4">
         
         <!-- Search Input -->
         <div class="relative w-full md:w-96">
-          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-civic-muted">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </div>
           <input
             type="text"
             id="berita-search-input"
-            placeholder="Cari judul berita, topik, atau kata kunci..."
-            class="w-full pl-10 pr-4 py-2 border border-civic-border bg-civic-sand/20 text-civic-navy text-xs font-sans focus:outline-none focus:border-civic-navy focus:bg-white"
+            placeholder="Cari judul berita atau topik..."
+            class="w-full pl-11 pr-4 py-2.5 border border-slate-300 rounded-xl bg-slate-50 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white"
           />
         </div>
 
         <!-- Category Tabs -->
-        <div class="flex items-center gap-1 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+        <div class="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-none">
           {categories.map((cat, idx) => (
             <button
               type="button"
               data-category={cat}
-              class={`berita-filter-btn px-3 py-1.5 text-xs font-mono uppercase tracking-wider transition-all whitespace-nowrap border ${
+              class={`berita-filter-btn min-h-[40px] px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap border ${
                 idx === 0
-                  ? 'bg-black text-white border-civic-navy font-bold active-berita-filter'
-                  : 'bg-white text-black border-civic-border  font-medium'
+                  ? 'bg-blue-900 text-white border-blue-900 active-berita-filter shadow-xs'
+                  : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'
               }`}
             >
               {cat}
@@ -90,47 +85,47 @@ const categories = [
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="berita-grid">
         {beritaData.map((berita) => (
           <article
-            class="berita-card  border border-civic-border shadow-xs hover:border-civic-navy transition-all duration-200 flex flex-col justify-between group"
+            class="berita-card bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden group"
             data-judul={berita.judul.toLowerCase()}
             data-kategori={berita.kategori}
             data-ringkasan={berita.ringkasan.toLowerCase()}
           >
-            {/* <div>
-              <div class="relative h-48 overflow-hidden bg-slate-100 border-b border-civic-border">
+            <div>
+              <div class="relative h-48 sm:h-52 overflow-hidden bg-slate-100 border-b border-slate-100">
                 <img
                   src={berita.gambar}
                   alt={berita.judul}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   onerror="this.src='/images/balai-desa-timpik.jpg'"
                 />
-                <span class="absolute top-3 left-3 text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 bg-black text-white font-bold border border-white/20">
+                <span class="absolute top-3 left-3 text-xs uppercase tracking-wider px-2.5 py-1 bg-blue-950/90 text-white font-bold rounded-md">
                   {berita.kategori}
                 </span>
               </div>
 
               <div class="p-5 sm:p-6 space-y-3">
-                <div class="flex items-center gap-2 text-[11px] font-mono text-civic-muted">
+                <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
                   <span>{berita.tanggal}</span>
                   <span>&bull;</span>
-                  <span class="truncate">{berita.penulis}</span>
+                  <span class="truncate">{berita.penulis || 'Pemdes Timpik'}</span>
                 </div>
 
-                <h2 class="text-base sm:text-lg font-serif font-bold text-civic-navy group-hover:text-blue-700 transition-colors leading-snug line-clamp-2">
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-blue-800 transition-colors leading-snug line-clamp-2">
                   <a href={`/berita/${berita.id}`}>
                     {berita.judul}
                   </a>
                 </h2>
 
-                <p class="text-xs text-civic-muted line-clamp-3 leading-relaxed">
+                <p class="text-sm text-slate-600 line-clamp-3 leading-relaxed">
                   {berita.ringkasan}
                 </p>
               </div>
-            </div> */}
+            </div>
 
-            <div class="p-5 sm:p-6 pt-0 border-t border-civic-border/60 mt-4 grid grid-cols-2 gap-2">
+            <div class="p-5 sm:p-6 pt-0 border-t border-slate-100 mt-4 grid grid-cols-2 gap-2.5">
               <button
                 type="button"
-                class="btn-baca-berita-page py-2 px-3 text-xs font-mono uppercase tracking-wider text-civic-navy bg-civic-sand/40 hover:bg-civic-sand border border-civic-border transition-colors flex items-center justify-center font-bold"
+                class="btn-baca-berita-page min-h-[44px] py-2 px-3 text-sm font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors flex items-center justify-center"
                 data-berita-id={berita.id}
                 data-berita-judul={berita.judul}
                 data-berita-kategori={berita.kategori}
@@ -143,7 +138,7 @@ const categories = [
               </button>
               <a
                 href={`/berita/${berita.id}`}
-                class="py-2 px-3 text-xs font-mono uppercase tracking-wider text-white bg-civic-navy hover:bg-civic-navy/90 transition-colors flex items-center justify-center gap-1 font-bold"
+                class="min-h-[44px] py-2 px-3 text-sm font-bold text-white bg-blue-900 hover:bg-blue-950 rounded-xl transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
               >
                 <span>Detail &rarr;</span>
               </a>
@@ -152,53 +147,53 @@ const categories = [
         ))}
       </div>
 
-      <div id="berita-no-results" class="hidden py-16 text-center border border-dashed border-civic-border bg-white mt-8">
-        <svg class="w-12 h-12 text-civic-muted mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-        <p class="text-sm font-serif font-bold text-civic-navy">Tidak ada warta berita yang ditemukan</p>
-        <p class="text-xs text-civic-muted mt-1">Coba gunakan kata kunci pencarian lain atau pilih kategori Semua.</p>
+      <div id="berita-no-results" class="hidden py-16 text-center border border-dashed border-slate-300 rounded-2xl bg-white mt-8">
+        <svg class="w-12 h-12 text-slate-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+        <p class="text-base font-bold text-slate-900">Tidak ada berita yang ditemukan</p>
+        <p class="text-sm text-slate-500 mt-1">Coba gunakan kata kunci lain atau pilih Semua Kategori.</p>
       </div>
 
     </div>
   </section>
 
   <!-- Modal Baca Berita Detail (Archival Reading Sheet) -->
-  <div id="berita-page-modal" class="fixed inset-0 z-50 hidden bg-civic-navy/80 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white border border-civic-border max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button id="close-modal-berita-btn" class="absolute top-5 right-5 p-2 text-civic-muted hover:text-civic-navy transition-colors font-mono" aria-label="Tutup Berita">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+  <div id="berita-page-modal" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button id="close-modal-berita-btn" class="absolute top-5 right-5 p-2 text-slate-400 hover:text-slate-900 transition-colors rounded-lg" aria-label="Tutup Berita">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
 
       <div class="space-y-4">
-        <div class="flex items-center gap-2 pb-2 border-b border-civic-border">
-          <span id="modal-page-kategori" class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 border border-civic-border bg-civic-sand text-civic-navy font-bold">
+        <div class="flex items-center gap-2 pb-2 border-b border-slate-100">
+          <span id="modal-page-kategori" class="text-xs uppercase tracking-wider px-2.5 py-1 rounded bg-blue-100 text-blue-900 font-bold">
             Kategori
           </span>
-          <span id="modal-page-tanggal" class="text-xs font-mono text-civic-muted">
+          <span id="modal-page-tanggal" class="text-xs font-semibold text-slate-500">
             Tanggal
           </span>
         </div>
 
-        <h3 id="modal-page-judul" class="text-xl sm:text-2xl font-serif font-black text-civic-navy leading-snug">
+        <h3 id="modal-page-judul" class="text-xl sm:text-2xl font-bold text-slate-900 leading-snug">
           Judul Berita
         </h3>
 
-        <div class="border border-civic-border overflow-hidden h-56 sm:h-72 w-full bg-slate-100">
+        <div class="rounded-xl overflow-hidden h-56 sm:h-72 w-full bg-slate-100 border border-slate-100">
           <img id="modal-page-gambar" src="" alt="Gambar Berita" class="w-full h-full object-cover"/>
         </div>
 
         <div class="pt-2">
-          <p id="modal-page-konten" class="text-xs sm:text-sm text-civic-ink leading-relaxed whitespace-pre-line font-sans">
+          <p id="modal-page-konten" class="text-sm sm:text-base text-slate-700 leading-relaxed whitespace-pre-line font-sans">
             Konten lengkap berita...
           </p>
         </div>
 
-        <div class="pt-4 border-t border-civic-border flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-civic-muted">
-          <span>Penulis: <strong id="modal-page-penulis" class="text-civic-navy">Pemerintah Desa Timpik</strong></span>
+        <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-sm text-slate-500">
+          <span>Penulis: <strong id="modal-page-penulis" class="text-slate-900">Pemerintah Desa Timpik</strong></span>
           <div class="flex items-center gap-2">
-            <a id="modal-page-permalink" href="#" class="px-4 py-2 bg-civic-navy hover:bg-civic-navy/90 text-white font-bold transition-colors">
+            <a id="modal-page-permalink" href="#" class="min-h-[44px] px-5 py-2.5 bg-blue-900 hover:bg-blue-950 text-white font-bold rounded-xl transition-colors flex items-center justify-center">
               Halaman Artikel &rarr;
             </a>
-            <button id="close-modal-berita-bottom" class="px-4 py-2 border border-civic-border bg-civic-sand hover:bg-civic-border/60 text-civic-navy font-bold transition-colors">
+            <button id="close-modal-berita-bottom" class="min-h-[44px] px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl transition-colors">
               Tutup
             </button>
           </div>
@@ -253,47 +248,47 @@ const categories = [
 
     grid.innerHTML = filtered.map(b => `
       <article
-        class="berita-card bg-white border border-civic-border shadow-xs hover:border-civic-navy transition-all duration-200 flex flex-col justify-between group"
+        class="berita-card bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden group"
         data-judul="${b.judul.toLowerCase()}"
         data-kategori="${b.kategori}"
         data-ringkasan="${(b.ringkasan || '').toLowerCase()}"
       >
         <div>
-          <div class="relative h-48 overflow-hidden bg-slate-100 border-b border-civic-border">
+          <div class="relative h-48 sm:h-52 overflow-hidden bg-slate-100 border-b border-slate-100">
             <img
               src="${b.gambar || '/images/balai-desa-timpik.jpg'}"
               alt="${b.judul}"
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               onerror="this.src='/images/balai-desa-timpik.jpg'"
             />
-            <span class="absolute top-3 left-3 text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 bg-civic-navy/90 text-white font-bold border border-white/20">
+            <span class="absolute top-3 left-3 text-xs uppercase tracking-wider px-2.5 py-1 bg-blue-950/90 text-white font-bold rounded-md">
               ${b.kategori}
             </span>
           </div>
 
           <div class="p-5 sm:p-6 space-y-3">
-            <div class="flex items-center gap-2 text-[11px] font-mono text-civic-muted">
+            <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
               <span>${b.tanggal}</span>
               <span>&bull;</span>
               <span class="truncate">${b.penulis || 'Pemdes Timpik'}</span>
             </div>
 
-            <h2 class="text-base sm:text-lg font-serif font-bold text-civic-navy group-hover:text-blue-700 transition-colors leading-snug line-clamp-2">
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-blue-800 transition-colors leading-snug line-clamp-2">
               <a href="/berita/${b.id}">
                 ${b.judul}
               </a>
             </h2>
 
-            <p class="text-xs text-civic-muted line-clamp-3 leading-relaxed">
+            <p class="text-sm text-slate-600 line-clamp-3 leading-relaxed">
               ${b.ringkasan || ''}
             </p>
           </div>
         </div>
 
-        <div class="p-5 sm:p-6 pt-0 border-t border-civic-border/60 mt-4 grid grid-cols-2 gap-2">
+        <div class="p-5 sm:p-6 pt-0 border-t border-slate-100 mt-4 grid grid-cols-2 gap-2.5">
           <button
             type="button"
-            class="btn-baca-berita-page py-2 px-3 text-xs font-mono uppercase tracking-wider text-civic-navy bg-civic-sand/40 hover:bg-civic-sand border border-civic-border transition-colors flex items-center justify-center font-bold"
+            class="btn-baca-berita-page min-h-[44px] py-2 px-3 text-sm font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors flex items-center justify-center"
             data-berita-id="${b.id}"
             data-berita-judul="${b.judul}"
             data-berita-kategori="${b.kategori}"
@@ -306,7 +301,7 @@ const categories = [
           </button>
           <a
             href="/berita/${b.id}"
-            class="py-2 px-3 text-xs font-mono uppercase tracking-wider text-white bg-civic-navy hover:bg-civic-navy/90 transition-colors flex items-center justify-center gap-1 font-bold"
+            class="min-h-[44px] py-2 px-3 text-sm font-bold text-white bg-blue-900 hover:bg-blue-950 rounded-xl transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
           >
             <span>Detail &rarr;</span>
           </a>

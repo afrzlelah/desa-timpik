@@ -53,21 +53,21 @@ const categories = [
         
         <!-- Controls Bulan & Tahun -->
         <div class="flex items-center gap-2 sm:gap-3">
-          <div class="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-200">
+          <div class="flex items-center bg-slate-100 rounded-2xl p-1.5 border border-slate-200">
             <button
               type="button"
               id="cal-btn-prev"
-              class="p-2 rounded-lg text-slate-700 hover:bg-white hover:text-blue-700 hover:shadow-xs transition-all"
+              class="min-h-[44px] min-w-[44px] p-2.5 rounded-xl text-slate-700 hover:bg-white hover:text-blue-900 hover:shadow-xs transition-all flex items-center justify-center"
               title="Bulan Sebelumnya"
               aria-label="Bulan Sebelumnya"
             >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             </button>
             
             <button
               type="button"
               id="cal-btn-today"
-              class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:bg-white hover:text-blue-700 hover:shadow-xs transition-all"
+              class="min-h-[44px] px-4 py-2 rounded-xl text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-900 hover:shadow-xs transition-all"
             >
               Bulan Ini
             </button>
@@ -75,52 +75,52 @@ const categories = [
             <button
               type="button"
               id="cal-btn-next"
-              class="p-2 rounded-lg text-slate-700 hover:bg-white hover:text-blue-700 hover:shadow-xs transition-all"
+              class="min-h-[44px] min-w-[44px] p-2.5 rounded-xl text-slate-700 hover:bg-white hover:text-blue-900 hover:shadow-xs transition-all flex items-center justify-center"
               title="Bulan Berikutnya"
               aria-label="Bulan Berikutnya"
             >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
           </div>
 
-          <h2 id="cal-current-label" class="text-base sm:text-xl font-black text-slate-900 tracking-tight ml-1 whitespace-nowrap">
+          <h2 id="cal-current-label" class="text-lg sm:text-2xl font-black text-slate-900 tracking-tight ml-2 whitespace-nowrap">
             November 2026
           </h2>
         </div>
 
         <!-- View Switcher & Kategori Filter -->
-        <div class="flex flex-wrap items-center gap-2.5">
+        <div class="flex flex-wrap items-center gap-3">
           
           <!-- Mode Tampilan: Kalender vs Daftar -->
-          <div class="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200 text-xs font-bold">
+          <div class="inline-flex rounded-2xl p-1.5 bg-slate-100 border border-slate-200 text-sm font-bold">
             <button
               type="button"
               id="btn-mode-calendar"
-              class="px-3.5 py-1.5 rounded-lg bg-blue-700 text-white shadow-xs transition-all flex items-center gap-1.5"
+              class="min-h-[40px] px-4 py-2 rounded-xl bg-blue-900 text-white shadow-xs transition-all flex items-center gap-2"
             >
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
               <span>Kalender</span>
             </button>
             <button
               type="button"
               id="btn-mode-list"
-              class="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-white/60 transition-all flex items-center gap-1.5"
+              class="min-h-[40px] px-4 py-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-white/70 transition-all flex items-center gap-2"
             >
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
               <span>Daftar</span>
             </button>
           </div>
 
           <!-- Filter Kategori Pills -->
-          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0" id="agenda-category-filters">
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0" id="agenda-category-filters">
             {categories.map((cat, idx) => (
               <button
                 type="button"
                 data-category={cat}
-                class={`cal-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                class={`cal-filter-btn min-h-[40px] px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all ${
                   idx === 0
-                    ? 'bg-blue-700 text-white font-bold shadow-xs'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    ? 'bg-blue-900 text-white font-bold shadow-xs'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                 }`}
               >
                 {cat}
@@ -277,9 +277,9 @@ const categories = [
           href="#"
           target="_blank"
           rel="noopener noreferrer"
-          class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-colors flex items-center gap-1.5"
+          class="min-h-[44px] px-5 py-2.5 rounded-xl text-sm font-bold bg-emerald-700 hover:bg-emerald-800 text-white shadow-sm transition-colors flex items-center gap-2"
         >
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.087-.179.182-.077.357.101.174.452.747.971 1.209.667.593 1.23.776 1.403.863.174.087.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.144.39-.087s1.011.477 1.184.564c.173.087.289.13.332.203.043.072.043.419-.101.824z"/></svg>
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.087-.179.182-.077.357.101.174.452.747.971 1.209.667.593 1.23.776 1.403.863.174.087.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.144.39-.087s1.011.477 1.184.564c.173.087.289.13.332.203.043.072.043.419-.101.824z"/></svg>
           <span>Bagikan ke WA</span>
         </a>
 
@@ -289,16 +289,16 @@ const categories = [
             href="#"
             target="_blank"
             rel="noopener noreferrer"
-            class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 transition-colors flex items-center gap-1.5"
+            class="min-h-[44px] px-4 py-2.5 rounded-xl text-sm font-bold bg-white border border-slate-300 text-slate-800 hover:bg-slate-100 transition-colors flex items-center gap-2"
           >
-            <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <svg class="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             <span>Simpan Kalender</span>
           </a>
 
           <button
             type="button"
             id="btn-modal-close-bottom"
-            class="px-4 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-200 hover:bg-slate-300 transition-colors"
+            class="min-h-[44px] px-5 py-2.5 rounded-xl text-sm font-bold text-slate-800 bg-slate-200 hover:bg-slate-300 transition-colors"
           >
             Tutup
           </button>

@@ -1,0 +1,670 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import profil from '../../data/profil.json';
+---
+
+<AdminLayout title="Kelola Informasi & Profil Desa" activeMenu="informasi">
+  <main class="mx-auto max-w-6xl space-y-8 pb-16">
+    
+    <!-- Header -->
+    <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Pengelolaan Informasi Profil Desa</h1>
+        <p class="mt-1 text-sm sm:text-base text-slate-600">Perbarui visi & misi, data dusun, statistik warga, alamat kantor, dan foto struktur organisasi.</p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          id="btn-export"
+          class="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-xs hover:bg-slate-50 transition-colors"
+          title="Unduh file JSON untuk arsip permanen"
+        >
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Unduh JSON</span>
+        </button>
+        <a
+          href="/profil"
+          target="_blank"
+          class="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl bg-blue-700 px-4 py-2 text-sm font-bold text-white shadow-xs hover:bg-blue-800 transition-colors"
+        >
+          <span>Buka Halaman Profil Publik</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+    </header>
+
+    <!-- Notification Alert -->
+    <div id="notice-toast" class="hidden rounded-xl bg-emerald-50 border border-emerald-300 p-4 text-emerald-950 flex items-center justify-between shadow-xs">
+      <div class="flex items-center gap-3">
+        <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        <span id="notice-text" class="text-sm font-semibold">Perubahan data desa berhasil disimpan dan langsung aktif di halaman publik!</span>
+      </div>
+      <button type="button" onclick="document.getElementById('notice-toast').classList.add('hidden')" class="text-emerald-700 font-bold text-lg">&times;</button>
+    </div>
+
+    <!-- Tab Section -->
+    <div class="border-b border-slate-200 flex flex-wrap gap-2 text-sm font-bold">
+      <button type="button" id="tab-btn-umum" class="pb-3 border-b-2 border-blue-700 text-blue-700 px-3 transition-colors">
+        1. Visi, Misi & Alamat
+      </button>
+      <button type="button" id="tab-btn-dusun" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-3 transition-colors">
+        2. Kelola Data Dusun (<span id="dusun-tab-count">4</span>)
+      </button>
+      <button type="button" id="tab-btn-penduduk" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-3 transition-colors">
+        3. Data Total Warga
+      </button>
+      <button type="button" id="tab-btn-struktur" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-3 transition-colors">
+        4. Foto Struktur Organisasi
+      </button>
+    </div>
+
+    <!-- FORM SECTIONS -->
+    <form id="form-info" class="space-y-8">
+
+      <!-- ================= SECTION 1: VISI, MISI & ALAMAT ================= -->
+      <div id="panel-umum" class="space-y-6">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+          <h2 class="text-lg sm:text-xl font-bold text-slate-900 border-b border-slate-100 pb-3">Visi, Misi & Alamat Kantor Desa</h2>
+          
+          <div>
+            <label for="input-visi" class="block text-sm sm:text-base font-bold text-slate-900 mb-1.5">
+              Visi Desa Timpik
+            </label>
+            <p class="text-xs text-slate-500 mb-2">Tuliskan visi besar arah pembangunan Desa Timpik.</p>
+            <textarea
+              id="input-visi"
+              rows="3"
+              required
+              class="w-full rounded-xl border border-slate-300 p-3.5 text-sm sm:text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+            ></textarea>
+          </div>
+
+          <div>
+            <label for="input-misi" class="block text-sm sm:text-base font-bold text-slate-900 mb-1.5">
+              Misi Desa Timpik (Satu poin per baris)
+            </label>
+            <p class="text-xs text-slate-500 mb-2">Tuliskan setiap misi pada baris baru (tekan Enter). Halaman publik akan otomatis menampilkannya sebagai poin-poin bernomor yang rapi.</p>
+            <textarea
+              id="input-misi"
+              rows="6"
+              required
+              class="w-full rounded-xl border border-slate-300 p-3.5 text-sm sm:text-base text-slate-900 leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+            ></textarea>
+          </div>
+
+          <div class="border-t border-slate-100 pt-5 space-y-4">
+            <h3 class="text-base font-bold text-slate-900">Alamat Lengkap & Kontak Resmi Balai Desa</h3>
+            
+            <div>
+              <label for="input-alamat" class="block text-sm sm:text-base font-bold text-slate-900 mb-1.5">
+                Alamat Kantor Desa
+              </label>
+              <input
+                type="text"
+                id="input-alamat"
+                required
+                class="w-full rounded-xl border border-slate-300 p-3.5 text-sm sm:text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="input-telepon" class="block text-sm font-bold text-slate-900 mb-1.5">
+                  Nomor Telepon / WhatsApp
+                </label>
+                <input
+                  type="text"
+                  id="input-telepon"
+                  class="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                />
+              </div>
+
+              <div>
+                <label for="input-email" class="block text-sm font-bold text-slate-900 mb-1.5">
+                  Email Resmi Desa
+                </label>
+                <input
+                  type="email"
+                  id="input-email"
+                  class="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="input-jam" class="block text-sm font-bold text-slate-900 mb-1.5">
+                Jam Pelayanan Warga
+              </label>
+              <input
+                type="text"
+                id="input-jam"
+                class="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SECTION 2: DATA DUSUN INTERAKTIF ================= -->
+      <div id="panel-dusun" class="hidden space-y-6">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+            <div>
+              <h2 class="text-lg sm:text-xl font-bold text-slate-900">Data Dusun di Wilayah Desa Timpik</h2>
+              <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Kelola nama dusun, kepala dusun, wilayah RT/RW, dan potensi utama warga.</p>
+            </div>
+            <button
+              type="button"
+              id="btn-tambah-dusun"
+              class="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-blue-700 px-4 py-2.5 text-sm font-bold text-white hover:bg-blue-800 transition-colors shadow-xs"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>Tambah Dusun Baru</span>
+            </button>
+          </div>
+
+          <!-- Grid Daftar Card Dusun -->
+          <div id="dusun-card-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Render via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SECTION 3: TOTAL WARGA PENDUDUK ================= -->
+      <div id="panel-penduduk" class="hidden space-y-6">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+          <div>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900 border-b border-slate-100 pb-3">Statistik Total Warga Desa Timpik</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">Data resmi: Laki-laki: 2.848 jiwa, Perempuan: 2.848 jiwa, Total Penduduk: 5.696 jiwa.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="rounded-xl border border-blue-200 bg-blue-50/60 p-5 space-y-2">
+              <label for="input-lk" class="block text-sm font-bold text-blue-950 uppercase tracking-wide">
+                Penduduk Laki-Laki
+              </label>
+              <input
+                type="text"
+                id="input-lk"
+                required
+                class="w-full rounded-xl border border-blue-300 bg-white p-3.5 text-lg font-bold text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+              <span class="text-xs text-blue-700 block">Contoh: 2.848 Jiwa</span>
+            </div>
+
+            <div class="rounded-xl border border-blue-200 bg-blue-50/60 p-5 space-y-2">
+              <label for="input-pm" class="block text-sm font-bold text-blue-950 uppercase tracking-wide">
+                Penduduk Perempuan
+              </label>
+              <input
+                type="text"
+                id="input-pm"
+                required
+                class="w-full rounded-xl border border-blue-300 bg-white p-3.5 text-lg font-bold text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+              <span class="text-xs text-blue-700 block">Contoh: 2.848 Jiwa</span>
+            </div>
+
+            <div class="rounded-xl border border-emerald-300 bg-emerald-50/60 p-5 space-y-2">
+              <label for="input-total" class="block text-sm font-bold text-emerald-950 uppercase tracking-wide">
+                Total Jumlah Warga
+              </label>
+              <input
+                type="text"
+                id="input-total"
+                required
+                class="w-full rounded-xl border border-emerald-400 bg-white p-3.5 text-lg font-black text-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+              />
+              <span class="text-xs text-emerald-700 block">Total Gabungan: 5.696 Jiwa</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-slate-100">
+            <div>
+              <label for="input-kk" class="block text-sm font-bold text-slate-800 mb-1">
+                Jumlah Kepala Keluarga (KK)
+              </label>
+              <input
+                type="text"
+                id="input-kk"
+                class="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+            </div>
+            <div>
+              <label for="input-luas" class="block text-sm font-bold text-slate-800 mb-1">
+                Total Luas Wilayah Desa
+              </label>
+              <input
+                type="text"
+                id="input-luas"
+                class="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SECTION 4: STRUKTUR ORGANISASI DARI FOTO ================= -->
+      <div id="panel-struktur" class="hidden space-y-6">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+          <div class="border-b border-slate-100 pb-3">
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900">Foto Bagan Struktur Organisasi Desa</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">Sesuai ketentuan, bagan struktur organisasi perangkat desa ditampilkan langsung dari foto resmi.</p>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm sm:text-base font-bold text-slate-900 mb-2">
+                Pilih Berkas Foto Struktur Baru (JPG / PNG / WEBP)
+              </label>
+              <input
+                id="input-foto"
+                type="file"
+                accept="image/*"
+                class="block w-full text-sm text-slate-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer border border-slate-300 rounded-xl p-2"
+              />
+              <span class="mt-1.5 block text-xs text-slate-500">Maksimal ukuran berkas 3 MB. Gambar langsung disimpan ke memori sistem.</span>
+            </div>
+
+            <!-- Preview Foto Struktur -->
+            <div class="pt-4 border-t border-slate-100 space-y-3">
+              <span class="block text-xs font-bold uppercase tracking-wider text-slate-500">Pratinjau Foto Struktur Saat Ini:</span>
+              <div class="max-w-2xl rounded-2xl border border-slate-200 overflow-hidden bg-slate-50 p-2 shadow-xs">
+                <img
+                  id="preview-foto-struktur"
+                  src="/images/balai-desa-timpik.jpg"
+                  alt="Struktur Organisasi Pemerintahan Desa Timpik"
+                  class="w-full h-auto max-h-[450px] object-contain rounded-xl mx-auto"
+                />
+              </div>
+              <div class="flex items-center gap-3">
+                <button
+                  type="button"
+                  id="btn-reset-foto"
+                  class="text-xs font-bold text-rose-600 hover:underline"
+                >
+                  Kembalikan ke foto bawaan
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="sticky bottom-4 z-20 rounded-2xl border border-blue-200 bg-white/95 backdrop-blur-md p-4 shadow-lg flex flex-wrap items-center justify-between gap-3">
+        <p class="text-xs sm:text-sm text-slate-600">
+          Klik tombol <strong>Simpan Pembaruan</strong> untuk memperbarui data di situs ini.
+        </p>
+        <button
+          type="submit"
+          class="inline-flex min-h-[48px] items-center gap-2 rounded-xl bg-blue-700 hover:bg-blue-800 px-7 py-3 text-base font-extrabold text-white shadow-md transition-all"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          <span>Simpan Seluruh Pembaruan</span>
+        </button>
+      </div>
+
+    </form>
+
+    <!-- ================= MODAL TAMBAH / EDIT DUSUN ================= -->
+    <div id="modal-dusun" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-start justify-between pb-3 border-b border-slate-100">
+          <div>
+            <h3 id="modal-dusun-title" class="text-lg font-bold text-slate-900">Tambah Dusun Baru</h3>
+            <p class="text-xs text-slate-500">Lengkapi informasi wilayah dusun</p>
+          </div>
+          <button type="button" id="close-modal-dusun" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 text-xl font-bold">&times;</button>
+        </div>
+
+        <form id="form-edit-dusun" class="py-4 space-y-4">
+          <input type="hidden" id="edit-dusun-index" value="-1" />
+          
+          <div>
+            <label for="edit-dusun-id" class="block text-xs font-bold text-slate-800 uppercase mb-1">ID Dusun (Unik / huruf kecil)</label>
+            <input type="text" id="edit-dusun-id" required placeholder="contoh: krajan, bogo" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
+          </div>
+
+          <div>
+            <label for="edit-dusun-nama" class="block text-xs font-bold text-slate-800 uppercase mb-1">Nama Lengkap Dusun</label>
+            <input type="text" id="edit-dusun-nama" required placeholder="contoh: Dusun Bogo" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
+          </div>
+
+          <div>
+            <label for="edit-dusun-kadus" class="block text-xs font-bold text-slate-800 uppercase mb-1">Nama Kepala Dusun (Kadus)</label>
+            <input type="text" id="edit-dusun-kadus" required placeholder="contoh: Bapak Sutrisno" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="edit-dusun-rt" class="block text-xs font-bold text-slate-800 uppercase mb-1">Wilayah RT / RW</label>
+              <input type="text" id="edit-dusun-rt" placeholder="contoh: 4 RT / 1 RW" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            <div>
+              <label for="edit-dusun-luas" class="block text-xs font-bold text-slate-800 uppercase mb-1">Estimasi Luas</label>
+              <input type="text" id="edit-dusun-luas" placeholder="contoh: 60 Ha" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+          </div>
+
+          <div>
+            <label for="edit-dusun-potensi" class="block text-xs font-bold text-slate-800 uppercase mb-1">Potensi Utama Dusun</label>
+            <input type="text" id="edit-dusun-potensi" placeholder="contoh: Pertanian Padi, Seni Wayang Orang" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
+          </div>
+
+          <div>
+            <label for="edit-dusun-deskripsi" class="block text-xs font-bold text-slate-800 uppercase mb-1">Deskripsi Singkat</label>
+            <textarea id="edit-dusun-deskripsi" rows="3" placeholder="Tuliskan gambaran ringkas kondisi dusun..." class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+            <button type="button" id="btn-batal-dusun" class="px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold text-slate-700 hover:bg-slate-50">Batal</button>
+            <button type="submit" class="px-5 py-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-sm font-bold text-white shadow-xs">Simpan Dusun</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <script define:vars={{ defaultProfil: profil }}>
+    const STORAGE_KEY = 'timpik_profil_data';
+    let currentData = defaultProfil;
+
+    // Load data from localStorage if exists
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && typeof parsed === 'object') {
+          currentData = { ...defaultProfil, ...parsed };
+        }
+      }
+    } catch (e) {
+      console.error('Error loading profil from storage', e);
+    }
+
+    // Tabs logic
+    const tabs = [
+      { btn: document.getElementById('tab-btn-umum'), panel: document.getElementById('panel-umum') },
+      { btn: document.getElementById('tab-btn-dusun'), panel: document.getElementById('panel-dusun') },
+      { btn: document.getElementById('tab-btn-penduduk'), panel: document.getElementById('panel-penduduk') },
+      { btn: document.getElementById('tab-btn-struktur'), panel: document.getElementById('panel-struktur') }
+    ];
+
+    function activateTab(index) {
+      tabs.forEach((t, i) => {
+        if (i === index) {
+          t.btn.className = 'pb-3 border-b-2 border-blue-700 text-blue-700 px-3 transition-colors';
+          t.panel.classList.remove('hidden');
+        } else {
+          t.btn.className = 'pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-3 transition-colors';
+          t.panel.classList.add('hidden');
+        }
+      });
+    }
+
+    tabs.forEach((t, i) => {
+      t.btn.addEventListener('click', () => activateTab(i));
+    });
+
+    // Populate Fields
+    const inVisi = document.getElementById('input-visi');
+    const inMisi = document.getElementById('input-misi');
+    const inAlamat = document.getElementById('input-alamat');
+    const inTelepon = document.getElementById('input-telepon');
+    const inEmail = document.getElementById('input-email');
+    const inJam = document.getElementById('input-jam');
+
+    const inLk = document.getElementById('input-lk');
+    const inPm = document.getElementById('input-pm');
+    const inTotal = document.getElementById('input-total');
+    const inKk = document.getElementById('input-kk');
+    const inLuas = document.getElementById('input-luas');
+
+    const fotoPreview = document.getElementById('preview-foto-struktur');
+    let fotoStrukturBase64 = currentData.foto_struktur || '/images/balai-desa-timpik.jpg';
+
+    inVisi.value = currentData.visi || '';
+    inMisi.value = Array.isArray(currentData.misi) ? currentData.misi.join('\n') : '';
+    inAlamat.value = currentData.alamat_kantor || '';
+    inTelepon.value = currentData.telepon || '0812-3456-7890';
+    inEmail.value = currentData.email || 'desatimpik.susukan@gmail.com';
+    inJam.value = currentData.jam_layanan || 'Senin - Kamis: 08.00 - 15.00 WIB | Jumat: 08.00 - 11.30 WIB';
+
+    // Statistik Warga (Default LK: 2.848, PM: 2.848, Total: 5.696)
+    const stats = currentData.statistik || {};
+    inLk.value = stats.laki_laki || '2.848 Jiwa';
+    inPm.value = stats.perempuan || '2.848 Jiwa';
+    inTotal.value = stats.total_penduduk || '5.696 Jiwa';
+    inKk.value = stats.total_kk || '872 KK';
+    inLuas.value = stats.luas_wilayah || '243 Ha';
+
+    if (fotoStrukturBase64) {
+      fotoPreview.src = fotoStrukturBase64;
+    }
+
+    // Foto File Upload Handler
+    const inFoto = document.getElementById('input-foto');
+    inFoto.addEventListener('change', (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      if (file.size > 3145728) {
+        alert('Ukuran file foto maksimal 3 MB.');
+        e.target.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        fotoStrukturBase64 = reader.result;
+        fotoPreview.src = fotoStrukturBase64;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('btn-reset-foto').addEventListener('click', () => {
+      fotoStrukturBase64 = '/images/balai-desa-timpik.jpg';
+      fotoPreview.src = fotoStrukturBase64;
+      inFoto.value = '';
+    });
+
+    // Dusun Data Manager
+    let dusunList = Array.isArray(currentData.dusun) ? [...currentData.dusun] : [];
+
+    function renderDusunCards() {
+      const container = document.getElementById('dusun-card-list');
+      const tabCount = document.getElementById('dusun-tab-count');
+      if (tabCount) tabCount.textContent = dusunList.length;
+
+      if (!container) return;
+      if (dusunList.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-2 py-8 text-center text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+            Belum ada data dusun. Klik "Tambah Dusun Baru" di atas.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = dusunList.map((d, index) => `
+        <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-xs flex flex-col justify-between space-y-3">
+          <div>
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span class="text-xs font-mono font-bold text-blue-700 uppercase">ID: ${d.id || '-'}</span>
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-100">${d.jumlah_rt || '-'}</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mt-2">${d.nama || 'Tanpa Nama Dusun'}</h4>
+            <p class="text-xs text-slate-500 mt-1"><strong>Kepala Dusun:</strong> ${d.kepala_dusun || '-'}</p>
+            <p class="text-xs text-slate-600 mt-2 line-clamp-2">${d.deskripsi || '-'}</p>
+            ${d.potensi_utama ? `<p class="text-[11px] text-emerald-700 font-semibold mt-2">🌱 ${d.potensi_utama}</p>` : ''}
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onclick="window.editDusunItem(${index})"
+              class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              onclick="window.deleteDusunItem(${index})"
+              class="px-3 py-1.5 rounded-lg border border-rose-200 text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors"
+            >
+              Hapus
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    renderDusunCards();
+
+    // Dusun Modal Actions
+    const modalDusun = document.getElementById('modal-dusun');
+    const formEditDusun = document.getElementById('form-edit-dusun');
+    const editIndex = document.getElementById('edit-dusun-index');
+    const editId = document.getElementById('edit-dusun-id');
+    const editNama = document.getElementById('edit-dusun-nama');
+    const editKadus = document.getElementById('edit-dusun-kadus');
+    const editRt = document.getElementById('edit-dusun-rt');
+    const editLuas = document.getElementById('edit-dusun-luas');
+    const editPotensi = document.getElementById('edit-dusun-potensi');
+    const editDeskripsi = document.getElementById('edit-dusun-deskripsi');
+
+    document.getElementById('btn-tambah-dusun').addEventListener('click', () => {
+      document.getElementById('modal-dusun-title').textContent = 'Tambah Dusun Baru';
+      editIndex.value = '-1';
+      editId.value = '';
+      editNama.value = '';
+      editKadus.value = '';
+      editRt.value = '';
+      editLuas.value = '';
+      editPotensi.value = '';
+      editDeskripsi.value = '';
+      modalDusun.classList.remove('hidden');
+    });
+
+    document.getElementById('close-modal-dusun').addEventListener('click', () => {
+      modalDusun.classList.add('hidden');
+    });
+    document.getElementById('btn-batal-dusun').addEventListener('click', () => {
+      modalDusun.classList.add('hidden');
+    });
+
+    window.editDusunItem = (idx) => {
+      const d = dusunList[idx];
+      if (!d) return;
+      document.getElementById('modal-dusun-title').textContent = 'Edit Data Dusun: ' + (d.nama || '');
+      editIndex.value = String(idx);
+      editId.value = d.id || '';
+      editNama.value = d.nama || '';
+      editKadus.value = d.kepala_dusun || '';
+      editRt.value = d.jumlah_rt || '';
+      editLuas.value = d.luas || '';
+      editPotensi.value = d.potensi_utama || '';
+      editDeskripsi.value = d.deskripsi || '';
+      modalDusun.classList.remove('hidden');
+    };
+
+    window.deleteDusunItem = (idx) => {
+      const d = dusunList[idx];
+      if (!d) return;
+      if (confirm(`Apakah Anda yakin ingin menghapus data "${d.nama}"?`)) {
+        dusunList.splice(idx, 1);
+        renderDusunCards();
+      }
+    };
+
+    formEditDusun.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const idx = parseInt(editIndex.value, 10);
+      const newDusun = {
+        id: editId.value.trim().toLowerCase().replace(/\s+/g, '-'),
+        nama: editNama.value.trim(),
+        panggilan: editNama.value.replace(/dusun/i, '').trim(),
+        kepala_dusun: editKadus.value.trim(),
+        jumlah_rt: editRt.value.trim(),
+        luas: editLuas.value.trim(),
+        potensi_utama: editPotensi.value.trim(),
+        deskripsi: editDeskripsi.value.trim()
+      };
+
+      if (idx >= 0 && idx < dusunList.length) {
+        dusunList[idx] = newDusun;
+      } else {
+        dusunList.push(newDusun);
+      }
+
+      modalDusun.classList.add('hidden');
+      renderDusunCards();
+    });
+
+    // Form Submit Main (Save all)
+    const formMain = document.getElementById('form-info');
+    formMain.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const updatedProfil = {
+        ...currentData,
+        visi: inVisi.value.trim(),
+        misi: inMisi.value.split('\n').map(x => x.trim()).filter(Boolean),
+        alamat_kantor: inAlamat.value.trim(),
+        telepon: inTelepon.value.trim(),
+        email: inEmail.value.trim(),
+        jam_layanan: inJam.value.trim(),
+        foto_struktur: fotoStrukturBase64,
+        dusun: dusunList,
+        statistik: {
+          ...currentData.statistik,
+          laki_laki: inLk.value.trim(),
+          perempuan: inPm.value.trim(),
+          total_penduduk: inTotal.value.trim(),
+          total_kk: inKk.value.trim(),
+          luas_wilayah: inLuas.value.trim()
+        }
+      };
+
+      currentData = updatedProfil;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedProfil));
+
+      const toast = document.getElementById('notice-toast');
+      const toastText = document.getElementById('notice-text');
+      toastText.textContent = 'Pembaruan informasi profil, visi-misi, dusun & struktur berhasil disimpan dan aktif di halaman publik!';
+      toast.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Export JSON Button
+    document.getElementById('btn-export').addEventListener('click', () => {
+      const dataToExport = {
+        ...currentData,
+        visi: inVisi.value.trim(),
+        misi: inMisi.value.split('\n').map(x => x.trim()).filter(Boolean),
+        alamat_kantor: inAlamat.value.trim(),
+        telepon: inTelepon.value.trim(),
+        email: inEmail.value.trim(),
+        jam_layanan: inJam.value.trim(),
+        foto_struktur: fotoStrukturBase64,
+        dusun: dusunList,
+        statistik: {
+          ...currentData.statistik,
+          laki_laki: inLk.value.trim(),
+          perempuan: inPm.value.trim(),
+          total_penduduk: inTotal.value.trim(),
+          total_kk: inKk.value.trim(),
+          luas_wilayah: inLuas.value.trim()
+        }
+      };
+
+      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'profil.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+  </script>
+</AdminLayout>
