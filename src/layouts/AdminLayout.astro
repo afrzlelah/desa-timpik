@@ -19,13 +19,13 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
     <meta name="robots" content="noindex, nofollow" />
   </head>
 
-  <body class="flex min-h-screen bg-slate-50 font-sans text-slate-900 antialiased">
+  <body class="flex min-h-screen bg-gray-100 font-sans text-slate-900 antialiased">
 
     <!-- Sidebar -->
-    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-40 flex h-dvh w-64 flex-row overflow-hidden bg-[#0B1E36] transition-[width] duration-300 ease-in-out">
+    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-40 flex h-dvh w-64 flex-row overflow-hidden bg-gradient-to-b from-blue-950/95 to-blue-800/95 transition-[width] duration-300 ease-in-out shadow-xl shadow-blue-950/20">
 
       <!-- Icon Rail: visible in collapsed mode -->
-      <div id="sidebar-rail" class="flex h-full w-0 shrink-0 flex-col items-center overflow-hidden border-r-0 border-slate-700 bg-[#0B1E36] opacity-0 transition-all duration-300">
+      <div id="sidebar-rail" class="flex h-full w-0 shrink-0 flex-col items-center overflow-hidden border-r-0 border-white/10 bg-blue-950/90 opacity-0 transition-all duration-300">
 
         <a href="/admin/dashboard" title="Panel Admin Timpik" class="flex h-16 w-full shrink-0 items-center justify-center border-b border-slate-700 bg-[#08172b]">
           <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-xs font-bold text-white">DT</span>
@@ -108,7 +108,7 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
       </div>
 
       <!-- Expanded Panel -->
-      <div id="sidebar-panel" class="flex h-full w-64 min-w-0 shrink-0 flex-col overflow-hidden border-r border-slate-700 bg-[#0B1E36] text-white transition-all duration-300">
+      <div id="sidebar-panel" class="flex h-full w-64 min-w-0 shrink-0 flex-col overflow-hidden border-r border-white/15 bg-transparent text-white transition-all duration-300">
 
         <!-- Panel Header -->
         <div class="flex h-16 shrink-0 items-center justify-between border-b border-slate-700 bg-[#08172b] px-4">
@@ -235,7 +235,7 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
     <div id="admin-main" class="min-h-screen min-w-0 flex-1 overflow-x-hidden transition-[margin] duration-300 md:ml-64">
 
       <!-- Topbar -->
-      <header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 sm:px-8">
+      <header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-white/70 bg-white/75 px-4 shadow-sm backdrop-blur-xl sm:px-8">
 
         <div class="flex min-w-0 items-center gap-3">
           <button type="button" id="btn-toggle-sidebar-main" aria-label="Sembunyikan menu" aria-expanded="true" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-900">
@@ -260,7 +260,7 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
 
       </header>
 
-      <main class="min-w-0 p-4 sm:p-6 lg:p-8">
+      <main class="min-w-0 bg-gray-100/80 p-4 sm:p-6 lg:p-8">
         <slot />
       </main>
     </div>

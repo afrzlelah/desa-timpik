@@ -8,7 +8,7 @@ import profilData from '../data/profil.json';
   description="Profil lengkap Desa Timpik, Kecamatan Susukan, Kabupaten Semarang: sejarah, visi misi, kependudukan 5.696 jiwa, alamat kantor desa, dan struktur organisasi."
 >
   <!-- Architectural Civic Header -->
-  <section class="bg-gradient-to-r from-slate-950 via-blue-900 to-blue-800 text-white border-b border-blue-900/40 pt-14 pb-12 sm:pt-16 sm:pb-14">
+  <section class="bg-gradient-to-br from-blue-950 via-blue-900 to-blue-700 text-white border-b border-white/20 pt-14 pb-12 sm:pt-16 sm:pb-14">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Breadcrumb -->
@@ -37,7 +37,7 @@ import profilData from '../data/profil.json';
   </section>
 
   <!-- Total Warga & Statistik Utama (Highlight LK: 2.848, PM: 2.848, Total: 5.696) -->
-  <section class="py-10 bg-sky-50 border-b border-slate-200">
+  <section class="py-10 bg-gray-100 border-b border-white/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="border-b border-slate-200 pb-4 mb-6">
         <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-blue-700 block mb-1">Data Resmi Kependudukan</span>
@@ -47,7 +47,7 @@ import profilData from '../data/profil.json';
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         
         <!-- Total Warga -->
-        <div class="rounded-2xl border border-blue-200 bg-white p-6 shadow-sm">
+        <div class="glass-panel rounded-2xl p-6">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block">Total Jumlah Warga</span>
           <div id="stat-total" class="text-3xl sm:text-4xl font-black text-blue-900 mt-2">
             {profilData.statistik.total_penduduk || '5.696 Jiwa'}
@@ -56,7 +56,7 @@ import profilData from '../data/profil.json';
         </div>
 
         <!-- Laki-laki -->
-        <div class="rounded-2xl border border-blue-200 bg-white p-6 shadow-sm">
+        <div class="glass-panel rounded-2xl p-6">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block">Laki-Laki</span>
           <div id="stat-lk" class="text-3xl sm:text-4xl font-black text-slate-800 mt-2">
             {profilData.statistik.laki_laki || '2.848 Jiwa'}
@@ -65,7 +65,7 @@ import profilData from '../data/profil.json';
         </div>
 
         <!-- Perempuan -->
-        <div class="rounded-2xl border border-blue-200 bg-white p-6 shadow-sm">
+        <div class="glass-panel rounded-2xl p-6">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block">Perempuan</span>
           <div id="stat-pm" class="text-3xl sm:text-4xl font-black text-slate-800 mt-2">
             {profilData.statistik.perempuan || '2.848 Jiwa'}
@@ -74,7 +74,7 @@ import profilData from '../data/profil.json';
         </div>
 
         <!-- Luas Wilayah -->
-        <div class="rounded-2xl border border-blue-200 bg-white p-6 shadow-sm">
+        <div class="glass-panel rounded-2xl p-6">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block">Luas Wilayah</span>
           <div id="stat-luas" class="text-3xl sm:text-4xl font-black text-emerald-800 mt-2">
             {profilData.statistik.luas_wilayah || '243 Ha'}
@@ -87,7 +87,7 @@ import profilData from '../data/profil.json';
   </section>
 
   <!-- Sejarah & Alamat Lengkap Kantor Desa -->
-  <section id="sejarah" class="py-12 sm:py-16 bg-white border-b border-slate-200">
+  <section id="sejarah" class="py-12 sm:py-16 bg-gray-100 border-b border-white/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
         
@@ -139,7 +139,7 @@ import profilData from '../data/profil.json';
   </section>
 
   <!-- Visi & Misi Pembangunan Desa -->
-  <section id="visi-misi" class="py-14 sm:py-16 bg-slate-50 border-b border-slate-200">
+  <section id="visi-misi" class="py-14 sm:py-16 bg-gray-100 border-b border-white/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       
       <div class="border-b border-slate-200 pb-4">
@@ -151,11 +151,11 @@ import profilData from '../data/profil.json';
       </div>
 
       <!-- Visi Frame -->
-      <div class="rounded-2xl border-2 border-blue-700 bg-white p-8 sm:p-10 shadow-sm relative">
-        <span class="text-xs font-bold uppercase tracking-widest px-3 py-1 bg-blue-700 text-white rounded-md inline-block mb-3">
+      <div class="glass-panel-blue rounded-2xl p-8 sm:p-10 text-white relative">
+        <span class="text-xs font-bold uppercase tracking-widest px-3 py-1.5 bg-white/15 text-white rounded-full inline-block mb-3">
           Visi Resmi Desa Timpik
         </span>
-        <blockquote id="profil-visi" class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 leading-snug">
+        <blockquote id="profil-visi" class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white leading-snug">
           "{profilData.visi}"
         </blockquote>
       </div>
@@ -165,7 +165,7 @@ import profilData from '../data/profil.json';
         <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-4">Poin Misi Pembangunan:</h3>
         <div id="profil-misi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {profilData.misi.map((misi, idx) => (
-            <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm flex flex-col justify-between space-y-3">
+            <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-3">
               <span class="text-2xl font-black text-blue-700">
                 0{idx + 1}
               </span>
@@ -181,7 +181,7 @@ import profilData from '../data/profil.json';
   </section>
 
   <!-- Wilayah 4 Dusun di Desa Timpik -->
-  <section id="dusun" class="py-14 sm:py-16 bg-white border-b border-slate-200">
+  <section id="dusun" class="py-14 sm:py-16 bg-gray-100 border-b border-white/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       
       <div class="border-b border-slate-200 pb-4">
@@ -194,7 +194,7 @@ import profilData from '../data/profil.json';
         {profilData.dusun.map((dusun) => (
           <a
             href={`/dusun/${dusun.id}`}
-            class="group bg-white rounded-2xl border border-slate-200 hover:border-blue-500 p-6 shadow-sm hover:shadow-md flex flex-col justify-between transition-all"
+            class="glass-panel group rounded-2xl hover:border-blue-500 p-6 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between transition-all"
           >
             <div>
               <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
@@ -220,7 +220,7 @@ import profilData from '../data/profil.json';
   </section>
 
   <!-- Struktur Organisasi Desa (Berdasarkan Arahan: Diambil dari Foto Saja) -->
-  <section id="struktur-organisasi" class="py-14 sm:py-16 bg-slate-50">
+  <section id="struktur-organisasi" class="py-14 sm:py-16 bg-gray-100">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       
       <div class="border-b border-slate-200 pb-4">
@@ -237,32 +237,54 @@ import profilData from '../data/profil.json';
 
       <div class="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm space-y-4">
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-wrap gap-2">
-          <span class="text-xs sm:text-sm font-bold text-slate-700">Foto Dokumen Bagan Resmi</span>
-          <a
-            id="profil-unduh-foto"
-            href="/images/balai-desa-timpik.jpg"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs sm:text-sm font-bold transition-colors"
+          <span class="text-xs sm:text-sm font-bold text-slate-700">Foto Dokumen Bagan Resmi SOTK</span>
+          <button
+            type="button"
+            id="profil-btn-lightbox"
+            class="inline-flex min-h-[40px] items-center gap-2 px-4 py-2 rounded-xl bg-blue-50 text-blue-900 hover:bg-blue-100 text-sm font-bold transition-colors border border-blue-200 shadow-2xs"
           >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-            <span>Buka Foto Ukuran Penuh</span>
-          </a>
+            <svg class="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+            <span>Klik untuk Perbesar Foto</span>
+          </button>
         </div>
 
-        <div class="rounded-xl overflow-hidden bg-slate-100 border border-slate-200 p-2">
+        <div class="rounded-xl overflow-hidden bg-slate-50 border border-slate-200 p-2 cursor-zoom-in flex items-center justify-center min-h-[350px]" id="profil-container-click">
           <img
             id="profil-foto-struktur"
-            src="/images/balai-desa-timpik.jpg"
+            src="/images/struktur-organisasi-timpik.jpg"
             alt="Struktur Organisasi Pemerintah Desa Timpik"
-            class="w-full h-auto max-h-[700px] object-contain rounded-lg mx-auto"
+            class="w-full h-auto max-h-[700px] object-contain rounded-lg mx-auto transition-transform hover:scale-[1.01]"
             loading="lazy"
+            onerror="this.src='/images/balai-desa-timpik.jpg'"
           />
         </div>
       </div>
 
     </div>
   </section>
+
+  <!-- Lightbox Modal Fullscreen untuk Profil -->
+  <div id="profil-lightbox-modal" class="fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md flex flex-col p-4 sm:p-6 overflow-hidden">
+    <div class="flex items-center justify-between pb-3 text-white border-b border-white/20">
+      <span class="text-sm sm:text-base font-bold">Bagan Struktur Organisasi Pemerintah Desa Timpik</span>
+      <button
+        type="button"
+        id="profil-btn-close-lightbox"
+        class="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-lg transition-colors"
+        aria-label="Tutup Pratinjau"
+      >
+        &times;
+      </button>
+    </div>
+    <div class="flex-grow overflow-auto flex items-center justify-center p-2">
+      <img
+        id="profil-lightbox-img"
+        src="/images/struktur-organisasi-timpik.jpg"
+        alt="Struktur Organisasi Fullscreen"
+        class="max-w-none w-auto max-h-[88vh] object-contain rounded-xl shadow-2xl transition-transform"
+      />
+    </div>
+  </div>
 
 </Layout>
 
@@ -353,11 +375,32 @@ import profilData from '../data/profil.json';
       `).join('');
     }
 
-    // Update Foto Struktur
-    const fotoSrc = data.foto_struktur || '/images/balai-desa-timpik.jpg';
+    // Update Foto Struktur & Lightbox
+    const fotoSrc = data.foto_struktur || '/images/struktur-organisasi-timpik.jpg';
     const fotoImg = document.getElementById('profil-foto-struktur');
-    const fotoLink = document.getElementById('profil-unduh-foto');
+    const lightboxImg = document.getElementById('profil-lightbox-img');
+    const lightboxModal = document.getElementById('profil-lightbox-modal');
+    const btnOpen = document.getElementById('profil-btn-lightbox');
+    const containerClick = document.getElementById('profil-container-click');
+    const btnClose = document.getElementById('profil-btn-close-lightbox');
+
     if (fotoImg && fotoSrc) fotoImg.src = fotoSrc;
-    if (fotoLink && fotoSrc) fotoLink.href = fotoSrc;
+    if (lightboxImg && fotoSrc) lightboxImg.src = fotoSrc;
+
+    function openLightbox() {
+      if (lightboxModal) lightboxModal.classList.remove('hidden');
+    }
+    function closeLightbox() {
+      if (lightboxModal) lightboxModal.classList.add('hidden');
+    }
+
+    if (btnOpen) btnOpen.addEventListener('click', openLightbox);
+    if (containerClick) containerClick.addEventListener('click', openLightbox);
+    if (btnClose) btnClose.addEventListener('click', closeLightbox);
+    if (lightboxModal) {
+      lightboxModal.addEventListener('click', (e) => {
+        if (e.target === lightboxModal) closeLightbox();
+      });
+    }
   })();
 </script>

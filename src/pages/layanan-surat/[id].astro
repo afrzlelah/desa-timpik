@@ -159,18 +159,20 @@ if (!surat) {
                   href={surat.link_gform}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="w-full py-3 px-5 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
+                  class="w-full min-h-[48px] py-3.5 px-5 bg-blue-600 hover:bg-blue-500 text-white text-sm sm:text-base uppercase tracking-wider font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
                 >
                   <span>Buka Formulir Pengajuan Online</span>
-                  <svg class="w-4 h-4 fill-none stroke-current" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  <svg class="w-5 h-5 fill-none stroke-current shrink-0" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                 </a>
               ) : (
-                <div class="p-4 bg-white/5 border border-white/10 text-center font-sans">
-                  <p class="text-xs text-sky-300 font-bold mb-1">Formulir Online Belum Tersedia</p>
-                  <p class="text-[11px] text-slate-300 mb-3">Silakan bawa berkas fisik persyaratan langsung ke Kantor Balai Desa Timpik pada jam pelayanan.</p>
-                  <a href="/kontak" class="inline-block text-xs font-mono uppercase tracking-wider font-bold text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 transition-colors">
-                    Hubungi Petugas Desa
-                  </a>
+                <div class="p-5 bg-white/10 rounded-xl border border-white/20 text-center font-sans space-y-2">
+                  <p class="text-sm text-sky-300 font-bold">Formulir Online Belum Tersedia</p>
+                  <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">Silakan bawa berkas persyaratan langsung ke Kantor Balai Desa Timpik pada jam pelayanan.</p>
+                  <div class="pt-2">
+                    <a href="/kontak" class="inline-flex min-h-[44px] items-center justify-center text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 px-5 py-2.5 rounded-xl transition-colors shadow-2xs">
+                      Hubungi Petugas Desa
+                    </a>
+                  </div>
                 </div>
               )}
             </div>
@@ -230,20 +232,22 @@ if (!surat) {
                   href="${found.link_gform}"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="w-full py-3 px-5 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
+                  class="w-full min-h-[48px] py-3.5 px-5 bg-blue-600 hover:bg-blue-500 text-white text-sm sm:text-base uppercase tracking-wider font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
                 >
                   <span>Buka Formulir Pengajuan Online</span>
-                  <svg class="w-4 h-4 fill-none stroke-current" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  <svg class="w-5 h-5 fill-none stroke-current shrink-0" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                 </a>
               `;
             } else {
               container.innerHTML = `
-                <div class="p-4 bg-white/5 border border-white/10 text-center font-sans">
-                  <p class="text-xs text-sky-300 font-bold mb-1">Formulir Online Belum Diaktifkan Admin</p>
-                  <p class="text-[11px] text-slate-300 mb-3">Silakan ajukan dokumen persyaratan secara langsung ke Kantor Balai Desa Timpik pada hari kerja.</p>
-                  <a href="/kontak" class="inline-block text-xs font-mono uppercase tracking-wider font-bold text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 transition-colors">
-                    Hubungi Petugas Desa
-                  </a>
+                <div class="p-5 bg-white/10 rounded-xl border border-white/20 text-center font-sans space-y-2">
+                  <p class="text-sm text-sky-300 font-bold">Formulir Online Belum Diaktifkan Admin</p>
+                  <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">Silakan ajukan dokumen persyaratan secara langsung ke Kantor Balai Desa Timpik pada hari kerja.</p>
+                  <div class="pt-2">
+                    <a href="/kontak" class="inline-flex min-h-[44px] items-center justify-center text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 px-5 py-2.5 rounded-xl transition-colors shadow-2xs">
+                      Hubungi Petugas Desa
+                    </a>
+                  </div>
                 </div>
               `;
             }

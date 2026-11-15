@@ -7,12 +7,12 @@
     scroll-behavior: smooth;
     font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
     color: #0F172A;
-    background-color: #FFFFFF;
+    background-color: #F3F4F6;
     font-size: 18px;
   }
 
   body {
-    background-color: #FFFFFF;
+    background-color: #F3F4F6;
     color: #0F172A;
     line-height: 1.8;
     letter-spacing: -0.011em;
@@ -77,3 +77,101 @@
 .text-xs { font-size: .875rem !important; line-height: 1.5rem !important; }
 [class*="text-[10px]"], [class*="text-[11px]"], [class*="text-[12px]"] { font-size: .8125rem !important; line-height: 1.35rem !important; }
 .text-slate-400, .text-slate-500 { color: #475569 !important; }
+
+/* Reusable macOS inspired liquid glass components. */
+:root {
+  --glass-blue: 30 64 175;
+  --glass-gray: 243 244 246;
+  --glass-border: 255 255 255;
+}
+.glass-panel {
+  background: rgb(255 255 255 / .72);
+  border: 1px solid rgb(255 255 255 / .72);
+  box-shadow: 0 12px 36px rgb(15 23 42 / .09), inset 0 1px 0 rgb(255 255 255 / .8);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+}
+.glass-panel-blue {
+  background: rgb(var(--glass-blue) / .86);
+  border: 1px solid rgb(255 255 255 / .22);
+  box-shadow: 0 12px 32px rgb(30 64 175 / .2), inset 0 1px 0 rgb(255 255 255 / .22);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  backdrop-filter: blur(22px) saturate(170%);
+}
+.glass-control {
+  background: rgb(255 255 255 / .58);
+  border: 1px solid rgb(255 255 255 / .82);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .85), 0 4px 12px rgb(15 23 42 / .06);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(12px) saturate(150%);
+}
+body { background-color: #F3F4F6; }
+body > header, body > main { --glass-background: rgb(243 244 246 / .82); }
+body:has(#admin-sidebar) main input,
+body:has(#admin-sidebar) main select,
+body:has(#admin-sidebar) main textarea {
+  border-color: rgb(148 163 184 / .65);
+  border-radius: .75rem;
+}
+body:has(#admin-sidebar) main input:focus,
+body:has(#admin-sidebar) main select:focus,
+body:has(#admin-sidebar) main textarea:focus {
+  border-color: rgb(30 64 175 / .75);
+  box-shadow: 0 0 0 3px rgb(30 64 175 / .15);
+}
+body:has(#admin-sidebar) main {
+  color: #172033;
+  line-height: 1.55;
+}
+body:has(#admin-sidebar) main h1 { color: #0f172a; font-size: clamp(1.35rem, 2vw, 1.75rem); line-height: 1.25; }
+body:has(#admin-sidebar) main h2 { line-height: 1.3; }
+body:has(#admin-sidebar) main label { color: #1e293b; }
+body:has(#admin-sidebar) main table { min-width: 680px; font-size: .875rem; }
+body:has(#admin-sidebar) main th { color: #334155; background-color: #e8eef6; font-size: .8125rem; }
+body:has(#admin-sidebar) main td { color: #1e293b; }
+body:has(#admin-sidebar) main button:disabled { opacity: .65; cursor: not-allowed; }
+body:has(#admin-sidebar) main button:not(:disabled):focus-visible,
+body:has(#admin-sidebar) main a:focus-visible,
+body:has(#admin-sidebar) main input:focus-visible,
+body:has(#admin-sidebar) main select:focus-visible,
+body:has(#admin-sidebar) main textarea:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 2px;
+}
+@media (max-width: 640px) {
+  body:has(#admin-sidebar) main { padding: 1rem; }
+  body:has(#admin-sidebar) main .overflow-hidden { overflow-x: auto; }
+  body:has(#admin-sidebar) main [class*="p-8"] { padding: 1rem; }
+}
+@supports (backdrop-filter: blur(1px)) {
+  body main [class~="bg-white"][class*="border"] {
+    background-color: rgb(255 255 255 / .72) !important;
+    border-color: rgb(255 255 255 / .82) !important;
+    box-shadow: 0 10px 30px rgb(15 23 42 / .07), inset 0 1px 0 rgb(255 255 255 / .75);
+    -webkit-backdrop-filter: blur(16px) saturate(155%);
+    backdrop-filter: blur(16px) saturate(155%);
+  }
+}
+
+/* Keep every desktop navigation item on one consistent type scale and baseline. */
+@media (min-width: 1024px) {
+  .desktop-main-nav { font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.25; }
+  .desktop-main-nav > a,
+  .desktop-main-nav > div > button,
+  .desktop-main-nav > div > a,
+  .desktop-main-nav > div:last-child a {
+    box-sizing: border-box;
+    min-height: 44px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px !important;
+    line-height: 1.25 !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass-panel, .glass-panel-blue, .glass-control { backdrop-filter: none; -webkit-backdrop-filter: none; }
+}

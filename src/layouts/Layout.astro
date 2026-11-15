@@ -68,12 +68,12 @@ const currentPath = Astro.url.pathname;
     </aside> -->
 
     <!-- Main Navigation Header (Clean Crisp White & Elegant Blue) -->
-    <header class="sticky top-0 z-40 bg-blue-800 backdrop-blur-md border-b border-blue-900 text-white transition-all shadow-xs">
+    <header class="sticky top-0 z-40 w-full glass-panel-blue text-white transition-all">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
           
           <!-- Left: Official Civic Identity Lockup -->
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-3 lg:gap-4">
             <a href="/" class="flex items-center gap-3 group focus:outline-none" aria-label="Beranda Desa Timpik">
               <div class="w-10 h-10 rounded-lg bg-[#0B1E36] text-white flex items-center justify-center border border-blue-900/60 shadow-xs group-hover:border-blue-500 transition-colors">
                 <svg class="w-5 h-5 text-blue-300" viewBox="0 0 24 24" fill="currentColor">
@@ -104,7 +104,7 @@ const currentPath = Astro.url.pathname;
           </div>
 
           <!-- Center: Clean Grouped Menu Items (Organized & Uncluttered) -->
-          <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm font-semibold text-white">
+          <nav class="desktop-main-nav hidden lg:flex items-center justify-end gap-1 xl:gap-2 font-semibold text-white">
             <!-- 1. Beranda -->
             <a
               href="/"
@@ -131,7 +131,7 @@ const currentPath = Astro.url.pathname;
                 id="menu-nav-profil"
                 class="absolute left-0 top-full pt-2 w-64 hidden group-hover:block z-50 transition-all duration-150"
               >
-                <div class="bg-white rounded-xl shadow-xl border border-slate-200 p-2 space-y-1 text-xs">
+                <div class="glass-panel rounded-xl p-2 space-y-1 text-xs">
                   <a href="/profil" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
                     <strong class="block text-slate-900">Profil & Wilayah</strong>
                     <span class="text-[11px] text-slate-500">Sejarah, visi misi & 4 dusun</span>
@@ -170,7 +170,7 @@ const currentPath = Astro.url.pathname;
                 id="menu-nav-info"
                 class="absolute left-0 top-full pt-2 w-64 hidden group-hover:block z-50 transition-all duration-150"
               >
-                <div class="bg-white rounded-xl shadow-xl border border-slate-200 p-2 space-y-1 text-xs">
+                <div class="glass-panel rounded-xl p-2 space-y-1 text-xs">
                   <a href="/info-desa" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
                     <strong class="block text-slate-900">Pusat Informasi & Pengumuman</strong>
                     <span class="text-[11px] text-slate-500">Kabar kedinasan & jam kantor</span>
@@ -205,7 +205,7 @@ const currentPath = Astro.url.pathname;
                 id="menu-nav-data"
                 class="absolute left-0 top-full pt-2 w-64 hidden group-hover:block z-50 transition-all duration-150"
               >
-                <div class="bg-white rounded-xl shadow-xl border border-slate-200 p-2 space-y-1 text-xs">
+                <div class="glass-panel rounded-xl p-2 space-y-1 text-xs">
                   <a href="/transparansi" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
                     <strong class="block text-slate-900">Transparansi APBDes</strong>
                     <span class="text-[11px] text-slate-500">Realisasi anggaran & dana desa</span>

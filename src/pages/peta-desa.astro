@@ -8,7 +8,7 @@ import profilData from '../data/profil.json';
   description="Peta wilayah administratif Desa Timpik, Kecamatan Susukan, Kabupaten Semarang: batas wilayah, letak 4 dusun, akses jalan, dan lokasi Balai Desa."
 >
   <!-- Architectural Civic Header -->
-  <section class="bg-gradient-to-r from-black/90 to-blue-900 text-white border-b border-civic-border/30 pt-14 pb-12 sm:pt-16 sm:pb-14">
+  <section class="bg-gradient-to-br from-blue-950 via-blue-900 to-blue-700 text-white border-b border-white/20 pt-14 pb-12 sm:pt-16 sm:pb-14">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Breadcrumb -->
@@ -37,13 +37,13 @@ import profilData from '../data/profil.json';
   </section>
 
   <!-- Peta Embed & Lokasi Strategis -->
-  <section class="py-14 sm:py-16 bg-blue-50 border-b border-civic-border">
+  <section class="py-14 sm:py-16 bg-gray-100 border-b border-white/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-14">
         
         <!-- Peta Interaktif Frame -->
-        <div class="lg:col-span-8 border border-civic-border shadow-xs bg-slate-100 overflow-hidden">
+        <div class="lg:col-span-8 glass-panel rounded-2xl overflow-hidden">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15828.69482161642!2d110.57500000000002!3d-7.335000000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a7837b2d55555%3A0x1234567890abcdef!2sTimpik%2C%20Susukan%2C%20Semarang%20Regency%2C%20Central%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
             width="100%"
@@ -55,7 +55,7 @@ import profilData from '../data/profil.json';
             title="Peta Desa Timpik Google Maps"
             class="w-full h-[460px] grayscale contrast-125 hover:grayscale-0 transition-all duration-300"
           ></iframe>
-          <div class="p-4 bg-civic-navy text-white flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono">
+          <div class="p-4 bg-blue-900/90 text-white flex flex-col sm:flex-row items-center justify-between gap-3 text-sm font-mono backdrop-blur-xl">
             <span class="flex items-center gap-2">
               <span class="w-2 h-2 bg-emerald-400"></span>
               <span>Titik Pusat: Balai Desa Timpik, Dusun Krajan</span>
@@ -73,36 +73,36 @@ import profilData from '../data/profil.json';
 
         <!-- Info Batas Wilayah & Geospasial -->
         <div class="lg:col-span-4 space-y-6">
-          <div class="border border-civic-border bg-civic-sand/20 shadow-xs">
-            <div class="p-5 border-b border-civic-border bg-civic-sand/40">
+          <div class="glass-panel rounded-2xl overflow-hidden">
+            <div class="p-5 border-b border-white/70 bg-blue-800/5">
               <h3 class="font-serif font-bold text-civic-navy text-base">
                 Batas Wilayah Administratif
               </h3>
             </div>
             
             <div class="p-5 space-y-3 text-xs">
-              <div class="p-3 bg-blue-50 border border-civic-border">
+              <div class="p-3 rounded-xl bg-white/65 border border-white/80">
                 <span class="text-civic-muted font-mono uppercase text-[10px] block">Sebelah Utara:</span>
                 <strong class="font-serif text-civic-navy text-sm font-bold">Desa Kemetul & Kenteng</strong>
               </div>
-              <div class="p-3 bg-blue-50 border border-civic-border">
+              <div class="p-3 rounded-xl bg-white/65 border border-white/80">
                 <span class="text-civic-muted font-mono uppercase text-[10px] block">Sebelah Timur:</span>
                 <strong class="font-serif text-civic-navy text-sm font-bold">Desa Ketapang & Koripan</strong>
               </div>
-              <div class="p-3 bg-blue-50 border border-civic-border">
+              <div class="p-3 rounded-xl bg-white/65 border border-white/80">
                 <span class="text-civic-muted font-mono uppercase text-[10px] block">Sebelah Selatan:</span>
                 <strong class="font-serif text-civic-navy text-sm font-bold">Kecamatan Kaliwungu</strong>
               </div>
-              <div class="p-3 bg-blue-50 border border-civic-border">
+              <div class="p-3 rounded-xl bg-white/65 border border-white/80">
                 <span class="text-civic-muted font-mono uppercase text-[10px] block">Sebelah Barat:</span>
                 <strong class="font-serif text-civic-navy text-sm font-bold">Desa Badran & Bakalrejo</strong>
               </div>
             </div>
           </div>
 
-          <div class="border border-civic-border bg-blue-50 p-5 shadow-xs space-y-2 text-xs">
+          <div class="glass-panel-blue rounded-2xl text-white p-5 space-y-2 text-sm">
             <span class="text-[10px] font-mono uppercase tracking-widest text-blue-700 font-bold block">Topografi & Hidrologi</span>
-            <p class="text-civic-ink leading-relaxed">
+            <p class="text-blue-50 leading-relaxed">
               Desa Timpik berada pada ketinggian <strong>± 450 – 600 meter di atas permukaan laut (dpl)</strong> di lereng Merbabu. Wilayahnya dialiri jaringan irigasi persawahan teknis yang dikelola oleh perkumpulan <strong>P3A Bogo Wastro</strong>.
             </p>
           </div>
@@ -120,7 +120,7 @@ import profilData from '../data/profil.json';
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {profilData.dusun.map((dusun, idx) => (
-            <div class="bg-blue-50 border border-civic-border p-6 shadow-xs flex flex-col justify-between space-y-4">
+            <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-4">
               <div>
                 {/* <span class="text-xs font-mono text-blue-700 font-bold block mb-1">0{idx + 1}</span> */}
                 <h4 class="font-serif font-bold text-lg text-civic-navy">{dusun.nama}</h4>

@@ -188,9 +188,10 @@ import profil from '../../data/profil.json';
                 type="text"
                 id="input-lk"
                 required
+                placeholder="2.848"
                 class="w-full rounded-xl border border-blue-300 bg-white p-3.5 text-lg font-bold text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
-              <span class="text-xs text-blue-700 block">Contoh: 2.848 Jiwa</span>
+              <span class="text-xs text-blue-700 block">Ketik angka murni atau berformat ribuan</span>
             </div>
 
             <div class="rounded-xl border border-blue-200 bg-blue-50/60 p-5 space-y-2">
@@ -201,22 +202,26 @@ import profil from '../../data/profil.json';
                 type="text"
                 id="input-pm"
                 required
+                placeholder="2.848"
                 class="w-full rounded-xl border border-blue-300 bg-white p-3.5 text-lg font-bold text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
-              <span class="text-xs text-blue-700 block">Contoh: 2.848 Jiwa</span>
+              <span class="text-xs text-blue-700 block">Ketik angka murni atau berformat ribuan</span>
             </div>
 
             <div class="rounded-xl border border-emerald-300 bg-emerald-50/60 p-5 space-y-2">
-              <label for="input-total" class="block text-sm font-bold text-emerald-950 uppercase tracking-wide">
-                Total Jumlah Warga
-              </label>
+              <div class="flex items-center justify-between">
+                <label for="input-total" class="block text-sm font-bold text-emerald-950 uppercase tracking-wide">
+                  Total Jumlah Warga
+                </label>
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-200 text-emerald-900">Otomatis (Lk + Pm)</span>
+              </div>
               <input
                 type="text"
                 id="input-total"
-                required
-                class="w-full rounded-xl border border-emerald-400 bg-white p-3.5 text-lg font-black text-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                readonly
+                class="w-full rounded-xl border border-emerald-300 bg-slate-100 p-3.5 text-lg font-black text-emerald-900 cursor-not-allowed"
               />
-              <span class="text-xs text-emerald-700 block">Total Gabungan: 5.696 Jiwa</span>
+              <span class="text-xs text-emerald-700 block" id="total-calc-hint">Hasil penjumlahan otomatis: 5.696 Jiwa</span>
             </div>
           </div>
 
@@ -424,7 +429,7 @@ import profil from '../../data/profil.json';
     const inLuas = document.getElementById('input-luas');
 
     const fotoPreview = document.getElementById('preview-foto-struktur');
-    let fotoStrukturBase64 = currentData.foto_struktur || '/images/balai-desa-timpik.jpg';
+    let fotoStrukturBase64 = currentData.foto_struktur || '/images/struktur-organisasi-timpik.jpg';
 
     inVisi.value = currentData.visi || '';
     inMisi.value = Array.isArray(currentData.misi) ? currentData.misi.join('\n') : '';
@@ -435,11 +440,30 @@ import profil from '../../data/profil.json';
 
     // Statistik Warga (Default LK: 2.848, PM: 2.848, Total: 5.696)
     const stats = currentData.statistik || {};
-    inLk.value = stats.laki_laki || '2.848 Jiwa';
-    inPm.value = stats.perempuan || '2.848 Jiwa';
-    inTotal.value = stats.total_penduduk || '5.696 Jiwa';
+    inLk.value = stats.laki_laki ? stats.laki_laki.replace(/[^0-9]/g, '') : '2848';
+    inPm.value = stats.perempuan ? stats.perempuan.replace(/[^0-9]/g, '') : '2848';
     inKk.value = stats.total_kk || '872 KK';
     inLuas.value = stats.luas_wilayah || '243 Ha';
+
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function calculateTotal() {
+      const lkVal = parseInt((inLk.value || '').replace(/[^0-9]/g, ''), 10) || 0;
+      const pmVal = parseInt((inPm.value || '').replace(/[^0-9]/g, ''), 10) || 0;
+      const totalVal = lkVal + pmVal;
+
+      inTotal.value = formatNumber(totalVal) + ' Jiwa';
+      const hint = document.getElementById('total-calc-hint');
+      if (hint) {
+        hint.textContent = `Penjumlahan otomatis: ${formatNumber(lkVal)} (Lk) + ${formatNumber(pmVal)} (Pm) = ${formatNumber(totalVal)} Jiwa`;
+      }
+    }
+
+    inLk.addEventListener('input', calculateTotal);
+    inPm.addEventListener('input', calculateTotal);
+    calculateTotal();
 
     if (fotoStrukturBase64) {
       fotoPreview.src = fotoStrukturBase64;
@@ -464,7 +488,7 @@ import profil from '../../data/profil.json';
     });
 
     document.getElementById('btn-reset-foto').addEventListener('click', () => {
-      fotoStrukturBase64 = '/images/balai-desa-timpik.jpg';
+      fotoStrukturBase64 = '/images/struktur-organisasi-timpik.jpg';
       fotoPreview.src = fotoStrukturBase64;
       inFoto.value = '';
     });
@@ -606,6 +630,14 @@ import profil from '../../data/profil.json';
     formMain.addEventListener('submit', (e) => {
       e.preventDefault();
 
+      const lkNum = parseInt((inLk.value || '').replace(/[^0-9]/g, ''), 10) || 0;
+      const pmNum = parseInt((inPm.value || '').replace(/[^0-9]/g, ''), 10) || 0;
+      const totalNum = lkNum + pmNum;
+
+      const formattedLk = formatNumber(lkNum) + ' Jiwa';
+      const formattedPm = formatNumber(pmNum) + ' Jiwa';
+      const formattedTotal = formatNumber(totalNum) + ' Jiwa';
+
       const updatedProfil = {
         ...currentData,
         visi: inVisi.value.trim(),
@@ -618,9 +650,9 @@ import profil from '../../data/profil.json';
         dusun: dusunList,
         statistik: {
           ...currentData.statistik,
-          laki_laki: inLk.value.trim(),
-          perempuan: inPm.value.trim(),
-          total_penduduk: inTotal.value.trim(),
+          laki_laki: formattedLk,
+          perempuan: formattedPm,
+          total_penduduk: formattedTotal,
           total_kk: inKk.value.trim(),
           luas_wilayah: inLuas.value.trim()
         }
@@ -638,6 +670,10 @@ import profil from '../../data/profil.json';
 
     // Export JSON Button
     document.getElementById('btn-export').addEventListener('click', () => {
+      const lkNum = parseInt((inLk.value || '').replace(/[^0-9]/g, ''), 10) || 0;
+      const pmNum = parseInt((inPm.value || '').replace(/[^0-9]/g, ''), 10) || 0;
+      const totalNum = lkNum + pmNum;
+
       const dataToExport = {
         ...currentData,
         visi: inVisi.value.trim(),
@@ -650,9 +686,9 @@ import profil from '../../data/profil.json';
         dusun: dusunList,
         statistik: {
           ...currentData.statistik,
-          laki_laki: inLk.value.trim(),
-          perempuan: inPm.value.trim(),
-          total_penduduk: inTotal.value.trim(),
+          laki_laki: formatNumber(lkNum) + ' Jiwa',
+          perempuan: formatNumber(pmNum) + ' Jiwa',
+          total_penduduk: formatNumber(totalNum) + ' Jiwa',
           total_kk: inKk.value.trim(),
           luas_wilayah: inLuas.value.trim()
         }
