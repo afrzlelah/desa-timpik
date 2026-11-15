@@ -130,6 +130,66 @@ body:has(#admin-sidebar) main table { min-width: 680px; font-size: .875rem; }
 body:has(#admin-sidebar) main th { color: #334155; background-color: #e8eef6; font-size: .8125rem; }
 body:has(#admin-sidebar) main td { color: #1e293b; }
 body:has(#admin-sidebar) main button:disabled { opacity: .65; cursor: not-allowed; }
+/* Admin palette: blue for navigation/actions, neutral glass for content,
+   and restrained semantic colors only for status. */
+body:has(#admin-sidebar) {
+  --admin-blue-950: #172554;
+  --admin-blue-900: #1e3a8a;
+  --admin-blue-800: #1e40af;
+  --admin-ink: #172033;
+  --admin-muted: #475569;
+  --admin-surface: rgb(255 255 255 / .78);
+}
+body:has(#admin-sidebar) #admin-sidebar {
+  background: linear-gradient(180deg, #172554 0%, #1e3a8a 100%);
+}
+body:has(#admin-sidebar) #sidebar-panel > :first-child,
+body:has(#admin-sidebar) #sidebar-panel > :last-child {
+  background: rgb(15 23 42 / .28);
+}
+body:has(#admin-sidebar) main [class~="bg-white"][class*="rounded"] {
+  background: var(--admin-surface) !important;
+  border-color: rgb(255 255 255 / .9) !important;
+  box-shadow: 0 8px 24px rgb(15 23 42 / .06), inset 0 1px 0 rgb(255 255 255 / .8);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+}
+body:has(#admin-sidebar) main [class~="bg-blue-50"],
+body:has(#admin-sidebar) main [class~="bg-blue-100"] {
+  background-color: rgb(219 234 254 / .82) !important;
+  border-color: rgb(147 197 253 / .75);
+}
+body:has(#admin-sidebar) main [class~="bg-slate-50"] {
+  background-color: rgb(241 245 249 / .78) !important;
+}
+body:has(#admin-sidebar) main [class~="text-slate-400"],
+body:has(#admin-sidebar) main [class~="text-slate-500"] { color: var(--admin-muted) !important; }
+body:has(#admin-sidebar) main [class~="text-blue-500"],
+body:has(#admin-sidebar) main [class~="text-blue-600"],
+body:has(#admin-sidebar) main [class~="text-blue-700"],
+body:has(#admin-sidebar) main [class~="text-blue-800"],
+body:has(#admin-sidebar) main [class~="text-blue-900"] { color: var(--admin-blue-900) !important; }
+body:has(#admin-sidebar) main [class~="bg-blue-700"],
+body:has(#admin-sidebar) main [class~="bg-blue-800"],
+body:has(#admin-sidebar) main [class~="bg-blue-900"] {
+  background-color: var(--admin-blue-900) !important;
+  color: #fff !important;
+}
+body:has(#admin-sidebar) main [class~="bg-emerald-50"],
+body:has(#admin-sidebar) main [class~="bg-emerald-100"] {
+  background-color: #dcfce7 !important;
+  color: #14532d !important;
+}
+body:has(#admin-sidebar) main [class~="bg-amber-50"],
+body:has(#admin-sidebar) main [class~="bg-amber-100"] {
+  background-color: #fef3c7 !important;
+  color: #78350f !important;
+}
+body:has(#admin-sidebar) main [class~="bg-rose-50"],
+body:has(#admin-sidebar) main [class~="bg-red-50"] {
+  background-color: #ffe4e6 !important;
+  color: #881337 !important;
+}
 body:has(#admin-sidebar) main button:not(:disabled):focus-visible,
 body:has(#admin-sidebar) main a:focus-visible,
 body:has(#admin-sidebar) main input:focus-visible,

@@ -1,543 +1,65 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import trackingData from '../../data/tracking.json';
-import profilData from '../../data/profil.json';
-import beritaData from '../../data/berita.json';
 
-const aduanList = [
-  {
-    id: 'ADU-2026-01',
-    pelapor: 'Bpk. Sutrisno',
-    dusun: 'Bogo',
-    kategori: 'Infrastruktur Irigasi Sawah',
-    tanggal: '07 Nov 2026',
-    uraian: 'Pintu pembagi air irigasi tersier tersumbat endapan lumpur dan sampah ranting sehingga debit air ke sawah berkurang.',
-    status: 'Dalam Investigasi',
-    disposisi_kepada: 'Pengurus P3A Bogo Wastro & Kadus Bogo'
-  },
-  {
-    id: 'ADU-2026-02',
-    pelapor: 'Ibu Maryatun',
-    dusun: 'Sumber',
-    kategori: 'Fasilitas Umum & Penerangan Jalan',
-    tanggal: '06 Nov 2026',
-    uraian: 'Lampu penerangan jalan desa dekat tikungan gapura batas Dusun Sumber mati sejak dua malam lalu.',
-    status: 'Disposisi Selesai',
-    disposisi_kepada: 'Kasi Kesejahteraan / Petugas Listrik Desa'
-  }
-];
+const siapDiambil = trackingData.filter((item) => item.status === 'siap_diambil').length;
+const perluDiproses = trackingData.filter((item) => item.status !== 'siap_diambil').length;
+const terbaru = [...trackingData].slice(0, 5);
 ---
 
-<AdminLayout title="Dashboard Utama" activeMenu="dashboard">
-  
-  <div class="space-y-8 max-w-7xl mx-auto">
-    
-      <!-- Dashboard Welcome Header -->
-    <section class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-      <div class="space-y-1">
-        <p class="text-sm font-medium text-slate-400">Selamat datang di Panel Admin</p>
-        <h1 class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
-          Halo, Administrator Desa 👋
-        </h1>
-        <p class="text-sm text-slate-500">
-          Pantau dan kelola aktivitas pelayanan Pemerintah Desa Timpik.
-        </p>
+<AdminLayout title="Ringkasan" activeMenu="dashboard">
+  <div class="mx-auto max-w-7xl space-y-6">
+    <header class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p class="text-sm font-semibold text-blue-800">PANEL DESA TIMPIK</p>
+        <h1 class="mt-1 text-2xl font-bold text-slate-950">Ringkasan layanan</h1>
+        <p class="mt-1 text-base text-slate-600">Pantau surat masuk dan buka pengelolaan yang dibutuhkan.</p>
       </div>
+      <a href="/admin/surat" class="inline-flex min-h-12 items-center rounded-xl bg-blue-800 px-5 font-bold text-white shadow-md hover:bg-blue-900">Kelola layanan surat <span class="ml-2" aria-hidden="true">→</span></a>
+    </header>
 
-      <div class="flex shrink-0 items-center gap-2">
-        <a href="/admin/surat" class="inline-flex h-10 items-center gap-2 rounded-xl bg-blue-700 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-800">
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 5v14m-7-7h14"/>
-          </svg>
-          Kelola Surat
-        </a>
-      </div>
+    <section aria-label="Ringkasan permohonan" class="grid gap-4 sm:grid-cols-3">
+      <article class="glass-panel rounded-2xl border-l-4 border-l-blue-800 p-5">
+        <p class="text-sm font-semibold text-slate-700">Total permohonan</p>
+        <p class="mt-2 text-3xl font-bold text-slate-950">{trackingData.length}</p>
+      </article>
+      <article class="glass-panel rounded-2xl border-l-4 border-l-amber-600 p-5">
+        <p class="text-sm font-semibold text-slate-700">Perlu diproses</p>
+        <p class="mt-2 text-3xl font-bold text-amber-800">{perluDiproses}</p>
+      </article>
+      <article class="glass-panel rounded-2xl border-l-4 border-l-emerald-700 p-5">
+        <p class="text-sm font-semibold text-slate-700">Siap diambil</p>
+        <p class="mt-2 text-3xl font-bold text-emerald-800">{siapDiambil}</p>
+      </article>
     </section>
 
-
-    <!-- Statistics Overview -->
-    <section class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-
-      <!-- Surat Masuk -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 transition hover:border-blue-300 hover:shadow-md">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-100 text-blue-800">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V7a2 2 0 012-2zm0 1l8 7 8-7"/>
-              </svg>
-            </div>
-            <span class="text-base font-bold text-slate-800">Surat Masuk</span>
-          </div>
-          <a href="/admin/surat" class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-blue-100 hover:text-blue-800" aria-label="Lihat surat masuk">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M7 7h10v10"/>
-            </svg>
-          </a>
+    <section class="grid items-start gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(260px,.8fr)]">
+      <div class="glass-panel overflow-hidden rounded-2xl">
+        <div class="flex items-center justify-between gap-3 border-b border-slate-200 px-5 py-4">
+          <div><h2 class="text-lg font-bold text-slate-950">Permohonan terbaru</h2><p class="mt-1 text-sm text-slate-600">Status lima data teratas.</p></div>
+          <a href="/admin/surat" class="min-h-11 inline-flex items-center font-bold text-blue-900 hover:underline">Lihat semua →</a>
         </div>
-
-        <h2 class="mt-4 text-4xl font-black tracking-tight text-slate-900">{trackingData.length}</h2>
-        <div class="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3">
-          <span class="text-xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">4 pengajuan</span>
-          <span class="text-xs font-medium text-slate-600">dalam antrean</span>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[620px] text-left text-sm">
+            <thead><tr><th class="px-5 py-3">Pemohon</th><th class="px-4 py-3">Jenis surat</th><th class="px-4 py-3">Dusun</th><th class="px-4 py-3">Status</th></tr></thead>
+            <tbody class="divide-y divide-slate-200">
+              {terbaru.map((item) => <tr><td class="px-5 py-4"><strong class="text-slate-950">{item.nama_pemohon_masked}</strong><span class="mt-1 block font-mono text-xs text-slate-600">{item.id}</span></td><td class="px-4 py-4 text-slate-800">{item.jenis_surat}</td><td class="px-4 py-4 text-slate-800">{item.dusun}</td><td class="px-4 py-4"><span class:list={["inline-flex rounded-full px-3 py-1 text-xs font-bold", item.status === 'siap_diambil' ? 'bg-emerald-100 text-emerald-950' : 'bg-blue-100 text-blue-950']}>{item.status_label}</span></td></tr>)}
+              {trackingData.length === 0 && <tr><td colspan="4" class="px-5 py-10 text-center text-slate-700">Belum ada permohonan.</td></tr>}
+            </tbody>
+          </table>
         </div>
       </div>
 
-
-      <!-- Siap Diambil -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 transition hover:border-emerald-300 hover:shadow-md">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l4 4L19 6"/>
-                <circle cx="12" cy="12" r="9"/>
-              </svg>
-            </div>
-            <span class="text-base font-bold text-slate-800">Siap Diambil</span>
-          </div>
-          <a href="/admin/surat" class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-emerald-100 hover:text-emerald-800" aria-label="Lihat surat siap diambil">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M7 7h10v10"/>
-            </svg>
-          </a>
+      <nav aria-label="Akses cepat" class="glass-panel rounded-2xl p-5">
+        <h2 class="text-lg font-bold text-slate-950">Akses cepat</h2>
+        <div class="mt-3 divide-y divide-slate-200">
+          <a href="/admin/aduan" class="flex min-h-12 items-center justify-between gap-3 py-3 font-semibold text-slate-800 hover:text-blue-900"><span>Aduan warga</span><span aria-hidden="true">→</span></a>
+          <a href="/admin/agenda" class="flex min-h-12 items-center justify-between gap-3 py-3 font-semibold text-slate-800 hover:text-blue-900"><span>Agenda desa</span><span aria-hidden="true">→</span></a>
+          <a href="/admin/informasi" class="flex min-h-12 items-center justify-between gap-3 py-3 font-semibold text-slate-800 hover:text-blue-900"><span>Profil, dusun & penduduk</span><span aria-hidden="true">→</span></a>
+          <a href="/admin/kontak" class="flex min-h-12 items-center justify-between gap-3 py-3 font-semibold text-slate-800 hover:text-blue-900"><span>Kontak dan alamat</span><span aria-hidden="true">→</span></a>
+          <a href="/admin/apbdes" class="flex min-h-12 items-center justify-between gap-3 py-3 font-semibold text-slate-800 hover:text-blue-900"><span>Transparansi APBDes</span><span aria-hidden="true">→</span></a>
         </div>
-
-        <h2 class="mt-4 text-4xl font-black tracking-tight text-emerald-800">1</h2>
-        <div class="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3">
-          <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Selesai diproses</span>
-          <span class="text-xs font-medium text-slate-600">siap diserahkan</span>
-        </div>
-      </div>
-
-
-      <!-- Aduan Warga -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 transition hover:border-amber-300 hover:shadow-md">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-amber-800">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-              </svg>
-            </div>
-            <span class="text-base font-bold text-slate-800">Aduan Warga</span>
-          </div>
-          <a href="/admin/aduan" class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-amber-100 hover:text-amber-800" aria-label="Lihat aduan warga">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M7 7h10v10"/>
-            </svg>
-          </a>
-        </div>
-
-        <h2 class="mt-4 text-4xl font-black tracking-tight text-slate-900">2</h2>
-        <div class="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3">
-          <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">1 perlu tindak lanjut</span>
-          <span class="text-xs font-medium text-slate-600">disposisi Kadus</span>
-        </div>
-      </div>
-
-
-      <!-- Biaya Pelayanan -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 transition hover:border-blue-300 hover:shadow-md">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-100 text-indigo-800 font-extrabold text-sm">Rp</div>
-            <span class="text-base font-bold text-slate-800">Biaya Layanan</span>
-          </div>
-          <div class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600">Rp</div>
-        </div>
-
-        <h2 class="mt-4 text-4xl font-black tracking-tight text-slate-900">Rp 0,-</h2>
-        <div class="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3">
-          <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Bebas Pungli</span>
-          <span class="text-xs font-medium text-slate-600">100% Gratis</span>
-        </div>
-      </div>
-
+      </nav>
     </section>
-
-    <!-- Operational Overview -->
-    <section class="grid grid-cols-1 items-start gap-5 xl:grid-cols-12">
-
-      <!-- LEFT: ANTREAN SURAT -->
-      <div class="flex min-w-0 flex-col gap-5 xl:col-span-8">
-        <!-- Antrean Surat -->
-        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white xl:col-span-8">
-
-          <!-- Header -->
-          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
-            <div>
-              <div class="flex items-center gap-2">
-                <h2 class="text-sm font-bold text-slate-900">Antrean Permohonan Surat</h2>
-                <span class="rounded-md bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-700">
-                  {trackingData.length} Pengajuan
-                </span>
-              </div>
-              <p class="mt-1 text-xs text-slate-400">Daftar permohonan surat warga yang perlu dipantau.</p>
-            </div>
-
-            <a href="/admin/surat" class="inline-flex items-center gap-1 text-xs font-semibold text-blue-700 transition hover:text-blue-900">
-              Lihat semua
-              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6l6 6-6 6"/>
-              </svg>
-            </a>
-          </div>
-
-          <!-- Table -->
-          <div class="overflow-x-auto">
-            <table class="w-full min-w-[650px] text-left text-sm">
-
-              <thead class="border-b border-slate-200 bg-slate-50 text-xs font-bold uppercase tracking-wider text-slate-700">
-                <tr>
-                  <th class="px-5 py-3.5">Pemohon</th>
-                  <th class="px-4 py-3.5">Jenis Surat</th>
-                  <th class="px-4 py-3.5">Dusun</th>
-                  <th class="px-4 py-3.5">Status</th>
-                  <th class="px-5 py-3.5 text-right">Aksi</th>
-                </tr>
-              </thead>
-
-              <tbody class="divide-y divide-slate-100">
-
-                {trackingData.slice(0, 8).map((item) => (
-                  <tr class="transition hover:bg-slate-50">
-
-                    <!-- Pemohon -->
-                    <td class="px-5 py-4">
-                      <div class="font-bold text-slate-900 text-sm">{item.nama_pemohon_masked}</div>
-                      <div class="mt-0.5 font-mono text-xs text-slate-500">{item.id}</div>
-                    </td>
-
-                    <!-- Jenis Surat -->
-                    <td class="px-4 py-4">
-                      <span class="font-semibold text-slate-800 text-sm">{item.jenis_surat}</span>
-                    </td>
-
-                    <!-- Dusun -->
-                    <td class="px-4 py-4 text-slate-600 font-medium">
-                      {item.dusun}
-                    </td>
-
-                    <!-- Status -->
-                    <td class="px-4 py-4">
-                      <span class={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1 text-xs font-bold ${
-                        item.status === 'siap_diambil' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' :
-                        item.status === 'diproses' ? 'bg-blue-50 text-blue-800 border border-blue-200' :
-                        item.status === 'verifikasi' ? 'bg-sky-50 text-sky-800 border border-sky-200' :
-                        'bg-slate-100 text-slate-700 border border-slate-200'
-                      }`}>
-                        <span class={`h-2 w-2 rounded-full ${
-                          item.status === 'siap_diambil' ? 'bg-emerald-500' :
-                          item.status === 'diproses' ? 'bg-blue-500' :
-                          item.status === 'verifikasi' ? 'bg-sky-500' :
-                          'bg-slate-400'
-                        }`}></span>
-                        {item.status_label}
-                      </span>
-                    </td>
-
-                    <!-- Action -->
-                    <td class="px-5 py-4 text-right">
-                      <a href="/admin/surat" class="inline-flex items-center rounded-xl px-3.5 py-1.5 text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 transition-colors">
-                        Proses &rarr;
-                      </a>
-                    </td>
-
-                  </tr>
-                ))}
-
-                {trackingData.length === 0 && (
-                  <tr>
-                    <td colspan="5" class="px-5 py-12 text-center">
-                      <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5l5 5v11a2 2 0 01-2 2z"/>
-                        </svg>
-                      </div>
-                      <p class="mt-3 text-xs font-semibold text-slate-600">Belum ada permohonan surat</p>
-                      <p class="mt-1 text-[11px] text-slate-400">Permohonan baru akan muncul di sini.</p>
-                    </td>
-                  </tr>
-                )}
-
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Footer -->
-          <div class="flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-5 py-3">
-            <p class="text-[11px] text-slate-400">Menampilkan maksimal 8 permohonan terbaru.</p>
-            <a href="/admin/surat" class="text-[11px] font-semibold text-blue-700 hover:text-blue-900">
-              Buka pengelolaan surat →
-            </a>
-          </div>
-
-        </div>
-        <!-- BERITA TERBARU -->
-        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-
-          <!-- Header -->
-          <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
-            <div>
-              <div class="flex items-center gap-2">
-                <h2 class="text-sm font-bold text-slate-900">Berita Terbaru</h2>
-                <span id="dashboard-berita-count" class="rounded-md bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-700">0 Artikel</span>
-              </div>
-              <p class="mt-1 text-xs text-slate-400">Publikasi terbaru Pemerintah Desa Timpik.</p>
-            </div>
-
-            <a href="/admin/berita" class="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-blue-700 transition hover:text-blue-900">
-              Kelola Berita
-              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6l6 6-6 6"/>
-              </svg>
-            </a>
-          </div>
-
-          <!-- News List -->
-          <div id="dashboard-berita-list" class="divide-y divide-slate-100">
-
-            <!-- Render melalui JavaScript -->
-
-          </div>
-
-          <!-- Empty State -->
-          <div id="dashboard-berita-empty" class="hidden px-5 py-10 text-center">
-            <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-400">
-              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13V7"/>
-              </svg>
-            </div>
-            <p class="mt-3 text-xs font-semibold text-slate-700">Belum ada berita</p>
-            <p class="mt-1 text-[11px] text-slate-400">Artikel yang diterbitkan akan muncul di sini.</p>
-          </div>
-
-          <!-- Footer -->
-          <div class="border-t border-slate-100 bg-slate-50/50 px-5 py-3">
-            <a href="/admin/berita" class="text-[11px] font-semibold text-slate-600 transition hover:text-blue-700">
-              Buka seluruh publikasi berita →
-            </a>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- RIGHT: ADUAN WARGA -->
-      <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white xl:col-span-4">
-
-        <!-- Header -->
-        <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
-          <div>
-            <h2 class="text-sm font-bold text-slate-900">Aduan Warga Terbaru</h2>
-            <p class="mt-1 text-xs text-slate-400">Pantau laporan masyarakat.</p>
-          </div>
-
-          <a href="/admin/aduan" class="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-blue-50 hover:text-blue-700" aria-label="Lihat semua aduan">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 17L17 7M7 7h10v10"/>
-            </svg>
-          </a>
-        </div>
-
-        <!-- Complaint List -->
-        <div class="divide-y divide-slate-100">
-
-          {aduanList.slice(0, 5).map((aduan) => (
-            <div class="space-y-3 px-5 py-4 transition hover:bg-slate-50/70">
-
-              <!-- Complaint Title -->
-              <div class="flex items-start justify-between gap-2">
-                <div class="min-w-0">
-                  <p class="text-[10px] font-mono font-semibold text-slate-400">{aduan.id}</p>
-                  <h3 class="mt-1 text-xs font-bold leading-relaxed text-slate-800">
-                    {aduan.kategori}
-                  </h3>
-                </div>
-
-                <span class={`shrink-0 rounded-full px-2 py-1 text-[9px] font-semibold ${
-                  aduan.status === 'Disposisi Selesai'
-                    ? 'bg-emerald-50 text-emerald-700'
-                    : 'bg-amber-50 text-amber-700'
-                }`}>
-                  {aduan.status === 'Disposisi Selesai' ? 'Selesai' : 'Perlu tindak lanjut'}
-                </span>
-              </div>
-
-              <!-- Reporter -->
-              <div class="flex items-center justify-between gap-2">
-                <div class="min-w-0">
-                  <p class="truncate text-[11px] font-medium text-slate-700">{aduan.pelapor}</p>
-                  <p class="mt-0.5 text-[10px] text-slate-400">Dusun {aduan.dusun} · {aduan.tanggal}</p>
-                </div>
-              </div>
-
-              <!-- Complaint Description -->
-              <p class="line-clamp-2 text-[11px] leading-relaxed text-slate-500">
-                {aduan.uraian}
-              </p>
-
-              <!-- Action -->
-              <div class="flex items-center justify-between border-t border-slate-100 pt-2">
-                <span class="text-[10px] text-slate-400">
-                  {aduan.status === 'Disposisi Selesai' ? 'Sudah ditangani' : 'Menunggu tindak lanjut'}
-                </span>
-
-                <a href="/admin/aduan" class="text-[10px] font-semibold text-blue-700 transition hover:text-blue-900">
-                  Detail →
-                </a>
-              </div>
-
-            </div>
-          ))}
-
-          {aduanList.length === 0 && (
-            <div class="px-5 py-12 text-center">
-              <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 12l4 4L19 6"/>
-                </svg>
-              </div>
-              <p class="mt-3 text-xs font-semibold text-slate-700">Tidak ada aduan terbaru</p>
-              <p class="mt-1 text-[11px] text-slate-400">Belum ada laporan dari masyarakat.</p>
-            </div>
-          )}
-
-        </div>
-
-        <!-- Footer -->
-        <div class="border-t border-slate-100 bg-slate-50/50 p-4">
-          <a href="/admin/aduan" class="flex h-9 w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700">
-            Buka Pusat Aduan Warga
-            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 12h14m-6-6l6 6-6 6"/>
-            </svg>
-          </a>
-        </div>
-
-      </div>
-
-    </section>
-
   </div>
-
 </AdminLayout>
-
-<script is:inline define:vars={{ defaultBerita: beritaData }}>
-  (() => {
-    const STORAGE_KEY = 'timpik_berita_list';
-
-    const listElement = document.getElementById('dashboard-berita-list');
-    const emptyElement = document.getElementById('dashboard-berita-empty');
-    const countElement = document.getElementById('dashboard-berita-count');
-
-    if (!listElement) return;
-
-    // Membaca berita dari localStorage
-    function getBerita() {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-
-        if (stored !== null) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed)) return parsed;
-        }
-      } catch (error) {
-        console.error('Gagal membaca data berita:', error);
-      }
-
-      return Array.isArray(defaultBerita) ? defaultBerita : [];
-    }
-
-    // Mengamankan teks sebelum ditampilkan ke HTML
-    function escapeHTML(value) {
-      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-      })[char]);
-    }
-
-    // Memastikan URL gambar aman
-    function getSafeImageURL(value) {
-      const url = String(value || '/images/balai-desa-timpik.jpg');
-
-      if (url.startsWith('/') || /^https?:\/\//i.test(url)) {
-        return escapeHTML(url);
-      }
-
-      return '/images/balai-desa-timpik.jpg';
-    }
-
-    // Render berita terbaru
-    function renderBerita() {
-      const berita = getBerita();
-      const latestBerita = berita.slice(0, 3);
-
-      if (countElement) {
-        countElement.textContent = `${berita.length} Artikel`;
-      }
-
-      if (latestBerita.length === 0) {
-        listElement.innerHTML = '';
-        emptyElement?.classList.remove('hidden');
-        return;
-      }
-
-      emptyElement?.classList.add('hidden');
-
-      listElement.innerHTML = latestBerita.map((item) => {
-        const image = getSafeImageURL(item.gambar);
-        const id = encodeURIComponent(item.id || '');
-        const judul = escapeHTML(item.judul || 'Tanpa judul');
-        const ringkasan = escapeHTML(item.ringkasan || 'Tidak ada ringkasan berita.');
-        const kategori = escapeHTML(item.kategori || 'Informasi Desa');
-        const tanggal = escapeHTML(item.tanggal || '-');
-        const penulis = escapeHTML(item.penulis || 'Pemerintah Desa Timpik');
-
-        return `
-          <article class="flex gap-4 px-5 py-4 transition hover:bg-slate-50/70">
-
-            <a href="/berita/${id}" target="_blank" rel="noopener noreferrer" class="h-20 w-24 shrink-0 overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
-              <img src="${image}" alt="${judul}" class="h-full w-full object-cover" onerror="this.src='/images/balai-desa-timpik.jpg'"/>
-            </a>
-
-            <div class="flex min-w-0 flex-1 flex-col justify-center">
-              <div class="mb-1.5 flex flex-wrap items-center gap-2">
-                <span class="rounded-md bg-blue-50 px-2 py-0.5 text-[9px] font-semibold text-blue-700">${kategori}</span>
-                <span class="text-[10px] text-slate-400">${tanggal}</span>
-              </div>
-
-              <a href="/berita/${id}" target="_blank" rel="noopener noreferrer" class="line-clamp-1 text-xs font-bold text-slate-800 transition hover:text-blue-700">
-                ${judul}
-              </a>
-
-              <p class="mt-1 line-clamp-2 text-[11px] leading-relaxed text-slate-500">
-                ${ringkasan}
-              </p>
-
-              <div class="mt-2 flex items-center justify-between gap-2">
-                <span class="truncate text-[10px] text-slate-400">Oleh ${penulis}</span>
-                <a href="/admin/berita" class="shrink-0 text-[10px] font-semibold text-blue-700 hover:text-blue-900">
-                  Kelola →
-                </a>
-              </div>
-            </div>
-
-          </article>
-        `;
-      }).join('');
-    }
-
-    renderBerita();
-
-    // Sinkronisasi jika localStorage berubah dari tab browser lain
-    window.addEventListener('storage', (event) => {
-      if (event.key === STORAGE_KEY) renderBerita();
-    });
-  })();
-</script>
