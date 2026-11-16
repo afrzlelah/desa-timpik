@@ -330,6 +330,89 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
       });
 
       updateSidebar();
+
+      // Keep the admin's existing editor UI, but hydrate and persist its content in Supabase.
+      const contentStorageKeys = {
+        timpik_profil_data: 'profil',
+        timpik_kontak_data: 'kontak',
+        timpik_berita_list: 'berita',
+        timpik_agenda_list: 'agenda',
+        timpik_surat_list: 'surat',
+        timpik_apbdes_data: 'apbdes',
+      };
+      const isAdminPage = window.location.pathname.startsWith('/admin/');
+      const storageKeyByAdminPath = {
+        '/admin/informasi': 'timpik_profil_data',
+        '/admin/kontak': 'timpik_kontak_data',
+        '/admin/berita': 'timpik_berita_list',
+        '/admin/agenda': 'timpik_agenda_list',
+        '/admin/surat': 'timpik_surat_list',
+        '/admin/apbdes': 'timpik_apbdes_data',
+      };
+      const currentStorageKey = storageKeyByAdminPath[window.location.pathname];
+      const currentContentKey = currentStorageKey ? contentStorageKeys[currentStorageKey] : undefined;
+      let syncingContentFromSupabase = false;
+
+      if (isAdminPage && currentContentKey) {
+        fetch(`/api/content?key=${encodeURIComponent(currentContentKey)}`, { cache: 'no-store' })
+          .then(async (response) => {
+            if (response.status === 404) {
+              if (localStorage.getItem(currentStorageKey) !== null) {
+                syncingContentFromSupabase = true;
+                localStorage.removeItem(currentStorageKey);
+                syncingContentFromSupabase = false;
+                window.location.reload();
+              }
+              return;
+            }
+            if (!response.ok) throw new Error(`Content load failed (${response.status})`);
+            const row = await response.json();
+            const next = JSON.stringify(row.data);
+            if (localStorage.getItem(currentStorageKey) !== next) {
+              syncingContentFromSupabase = true;
+              localStorage.setItem(currentStorageKey, next);
+              syncingContentFromSupabase = false;
+              window.location.reload();
+            }
+          })
+          .catch((error) => console.error('Gagal memuat data admin dari Supabase.', error));
+      }
+
+      const originalSetItem = Storage.prototype.setItem;
+      const originalRemoveItem = Storage.prototype.removeItem;
+      Storage.prototype.setItem = function (key, value) {
+        originalSetItem.call(this, key, value);
+        const contentKey = isAdminPage && !syncingContentFromSupabase && this === window.localStorage ? contentStorageKeys[key] : undefined;
+        if (!contentKey) return;
+        let data;
+        try { data = JSON.parse(value); } catch { return; }
+        fetch('/api/admin/content', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ key: contentKey, data }),
+        }).then((response) => {
+          if (!response.ok) throw new Error(`Supabase save failed (${response.status})`);
+        }).catch((error) => {
+          console.error('Perubahan admin belum tersimpan ke Supabase.', error);
+          window.alert('Perubahan belum tersimpan ke Supabase. Periksa kunci server Supabase dan sesi admin.');
+        });
+      };
+
+      Storage.prototype.removeItem = function (key) {
+        originalRemoveItem.call(this, key);
+        const contentKey = isAdminPage && !syncingContentFromSupabase && this === window.localStorage ? contentStorageKeys[key] : undefined;
+        if (!contentKey) return;
+        fetch(`/api/admin/content?key=${encodeURIComponent(contentKey)}`, {
+          method: 'DELETE',
+          credentials: 'same-origin',
+        }).then((response) => {
+          if (!response.ok) throw new Error(`Supabase reset failed (${response.status})`);
+        }).catch((error) => {
+          console.error('Reset admin belum tersimpan ke Supabase.', error);
+          window.alert('Reset belum tersimpan ke Supabase. Periksa kunci server Supabase dan sesi admin.');
+        });
+      };
     </script>
 
   </body>

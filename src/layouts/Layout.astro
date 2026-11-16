@@ -696,5 +696,37 @@ const currentPath = Astro.url.pathname;
         }
       } catch (error) { console.warn('Profil lokal tidak dapat dibaca.', error); }
     </script>
+    <script>
+      const publicStorageKeys = {
+        profil: 'timpik_profil_data',
+        kontak: 'timpik_kontak_data',
+        berita: 'timpik_berita_list',
+        agenda: 'timpik_agenda_list',
+        surat: 'timpik_surat_list',
+        apbdes: 'timpik_apbdes_data',
+      };
+
+      fetch('/api/content?key=all', { cache: 'no-store' })
+        .then(async (response) => {
+          if (!response.ok) throw new Error(`Supabase content request failed (${response.status})`);
+          const { contents = {} } = await response.json();
+          (window as any).__timpikSupabaseContent = contents;
+          window.dispatchEvent(new CustomEvent('timpik-supabase-content', { detail: contents }));
+          let changed = false;
+
+          for (const [contentKey, storageKey] of Object.entries(publicStorageKeys)) {
+            const next = Object.hasOwn(contents, contentKey) ? JSON.stringify(contents[contentKey]) : null;
+            const previous = localStorage.getItem(storageKey);
+            if (next === previous) continue;
+
+            if (next === null) localStorage.removeItem(storageKey);
+            else localStorage.setItem(storageKey, next);
+            changed = true;
+          }
+
+          if (changed) window.location.reload();
+        })
+        .catch((error) => console.warn('Konten Supabase belum dapat dimuat.', error));
+    </script>
   </body>
 </html>

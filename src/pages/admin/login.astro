@@ -241,11 +241,20 @@ import "../../styles/global.css";
               }),
             });
 
-            if (!response.ok) throw new Error("Login gagal");
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) {
+              let message = result.error || `Login gagal (HTTP ${response.status}).`;
+              if (result.debug) {
+                message += ` Pemeriksaan lokal: username ${result.debug.usernameMatches ? "cocok" : "tidak cocok"}, kata sandi ${result.debug.passwordMatches ? "cocok" : "tidak cocok"}.`;
+              }
+              throw new Error(message);
+            }
             window.location.href = "/admin/dashboard";
-          } catch {
+          } catch (error) {
             if (errBox) {
-              errBox.textContent = "Nama pengguna atau kata sandi tidak cocok, atau layanan login belum dikonfigurasi.";
+              errBox.textContent = error instanceof Error
+                ? error.message
+                : "Tidak dapat menghubungi layanan login.";
               errBox.classList.remove("hidden");
             }
           } finally {

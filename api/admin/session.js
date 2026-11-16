@@ -11,8 +11,14 @@ function send(res, status, body, headers = {}) {
   res.end(JSON.stringify(body));
 }
 
-function cookieOptions(maxAge) {
-  const secure = process.env.NODE_ENV === "production" || Boolean(process.env.VERCEL);
+function requestUsesHttps(req) {
+  const forwardedProto = req.headers["x-forwarded-proto"];
+  const protocol = Array.isArray(forwardedProto) ? forwardedProto[0] : forwardedProto;
+  return String(protocol || "").split(",")[0].trim() === "https" || req.socket?.encrypted === true;
+}
+
+function cookieOptions(req, maxAge) {
+  const secure = requestUsesHttps(req);
   return `${COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}${secure ? "; Secure" : ""}`;
 }
 
@@ -24,6 +30,11 @@ function safeEqual(left, right) {
   const a = Buffer.from(String(left));
   const b = Buffer.from(String(right));
   return a.length === b.length && timingSafeEqual(a, b);
+}
+
+function isLocalRequest(req) {
+  const host = String(req.headers.host || "").split(":")[0].toLowerCase();
+  return host === "localhost" || host === "127.0.0.1";
 }
 
 function readCookie(req) {
@@ -81,21 +92,26 @@ module.exports = async function handler(req, res) {
       return send(res, 400, { error: "Permintaan login tidak valid." });
     }
 
-    const validUsername = safeEqual(credentials.username || "", username);
+    const normalizedUsername = (value) => String(value || "").trim().toLowerCase();
+    const validUsername = safeEqual(normalizedUsername(credentials.username), normalizedUsername(username));
     const validPassword = safeEqual(credentials.password || "", password);
     if (!validUsername || !validPassword) {
-      return send(res, 401, { error: "Nama pengguna atau kata sandi tidak cocok." });
+      const body = { error: "Nama pengguna atau kata sandi tidak cocok." };
+      if (isLocalRequest(req)) {
+        body.debug = { usernameMatches: validUsername, passwordMatches: validPassword };
+      }
+      return send(res, 401, body);
     }
 
     const payload = Buffer.from(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + SESSION_SECONDS })).toString("base64url");
     const token = `${payload}.${sign(payload, secret)}`;
-    const secure = process.env.NODE_ENV === "production" || Boolean(process.env.VERCEL);
+    const secure = requestUsesHttps(req);
     const cookie = `${COOKIE_NAME}=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${SESSION_SECONDS}${secure ? "; Secure" : ""}`;
     return send(res, 200, { authenticated: true }, { "Set-Cookie": cookie });
   }
 
   if (req.method === "DELETE") {
-    return send(res, 200, { authenticated: false }, { "Set-Cookie": cookieOptions(0) });
+    return send(res, 200, { authenticated: false }, { "Set-Cookie": cookieOptions(req, 0) });
   }
 
   res.setHeader("Allow", "GET, POST, DELETE");

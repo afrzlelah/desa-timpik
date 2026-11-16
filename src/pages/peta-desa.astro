@@ -118,7 +118,7 @@ import profilData from '../data/profil.json';
           <p class="text-xs text-civic-muted mt-1">Struktur kadus di bawah naungan administrasi Pemerintah Desa Timpik</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div id="peta-dusun-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {profilData.dusun.map((dusun, idx) => (
             <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-4">
               <div>
@@ -143,4 +143,22 @@ import profilData from '../data/profil.json';
 
     </div>
   </section>
+  <script>
+    const escapeDusunPeta = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]!));
+    const renderPetaDusun = (items: any[]) => {
+      const grid = document.getElementById('peta-dusun-grid');
+      if (!grid) return;
+      grid.innerHTML = items.map((dusun: any) => `
+        <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-4">
+          <div><h4 class="font-serif font-bold text-lg text-civic-navy">${escapeDusunPeta(dusun.nama)}</h4><p class="text-xs text-civic-muted mt-2 leading-relaxed">${escapeDusunPeta(dusun.deskripsi)}</p></div>
+          <div class="pt-3 border-t border-civic-border/60"><a href="/dusun/${encodeURIComponent(dusun.id)}" class="text-xs font-mono font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider inline-flex items-center gap-1"><span>Buka Peta Dusun</span><span>&rarr;</span></a></div>
+        </div>`).join('');
+    };
+    const initialProfil = (window as any).__timpikSupabaseContent?.profil;
+    if (Array.isArray(initialProfil?.dusun)) renderPetaDusun(initialProfil.dusun);
+    window.addEventListener('timpik-supabase-content', (event) => {
+      const dusun = (event as CustomEvent).detail?.profil?.dusun;
+      if (Array.isArray(dusun)) renderPetaDusun(dusun);
+    });
+  </script>
 </Layout>

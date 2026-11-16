@@ -96,7 +96,7 @@ import potensiData from '../data/potensi.json';
           <h3 class="text-xl  font-black text-civic-navy">Empat Komoditas Unggulan Sawah Desa</h3>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div id="potensi-komoditas-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {potensiData.agraris.komoditas_utama.map((item, idx) => (
             <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-3">
               <div>
@@ -133,7 +133,7 @@ import potensiData from '../data/potensi.json';
       </div>
 
       <!-- Kesenian Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div id="potensi-kesenian-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {potensiData.kebudayaan.kesenian.map((seni) => (
           <div class="glass-panel rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-6">
             <div class="space-y-4">
@@ -192,4 +192,32 @@ import potensiData from '../data/potensi.json';
 
     </div>
   </section>
+  <script>
+    const escapePotensi = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]!));
+    const renderPotensi = (data: any) => {
+      const komoditasGrid = document.getElementById('potensi-komoditas-grid');
+      if (komoditasGrid && Array.isArray(data?.agraris?.komoditas_utama)) {
+        komoditasGrid.innerHTML = data.agraris.komoditas_utama.map((item: any, idx: number) => `
+          <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-3">
+            <div><span class="text-xs text-civic-gold font-bold block mb-1">${String(idx + 1).padStart(2, '0')}</span><h4 class="font-bold text-base text-civic-navy">${escapePotensi(item.nama)}</h4><p class="text-xs text-civic-muted mt-2 leading-relaxed">${escapePotensi(item.deskripsi)}</p></div>
+            <span class="text-[10px] uppercase tracking-wider text-emerald-800 font-bold block pt-2 border-t border-civic-border/60">Lumbung Timpik</span>
+          </div>`).join('');
+      }
+      const kesenianGrid = document.getElementById('potensi-kesenian-grid');
+      if (kesenianGrid && Array.isArray(data?.kebudayaan?.kesenian)) {
+        kesenianGrid.innerHTML = data.kebudayaan.kesenian.map((seni: any) => `
+          <div class="glass-panel rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-6">
+            <div class="space-y-4"><div class="flex items-center justify-between"><a href="${String(seni.lokasi || '').toLowerCase().includes('bogo') ? '/dusun/bogo' : '/dusun/sumber'}" class="rounded-full text-xs uppercase tracking-wide px-3 py-2 bg-blue-800/10 text-blue-950 border border-blue-800/20 hover:bg-blue-800/15 transition-colors font-bold">${escapePotensi(seni.lokasi)} &rarr;</a></div>
+            <h3 class="text-2xl font-bold text-slate-950">${escapePotensi(seni.nama)}</h3><p class="text-slate-700 text-sm sm:text-base leading-relaxed">${escapePotensi(seni.deskripsi)}</p></div>
+            <div class="pt-4 border-t border-slate-200 flex items-center justify-between text-sm"><a href="/layanan-surat" class="text-blue-900 hover:text-blue-700 font-bold inline-flex items-center gap-1">Izin Pentas Seni &rarr;</a></div>
+          </div>`).join('');
+      }
+    };
+    const initialPotensi = (window as any).__timpikSupabaseContent?.potensi;
+    if (initialPotensi) renderPotensi(initialPotensi);
+    window.addEventListener('timpik-supabase-content', (event) => {
+      const data = (event as CustomEvent).detail?.potensi;
+      if (data) renderPotensi(data);
+    });
+  </script>
 </Layout>
