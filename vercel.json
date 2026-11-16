@@ -1,4 +1,10 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/berita/:id",
+      "destination": "/berita-detail?id=:id"
+    }
+  ]
 }

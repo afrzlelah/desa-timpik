@@ -1,0 +1,130 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Detail Berita Desa Timpik"
+  description="Informasi dan berita resmi dari Pemerintah Desa Timpik, Kecamatan Susukan, Kabupaten Semarang."
+>
+  <main class="flex-grow bg-slate-50">
+    <section class="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white border-b border-blue-800/40 py-8 sm:py-10">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center gap-2 text-sm font-semibold text-blue-200" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-white">Beranda</a>
+          <span aria-hidden="true">/</span>
+          <a href="/berita" class="hover:text-white">Berita</a>
+          <span aria-hidden="true">/</span>
+          <span id="detail-berita-kategori" class="text-white">Detail</span>
+        </nav>
+        <div id="detail-berita-loading" class="py-10" role="status" aria-live="polite">
+          <p class="text-blue-100">Memuat berita...</p>
+        </div>
+        <div id="detail-berita-header" class="hidden pt-8">
+          <p id="detail-berita-tag" class="text-sm font-bold text-blue-200"></p>
+          <h1 id="detail-berita-judul" class="mt-3 text-3xl sm:text-4xl font-extrabold leading-tight"></h1>
+          <p class="mt-4 text-blue-100"><span id="detail-berita-tanggal"></span><span aria-hidden="true"> · </span><span id="detail-berita-penulis"></span></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="detail-berita-body" class="hidden py-8 sm:py-12">
+      <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <img id="detail-berita-gambar" src="/images/balai-desa-timpik.jpg" alt="" class="w-full max-h-[520px] object-cover" />
+          <figcaption class="px-4 py-3 text-sm text-slate-600">Dokumentasi kegiatan Desa Timpik</figcaption>
+        </figure>
+        <p id="detail-berita-ringkasan" class="mt-6 rounded-xl border-l-4 border-blue-800 bg-white p-5 text-lg leading-relaxed text-slate-800 shadow-sm"></p>
+        <div id="detail-berita-konten" class="mt-5 rounded-xl border border-slate-200 bg-white p-5 sm:p-8 text-base leading-8 text-slate-800 whitespace-pre-line shadow-sm"></div>
+        <section id="detail-berita-terkait-section" class="hidden mt-10" aria-labelledby="detail-berita-terkait-heading">
+          <h2 id="detail-berita-terkait-heading" class="text-xl font-bold text-slate-900">Berita lainnya</h2>
+          <div id="detail-berita-terkait" class="mt-4 grid gap-3 sm:grid-cols-3"></div>
+        </section>
+        <a href="/berita" class="inline-flex min-h-11 items-center mt-8 rounded-xl bg-blue-900 px-5 py-2.5 font-bold text-white hover:bg-blue-950 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2">&larr; Kembali ke semua berita</a>
+      </article>
+    </section>
+
+    <section id="detail-berita-error" class="hidden max-w-3xl mx-auto px-4 py-16 text-center" role="alert">
+      <h1 class="text-2xl font-bold text-slate-900">Berita tidak ditemukan</h1>
+      <p id="detail-berita-error-message" class="mt-3 text-slate-700">Berita mungkin sudah dihapus atau tautannya tidak sesuai.</p>
+      <a href="/berita" class="inline-flex min-h-11 items-center mt-6 rounded-xl bg-blue-900 px-5 py-2.5 font-bold text-white hover:bg-blue-950">Lihat semua berita</a>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  const byId = (id) => document.getElementById(id);
+  const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
+
+  function showArticle(article, allArticles) {
+    byId('detail-berita-loading')?.classList.add('hidden');
+    byId('detail-berita-error')?.classList.add('hidden');
+    byId('detail-berita-header')?.classList.remove('hidden');
+    byId('detail-berita-body')?.classList.remove('hidden');
+
+    document.title = `${article.judul || 'Detail Berita'} | Desa Timpik`;
+    byId('detail-berita-kategori').textContent = article.kategori || 'Berita Desa';
+    byId('detail-berita-tag').textContent = article.tag ? `#${article.tag}` : '';
+    byId('detail-berita-judul').textContent = article.judul || 'Berita Desa Timpik';
+    byId('detail-berita-tanggal').textContent = article.tanggal || '';
+    byId('detail-berita-penulis').textContent = `Oleh ${article.penulis || 'Pemerintah Desa Timpik'}`;
+    byId('detail-berita-ringkasan').textContent = article.ringkasan || '';
+    byId('detail-berita-konten').textContent = article.konten || article.ringkasan || '';
+
+    const image = byId('detail-berita-gambar');
+    const imageUrl = String(article.gambar || '');
+    image.src = /^(https?:\/\/|\/)/i.test(imageUrl) ? imageUrl : '/images/balai-desa-timpik.jpg';
+    image.alt = article.judul || 'Foto berita Desa Timpik';
+    image.onerror = () => { image.src = '/images/balai-desa-timpik.jpg'; };
+
+    const related = allArticles
+      .filter((item) => item.id !== article.id && item.kategori === article.kategori)
+      .slice(0, 3);
+    if (related.length) {
+      byId('detail-berita-terkait').innerHTML = related.map((item) => `
+        <a href="/berita/${encodeURIComponent(item.id)}" class="rounded-xl border border-slate-200 bg-white p-4 hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-700">
+          <span class="text-xs font-bold text-blue-800">${escapeHtml(item.kategori)}</span>
+          <span class="mt-2 block font-bold text-slate-900">${escapeHtml(item.judul)}</span>
+          <span class="mt-2 block text-sm text-slate-600">${escapeHtml(item.tanggal)}</span>
+        </a>
+      `).join('');
+      byId('detail-berita-terkait-section').classList.remove('hidden');
+    }
+  }
+
+  function showError(message) {
+    byId('detail-berita-loading')?.classList.add('hidden');
+    byId('detail-berita-error-message').textContent = message;
+    byId('detail-berita-error')?.classList.remove('hidden');
+  }
+
+  async function loadArticle() {
+    const articleId = new URLSearchParams(window.location.search).get('id');
+    if (!articleId) {
+      showError('Alamat berita tidak mencantumkan ID artikel.');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/content?key=berita', { cache: 'no-store' });
+      if (!response.ok) throw new Error(response.status === 404
+        ? 'Data berita belum tersedia. Pastikan berita sudah tersimpan di Supabase.'
+        : `Berita gagal dimuat (kode ${response.status}).`);
+      const result = await response.json();
+      const articles = Array.isArray(result.data) ? result.data : result.contents?.berita;
+      if (!Array.isArray(articles)) throw new Error('Format data berita dari Supabase tidak sesuai.');
+      const article = articles.find((item) => String(item.id) === articleId);
+      if (!article) {
+        showError('Berita mungkin sudah dihapus atau belum tersimpan di Supabase.');
+        return;
+      }
+      showArticle(article, articles);
+    } catch (error) {
+      console.error('Gagal memuat detail berita:', error);
+      showError(error.message || 'Terjadi kendala saat memuat berita. Silakan coba lagi.');
+    }
+  }
+
+  loadArticle();
+</script>
