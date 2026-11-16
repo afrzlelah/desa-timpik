@@ -190,6 +190,16 @@ import beritaData from '../../data/berita.json';
             placeholder="/images/balai-desa-timpik.jpg atau https://..."
             class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
+          <div class="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <label for="berita-input-file-gambar" class="block font-semibold text-slate-700 mb-1">Atau unggah gambar ke Supabase</label>
+            <input
+              type="file"
+              id="berita-input-file-gambar"
+              accept="image/jpeg,image/png,image/webp,image/avif"
+              class="block w-full text-xs text-slate-700 file:mr-3 file:rounded-lg file:border-0 file:bg-blue-800 file:px-3 file:py-2 file:font-semibold file:text-white hover:file:bg-blue-900"
+            />
+            <p id="berita-upload-status" class="mt-1.5 text-xs text-slate-600" aria-live="polite">JPG, PNG, WebP, atau AVIF. Maksimal 4 MB.</p>
+          </div>
           <div class="flex items-center gap-2 mt-1.5 text-[11px] text-slate-500">
             <span>Pilihan cepat foto lokal:</span>
             <button type="button" class="btn-preset-img text-blue-600 hover:underline" data-url="/images/balai-desa-timpik.jpg">Balai Desa</button>
@@ -380,14 +390,18 @@ import beritaData from '../../data/berita.json';
   const penulisInput = document.getElementById('berita-input-penulis');
   const tagInput = document.getElementById('berita-input-tag');
   const gambarInput = document.getElementById('berita-input-gambar');
+  const gambarFileInput = document.getElementById('berita-input-file-gambar');
+  const uploadStatus = document.getElementById('berita-upload-status');
   const ringkasanInput = document.getElementById('berita-input-ringkasan');
   const kontenInput = document.getElementById('berita-input-konten');
+  const submitButton = form?.querySelector('button[type="submit"]');
 
   function openCreateModal() {
     if (!modal) return;
     modalTitle.textContent = 'Tulis Berita Baru';
     editIdInput.value = '';
     form.reset();
+    if (uploadStatus) uploadStatus.textContent = 'JPG, PNG, WebP, atau AVIF. Maksimal 4 MB.';
 
     // Default tanggal hari ini dalam format Bahasa Indonesia
     const now = new Date();
@@ -411,6 +425,8 @@ import beritaData from '../../data/berita.json';
     penulisInput.value = item.penulis || '';
     tagInput.value = item.tag || '';
     gambarInput.value = item.gambar || '';
+    if (gambarFileInput) gambarFileInput.value = '';
+    if (uploadStatus) uploadStatus.textContent = 'JPG, PNG, WebP, atau AVIF. Maksimal 4 MB.';
     ringkasanInput.value = item.ringkasan || '';
     kontenInput.value = item.konten || '';
 
@@ -421,27 +437,82 @@ import beritaData from '../../data/berita.json';
     if (modal) modal.classList.add('hidden');
   }
 
+  async function uploadBeritaImage(file) {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+    if (!allowedTypes.includes(file.type)) throw new Error('Format gambar harus JPG, PNG, WebP, atau AVIF.');
+    if (file.size > 4 * 1024 * 1024) throw new Error('Ukuran gambar maksimal 4 MB.');
+
+    if (uploadStatus) uploadStatus.textContent = 'Mengunggah gambar ke Supabase...';
+    const response = await fetch('/api/admin/berita-image', {
+      method: 'POST',
+      headers: { 'Content-Type': file.type },
+      body: file
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || 'Gambar gagal diunggah.');
+    if (uploadStatus) uploadStatus.textContent = 'Gambar berhasil diunggah.';
+    return result.publicUrl;
+  }
+
+  gambarFileInput?.addEventListener('change', () => {
+    const file = gambarFileInput.files?.[0];
+    if (file && uploadStatus) uploadStatus.textContent = `${file.name} dipilih. Gambar akan diunggah saat berita disimpan.`;
+  });
+
   // Preset Buttons
   document.querySelectorAll('.btn-preset-img').forEach(btn => {
     btn.addEventListener('click', () => {
       const url = btn.getAttribute('data-url');
       if (gambarInput && url) gambarInput.value = url;
+      if (gambarFileInput) gambarFileInput.value = '';
+      if (uploadStatus) uploadStatus.textContent = 'JPG, PNG, WebP, atau AVIF. Maksimal 4 MB.';
     });
+  });
+
+  gambarInput?.addEventListener('input', () => {
+    if (gambarFileInput) gambarFileInput.value = '';
   });
 
   document.getElementById('btn-tambah-berita')?.addEventListener('click', openCreateModal);
   document.getElementById('btn-close-modal-berita')?.addEventListener('click', closeModal);
   document.getElementById('btn-cancel-modal-berita')?.addEventListener('click', closeModal);
 
-  form?.addEventListener('submit', (e) => {
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const isEdit = !!editIdInput.value;
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Menyimpan...';
+      submitButton.classList.add('opacity-70', 'cursor-wait');
+    }
 
-    if (isEdit) {
-      const idx = beritaState.findIndex(b => b.id === editIdInput.value);
-      if (idx !== -1) {
-        beritaState[idx] = {
-          ...beritaState[idx],
+    try {
+      const selectedImage = gambarFileInput?.files?.[0];
+      if (selectedImage) gambarInput.value = await uploadBeritaImage(selectedImage);
+      const isEdit = !!editIdInput.value;
+
+      if (isEdit) {
+        const idx = beritaState.findIndex(b => b.id === editIdInput.value);
+        if (idx !== -1) {
+          beritaState[idx] = {
+            ...beritaState[idx],
+            judul: judulInput.value.trim(),
+            kategori: kategoriInput.value,
+            tanggal: tanggalInput.value.trim(),
+            penulis: penulisInput.value.trim(),
+            tag: tagInput.value.trim(),
+            gambar: gambarInput.value.trim() || '/images/balai-desa-timpik.jpg',
+            ringkasan: ringkasanInput.value.trim(),
+            konten: kontenInput.value.trim()
+          };
+        }
+      } else {
+        const slug = judulInput.value.toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)+/g, '')
+          .substring(0, 40) + '-' + Date.now().toString().slice(-4);
+
+        const newItem = {
+          id: slug,
           judul: judulInput.value.trim(),
           kategori: kategoriInput.value,
           tanggal: tanggalInput.value.trim(),
@@ -451,31 +522,24 @@ import beritaData from '../../data/berita.json';
           ringkasan: ringkasanInput.value.trim(),
           konten: kontenInput.value.trim()
         };
+        beritaState.unshift(newItem);
       }
-    } else {
-      const slug = judulInput.value.toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)+/g, '')
-        .substring(0, 40) + '-' + Date.now().toString().slice(-4);
 
-      const newItem = {
-        id: slug,
-        judul: judulInput.value.trim(),
-        kategori: kategoriInput.value,
-        tanggal: tanggalInput.value.trim(),
-        penulis: penulisInput.value.trim(),
-        tag: tagInput.value.trim(),
-        gambar: gambarInput.value.trim() || '/images/balai-desa-timpik.jpg',
-        ringkasan: ringkasanInput.value.trim(),
-        konten: kontenInput.value.trim()
-      };
-      beritaState.unshift(newItem);
+      saveStoredBerita(beritaState);
+      closeModal();
+      renderTable();
+      alert(isEdit ? 'Artikel berhasil diperbarui!' : 'Berita baru berhasil diterbitkan ke portal publik!');
+    } catch (error) {
+      console.error('Gagal menyimpan berita:', error);
+      if (uploadStatus) uploadStatus.textContent = error.message || 'Berita gagal disimpan. Coba lagi.';
+      alert(error.message || 'Berita gagal disimpan. Coba lagi.');
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Simpan & Terbitkan';
+        submitButton.classList.remove('opacity-70', 'cursor-wait');
+      }
     }
-
-    saveStoredBerita(beritaState);
-    closeModal();
-    renderTable();
-    alert(isEdit ? 'Artikel berhasil diperbarui!' : 'Berita baru berhasil diterbitkan ke portal publik!');
   });
 
   // Search & Filter
