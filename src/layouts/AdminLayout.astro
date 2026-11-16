@@ -395,6 +395,7 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
           if (!response.ok) {
             const result = await response.json().catch(() => ({}));
             throw new Error(result.error || `Supabase save failed (${response.status})`);
+          }
         }).catch((error) => {
           console.error('Perubahan admin belum tersimpan ke Supabase.', error);
           window.alert('Perubahan belum tersimpan ke Supabase. Periksa kunci server Supabase dan sesi admin.');
