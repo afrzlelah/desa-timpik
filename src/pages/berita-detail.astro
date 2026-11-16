@@ -100,7 +100,9 @@ import Layout from '../layouts/Layout.astro';
   }
 
   async function loadArticle() {
-    const articleId = new URLSearchParams(window.location.search).get('id');
+    const queryId = new URLSearchParams(window.location.search).get('id');
+    const pathMatch = window.location.pathname.match(/^\/berita\/([^/]+)\/?$/);
+    const articleId = queryId || (pathMatch ? decodeURIComponent(pathMatch[1]) : null);
     if (!articleId) {
       showError('Alamat berita tidak mencantumkan ID artikel.');
       return;
