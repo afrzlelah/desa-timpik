@@ -391,8 +391,10 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
           headers: { 'Content-Type': 'application/json' },
           credentials: 'same-origin',
           body: JSON.stringify({ key: contentKey, data }),
-        }).then((response) => {
-          if (!response.ok) throw new Error(`Supabase save failed (${response.status})`);
+        }).then(async (response) => {
+          if (!response.ok) {
+            const result = await response.json().catch(() => ({}));
+            throw new Error(result.error || `Supabase save failed (${response.status})`);
         }).catch((error) => {
           console.error('Perubahan admin belum tersimpan ke Supabase.', error);
           window.alert('Perubahan belum tersimpan ke Supabase. Periksa kunci server Supabase dan sesi admin.');
@@ -403,11 +405,16 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
         originalRemoveItem.call(this, key);
         const contentKey = isAdminPage && !syncingContentFromSupabase && this === window.localStorage ? contentStorageKeys[key] : undefined;
         if (!contentKey) return;
-        fetch(`/api/admin/content?key=${encodeURIComponent(contentKey)}`, {
-          method: 'DELETE',
+        fetch('/api/admin/content', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           credentials: 'same-origin',
-        }).then((response) => {
-          if (!response.ok) throw new Error(`Supabase reset failed (${response.status})`);
+          body: JSON.stringify({ key: contentKey, action: 'delete' }),
+        }).then(async (response) => {
+          if (!response.ok) {
+            const result = await response.json().catch(() => ({}));
+            throw new Error(result.error || `Supabase reset failed (${response.status})`);
+          }
         }).catch((error) => {
           console.error('Reset admin belum tersimpan ke Supabase.', error);
           window.alert('Reset belum tersimpan ke Supabase. Periksa kunci server Supabase dan sesi admin.');

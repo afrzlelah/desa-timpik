@@ -94,6 +94,13 @@ module.exports = async function handler(req, res) {
     return send(res, 400, { error: "Isi permintaan tidak valid." });
   }
 
+  if (body.action === "delete") {
+    if (!CONTENT_KEYS.has(body.key)) return send(res, 400, { error: "Kunci konten tidak valid." });
+    const { error } = await supabase.from("site_content").delete().eq("content_key", body.key);
+    if (error) return send(res, 502, { error: "Gagal menghapus konten dari Supabase." });
+    return send(res, 200, { deleted: true, key: body.key });
+  }
+
   if (!CONTENT_KEYS.has(body.key) || body.data === undefined) {
     return send(res, 400, { error: "Kunci atau data konten tidak valid." });
   }
