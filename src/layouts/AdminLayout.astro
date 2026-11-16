@@ -81,11 +81,6 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
             </svg>
           </a>
 
-          <a href="/admin/register-ekspor" title="Buku Register" class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition ${activeMenu === 'register' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 10v6m0 0l-3-3m3 3l3-3m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5l5 5v11a2 2 0 01-2 2z"/>
-            </svg>
-          </a>
 
         </nav>
 
@@ -194,12 +189,6 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
             <span>Kontak & Hotline</span>
           </a>
 
-          <a href="/admin/register-ekspor" class={`flex h-12 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'register' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
-            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 10v6m0 0l-3-3m3 3l3-3m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5l5 5v11a2 2 0 01-2 2z"/>
-            </svg>
-            <span>Buku Register & Ekspor</span>
-          </a>
         </nav>
 
         <!-- Expanded Bottom Actions -->
@@ -267,20 +256,19 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
 
     <!-- Scripts -->
     <script>
-      // Session protection
-      const sessionUser = sessionStorage.getItem('timpik_admin_user');
-      const currentLoc = window.location.pathname;
-
-      if (!sessionUser && currentLoc !== '/admin/login' && currentLoc !== '/admin/login/') {
-        window.location.href = '/admin/login';
-      }
+      // Check the signed, HttpOnly session cookie on the server.
+      fetch('/api/admin/session', { credentials: 'same-origin', cache: 'no-store' })
+        .then((response) => {
+          if (!response.ok) window.location.replace('/admin/login');
+        })
+        .catch(() => window.location.replace('/admin/login'));
 
       // Logout
       document.querySelectorAll('[data-admin-logout]').forEach((button) => {
-        button.addEventListener('click', () => {
-          sessionStorage.removeItem('timpik_admin_user');
+        button.addEventListener('click', async () => {
+          await fetch('/api/admin/session', { method: 'DELETE', credentials: 'same-origin' }).catch(() => {});
           localStorage.removeItem('timpik_sidebar_mode');
-          window.location.href = '/admin/login';
+          window.location.replace('/admin/login');
         });
       });
 

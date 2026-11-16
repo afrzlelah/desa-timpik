@@ -76,7 +76,7 @@ import Layout from '../layouts/Layout.astro';
             </div>
             <a
               id="aduan-wa-link"
-              href="https://wa.me/6281234567890?text=Halo%20Admin%20Desa%20Timpik,%20saya%20ingin%20menyampaikan%20laporan/pengaduan"
+              href="https://wa.me/6285166439180?text=Halo%20Admin%20Desa%20Timpik,%20saya%20ingin%20menyampaikan%20laporan/pengaduan"
               target="_blank"
               rel="noopener noreferrer"
               class="shrink-0 min-h-[48px] px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white text-sm sm:text-base font-bold rounded-xl transition-all shadow-sm flex items-center justify-center gap-2"
@@ -161,7 +161,7 @@ import Layout from '../layouts/Layout.astro';
           const cleanWa = parsed.operasional.telepon.replace(/[^0-9]/g, '');
           const aduanLink = document.getElementById('aduan-wa-link') as HTMLAnchorElement | null;
           if (aduanLink && cleanWa) {
-            aduanLink.href = `https://wa.me/${cleanWa}?text=Halo%20Admin%20Desa%20Timpik,%20saya%20ingin%20menyampaikan%20laporan/pengaduan`;
+            aduanLink.href = `https://wa.me/6285166439180?text=Halo%20Admin%20Desa%20Timpik,%20saya%20ingin%20menyampaikan%20laporan/pengaduan`;
           }
         }
       }

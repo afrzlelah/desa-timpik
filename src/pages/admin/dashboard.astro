@@ -1,65 +1,16 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
-import trackingData from '../../data/tracking.json';
-
-const siapDiambil = trackingData.filter((item) => item.status === 'siap_diambil').length;
-const perluDiproses = trackingData.filter((item) => item.status !== 'siap_diambil').length;
-const terbaru = [...trackingData].slice(0, 5);
 ---
-
 <AdminLayout title="Ringkasan" activeMenu="dashboard">
   <div class="mx-auto max-w-7xl space-y-6">
-    <header class="flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <p class="text-sm font-semibold text-blue-800">PANEL DESA TIMPIK</p>
-        <h1 class="mt-1 text-2xl font-bold text-slate-950">Ringkasan layanan</h1>
-        <p class="mt-1 text-base text-slate-600">Pantau surat masuk dan buka pengelolaan yang dibutuhkan.</p>
-      </div>
-      <a href="/admin/surat" class="inline-flex min-h-12 items-center rounded-xl bg-blue-800 px-5 font-bold text-white shadow-md hover:bg-blue-900">Kelola layanan surat <span class="ml-2" aria-hidden="true">→</span></a>
-    </header>
-
-    <section aria-label="Ringkasan permohonan" class="grid gap-4 sm:grid-cols-3">
-      <article class="glass-panel rounded-2xl border-l-4 border-l-blue-800 p-5">
-        <p class="text-sm font-semibold text-slate-700">Total permohonan</p>
-        <p class="mt-2 text-3xl font-bold text-slate-950">{trackingData.length}</p>
-      </article>
-      <article class="glass-panel rounded-2xl border-l-4 border-l-amber-600 p-5">
-        <p class="text-sm font-semibold text-slate-700">Perlu diproses</p>
-        <p class="mt-2 text-3xl font-bold text-amber-800">{perluDiproses}</p>
-      </article>
-      <article class="glass-panel rounded-2xl border-l-4 border-l-emerald-700 p-5">
-        <p class="text-sm font-semibold text-slate-700">Siap diambil</p>
-        <p class="mt-2 text-3xl font-bold text-emerald-800">{siapDiambil}</p>
-      </article>
-    </section>
-
-    <section class="grid items-start gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(260px,.8fr)]">
-      <div class="glass-panel overflow-hidden rounded-2xl">
-        <div class="flex items-center justify-between gap-3 border-b border-slate-200 px-5 py-4">
-          <div><h2 class="text-lg font-bold text-slate-950">Permohonan terbaru</h2><p class="mt-1 text-sm text-slate-600">Status lima data teratas.</p></div>
-          <a href="/admin/surat" class="min-h-11 inline-flex items-center font-bold text-blue-900 hover:underline">Lihat semua →</a>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full min-w-[620px] text-left text-sm">
-            <thead><tr><th class="px-5 py-3">Pemohon</th><th class="px-4 py-3">Jenis surat</th><th class="px-4 py-3">Dusun</th><th class="px-4 py-3">Status</th></tr></thead>
-            <tbody class="divide-y divide-slate-200">
-              {terbaru.map((item) => <tr><td class="px-5 py-4"><strong class="text-slate-950">{item.nama_pemohon_masked}</strong><span class="mt-1 block font-mono text-xs text-slate-600">{item.id}</span></td><td class="px-4 py-4 text-slate-800">{item.jenis_surat}</td><td class="px-4 py-4 text-slate-800">{item.dusun}</td><td class="px-4 py-4"><span class:list={["inline-flex rounded-full px-3 py-1 text-xs font-bold", item.status === 'siap_diambil' ? 'bg-emerald-100 text-emerald-950' : 'bg-blue-100 text-blue-950']}>{item.status_label}</span></td></tr>)}
-              {trackingData.length === 0 && <tr><td colspan="4" class="px-5 py-10 text-center text-slate-700">Belum ada permohonan.</td></tr>}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <nav aria-label="Akses cepat" class="glass-panel rounded-2xl p-5">
-        <h2 class="text-lg font-bold text-slate-950">Akses cepat</h2>
-        <div class="mt-3 divide-y divide-slate-200">
-          <a href="/admin/aduan" class="flex min-h-12 items-center justify-between gap-3 py-3 font-semibold text-slate-800 hover:text-blue-900"><span>Aduan warga</span><span aria-hidden="true">→</span></a>
-          <a href="/admin/agenda" class="flex min-h-12 items-center justify-between gap-3 py-3 font-semibold text-slate-800 hover:text-blue-900"><span>Agenda desa</span><span aria-hidden="true">→</span></a>
-          <a href="/admin/informasi" class="flex min-h-12 items-center justify-between gap-3 py-3 font-semibold text-slate-800 hover:text-blue-900"><span>Profil, dusun & penduduk</span><span aria-hidden="true">→</span></a>
-          <a href="/admin/kontak" class="flex min-h-12 items-center justify-between gap-3 py-3 font-semibold text-slate-800 hover:text-blue-900"><span>Kontak dan alamat</span><span aria-hidden="true">→</span></a>
-          <a href="/admin/apbdes" class="flex min-h-12 items-center justify-between gap-3 py-3 font-semibold text-slate-800 hover:text-blue-900"><span>Transparansi APBDes</span><span aria-hidden="true">→</span></a>
-        </div>
-      </nav>
-    </section>
+    <header><p class="text-sm font-semibold text-blue-800">PANEL DESA TIMPIK</p><h1 class="mt-1 text-2xl font-bold text-slate-950">Ringkasan admin</h1><p class="mt-1 text-base text-slate-600">Pilih informasi desa yang ingin dikelola.</p></header>
+    <nav aria-label="Akses cepat" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <a href="/admin/surat" class="glass-panel rounded-2xl p-6 transition hover:-translate-y-1 hover:shadow-lg"><span class="text-sm font-bold text-blue-900">LAYANAN</span><h2 class="mt-2 text-xl font-bold text-slate-950">Layanan surat</h2><p class="mt-2 text-sm text-slate-700">Kelola nama, keterangan, dan tautan formulir.</p><span class="mt-4 inline-block font-bold text-blue-900">Buka pengelolaan →</span></a>
+      <a href="/admin/informasi" class="glass-panel rounded-2xl p-6 transition hover:-translate-y-1 hover:shadow-lg"><span class="text-sm font-bold text-blue-900">PROFIL</span><h2 class="mt-2 text-xl font-bold text-slate-950">Profil dan dusun</h2><p class="mt-2 text-sm text-slate-700">Kelola data wilayah, penduduk, visi, dan misi.</p><span class="mt-4 inline-block font-bold text-blue-900">Buka pengelolaan →</span></a>
+      <a href="/admin/kontak" class="glass-panel rounded-2xl p-6 transition hover:-translate-y-1 hover:shadow-lg"><span class="text-sm font-bold text-blue-900">KONTAK</span><h2 class="mt-2 text-xl font-bold text-slate-950">Alamat dan kontak</h2><p class="mt-2 text-sm text-slate-700">Perbarui alamat kantor dan saluran pelayanan.</p><span class="mt-4 inline-block font-bold text-blue-900">Buka pengelolaan →</span></a>
+      <a href="/admin/agenda" class="glass-panel rounded-2xl p-6 transition hover:-translate-y-1 hover:shadow-lg"><span class="text-sm font-bold text-blue-900">KEGIATAN</span><h2 class="mt-2 text-xl font-bold text-slate-950">Agenda desa</h2><p class="mt-2 text-sm text-slate-700">Tambah dan perbarui kegiatan warga.</p><span class="mt-4 inline-block font-bold text-blue-900">Buka pengelolaan →</span></a>
+      <a href="/admin/berita" class="glass-panel rounded-2xl p-6 transition hover:-translate-y-1 hover:shadow-lg"><span class="text-sm font-bold text-blue-900">PUBLIKASI</span><h2 class="mt-2 text-xl font-bold text-slate-950">Berita desa</h2><p class="mt-2 text-sm text-slate-700">Kelola berita dan informasi untuk warga.</p><span class="mt-4 inline-block font-bold text-blue-900">Buka pengelolaan →</span></a>
+      <a href="/admin/apbdes" class="glass-panel rounded-2xl p-6 transition hover:-translate-y-1 hover:shadow-lg"><span class="text-sm font-bold text-blue-900">ANGGARAN</span><h2 class="mt-2 text-xl font-bold text-slate-950">Transparansi APBDes</h2><p class="mt-2 text-sm text-slate-700">Perbarui data anggaran desa.</p><span class="mt-4 inline-block font-bold text-blue-900">Buka pengelolaan →</span></a>
+    </nav>
   </div>
 </AdminLayout>

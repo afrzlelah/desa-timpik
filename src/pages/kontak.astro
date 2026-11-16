@@ -92,13 +92,13 @@ const { operasional, kontak_darurat } = kontakData;
           <div class="pt-4 border-t border-emerald-200/60">
             <a
               id="view-wa-link"
-              href={`https://wa.me/${operasional.telepon.replace(/[^0-9]/g, '')}?text=Halo%20Admin%20Pelayanan%20Desa%20Timpik,%20saya%20ingin%20berkonsultasi%20mengenai%20pelayanan%20surat`}
+              href="https://wa.me/6285166439180?text=Halo%20Admin%20Pelayanan%20Desa%20Timpik,%20saya%20ingin%20berkonsultasi%20mengenai%20pelayanan%20surat"
               target="_blank"
               rel="noopener noreferrer"
               class="w-full min-h-[48px] py-3 px-4 bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
             >
               <svg class="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.92-9.91-9.92z"/></svg>
-              <span id="view-wa-text">Chat WhatsApp ({operasional.telepon})</span>
+              <span id="view-wa-text">Chat WhatsApp (6285166439180)</span>
             </a>
           </div>
         </div>
@@ -324,7 +324,7 @@ const { operasional, kontak_darurat } = kontakData;
               <div class="pt-3 border-t border-slate-100">
                 {item.tipe_kontak === 'whatsapp' ? (
                   <a
-                    href={`https://wa.me/${item.nomor.replace(/[^0-9]/g, '')}?text=Halo%20${encodeURIComponent(item.nama)},%20butuh%20bantuan%20segera`}
+                    href={`https://wa.me/${item.nomor.replace(/\D/g, '')}?text=Halo%20${encodeURIComponent(item.nama)},%20butuh%20bantuan%20segera`}
                     target="_blank"
                     rel="noopener noreferrer"
                     class="w-full min-h-[44px] py-2.5 px-3 bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-bold text-center flex items-center justify-center rounded-xl transition-colors shadow-xs"
@@ -333,7 +333,7 @@ const { operasional, kontak_darurat } = kontakData;
                   </a>
                 ) : (
                   <a
-                    href={`tel:${item.nomor.replace(/[^0-9]/g, '')}`}
+                    href={`tel:${item.nomor.replace(/\D/g, '')}`}
                     class="w-full min-h-[44px] py-2.5 px-3 bg-blue-900 hover:bg-blue-950 text-white text-sm font-bold text-center flex items-center justify-center rounded-xl transition-colors shadow-xs"
                   >
                     Telepon ({item.nomor})
@@ -402,10 +402,10 @@ const { operasional, kontak_darurat } = kontakData;
 
     const elWaLink = document.getElementById('view-wa-link');
     const elWaText = document.getElementById('view-wa-text');
-    if (elWaLink && op.telepon) {
-      const cleanTel = op.telepon.replace(/[^0-9]/g, '');
+    if (elWaLink) {
+      const cleanTel = '6285166439180';
       elWaLink.href = `https://wa.me/${cleanTel}?text=Halo%20Admin%20Pelayanan%20Desa%20Timpik,%20saya%20ingin%20berkonsultasi%20mengenai%20pelayanan%20surat`;
-      if (elWaText) elWaText.textContent = `Chat WhatsApp (${op.telepon})`;
+      if (elWaText) elWaText.textContent = `Chat WhatsApp (${cleanTel})`;
     }
 
     const elEmailLink = document.getElementById('view-email-link');
@@ -486,7 +486,7 @@ const { operasional, kontak_darurat } = kontakData;
       const kategori = document.getElementById('contact-kategori')?.value || '';
       const pesan = document.getElementById('contact-pesan')?.value?.trim() || '';
 
-      const targetWa = (liveData.operasional?.telepon || '081234567890').replace(/[^0-9]/g, '');
+      const targetWa = '6285166439180';
       const text = `Halo Admin Pelayanan Balai Desa Timpik,%0A%0ASaya ingin menyampaikan pesan / pertanyaan:%0A- *Nama:* ${encodeURIComponent(nama)}%0A- *Dusun:* ${encodeURIComponent(dusun)}%0A- *No. HP:* ${encodeURIComponent(telepon)}%0A- *Kategori:* ${encodeURIComponent(kategori)}%0A%0A*Isi Pesan:*%0A${encodeURIComponent(pesan)}%0A%0ATerima kasih.`;
 
       window.open(`https://wa.me/${targetWa}?text=${text}`, '_blank');
