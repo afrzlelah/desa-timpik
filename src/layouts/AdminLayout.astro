@@ -3,7 +3,7 @@ import '../styles/global.css';
 
 interface Props {
   title: string;
-  activeMenu?: 'dashboard' | 'surat' | 'berita' | 'agenda' | 'aduan' | 'apbdes' | 'register' | 'kontak' | 'informasi';
+  activeMenu?: 'dashboard' | 'surat' | 'berita' | 'agenda' | 'aduan' | 'apbdes' | 'register' | 'kontak' | 'informasi' | 'admins';
 }
 
 const { title, activeMenu = 'dashboard' } = Astro.props;
@@ -79,6 +79,10 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
             </svg>
+          </a>
+
+          <a href="/admin/admins" title="Kelola Akun Admin" class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition ${activeMenu === 'admins' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2m16 0v-2a4 4 0 00-3-3.87M14 3.13a4 4 0 010 7.75M14 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
           </a>
 
 
@@ -187,6 +191,11 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5a2 2 0 012-2h3l2 5-3 2a11 11 0 005 5l2-3 5 2v3a2 2 0 01-2 2A16 16 0 013 5z"/>
             </svg>
             <span>Kontak & Hotline</span>
+          </a>
+
+          <a href="/admin/admins" class={`flex h-12 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'admins' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
+            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2m16 0v-2a4 4 0 00-3-3.87M14 3.13a4 4 0 010 7.75M14 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            <span>Akun Administrator</span>
           </a>
 
         </nav>

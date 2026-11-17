@@ -109,7 +109,7 @@ import "../../styles/global.css";
               for="username"
               class="mb-2 block text-sm font-medium text-slate-700"
             >
-              Nama Pengguna
+              Email / Nama Pengguna
             </label>
 
             <div class="relative">
@@ -138,7 +138,7 @@ import "../../styles/global.css";
                 required
                 autocomplete="username"
                 class="h-12 w-full rounded-lg border border-slate-200 bg-white pl-10 pr-4 text-base text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 sm:text-sm"
-                placeholder="Masukkan username"
+                placeholder="Email admin atau username utama"
               />
             </div>
           </div>
@@ -244,9 +244,6 @@ import "../../styles/global.css";
             const result = await response.json().catch(() => ({}));
             if (!response.ok) {
               let message = result.error || `Login gagal (HTTP ${response.status}).`;
-              if (result.debug) {
-                message += ` Pemeriksaan lokal: username ${result.debug.usernameMatches ? "cocok" : "tidak cocok"}, kata sandi ${result.debug.passwordMatches ? "cocok" : "tidak cocok"}.`;
-              }
               throw new Error(message);
             }
             window.location.href = "/admin/dashboard";

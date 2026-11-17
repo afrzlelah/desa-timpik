@@ -1,0 +1,146 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="Akun Administrator" activeMenu="admins">
+  <div class="mx-auto max-w-5xl space-y-6">
+    <header>
+      <p class="text-sm font-semibold text-blue-800">Keamanan akses</p>
+      <h1 class="mt-1 text-2xl font-bold text-slate-950">Kelola akun admin</h1>
+      <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-700">Undang pengelola melalui email. Setiap orang membuat kata sandinya sendiri melalui tautan undangan.</p>
+    </header>
+
+    <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="undang-admin-heading">
+      <h2 id="undang-admin-heading" class="text-lg font-bold text-slate-950">Undang admin baru</h2>
+      <form id="admin-invite-form" class="mt-4 grid gap-4 sm:grid-cols-2">
+        <div>
+          <label for="admin-name" class="mb-1.5 block text-sm font-semibold text-slate-800">Nama pengelola</label>
+          <input id="admin-name" name="displayName" required maxlength="80" autocomplete="name" class="min-h-12 w-full rounded-xl border border-slate-300 px-3.5 text-base text-slate-900 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200" placeholder="Nama lengkap" />
+        </div>
+        <div>
+          <label for="admin-email" class="mb-1.5 block text-sm font-semibold text-slate-800">Email</label>
+          <input id="admin-email" name="email" type="email" required maxlength="254" autocomplete="email" class="min-h-12 w-full rounded-xl border border-slate-300 px-3.5 text-base text-slate-900 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200" placeholder="nama@contoh.id" />
+        </div>
+        <div class="sm:col-span-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <p class="max-w-2xl text-xs leading-5 text-slate-600">Undangan dikirim oleh Supabase Auth. Pastikan SMTP dan URL redirect Supabase sudah dikonfigurasi.</p>
+          <button id="admin-invite-submit" type="submit" class="min-h-11 shrink-0 rounded-xl bg-blue-900 px-5 py-2.5 font-bold text-white hover:bg-blue-950 focus:outline-none focus:ring-4 focus:ring-blue-200 disabled:cursor-wait disabled:opacity-60">Kirim undangan</button>
+        </div>
+      </form>
+      <p id="admin-invite-message" class="mt-4 hidden rounded-xl border p-3 text-sm" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm" aria-labelledby="admin-list-heading">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-5 py-4 sm:px-6">
+        <div>
+          <h2 id="admin-list-heading" class="text-lg font-bold text-slate-950">Akun yang memiliki akses</h2>
+          <p class="mt-1 text-sm text-slate-600">Akun yang dihapus langsung kehilangan akses panel.</p>
+        </div>
+        <button id="admin-refresh" type="button" class="min-h-10 rounded-lg border border-slate-300 px-3.5 text-sm font-semibold text-slate-800 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-700">Muat ulang</button>
+      </div>
+      <div id="admin-list-status" class="px-5 py-6 text-sm text-slate-600 sm:px-6" role="status" aria-live="polite">Memuat daftar admin...</div>
+      <div id="admin-list-container" class="hidden overflow-x-auto">
+        <table class="w-full min-w-[600px] text-left text-sm">
+          <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-600">
+            <tr>
+              <th scope="col" class="px-5 py-3 sm:px-6">Nama</th>
+              <th scope="col" class="px-5 py-3">Email</th>
+              <th scope="col" class="px-5 py-3">Ditambahkan</th>
+              <th scope="col" class="px-5 py-3 sm:px-6"><span class="sr-only">Aksi</span></th>
+            </tr>
+          </thead>
+          <tbody id="admin-list-body" class="divide-y divide-slate-200"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</AdminLayout>
+
+<script>
+  const form = document.getElementById('admin-invite-form');
+  const inviteButton = document.getElementById('admin-invite-submit');
+  const message = document.getElementById('admin-invite-message');
+  const listStatus = document.getElementById('admin-list-status');
+  const listContainer = document.getElementById('admin-list-container');
+  const listBody = document.getElementById('admin-list-body');
+
+  const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
+
+  function setMessage(text, isError = false) {
+    message.textContent = text;
+    message.className = `mt-4 rounded-xl border p-3 text-sm ${isError ? 'border-rose-200 bg-rose-50 text-rose-900' : 'border-emerald-200 bg-emerald-50 text-emerald-900'}`;
+  }
+
+  async function loadAdmins() {
+    listStatus.textContent = 'Memuat daftar admin...';
+    listStatus.classList.remove('hidden');
+    listContainer.classList.add('hidden');
+    try {
+      const response = await fetch('/api/admin/admins', { credentials: 'same-origin', cache: 'no-store' });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || 'Daftar admin gagal dimuat.');
+      listBody.innerHTML = (result.admins || []).map((admin) => `
+        <tr>
+          <td class="px-5 py-4 font-semibold text-slate-900 sm:px-6">${escapeHtml(admin.display_name)}</td>
+          <td class="px-5 py-4 text-slate-700">${escapeHtml(admin.email)}</td>
+          <td class="px-5 py-4 text-slate-600">${admin.created_at ? new Date(admin.created_at).toLocaleDateString('id-ID') : '—'}</td>
+          <td class="px-5 py-4 text-right sm:px-6"><button type="button" class="admin-remove min-h-10 rounded-lg border border-rose-200 px-3 text-sm font-semibold text-rose-800 hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-600" data-id="${escapeHtml(admin.user_id)}" data-email="${escapeHtml(admin.email)}">Hapus akses</button></td>
+        </tr>
+      `).join('');
+      if (!result.admins?.length) {
+        listStatus.textContent = 'Belum ada akun admin Supabase. Akun utama dari environment tetap dapat mengelola panel.';
+        return;
+      }
+      listStatus.classList.add('hidden');
+      listContainer.classList.remove('hidden');
+      document.querySelectorAll('.admin-remove').forEach((button) => button.addEventListener('click', async () => {
+        const email = button.getAttribute('data-email') || 'akun ini';
+        if (!window.confirm(`Hapus akses admin untuk ${email}? Akun tersebut langsung tidak dapat membuka panel.`)) return;
+        button.disabled = true;
+        try {
+          const response = await fetch(`/api/admin/admins?id=${encodeURIComponent(button.getAttribute('data-id') || '')}`, {
+            method: 'DELETE', credentials: 'same-origin',
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(result.error || 'Akses admin gagal dihapus.');
+          await loadAdmins();
+        } catch (error) {
+          window.alert(error instanceof Error ? error.message : 'Akses admin gagal dihapus.');
+          button.disabled = false;
+        }
+      }));
+    } catch (error) {
+      listStatus.textContent = error instanceof Error ? error.message : 'Daftar admin gagal dimuat.';
+    }
+  }
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    inviteButton.disabled = true;
+    inviteButton.textContent = 'Mengirim...';
+    message.classList.add('hidden');
+    const formData = new FormData(form);
+    try {
+      const response = await fetch('/api/admin/admins', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.get('email'), displayName: formData.get('displayName') }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || 'Undangan gagal dikirim.');
+      form.reset();
+      setMessage(`Undangan admin sudah dikirim ke ${result.admin.email}.`);
+      await loadAdmins();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Undangan gagal dikirim.', true);
+    } finally {
+      inviteButton.disabled = false;
+      inviteButton.textContent = 'Kirim undangan';
+    }
+  });
+
+  document.getElementById('admin-refresh')?.addEventListener('click', loadAdmins);
+  loadAdmins();
+</script>

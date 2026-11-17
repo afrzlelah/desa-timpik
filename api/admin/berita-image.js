@@ -1,7 +1,7 @@
-const { createHmac, timingSafeEqual, randomUUID } = require("node:crypto");
+const { randomUUID } = require("node:crypto");
 const { createClient } = require("@supabase/supabase-js");
+const { getSession, isActiveAdmin, isSameOrigin } = require("../_admin-session");
 
-const COOKIE_NAME = "timpik_admin_session";
 const BUCKET = "berita";
 const MAX_BYTES = 4 * 1024 * 1024;
 const IMAGE_TYPES = new Map([
@@ -16,35 +16,6 @@ function send(res, status, body) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.setHeader("Cache-Control", "no-store, max-age=0");
   res.end(JSON.stringify(body));
-}
-
-function safeEqual(left, right) {
-  const a = Buffer.from(String(left));
-  const b = Buffer.from(String(right));
-  return a.length === b.length && timingSafeEqual(a, b);
-}
-
-function hasValidSession(req, secret) {
-  const cookie = String(req.headers.cookie || "")
-    .split(";")
-    .map((part) => part.trim())
-    .find((part) => part.startsWith(`${COOKIE_NAME}=`));
-  if (!cookie) return false;
-
-  const token = cookie.slice(COOKIE_NAME.length + 1);
-  const separator = token.lastIndexOf(".");
-  if (separator < 1) return false;
-  const payload = token.slice(0, separator);
-  const signature = token.slice(separator + 1);
-  const expected = createHmac("sha256", secret).update(payload).digest("base64url");
-  if (!safeEqual(signature, expected)) return false;
-
-  try {
-    const session = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
-    return session.exp > Math.floor(Date.now() / 1000);
-  } catch {
-    return false;
-  }
 }
 
 async function readImage(req) {
@@ -68,9 +39,11 @@ module.exports = async function handler(req, res) {
     res.setHeader("Allow", "POST");
     return send(res, 405, { error: "Metode tidak didukung." });
   }
+  if (!isSameOrigin(req)) return send(res, 403, { error: "Permintaan lintas situs ditolak." });
 
   const sessionSecret = process.env.ADMIN_SESSION_SECRET;
-  if (!sessionSecret || sessionSecret.length < 32 || !hasValidSession(req, sessionSecret)) {
+  const session = sessionSecret && sessionSecret.length >= 32 ? getSession(req, sessionSecret) : null;
+  if (!session) {
     return send(res, 401, { error: "Sesi admin tidak valid. Silakan masuk kembali." });
   }
 
@@ -99,6 +72,9 @@ module.exports = async function handler(req, res) {
   const supabase = createClient(supabaseUrl, serviceKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
+  if (!(await isActiveAdmin(session, supabase))) {
+    return send(res, 401, { error: "Akses admin sudah dicabut. Silakan masuk kembali." });
+  }
 
   const { data: bucket, error: bucketError } = await supabase.storage.getBucket(BUCKET);
   if (bucketError || !bucket) {

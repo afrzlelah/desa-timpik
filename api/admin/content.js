@@ -1,7 +1,6 @@
-const { createHmac, timingSafeEqual } = require("node:crypto");
 const { createClient } = require("@supabase/supabase-js");
+const { getSession, isActiveAdmin, isSameOrigin } = require("../_admin-session");
 
-const COOKIE_NAME = "timpik_admin_session";
 const CONTENT_KEYS = new Set([
   "profil",
   "kontak",
@@ -20,35 +19,6 @@ function send(res, status, body) {
   res.end(JSON.stringify(body));
 }
 
-function safeEqual(left, right) {
-  const a = Buffer.from(String(left));
-  const b = Buffer.from(String(right));
-  return a.length === b.length && timingSafeEqual(a, b);
-}
-
-function hasValidSession(req, secret) {
-  const cookie = String(req.headers.cookie || "")
-    .split(";")
-    .map((part) => part.trim())
-    .find((part) => part.startsWith(`${COOKIE_NAME}=`));
-  if (!cookie) return false;
-
-  const token = cookie.slice(COOKIE_NAME.length + 1);
-  const separator = token.lastIndexOf(".");
-  if (separator < 1) return false;
-  const payload = token.slice(0, separator);
-  const signature = token.slice(separator + 1);
-  const expected = createHmac("sha256", secret).update(payload).digest("base64url");
-  if (!safeEqual(signature, expected)) return false;
-
-  try {
-    const session = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
-    return session.exp > Math.floor(Date.now() / 1000);
-  } catch {
-    return false;
-  }
-}
-
 async function readJson(req) {
   let raw = "";
   for await (const chunk of req) {
@@ -63,9 +33,11 @@ module.exports = async function handler(req, res) {
     res.setHeader("Allow", "POST, DELETE");
     return send(res, 405, { error: "Metode tidak didukung." });
   }
+  if (!isSameOrigin(req)) return send(res, 403, { error: "Permintaan lintas situs ditolak." });
 
   const sessionSecret = process.env.ADMIN_SESSION_SECRET;
-  if (!sessionSecret || sessionSecret.length < 32 || !hasValidSession(req, sessionSecret)) {
+  const session = sessionSecret && sessionSecret.length >= 32 ? getSession(req, sessionSecret) : null;
+  if (!session) {
     return send(res, 401, { error: "Sesi admin tidak valid." });
   }
 
@@ -78,6 +50,9 @@ module.exports = async function handler(req, res) {
   const supabase = createClient(supabaseUrl, serviceKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
+  if (!(await isActiveAdmin(session, supabase))) {
+    return send(res, 401, { error: "Akses admin sudah dicabut. Silakan masuk kembali." });
+  }
 
   if (req.method === "DELETE") {
     const key = String(req.query?.key || "");
