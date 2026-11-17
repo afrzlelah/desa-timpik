@@ -7,11 +7,11 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
     <header>
       <p class="text-sm font-semibold text-blue-800">Keamanan akses</p>
       <h1 class="mt-1 text-2xl font-bold text-slate-950">Kelola akun admin</h1>
-      <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-700">Undang pengelola melalui email. Setiap orang membuat kata sandinya sendiri melalui tautan undangan.</p>
+      <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-700">Buat akun admin dengan email dan kata sandi awal. Kata sandi dikelola Supabase Auth, bukan disimpan di tabel aplikasi.</p>
     </header>
 
     <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="undang-admin-heading">
-      <h2 id="undang-admin-heading" class="text-lg font-bold text-slate-950">Undang admin baru</h2>
+      <h2 id="undang-admin-heading" class="text-lg font-bold text-slate-950">Buat akun admin</h2>
       <form id="admin-invite-form" class="mt-4 grid gap-4 sm:grid-cols-2">
         <div>
           <label for="admin-name" class="mb-1.5 block text-sm font-semibold text-slate-800">Nama pengelola</label>
@@ -21,9 +21,17 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           <label for="admin-email" class="mb-1.5 block text-sm font-semibold text-slate-800">Email</label>
           <input id="admin-email" name="email" type="email" required maxlength="254" autocomplete="email" class="min-h-12 w-full rounded-xl border border-slate-300 px-3.5 text-base text-slate-900 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200" placeholder="nama@contoh.id" />
         </div>
+        <div>
+          <label for="admin-password" class="mb-1.5 block text-sm font-semibold text-slate-800">Kata sandi awal</label>
+          <input id="admin-password" name="password" type="password" required minlength="12" maxlength="128" autocomplete="new-password" class="min-h-12 w-full rounded-xl border border-slate-300 px-3.5 text-base text-slate-900 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200" placeholder="Minimal 12 karakter" />
+        </div>
+        <div>
+          <label for="admin-password-confirm" class="mb-1.5 block text-sm font-semibold text-slate-800">Ulangi kata sandi</label>
+          <input id="admin-password-confirm" type="password" required minlength="12" maxlength="128" autocomplete="new-password" class="min-h-12 w-full rounded-xl border border-slate-300 px-3.5 text-base text-slate-900 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200" placeholder="Ulangi kata sandi awal" />
+        </div>
         <div class="sm:col-span-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p class="max-w-2xl text-xs leading-5 text-slate-600">Undangan dikirim oleh Supabase Auth. Pastikan SMTP dan URL redirect Supabase sudah dikonfigurasi.</p>
-          <button id="admin-invite-submit" type="submit" class="min-h-11 shrink-0 rounded-xl bg-blue-900 px-5 py-2.5 font-bold text-white hover:bg-blue-950 focus:outline-none focus:ring-4 focus:ring-blue-200 disabled:cursor-wait disabled:opacity-60">Kirim undangan</button>
+          <p class="max-w-2xl text-xs leading-5 text-slate-600">Gunakan kata sandi unik dan bagikan langsung kepada pemilik akun melalui jalur pribadi.</p>
+          <button id="admin-invite-submit" type="submit" class="min-h-11 shrink-0 rounded-xl bg-blue-900 px-5 py-2.5 font-bold text-white hover:bg-blue-950 focus:outline-none focus:ring-4 focus:ring-blue-200 disabled:cursor-wait disabled:opacity-60">Buat akun admin</button>
         </div>
       </form>
       <p id="admin-invite-message" class="mt-4 hidden rounded-xl border p-3 text-sm" role="status" aria-live="polite"></p>
@@ -58,6 +66,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 <script>
   const form = document.getElementById('admin-invite-form');
   const inviteButton = document.getElementById('admin-invite-submit');
+  const invitePasswordConfirm = document.getElementById('admin-password-confirm');
   const message = document.getElementById('admin-invite-message');
   const listStatus = document.getElementById('admin-list-status');
   const listContainer = document.getElementById('admin-list-container');
@@ -118,26 +127,28 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
     inviteButton.disabled = true;
-    inviteButton.textContent = 'Mengirim...';
+    inviteButton.textContent = 'Membuat...';
     message.classList.add('hidden');
     const formData = new FormData(form);
     try {
+      if (String(formData.get('password') || '').length < 12) throw new Error('Kata sandi awal minimal 12 karakter.');
+      if (formData.get('password') !== invitePasswordConfirm.value) throw new Error('Kata sandi dan konfirmasi belum sama.');
       const response = await fetch('/api/admin/admins', {
         method: 'POST',
         credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: formData.get('email'), displayName: formData.get('displayName') }),
+        body: JSON.stringify({ email: formData.get('email'), displayName: formData.get('displayName'), password: formData.get('password') }),
       });
       const result = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(result.error || 'Undangan gagal dikirim.');
       form.reset();
-      setMessage(`Undangan admin sudah dikirim ke ${result.admin.email}.`);
+      setMessage(`Akun admin ${result.admin.email} berhasil dibuat. Bagikan kata sandi awal secara pribadi.`);
       await loadAdmins();
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Undangan gagal dikirim.', true);
+      setMessage(error instanceof Error ? error.message : 'Akun admin gagal dibuat.', true);
     } finally {
       inviteButton.disabled = false;
-      inviteButton.textContent = 'Kirim undangan';
+      inviteButton.textContent = 'Buat akun admin';
     }
   });
 

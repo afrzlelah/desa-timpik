@@ -75,28 +75,6 @@ module.exports = async function handler(req, res) {
       return send(res, 400, { error: "Permintaan login tidak valid." });
     }
 
-    if (credentials.accessToken) {
-      const { url, anonKey, secretKey } = getSupabaseConfig();
-      if (!url || !anonKey || !secretKey) {
-        return send(res, 503, { error: "Konfigurasi Supabase Auth belum lengkap." });
-      }
-      const verifier = createClient(url, anonKey, {
-        auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
-      });
-      const { data: userData, error } = await verifier.auth.getUser(credentials.accessToken);
-      if (error || !userData.user) return send(res, 401, { error: "Sesi undangan tidak valid atau sudah kedaluwarsa." });
-
-      const userSession = {
-        auth: "supabase",
-        sub: userData.user.id,
-        email: userData.user.email || "",
-        display_name: userData.user.user_metadata?.display_name || "Administrator",
-      };
-      const active = await isActiveAdmin(userSession, createServiceClient(url, secretKey));
-      if (!active) return send(res, 403, { error: "Akun ini belum diberi akses admin." });
-      return issueSession(req, res, sessionSecret, userSession);
-    }
-
     const configuredUsername = process.env.ADMIN_USERNAME;
     const configuredPassword = process.env.ADMIN_PASSWORD;
     const submittedUsername = String(credentials.username || credentials.email || "").trim();

@@ -17,17 +17,6 @@ async function readJson(req) {
   return JSON.parse(raw || "{}");
 }
 
-function getSiteUrl() {
-  const value = process.env.PUBLIC_SITE_URL || "https://desatimpik.id";
-  try {
-    const url = new URL(value);
-    if (url.protocol !== "https:" && url.hostname !== "localhost" && url.hostname !== "127.0.0.1") return null;
-    return url.origin;
-  } catch {
-    return null;
-  }
-}
-
 module.exports = async function handler(req, res) {
   if (!["GET", "POST", "DELETE"].includes(req.method)) {
     res.setHeader("Allow", "GET, POST, DELETE");
@@ -54,15 +43,27 @@ module.exports = async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const { data, error } = await supabase
+    const { data: records, error } = await supabase
       .from("admin_users")
-      .select("user_id,email,display_name,created_at")
+      .select("user_id,display_name,created_at")
       .order("created_at", { ascending: true });
     if (error) {
       console.error("Could not list admin users:", error.message);
-      return send(res, 502, { error: "Daftar admin gagal dimuat. Pastikan migrasi pengelolaan admin sudah dijalankan." });
+      return send(res, 502, { error: "Daftar admin gagal dimuat." });
     }
-    return send(res, 200, { admins: data || [] });
+    const { data: authUsers, error: authError } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
+    if (authError) return send(res, 502, { error: "Detail akun admin gagal dimuat." });
+    const usersById = new Map((authUsers.users || []).map((user) => [user.id, user]));
+    const admins = (records || []).map((record) => {
+      const user = usersById.get(record.user_id);
+      return {
+        user_id: record.user_id,
+        email: user?.email || "Email tidak tersedia",
+        display_name: record.display_name || user?.user_metadata?.display_name || "Administrator",
+        created_at: record.created_at,
+      };
+    });
+    return send(res, 200, { admins });
   }
 
   if (req.method === "POST") {
@@ -70,47 +71,53 @@ module.exports = async function handler(req, res) {
     try {
       body = await readJson(req);
     } catch {
-      return send(res, 400, { error: "Data undangan tidak valid." });
+      return send(res, 400, { error: "Data akun admin tidak valid." });
     }
 
     const email = String(body.email || "").trim().toLowerCase();
     const displayName = String(body.displayName || "").trim();
+    const password = String(body.password || "");
     if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return send(res, 400, { error: "Masukkan alamat email yang valid." });
     }
     if (!displayName || displayName.length > 80) {
       return send(res, 400, { error: "Nama admin wajib diisi dan maksimal 80 karakter." });
     }
-    const { data: existingAdmin, error: lookupError } = await supabase
+    if (password.length < 12 || password.length > 128) {
+      return send(res, 400, { error: "Kata sandi awal harus berisi 12–128 karakter." });
+    }
+    const { data: existingAdminRecords, error: lookupError } = await supabase
       .from("admin_users")
-      .select("email");
+      .select("user_id");
     if (lookupError) return send(res, 502, { error: "Email admin tidak dapat diperiksa." });
-    if ((existingAdmin || []).some((admin) => String(admin.email || "").toLowerCase() === email)) {
+    const adminIds = new Set((existingAdminRecords || []).map((admin) => admin.user_id));
+    const { data: authUsers, error: authListError } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
+    if (authListError) return send(res, 502, { error: "Email admin tidak dapat diperiksa." });
+    if ((authUsers.users || []).some((user) => adminIds.has(user.id) && String(user.email || "").toLowerCase() === email)) {
       return send(res, 409, { error: "Email tersebut sudah memiliki akses admin." });
     }
-    const siteUrl = getSiteUrl();
-    if (!siteUrl) return send(res, 503, { error: "PUBLIC_SITE_URL harus berupa URL HTTPS yang valid." });
-
-    const { data: invitation, error: inviteError } = await supabase.auth.admin.inviteUserByEmail(email, {
-      data: { display_name: displayName },
-      redirectTo: `${siteUrl}/admin/accept-invite`,
+    const { data: created, error: createError } = await supabase.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      user_metadata: { display_name: displayName },
     });
-    if (inviteError || !invitation.user) {
-      console.error("Could not invite admin:", inviteError?.message || "No user returned");
-      return send(res, 502, { error: "Undangan gagal dikirim. Periksa alamat email, SMTP Supabase, dan URL redirect yang diizinkan." });
+    if (createError || !created.user) {
+      console.error("Could not create admin:", createError?.message || "No user returned");
+      return send(res, 400, { error: "Akun gagal dibuat. Email mungkin sudah terdaftar atau kata sandi ditolak Supabase." });
     }
 
     const { error: insertError } = await supabase.from("admin_users").insert({
-      user_id: invitation.user.id,
-      email,
+      user_id: created.user.id,
       display_name: displayName,
     });
     if (insertError) {
-      console.error("Could not register invited admin:", insertError.message);
-      return send(res, 502, { error: "Email undangan terkirim, tetapi aksesnya belum tercatat. Jangan gunakan tautan itu sampai admin memeriksa daftar admin." });
+      await supabase.auth.admin.deleteUser(created.user.id).catch(() => {});
+      console.error("Could not register created admin:", insertError.message);
+      return send(res, 502, { error: "Akun admin gagal dicatat dan pembuatan dibatalkan." });
     }
 
-    return send(res, 201, { invited: true, admin: { user_id: invitation.user.id, email, display_name: displayName } });
+    return send(res, 201, { created: true, admin: { user_id: created.user.id, email, display_name: displayName } });
   }
 
   const userId = String(req.query?.id || "");
