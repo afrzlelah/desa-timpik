@@ -29,7 +29,7 @@ import profilData from '../data/profil.json';
         </h1>
         
         <p class="text-slate-200 text-base sm:text-lg leading-relaxed pt-1">
-          Mengenal bentang alam agraris seluas 243 Hektar di lereng Gunung Merbabu, sejarah gotong royong 4 dusun, serta arah visi misi pembangunan Desa Timpik, Kecamatan Susukan.
+          Mengenal bentang alam agraris seluas 243 Hektar di lereng Gunung Merbabu, sejarah gotong royong 13 dusun, serta arah visi misi pembangunan Desa Timpik, Kecamatan Susukan.
         </p>
       </div>
 
@@ -140,46 +140,98 @@ import profilData from '../data/profil.json';
 
   <!-- Visi & Misi Pembangunan Desa -->
   <section id="visi-misi" class="py-14 sm:py-16 bg-gray-100 border-b border-white/70">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-      
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+
+      <!-- Section Header -->
       <div class="border-b border-slate-200 pb-4">
-        <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-blue-700 block mb-1">Arah Pembangunan Desa</span>
+        <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-blue-700 block mb-1">
+          Arah Pembangunan Desa
+        </span>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
           Visi & Misi Desa Timpik
         </h2>
-        <p class="text-sm sm:text-base text-slate-600 mt-1">Pedoman pelaksanaan pemerintahan dan pembangunan kemasyarakatan.</p>
+        <p class="text-sm sm:text-base text-slate-600 mt-1">
+          Pedoman pelaksanaan pemerintahan dan pembangunan kemasyarakatan.
+        </p>
       </div>
 
-      <!-- Visi Frame -->
-      <div class="glass-panel-blue rounded-2xl p-8 sm:p-10 text-white relative">
-        <span class="text-xs font-bold uppercase tracking-widest px-3 py-1.5 bg-white/15 text-white rounded-full inline-block mb-3">
-          Visi Resmi Desa Timpik
-        </span>
-        <blockquote id="profil-visi" class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white leading-snug">
-          "{profilData.visi}"
-        </blockquote>
+      <!-- Visi -->
+      <div class="glass-panel-blue rounded-2xl p-8 sm:p-10 text-white relative overflow-hidden">
+        <div class="absolute -right-10 -top-10 w-48 h-48 rounded-full bg-white/10"></div>
+
+        <div class="relative z-10">
+          <span class="text-xs font-bold uppercase tracking-widest px-3 py-1.5 bg-white/15 text-white rounded-full inline-block mb-5">
+            Visi Resmi Desa Timpik
+          </span>
+
+          <blockquote id="profil-visi" class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white leading-snug max-w-4xl">
+            "{profilData.visi}"
+          </blockquote>
+        </div>
       </div>
 
-      <!-- Misi List (Poin-Poin Rapi & Jelas) -->
-      <div>
-        <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-4">Poin Misi Pembangunan:</h3>
-        <div id="profil-misi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {profilData.misi.map((misi, idx) => (
-            <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-3">
-              <span class="text-2xl font-black text-blue-700">
-                0{idx + 1}
-              </span>
-              <p class="text-sm sm:text-base text-slate-800 leading-relaxed font-medium">
-                {misi}
+      <!-- Misi -->
+      <div class="space-y-5">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-blue-700">
+            Arah Kebijakan
+          </span>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">
+            Misi Pembangunan Desa
+          </h3>
+          <p class="text-sm text-slate-600 mt-1">
+            Empat misi utama Pemerintah Desa Timpik dalam mewujudkan visi pembangunan desa.
+          </p>
+        </div>
+
+        <div id="profil-misi" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+          {profilData.misi.map((misi) => (
+            <article class="glass-panel rounded-2xl p-6 sm:p-7 flex flex-col gap-4">
+
+              <!-- Kode dan Judul -->
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 shrink-0 rounded-xl bg-blue-700 text-white flex items-center justify-center text-xl font-black">
+                  {misi.kode}
+                </div>
+
+                <div class="pt-1">
+                  <h4 class="text-base sm:text-lg font-extrabold text-slate-900 leading-snug">
+                    {misi.judul}
+                  </h4>
+                </div>
+              </div>
+
+              <!-- Deskripsi -->
+              <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+                {misi.deskripsi}
               </p>
-            </div>
+
+              <!-- Subpoin -->
+              {misi.poin && misi.poin.length > 0 && (
+                <div class="space-y-3 border-t border-slate-200 pt-4">
+                  {misi.poin.map((poin, index) => (
+                    <div class="flex items-start gap-3">
+                      <span class="w-6 h-6 shrink-0 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center text-xs font-bold">
+                        {index + 1}
+                      </span>
+
+                      <p class="text-sm text-slate-700 leading-relaxed font-medium">
+                        {poin}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+            </article>
           ))}
+
         </div>
       </div>
 
     </div>
   </section>
-
   <!-- Wilayah 4 Dusun di Desa Timpik -->
   <section id="dusun" class="py-14 sm:py-16 bg-gray-100 border-b border-white/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -198,15 +250,19 @@ import profilData from '../data/profil.json';
           >
             <div>
               <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
-                <span class="text-xs font-bold text-blue-700 px-2 py-0.5 rounded bg-blue-50 border border-blue-100">{dusun.jumlah_rt || 'RT/RW'}</span>
-                <span class="text-xs text-slate-500">{dusun.luas || ''}</span>
+                <span class="text-xs font-bold text-blue-700 px-2 py-0.5 rounded bg-blue-50 border border-blue-100">
+                  {dusun.panggilan || 'Wilayah Desa Timpik'}
+                </span>
+                <span class="text-xs text-slate-500">Desa Timpik</span>
               </div>
-              <h3 class="font-extrabold text-lg sm:text-xl text-slate-900 group-hover:text-blue-700 transition-colors">{dusun.nama}</h3>
-              <p class="text-xs sm:text-sm text-slate-500 mt-1"><strong>Kadus:</strong> {dusun.kepala_dusun || '-'}</p>
-              <p class="text-xs sm:text-sm text-slate-600 mt-3 leading-relaxed line-clamp-3">{dusun.deskripsi}</p>
-              {dusun.potensi_utama && (
-                <p class="text-xs text-emerald-700 font-semibold mt-2">🌱 {dusun.potensi_utama}</p>
-              )}
+
+              <h3 class="font-extrabold text-lg sm:text-xl text-slate-900 group-hover:text-blue-700 transition-colors">
+                {dusun.nama}
+              </h3>
+
+              <p class="text-xs sm:text-sm text-slate-600 mt-3 leading-relaxed line-clamp-3">
+                {dusun.deskripsi || 'Informasi wilayah belum tersedia.'}
+              </p>
             </div>
             <div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-bold text-blue-700">
               <span class="uppercase tracking-wider">Buka Informasi Dusun</span>
@@ -291,82 +347,218 @@ import profilData from '../data/profil.json';
 <script is:inline define:vars={{ defaultProfil: profilData }}>
   (() => {
     const STORAGE_KEY = 'timpik_profil_data';
+
     let data = defaultProfil;
 
+    // ==========================================
+    // LOAD DATA LOCAL STORAGE
+    // ==========================================
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
+
       if (stored) {
         const parsed = JSON.parse(stored);
+
         if (parsed && typeof parsed === 'object') {
-          data = { ...defaultProfil, ...parsed };
+          data = {
+            ...defaultProfil,
+            ...parsed,
+
+            statistik: {
+              ...defaultProfil.statistik,
+              ...(parsed.statistik || {})
+            },
+
+            sosial_media: {
+              ...defaultProfil.sosial_media,
+              ...(parsed.sosial_media || {})
+            },
+
+            transparansi_apbdes: {
+              ...defaultProfil.transparansi_apbdes,
+              ...(parsed.transparansi_apbdes || {})
+            }
+          };
         }
       }
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error('Gagal membaca data profil:', error);
+      data = defaultProfil;
     }
 
-    // Update Visi
+    // ==========================================
+    // HELPER ESCAPE HTML
+    // ==========================================
+    const escapeHTML = (value) => {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      })[char]);
+    };
+
+    // ==========================================
+    // UPDATE VISI
+    // ==========================================
     const visiEl = document.getElementById('profil-visi');
+
     if (visiEl && data.visi) {
       visiEl.textContent = `"${data.visi}"`;
     }
 
-    // Update Misi
+    // ==========================================
+    // UPDATE MISI
+    // ==========================================
     const misiContainer = document.getElementById('profil-misi');
-    if (misiContainer && Array.isArray(data.misi) && data.misi.length > 0) {
-      misiContainer.innerHTML = data.misi.map((m, idx) => `
-        <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm flex flex-col justify-between space-y-3">
-          <span class="text-2xl font-black text-blue-700">0${idx + 1}</span>
-          <p class="text-sm sm:text-base text-slate-800 leading-relaxed font-medium">${m}</p>
-        </div>
-      `).join('');
+
+    if (
+      misiContainer &&
+      Array.isArray(data.misi) &&
+      data.misi.length > 0
+    ) {
+      misiContainer.innerHTML = data.misi.map((misi) => {
+        const kode = escapeHTML(misi.kode);
+        const judul = escapeHTML(misi.judul);
+        const deskripsi = escapeHTML(misi.deskripsi);
+
+        const poinHTML = Array.isArray(misi.poin) && misi.poin.length > 0
+          ? `
+            <div class="space-y-3 border-t border-slate-200 pt-4">
+              ${misi.poin.map((poin, index) => `
+                <div class="flex items-start gap-3">
+                  <span class="w-6 h-6 shrink-0 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center text-xs font-bold">
+                    ${index + 1}
+                  </span>
+
+                  <p class="text-sm text-slate-700 leading-relaxed font-medium">
+                    ${escapeHTML(poin)}
+                  </p>
+                </div>
+              `).join('')}
+            </div>
+          `
+          : '';
+
+        return `
+          <article class="glass-panel rounded-2xl p-6 sm:p-7 flex flex-col gap-4">
+
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 shrink-0 rounded-xl bg-blue-700 text-white flex items-center justify-center text-xl font-black">
+                ${kode}
+              </div>
+
+              <div class="pt-1">
+                <h4 class="text-base sm:text-lg font-extrabold text-slate-900 leading-snug">
+                  ${judul}
+                </h4>
+              </div>
+            </div>
+
+            <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+              ${deskripsi}
+            </p>
+
+            ${poinHTML}
+
+          </article>
+        `;
+      }).join('');
     }
 
-    // Update Alamat
+    // ==========================================
+    // UPDATE ALAMAT KANTOR
+    // ==========================================
     const alamatEl = document.getElementById('profil-alamat');
+
     if (alamatEl && data.alamat_kantor) {
       alamatEl.textContent = data.alamat_kantor;
     }
 
-    // Update Jam & Telepon
+    // ==========================================
+    // UPDATE JAM LAYANAN
+    // ==========================================
     const jamEl = document.getElementById('profil-jam');
+
     if (jamEl && data.jam_layanan) {
-      jamEl.innerHTML = `<strong>Jam Buka:</strong> ${data.jam_layanan}`;
+      jamEl.innerHTML = `<strong>Jam Buka:</strong> ${escapeHTML(data.jam_layanan)}`;
     }
+
+    // ==========================================
+    // UPDATE TELEPON
+    // ==========================================
     const telEl = document.getElementById('profil-telepon');
+
     if (telEl && data.telepon) {
-      telEl.innerHTML = `<strong>Hotline:</strong> ${data.telepon}`;
+      telEl.innerHTML = `<strong>Hotline:</strong> ${escapeHTML(data.telepon)}`;
     }
 
-    // Update Total Warga & Statistik
+    // ==========================================
+    // UPDATE STATISTIK
+    // ==========================================
     const stats = data.statistik || {};
-    const statTotal = document.getElementById('stat-total');
-    if (statTotal && stats.total_penduduk) statTotal.textContent = stats.total_penduduk;
-    const statLk = document.getElementById('stat-lk');
-    if (statLk && stats.laki_laki) statLk.textContent = stats.laki_laki;
-    const statPm = document.getElementById('stat-pm');
-    if (statPm && stats.perempuan) statPm.textContent = stats.perempuan;
-    const statLuas = document.getElementById('stat-luas');
-    if (statLuas && stats.luas_wilayah) statLuas.textContent = stats.luas_wilayah;
 
-    // Update Dusun Grid
+    const statElements = {
+      'stat-total': stats.total_penduduk,
+      'stat-lk': stats.laki_laki,
+      'stat-pm': stats.perempuan,
+      'stat-luas': stats.luas_wilayah
+    };
+
+    Object.entries(statElements).forEach(([id, value]) => {
+      const element = document.getElementById(id);
+
+      if (element && value) {
+        element.textContent = value;
+      }
+    });
+
+    // ==========================================
+    // UPDATE DUSUN
+    // ==========================================
     const dusunGrid = document.getElementById('profil-dusun-grid');
-    if (dusunGrid && Array.isArray(data.dusun) && data.dusun.length > 0) {
-      dusunGrid.innerHTML = data.dusun.map((d) => `
+
+    if (
+      dusunGrid &&
+      Array.isArray(data.dusun) &&
+      data.dusun.length > 0
+    ) {
+      dusunGrid.innerHTML = data.dusun.map((dusun) => `
         <a
-          href="/dusun/${d.id}"
-          class="group bg-white rounded-2xl border border-slate-200 hover:border-blue-500 p-6 shadow-sm hover:shadow-md flex flex-col justify-between transition-all"
+          href="/dusun/${encodeURIComponent(dusun.id)}"
+          class="glass-panel group rounded-2xl hover:border-blue-500 p-6 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between transition-all"
         >
           <div>
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
-              <span class="text-xs font-bold text-blue-700 px-2 py-0.5 rounded bg-blue-50 border border-blue-100">${d.jumlah_rt || 'RT/RW'}</span>
-              <span class="text-xs text-slate-500">${d.luas || ''}</span>
+              <span class="text-xs font-bold text-blue-700 px-2 py-0.5 rounded bg-blue-50 border border-blue-100">
+                ${escapeHTML(dusun.jumlah_rt || 'RT/RW')}
+              </span>
+
+              <span class="text-xs text-slate-500">
+                ${escapeHTML(dusun.luas || '')}
+              </span>
             </div>
-            <h3 class="font-extrabold text-lg sm:text-xl text-slate-900 group-hover:text-blue-700 transition-colors">${d.nama}</h3>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1"><strong>Kadus:</strong> ${d.kepala_dusun || '-'}</p>
-            <p class="text-xs sm:text-sm text-slate-600 mt-3 leading-relaxed line-clamp-3">${d.deskripsi || '-'}</p>
-            ${d.potensi_utama ? `<p class="text-xs text-emerald-700 font-semibold mt-2">🌱 ${d.potensi_utama}</p>` : ''}
+
+            <h3 class="font-extrabold text-lg sm:text-xl text-slate-900 group-hover:text-blue-700 transition-colors">
+              ${escapeHTML(dusun.nama)}
+            </h3>
+
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">
+              <strong>Kadus:</strong> ${escapeHTML(dusun.kepala_dusun || '-')}
+            </p>
+
+            <p class="text-xs sm:text-sm text-slate-600 mt-3 leading-relaxed line-clamp-3">
+              ${escapeHTML(dusun.deskripsi || '-')}
+            </p>
+
+            ${dusun.potensi_utama ? `
+              <p class="text-xs text-emerald-700 font-semibold mt-2">
+                🌱 ${escapeHTML(dusun.potensi_utama)}
+              </p>
+            ` : ''}
           </div>
+
           <div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-bold text-blue-700">
             <span class="uppercase tracking-wider">Buka Informasi Dusun</span>
             <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
@@ -375,32 +567,65 @@ import profilData from '../data/profil.json';
       `).join('');
     }
 
-    // Update Foto Struktur & Lightbox
+    // ==========================================
+    // UPDATE FOTO STRUKTUR
+    // ==========================================
     const fotoSrc = data.foto_struktur || '/images/struktur-organisasi-timpik.jpg';
+
     const fotoImg = document.getElementById('profil-foto-struktur');
     const lightboxImg = document.getElementById('profil-lightbox-img');
+
     const lightboxModal = document.getElementById('profil-lightbox-modal');
     const btnOpen = document.getElementById('profil-btn-lightbox');
     const containerClick = document.getElementById('profil-container-click');
     const btnClose = document.getElementById('profil-btn-close-lightbox');
 
-    if (fotoImg && fotoSrc) fotoImg.src = fotoSrc;
-    if (lightboxImg && fotoSrc) lightboxImg.src = fotoSrc;
+    if (fotoImg) fotoImg.src = fotoSrc;
+    if (lightboxImg) lightboxImg.src = fotoSrc;
 
+    // ==========================================
+    // LIGHTBOX FUNCTIONS
+    // ==========================================
     function openLightbox() {
-      if (lightboxModal) lightboxModal.classList.remove('hidden');
-    }
-    function closeLightbox() {
-      if (lightboxModal) lightboxModal.classList.add('hidden');
+      if (lightboxModal) {
+        lightboxModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
     }
 
-    if (btnOpen) btnOpen.addEventListener('click', openLightbox);
-    if (containerClick) containerClick.addEventListener('click', openLightbox);
-    if (btnClose) btnClose.addEventListener('click', closeLightbox);
+    function closeLightbox() {
+      if (lightboxModal) {
+        lightboxModal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+
+    if (btnOpen) {
+      btnOpen.addEventListener('click', openLightbox);
+    }
+
+    if (containerClick) {
+      containerClick.addEventListener('click', openLightbox);
+    }
+
+    if (btnClose) {
+      btnClose.addEventListener('click', closeLightbox);
+    }
+
     if (lightboxModal) {
-      lightboxModal.addEventListener('click', (e) => {
-        if (e.target === lightboxModal) closeLightbox();
+      lightboxModal.addEventListener('click', (event) => {
+        if (event.target === lightboxModal) {
+          closeLightbox();
+        }
       });
     }
+
+    // Tutup lightbox dengan tombol Escape
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+
   })();
 </script>

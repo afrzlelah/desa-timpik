@@ -5,7 +5,7 @@ import profilData from '../data/profil.json';
 
 <Layout
   title="Peta Wilayah & Geografis Desa Timpik"
-  description="Peta wilayah administratif Desa Timpik, Kecamatan Susukan, Kabupaten Semarang: batas wilayah, letak 4 dusun, akses jalan, dan lokasi Balai Desa."
+  description="Peta wilayah administratif Desa Timpik, Kecamatan Susukan, Kabupaten Semarang: batas wilayah, persebaran 13 dusun, akses jalan, dan lokasi Balai Desa."
 >
   <!-- Architectural Civic Header -->
   <section class="bg-gradient-to-br from-blue-950 via-blue-900 to-blue-700 text-white border-b border-white/20 pt-14 pb-12 sm:pt-16 sm:pb-14">
@@ -29,7 +29,7 @@ import profilData from '../data/profil.json';
         </h1>
         
         <p class="text-slate-300 text-sm sm:text-base leading-relaxed pt-1">
-          Peta administratif batas wilayah, persebaran 4 dusun (Krajan, Sumber, Bogo, Kencana), topografi lereng Merbabu, letak fasilitas umum, dan rute akses menuju Balai Desa Timpik, Kecamatan Susukan.
+          Peta administratif Desa Timpik yang mencakup 13 wilayah dusun, batas wilayah, kondisi geografis, fasilitas umum, dan akses menuju Balai Desa Timpik, Kecamatan Susukan.
         </p>
       </div>
 
@@ -58,7 +58,7 @@ import profilData from '../data/profil.json';
           <div class="p-4 bg-blue-900/90 text-white flex flex-col sm:flex-row items-center justify-between gap-3 text-sm font-mono backdrop-blur-xl">
             <span class="flex items-center gap-2">
               <span class="w-2 h-2 bg-emerald-400"></span>
-              <span>Titik Pusat: Balai Desa Timpik, Dusun Krajan</span>
+              <span>Titik Pusat: Balai Desa Timpik</span>
             </span>
             <a
               href="https://maps.google.com/?q=Balai+Desa+Timpik+Susukan+Semarang"
@@ -110,21 +110,37 @@ import profilData from '../data/profil.json';
 
       </div>
 
-      <!-- 4 Dusun dalam Peta -->
+      <!-- 13 Dusun dalam Peta -->
       <div>
         <div class="border-b border-civic-border pb-4 mb-8">
-          <span class="text-xs font-mono uppercase tracking-widest text-blue-700 font-bold block mb-1">Struktur Kewilayahan</span>
-          <h3 class="text-2xl font-serif font-black text-civic-navy">Pembagian 4 Wilayah Dusun</h3>
-          <p class="text-xs text-civic-muted mt-1">Struktur kadus di bawah naungan administrasi Pemerintah Desa Timpik</p>
+          <span class="text-xs font-mono uppercase tracking-widest text-blue-700 font-bold block mb-1">
+            Struktur Kewilayahan
+          </span>
+
+          <h3 class="text-2xl font-serif font-black text-civic-navy">
+            Pembagian 13 Wilayah Dusun
+          </h3>
+
+          <p class="text-xs text-civic-muted mt-1">
+            Persebaran wilayah dusun di bawah administrasi Pemerintah Desa Timpik.
+          </p>
         </div>
 
-        <div id="peta-dusun-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div id="peta-dusun-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {profilData.dusun.map((dusun, idx) => (
-            <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-4">
+            <article class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-4">
               <div>
-                {/* <span class="text-xs font-mono text-blue-700 font-bold block mb-1">0{idx + 1}</span> */}
-                <h4 class="font-serif font-bold text-lg text-civic-navy">{dusun.nama}</h4>
-                <p class="text-xs text-civic-muted mt-2 leading-relaxed">{dusun.deskripsi}</p>
+                <span class="text-xs font-mono text-blue-700 font-bold block mb-2">
+                  WILAYAH {String(idx + 1).padStart(2, '0')}
+                </span>
+
+                <h4 class="font-serif font-bold text-lg text-civic-navy">
+                  {dusun.nama}
+                </h4>
+
+                <p class="text-xs text-civic-muted mt-2 leading-relaxed">
+                  {dusun.deskripsi || 'Wilayah administratif Desa Timpik.'}
+                </p>
               </div>
 
               <div class="pt-3 border-t border-civic-border/60">
@@ -132,11 +148,11 @@ import profilData from '../data/profil.json';
                   href={`/dusun/${dusun.id}`}
                   class="text-xs font-mono font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider inline-flex items-center gap-1"
                 >
-                  <span>Buka Peta Dusun</span>
+                  <span>Lihat Informasi Wilayah</span>
                   <span>&rarr;</span>
                 </a>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
@@ -144,21 +160,100 @@ import profilData from '../data/profil.json';
     </div>
   </section>
   <script>
-    const escapeDusunPeta = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]!));
-    const renderPetaDusun = (items: any[]) => {
-      const grid = document.getElementById('peta-dusun-grid');
-      if (!grid) return;
-      grid.innerHTML = items.map((dusun: any) => `
-        <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-4">
-          <div><h4 class="font-serif font-bold text-lg text-civic-navy">${escapeDusunPeta(dusun.nama)}</h4><p class="text-xs text-civic-muted mt-2 leading-relaxed">${escapeDusunPeta(dusun.deskripsi)}</p></div>
-          <div class="pt-3 border-t border-civic-border/60"><a href="/dusun/${encodeURIComponent(dusun.id)}" class="text-xs font-mono font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider inline-flex items-center gap-1"><span>Buka Peta Dusun</span><span>&rarr;</span></a></div>
-        </div>`).join('');
+    const escapeDusunPeta = (value: unknown): string => {
+      const entities: Record<string, string> = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      };
+
+      return String(value ?? '').replace(/[&<>"']/g, (char) => entities[char]);
     };
-    const initialProfil = (window as any).__timpikSupabaseContent?.profil;
-    if (Array.isArray(initialProfil?.dusun)) renderPetaDusun(initialProfil.dusun);
-    window.addEventListener('timpik-supabase-content', (event) => {
-      const dusun = (event as CustomEvent).detail?.profil?.dusun;
-      if (Array.isArray(dusun)) renderPetaDusun(dusun);
+
+    const renderPetaDusun = (items: unknown) => {
+      const grid = document.getElementById('peta-dusun-grid');
+
+      if (!grid) return;
+
+      if (!Array.isArray(items)) {
+        console.warn('Data dusun bukan array.');
+        return;
+      }
+
+      if (items.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-10 text-slate-500">
+            Belum ada data wilayah yang tersedia.
+          </div>
+        `;
+        return;
+      }
+
+      grid.className =
+        'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5';
+
+      grid.innerHTML = items.map((dusun: any, idx: number) => {
+        const id = String(dusun?.id ?? '').trim();
+        const nama = escapeDusunPeta(dusun?.nama || 'Wilayah Desa Timpik');
+        const deskripsi = escapeDusunPeta(
+          dusun?.deskripsi || 'Wilayah administratif Desa Timpik.'
+        );
+
+        const detailUrl = id
+          ? `/dusun/${encodeURIComponent(id)}`
+          : '#';
+
+        return `
+          <article class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-4">
+            <div>
+              <span class="text-xs font-mono text-blue-700 font-bold block mb-2">
+                WILAYAH ${String(idx + 1).padStart(2, '0')}
+              </span>
+
+              <h4 class="font-serif font-bold text-lg text-civic-navy">
+                ${nama}
+              </h4>
+
+              <p class="text-xs text-civic-muted mt-2 leading-relaxed">
+                ${deskripsi}
+              </p>
+            </div>
+
+            <div class="pt-3 border-t border-civic-border/60">
+              <a
+                href="${detailUrl}"
+                class="text-xs font-mono font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider inline-flex items-center gap-1"
+                ${id ? '' : 'aria-disabled="true" tabindex="-1"'}
+              >
+                <span>Lihat Informasi Wilayah</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          </article>
+        `;
+      }).join('');
+    };
+
+    const loadSupabaseDusun = () => {
+      const supabaseContent = (window as any).__timpikSupabaseContent;
+      const profil = supabaseContent?.profil;
+
+      if (Array.isArray(profil?.dusun)) {
+        renderPetaDusun(profil.dusun);
+      }
+    };
+
+    loadSupabaseDusun();
+
+    window.addEventListener('timpik-supabase-content', (event: Event) => {
+      const customEvent = event as CustomEvent;
+      const dusun = customEvent.detail?.profil?.dusun;
+
+      if (Array.isArray(dusun)) {
+        renderPetaDusun(dusun);
+      }
     });
   </script>
 </Layout>

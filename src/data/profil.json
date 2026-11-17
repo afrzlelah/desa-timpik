@@ -9,54 +9,123 @@
   "email": "desatimpik.susukan@gmail.com",
   "jam_layanan": "Senin - Kamis: 08.00 - 15.00 WIB | Jumat: 08.00 - 11.30 WIB",
   "foto_struktur": "/images/struktur-organisasi-timpik.jpg",
-  "visi": "Terwujudnya Desa Timpik yang Maju, Sejahtera, Mandiri Berbasis Pertanian Berkelanjutan dan Berkeadaban Budaya Adiluhung.",
+  "visi": "Terwujudnya Desa Timpik yang Aman, Tenteram, Maju, Makmur dan Berkeadilan.",
   "misi": [
-    "Meningkatkan kualitas pelayanan administrasi publik yang cepat, transparan, dan terpercaya bagi seluruh warga.",
-    "Mengembangkan perekonomian desa berbasis sektor agraris modern dan penguatan ketahanan pangan lokal.",
-    "Melestarikan dan mempromosikan kekayaan seni budaya tradisional seperti Wayang Orang, Karawitan, dan Angguk.",
-    "Mewujudkan tata kelola pemerintahan desa yang bersih, akuntabel, dan bebas dari korupsi.",
-    "Meningkatkan kualitas infrastruktur pertanian, irigasi, dan aksesibilitas fasilitas publik masyarakat."
+    {
+      "kode": "A",
+      "judul": "Melanjutkan Program Pembangunan Desa",
+      "deskripsi": "Melanjutkan program-program yang telah dilaksanakan oleh Pemerintah Desa Timpik periode lalu sebagaimana tercantum dalam RPJMDes Timpik.",
+      "poin": []
+    },
+    {
+      "kode": "B",
+      "judul": "Memberdayakan Semua Potensi Masyarakat",
+      "deskripsi": "Memberdayakan semua potensi yang ada di masyarakat yang meliputi:",
+      "poin": [
+        "Pemberdayaan Sumber Daya Manusia (SDM)",
+        "Pemberdayaan Sumber Daya Alam (SDA)",
+        "Pemberdayaan Ekonomi"
+      ]
+    },
+    {
+      "kode": "C",
+      "judul": "Menciptakan Kehidupan Masyarakat yang Rukun",
+      "deskripsi": "Menciptakan kondisi masyarakat Desa Timpik yang aman, tertib, guyub dan rukun dalam kehidupan bermasyarakat dengan berpegang pada prinsip-prinsip yaitu:",
+      "poin": [
+        "Duduk sama rendah, berdiri sama tinggi.",
+        "Ringan sama dijinjing, berat sama dipikul.",
+        "Sepi ing pamrih, rame ing gawe, narimo ing pandum."
+      ]
+    },
+    {
+      "kode": "D",
+      "judul": "Optimalisasi Penyelenggaraan Pemerintahan Desa",
+      "deskripsi": "Optimalisasi penyelenggaraan Pemerintah Desa Timpik meliputi:",
+      "poin": [
+        "Pemerintahan yang transparan dan akuntabel.",
+        "Pelayanan kepada masyarakat yang prima: cepat, tepat, dan benar.",
+        "Pelaksanaan pembangunan yang berkesinambungan, serta mengedepankan partisipasi dan gotong royong."
+      ]
+    }
   ],
   "dusun": [
     {
-      "id": "bogo",
-      "nama": "Dusun Bogo",
-      "panggilan": "Bogo",
-      "deskripsi": "Sentra kesenian Wayang Orang (Badoyo), tradisi budaya adiluhung, dan hamparan sawah subur P3A Bogo Wastro.",
-      "kepala_dusun": "Bapak Kadus Bogo",
-      "potensi_utama": "Wayang Orang, Pertanian Padi, Karawitan",
-      "jumlah_rt": "4 RT / 1 RW",
-      "luas": "68 Ha"
+      "id": "karangsalam",
+      "nama": "Dusun Karangsalam",
+      "panggilan": "Karangsalam",
+      "deskripsi": "Wilayah Karangsalam, Desa Timpik."
+    },
+    {
+      "id": "kaibon",
+      "nama": "Dusun Kaibon",
+      "panggilan": "Kaibon",
+      "deskripsi": "Wilayah Kaibon, Desa Timpik."
+    },
+    {
+      "id": "gedangan",
+      "nama": "Dusun Gedangan",
+      "panggilan": "Gedangan",
+      "deskripsi": "Wilayah Gedangan, Desa Timpik."
+    },
+    {
+      "id": "kauman",
+      "nama": "Dusun Kauman",
+      "panggilan": "Kauman",
+      "deskripsi": "Wilayah Kauman, Desa Timpik."
+    },
+    {
+      "id": "durenan",
+      "nama": "Dusun Durenan",
+      "panggilan": "Durenan",
+      "deskripsi": "Wilayah Durenan, Desa Timpik."
+    },
+    {
+      "id": "geneng",
+      "nama": "Dusun Geneng",
+      "panggilan": "Geneng",
+      "deskripsi": "Wilayah Geneng, Desa Timpik."
+    },
+    {
+      "id": "timpik",
+      "nama": "Dusun Timpik",
+      "panggilan": "Timpik",
+      "deskripsi": "Wilayah Timpik, Desa Timpik."
     },
     {
       "id": "sumber",
       "nama": "Dusun Sumber",
       "panggilan": "Sumber",
-      "deskripsi": "Pusat kesenian bernafas religi Angguk Alhidayah, sumber mata air alami pengairan desa, dan kerukunan warga.",
-      "kepala_dusun": "Bapak Kadus Sumber",
-      "potensi_utama": "Seni Angguk, Konservasi Mata Air, Palawija",
-      "jumlah_rt": "3 RT / 1 RW",
-      "luas": "54 Ha"
+      "deskripsi": "Wilayah Sumber, Desa Timpik."
     },
     {
-      "id": "krajan",
-      "nama": "Dusun Timpik Krajan",
-      "panggilan": "Krajan",
-      "deskripsi": "Pusat tata kelola pemerintahan desa, kantor Balai Desa, pendopo pertemuan, dan perpustakaan desa Sumber Ilmu.",
-      "kepala_dusun": "Bapak Kadus Krajan",
-      "potensi_utama": "Pelayanan Publik, Balai Desa, UMKM Perdagangan",
-      "jumlah_rt": "5 RT / 2 RW",
-      "luas": "61 Ha"
+      "id": "ngasinan",
+      "nama": "Dusun Ngasinan",
+      "panggilan": "Ngasinan",
+      "deskripsi": "Wilayah Ngasinan, Desa Timpik."
     },
     {
-      "id": "kencana",
-      "nama": "Dusun Kencana",
-      "panggilan": "Kencana",
-      "deskripsi": "Kawasan lumbung pangan masyarakat mandiri LPM Putri Kencana, pembibitan tani modern, dan persawahan terpadu.",
-      "kepala_dusun": "Bapak Kadus Kencana",
-      "potensi_utama": "Lumbung Pangan Padi, Gapoktan, Peternakan",
-      "jumlah_rt": "4 RT / 1 RW",
-      "luas": "60 Ha"
+      "id": "bogo",
+      "nama": "Dusun Bogo",
+      "panggilan": "Bogo",
+      "deskripsi": "Wilayah Bogo, Desa Timpik."
+    },
+    {
+      "id": "lempuyangan",
+      "nama": "Dusun Lempuyangan",
+      "panggilan": "Lempuyangan",
+      "deskripsi": "Wilayah Lempuyangan, Desa Timpik."
+    },
+    {
+      "id": "jetak",
+      "nama": "Dusun Jetak",
+      "panggilan": "Jetak",
+      "deskripsi": "Wilayah Jetak, Desa Timpik."
+    },
+    {
+      "id": "cengklik",
+      "nama": "Dusun Cengklik",
+      "panggilan": "Cengklik",
+      "deskripsi": "Wilayah Cengklik, Desa Timpik."
     }
   ],
   "statistik": {
