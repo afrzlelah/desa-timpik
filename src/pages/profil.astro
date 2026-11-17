@@ -238,16 +238,22 @@ import profilData from '../data/profil.json';
       
       <div class="border-b border-slate-200 pb-4">
         <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-blue-700 block mb-1">Struktur Kewilayahan</span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Empat Dusun Naungan Desa Timpik</h2>
-        <p class="text-sm sm:text-base text-slate-600 mt-1">Data dusun dan kepala kewilayahan yang bertugas.</p>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Dusun di Desa Timpik</h2>
+        <p class="text-sm sm:text-base text-slate-600 mt-1">Informasi wilayah, potensi, dan kepala dusun yang bertugas.</p>
       </div>
 
       <div id="profil-dusun-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {profilData.dusun.map((dusun) => (
           <a
             href={`/dusun/${dusun.id}`}
-            class="glass-panel group rounded-2xl hover:border-blue-500 p-6 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between transition-all"
+            class="glass-panel group overflow-hidden rounded-2xl hover:border-blue-500 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between transition-all"
           >
+            {dusun.foto ? (
+              <img src={dusun.foto} alt={`Foto ${dusun.nama}`} class="h-40 w-full object-cover bg-slate-200" loading="lazy" />
+            ) : (
+              <div class="flex h-40 items-center justify-center bg-gradient-to-br from-blue-100 to-slate-200 text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>
+            )}
+            <div class="flex flex-1 flex-col justify-between p-5 sm:p-6">
             <div>
               <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
                 <span class="text-xs font-bold text-blue-700 px-2 py-0.5 rounded bg-blue-50 border border-blue-100">
@@ -267,6 +273,7 @@ import profilData from '../data/profil.json';
             <div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-bold text-blue-700">
               <span class="uppercase tracking-wider">Buka Informasi Dusun</span>
               <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </div>
             </div>
           </a>
         ))}
@@ -527,8 +534,10 @@ import profilData from '../data/profil.json';
       dusunGrid.innerHTML = data.dusun.map((dusun) => `
         <a
           href="/dusun/${encodeURIComponent(dusun.id)}"
-          class="glass-panel group rounded-2xl hover:border-blue-500 p-6 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between transition-all"
+          class="glass-panel group overflow-hidden rounded-2xl hover:border-blue-500 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between transition-all"
         >
+          ${dusun.foto ? `<img src="${escapeHTML(dusun.foto)}" alt="Foto ${escapeHTML(dusun.nama)}" class="h-40 w-full object-cover bg-slate-200" loading="lazy" />` : `<div class="flex h-40 items-center justify-center bg-gradient-to-br from-blue-100 to-slate-200 text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>`}
+          <div class="flex flex-1 flex-col justify-between p-5 sm:p-6">
           <div>
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
               <span class="text-xs font-bold text-blue-700 px-2 py-0.5 rounded bg-blue-50 border border-blue-100">
@@ -562,6 +571,7 @@ import profilData from '../data/profil.json';
           <div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-bold text-blue-700">
             <span class="uppercase tracking-wider">Buka Informasi Dusun</span>
             <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+          </div>
           </div>
         </a>
       `).join('');

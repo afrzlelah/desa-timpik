@@ -5,6 +5,10 @@
     {
       "source": "/berita/:id",
       "destination": "/berita-detail?id=:id"
+    },
+    {
+      "source": "/dusun/:id",
+      "destination": "/dusun-detail?id=:id"
     }
   ]
 }

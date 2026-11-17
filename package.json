@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "npx vercel dev --listen 4321",
+    "dev:astro": "astro dev",
     "build": "astro build",
     "preview": "astro preview"
   },

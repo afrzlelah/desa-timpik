@@ -375,6 +375,9 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
               return;
             }
             if (!response.ok) throw new Error(`Content load failed (${response.status})`);
+            if (!response.headers.get('content-type')?.includes('application/json')) {
+              throw new Error('Endpoint admin lokal belum aktif. Jalankan npm run dev agar Vercel Functions ikut berjalan.');
+            }
             const row = await response.json();
             const next = JSON.stringify(row.data);
             if (localStorage.getItem(currentStorageKey) !== next) {

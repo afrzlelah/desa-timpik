@@ -2,7 +2,6 @@ const { randomUUID } = require("node:crypto");
 const { createClient } = require("@supabase/supabase-js");
 const { getSession, isActiveAdmin, isSameOrigin } = require("../_admin-session");
 
-const BUCKET = "berita";
 const MAX_BYTES = 4 * 1024 * 1024;
 const IMAGE_TYPES = new Map([
   ["image/jpeg", "jpg"],
@@ -76,16 +75,17 @@ module.exports = async function handler(req, res) {
     return send(res, 401, { error: "Akses admin sudah dicabut. Silakan masuk kembali." });
   }
 
-  const { data: bucket, error: bucketError } = await supabase.storage.getBucket(BUCKET);
+  const bucketName = String(req.query?.folder || "") === "dusun" ? "dusun" : "berita";
+  const { data: bucket, error: bucketError } = await supabase.storage.getBucket(bucketName);
   if (bucketError || !bucket) {
-    return send(res, 502, { error: "Bucket Supabase 'berita' tidak ditemukan atau tidak dapat diakses." });
+    return send(res, 502, { error: `Bucket Supabase '${bucketName}' tidak ditemukan atau tidak dapat diakses.` });
   }
   if (!bucket.public) {
-    return send(res, 409, { error: "Bucket 'berita' harus diatur sebagai public agar gambar tampil di website." });
+    return send(res, 409, { error: `Bucket '${bucketName}' harus diatur sebagai public agar gambar tampil di website.` });
   }
 
   const path = `${new Date().toISOString().slice(0, 7)}/${randomUUID()}.${extension}`;
-  const { error: uploadError } = await supabase.storage.from(BUCKET).upload(path, image, {
+  const { error: uploadError } = await supabase.storage.from(bucketName).upload(path, image, {
     contentType,
     cacheControl: "31536000",
     upsert: false,
@@ -95,6 +95,6 @@ module.exports = async function handler(req, res) {
     return send(res, 502, { error: "Gagal mengunggah gambar ke Supabase. Periksa konfigurasi bucket dan kunci server." });
   }
 
-  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
+  const { data } = supabase.storage.from(bucketName).getPublicUrl(path);
   return send(res, 201, { publicUrl: data.publicUrl, path });
 };
