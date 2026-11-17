@@ -374,51 +374,69 @@ const { operasional, kontak_darurat } = kontakData;
     
     // Update Operasional info
     const elNama = document.getElementById('view-nama-kantor');
-    if (elNama && op.nama_kantor) elNama.textContent = op.nama_kantor;
+    if (elNama) elNama.textContent = op.nama_kantor || 'Informasi belum tersedia';
 
     const elStatus = document.getElementById('view-status-badge');
-    if (elStatus && op.status_layanan) {
-      elStatus.textContent = op.status_layanan;
+    if (elStatus) {
+      elStatus.textContent = op.status_layanan || 'Informasi belum tersedia';
       if (op.status_layanan === 'Tutup Libur') {
         elStatus.className = 'text-[10px]  uppercase tracking-wider px-2 py-0.5 border border-rose-300 bg-rose-50 text-rose-800 font-bold';
       } else if (op.status_layanan === 'Buka Terbatas') {
         elStatus.className = 'text-[10px]  uppercase tracking-wider px-2 py-0.5 border border-amber-300 bg-amber-50 text-amber-800 font-bold';
-      } else {
+      } else if (op.status_layanan) {
         elStatus.className = 'text-[10px]  uppercase tracking-wider px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold';
+      } else {
+        elStatus.className = 'text-[10px] uppercase tracking-wider px-2 py-0.5 border border-slate-300 bg-slate-100 text-slate-700 font-bold';
       }
     }
 
     const elAlamat = document.getElementById('view-alamat-kantor');
-    if (elAlamat && op.alamat) elAlamat.textContent = op.alamat;
+    if (elAlamat) elAlamat.textContent = op.alamat || 'Informasi belum tersedia';
 
     const elJamSK = document.getElementById('view-jam-senin-kamis');
-    if (elJamSK && op.jam_senin_kamis) elJamSK.textContent = op.jam_senin_kamis;
+    if (elJamSK) elJamSK.textContent = op.jam_senin_kamis || '—';
 
     const elJamJumat = document.getElementById('view-jam-jumat');
-    if (elJamJumat && op.jam_jumat) elJamJumat.textContent = op.jam_jumat;
+    if (elJamJumat) elJamJumat.textContent = op.jam_jumat || '—';
 
     const elKet = document.getElementById('view-keterangan-layanan');
-    if (elKet && op.keterangan_layanan) elKet.textContent = op.keterangan_layanan;
+    if (elKet) elKet.textContent = op.keterangan_layanan || 'Informasi belum tersedia';
 
     const elWaLink = document.getElementById('view-wa-link');
     const elWaText = document.getElementById('view-wa-text');
-    if (elWaLink && op.telepon) {
-      const cleanTel = op.telepon.replace(/[^0-9]/g, '');
-      elWaLink.href = `https://wa.me/${cleanTel}?text=Halo%20Admin%20Pelayanan%20Desa%20Timpik,%20saya%20ingin%20berkonsultasi%20mengenai%20pelayanan%20surat`;
-      if (elWaText) elWaText.textContent = `Chat WhatsApp (${op.telepon})`;
+    if (elWaLink) {
+      const cleanTel = (op.telepon || '').replace(/[^0-9]/g, '');
+      if (cleanTel) {
+        elWaLink.href = `https://wa.me/${cleanTel}?text=Halo%20Admin%20Pelayanan%20Desa%20Timpik,%20saya%20ingin%20berkonsultasi%20mengenai%20pelayanan%20surat`;
+        elWaLink.removeAttribute('aria-disabled');
+        if (elWaText) elWaText.textContent = `Chat WhatsApp (${op.telepon})`;
+      } else {
+        elWaLink.href = '#';
+        elWaLink.setAttribute('aria-disabled', 'true');
+        elWaLink.classList.add('pointer-events-none', 'opacity-60');
+        if (elWaText) elWaText.textContent = 'WhatsApp belum tersedia';
+      }
     }
 
     const elEmailLink = document.getElementById('view-email-link');
     const elEmailText = document.getElementById('view-email-text');
-    if (elEmailLink && op.email) {
-      elEmailLink.href = `mailto:${op.email}`;
-      if (elEmailText) elEmailText.textContent = op.email;
+    if (elEmailLink) {
+      if (op.email) {
+        elEmailLink.href = `mailto:${op.email}`;
+        elEmailLink.removeAttribute('aria-disabled');
+        if (elEmailText) elEmailText.textContent = op.email;
+      } else {
+        elEmailLink.href = '#';
+        elEmailLink.setAttribute('aria-disabled', 'true');
+        elEmailLink.classList.add('pointer-events-none', 'opacity-60');
+        if (elEmailText) elEmailText.textContent = 'Email belum tersedia';
+      }
     }
 
     // Update Emergency Hotline Grid with consistent civic ledger styling
     const grid = document.getElementById('emergency-cards-grid');
     if (grid && Array.isArray(liveData.kontak_darurat)) {
-      grid.innerHTML = liveData.kontak_darurat.map(item => {
+      grid.innerHTML = liveData.kontak_darurat.length ? liveData.kontak_darurat.map(item => {
         let badgeStyle = 'bg-rose-50 text-rose-800 border-rose-200';
         let btnStyle = 'bg-rose-700 hover:bg-rose-800';
 
@@ -471,7 +489,7 @@ const { operasional, kontak_darurat } = kontakData;
             </div>
           </div>
         `;
-      }).join('');
+      }).join('') : '<p class="col-span-full rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center text-sm font-semibold text-slate-600">Belum ada kontak darurat yang tersedia.</p>';
     }
   }
 
@@ -486,7 +504,11 @@ const { operasional, kontak_darurat } = kontakData;
       const kategori = document.getElementById('contact-kategori')?.value || '';
       const pesan = document.getElementById('contact-pesan')?.value?.trim() || '';
 
-      const targetWa = (liveData.operasional?.telepon || '081234567890').replace(/[^0-9]/g, '');
+      const targetWa = (liveData.operasional?.telepon || '').replace(/[^0-9]/g, '');
+      if (!targetWa) {
+        alert('Nomor WhatsApp pelayanan belum tersedia. Silakan hubungi kantor desa secara langsung.');
+        return;
+      }
       const text = `Halo Admin Pelayanan Balai Desa Timpik,%0A%0ASaya ingin menyampaikan pesan / pertanyaan:%0A- *Nama:* ${encodeURIComponent(nama)}%0A- *Dusun:* ${encodeURIComponent(dusun)}%0A- *No. HP:* ${encodeURIComponent(telepon)}%0A- *Kategori:* ${encodeURIComponent(kategori)}%0A%0A*Isi Pesan:*%0A${encodeURIComponent(pesan)}%0A%0ATerima kasih.`;
 
       window.open(`https://wa.me/${targetWa}?text=${text}`, '_blank');

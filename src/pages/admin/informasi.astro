@@ -16,12 +16,12 @@ import profil from '../../data/profil.json';
       <div class="flex flex-wrap items-center gap-2">
         <button
           type="button"
-          id="btn-export"
-          class="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-xs hover:bg-slate-50 transition-colors"
-          title="Unduh file JSON untuk arsip permanen"
+          id="btn-clear-all-profil"
+          class="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-rose-300 bg-rose-50 px-4 py-2 text-sm font-bold text-rose-800 shadow-xs transition-colors hover:bg-rose-100"
+          title="Kosongkan seluruh informasi profil desa"
         >
-          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          <span>Unduh JSON</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7h12m-10 0 1 13h6l1-13M9 7V4h6v3"/></svg>
+          <span>Kosongkan Semua Data</span>
         </button>
         <a
           href="/profil"
@@ -440,27 +440,33 @@ import profil from '../../data/profil.json';
     const inLuas = document.getElementById('input-luas');
 
     const fotoPreview = document.getElementById('preview-foto-struktur');
-    let fotoStrukturBase64 = currentData.foto_struktur || '/images/struktur-organisasi-timpik.jpg';
+    let fotoStrukturBase64 = currentData.foto_struktur || '';
 
     inVisi.value = currentData.visi || '';
     inMisi.value = Array.isArray(currentData.misi) ? currentData.misi.join('\n') : '';
     inAlamat.value = currentData.alamat_kantor || '';
-    inTelepon.value = currentData.telepon || '6285166439180';
-    inEmail.value = currentData.email || 'desatimpik.susukan@gmail.com';
-    inJam.value = currentData.jam_layanan || 'Senin - Kamis: 08.00 - 15.00 WIB | Jumat: 08.00 - 11.30 WIB';
+    inTelepon.value = currentData.telepon || '';
+    inEmail.value = currentData.email || '';
+    inJam.value = currentData.jam_layanan || '';
 
     // Statistik Warga (Default LK: 2.848, PM: 2.848, Total: 5.696)
     const stats = currentData.statistik || {};
-    inLk.value = stats.laki_laki ? stats.laki_laki.replace(/[^0-9]/g, '') : '2848';
-    inPm.value = stats.perempuan ? stats.perempuan.replace(/[^0-9]/g, '') : '2848';
-    inKk.value = stats.total_kk || '872 KK';
-    inLuas.value = stats.luas_wilayah || '243 Ha';
+    inLk.value = stats.laki_laki ? stats.laki_laki.replace(/[^0-9]/g, '') : '';
+    inPm.value = stats.perempuan ? stats.perempuan.replace(/[^0-9]/g, '') : '';
+    inKk.value = stats.total_kk || '';
+    inLuas.value = stats.luas_wilayah || '';
 
     function formatNumber(num) {
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
     function calculateTotal() {
+      if (!inLk.value.trim() && !inPm.value.trim()) {
+        inTotal.value = '';
+        const hint = document.getElementById('total-calc-hint');
+        if (hint) hint.textContent = 'Isi jumlah laki-laki dan perempuan untuk menghitung total warga.';
+        return;
+      }
       const lkVal = parseInt((inLk.value || '').replace(/[^0-9]/g, ''), 10) || 0;
       const pmVal = parseInt((inPm.value || '').replace(/[^0-9]/g, ''), 10) || 0;
       const totalVal = lkVal + pmVal;
@@ -478,6 +484,8 @@ import profil from '../../data/profil.json';
 
     if (fotoStrukturBase64) {
       fotoPreview.src = fotoStrukturBase64;
+    } else {
+      fotoPreview.classList.add('hidden');
     }
 
     // Foto File Upload Handler
@@ -494,6 +502,7 @@ import profil from '../../data/profil.json';
       reader.onload = () => {
         fotoStrukturBase64 = reader.result;
         fotoPreview.src = fotoStrukturBase64;
+        fotoPreview.classList.remove('hidden');
       };
       reader.readAsDataURL(file);
     });
@@ -501,6 +510,7 @@ import profil from '../../data/profil.json';
     document.getElementById('btn-reset-foto').addEventListener('click', () => {
       fotoStrukturBase64 = '/images/struktur-organisasi-timpik.jpg';
       fotoPreview.src = fotoStrukturBase64;
+      fotoPreview.classList.remove('hidden');
       inFoto.value = '';
     });
 
@@ -783,38 +793,24 @@ import profil from '../../data/profil.json';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Export JSON Button
-    document.getElementById('btn-export').addEventListener('click', () => {
-      const lkNum = parseInt((inLk.value || '').replace(/[^0-9]/g, ''), 10) || 0;
-      const pmNum = parseInt((inPm.value || '').replace(/[^0-9]/g, ''), 10) || 0;
-      const totalNum = lkNum + pmNum;
-
-      const dataToExport = {
-        ...currentData,
-        visi: inVisi.value.trim(),
-        misi: inMisi.value.split('\n').map(x => x.trim()).filter(Boolean),
-        alamat_kantor: inAlamat.value.trim(),
-        telepon: inTelepon.value.trim(),
-        email: inEmail.value.trim(),
-        jam_layanan: inJam.value.trim(),
-        foto_struktur: fotoStrukturBase64,
-        dusun: dusunList,
-        statistik: {
-          ...currentData.statistik,
-          laki_laki: formatNumber(lkNum) + ' Jiwa',
-          perempuan: formatNumber(pmNum) + ' Jiwa',
-          total_penduduk: formatNumber(totalNum) + ' Jiwa',
-          total_kk: inKk.value.trim(),
-          luas_wilayah: inLuas.value.trim()
+    document.getElementById('btn-clear-all-profil').addEventListener('click', async (event) => {
+      if (!confirm('Kosongkan semua informasi profil, statistik, foto, visi-misi, dan data dusun? Data akan hilang dari halaman publik dan tidak dapat dipulihkan.')) return;
+      const button = event.currentTarget;
+      button.disabled = true;
+      const emptyProfile = (value) => {
+        if (Array.isArray(value)) return [];
+        if (value && typeof value === 'object') {
+          return Object.fromEntries(Object.entries(value).map(([key, nestedValue]) => [key, emptyProfile(nestedValue)]));
         }
+        return typeof value === 'string' ? '' : value;
       };
-
-      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'profil.json';
-      a.click();
-      URL.revokeObjectURL(a.href);
+      try {
+        await (window as any).__timpikSaveAdminContent(STORAGE_KEY, emptyProfile(currentData));
+        window.location.reload();
+      } catch (error) {
+        alert(error instanceof Error ? `Data profil gagal dikosongkan: ${error.message}` : 'Data profil gagal dikosongkan.');
+        button.disabled = false;
+      }
     });
 
   </script>

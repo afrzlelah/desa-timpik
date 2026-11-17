@@ -653,17 +653,17 @@ const currentPath = Astro.url.pathname;
           if (parsed && parsed.operasional) {
             const op = parsed.operasional;
             const ftAlamat = document.getElementById('global-footer-alamat');
-            if (ftAlamat && op.alamat) ftAlamat.textContent = op.alamat;
+            if (ftAlamat) ftAlamat.textContent = op.alamat || 'Informasi alamat belum tersedia';
 
             const ftTelepon = document.getElementById('global-footer-telepon');
-            if (ftTelepon && op.telepon) ftTelepon.textContent = `${op.telepon} (WA Pelayanan)`;
+            if (ftTelepon) ftTelepon.textContent = op.telepon ? `${op.telepon} (WA Pelayanan)` : 'Nomor WhatsApp belum tersedia';
 
             const ftEmail = document.getElementById('global-footer-email');
-            if (ftEmail && op.email) ftEmail.textContent = op.email;
+            if (ftEmail) ftEmail.textContent = op.email || 'Email belum tersedia';
 
             const hdJam = document.getElementById('header-jam-kerja');
-            if (hdJam && op.jam_senin_kamis) {
-              hdJam.textContent = `Senin–Kamis ${op.jam_senin_kamis} • Jumat ${op.jam_jumat || '08.00–11.30 WIB'}`;
+            if (hdJam) {
+              hdJam.textContent = `Senin–Kamis ${op.jam_senin_kamis || '—'} • Jumat ${op.jam_jumat || '—'}`;
             }
           }
         }
@@ -678,22 +678,25 @@ const currentPath = Astro.url.pathname;
           const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
           const safeDusunImage = value => { try { const url = new URL(String(value ?? '')); return url.protocol === 'https:' && url.hostname.endsWith('.supabase.co') && url.pathname.startsWith('/storage/v1/object/public/dusun/') ? url.href : ''; } catch { return ''; } };
           const visi = document.getElementById('profil-visi');
-          if (visi) visi.textContent = `“${data.visi || ''}”`;
+          if (visi) visi.textContent = data.visi ? `“${data.visi}”` : 'Visi desa belum tersedia.';
           const misi = document.getElementById('profil-misi');
           if (misi && Array.isArray(data.misi)) misi.innerHTML = data.misi.map((text, i) => `<div class="bg-white border border-slate-200 p-6 space-y-3"><span class="text-2xl font-black text-blue-700">${String(i+1).padStart(2,'0')}</span><p class="text-base text-slate-800 leading-relaxed">${escapeHtml(text)}</p></div>`).join('');
           const dusun = document.getElementById('profil-dusun-grid');
           if (dusun && Array.isArray(data.dusun)) dusun.innerHTML = data.dusun.map(d => { const photo = safeDusunImage(d.foto); return `<a href="/dusun/${encodeURIComponent(d.id)}" class="glass-panel group overflow-hidden rounded-2xl border border-slate-200 hover:border-blue-500 hover:shadow-md flex flex-col"><div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200"><div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>${photo ? `<img src="${escapeHtml(photo)}" alt="Foto wilayah ${escapeHtml(d.nama)}" width="640" height="360" class="dusun-photo relative h-full w-full object-cover" loading="lazy" decoding="async">` : ''}</div><div class="flex flex-1 flex-col p-5"><span class="text-xs font-bold text-blue-800">${escapeHtml(d.panggilan || 'Wilayah Desa Timpik')}</span><h3 class="mt-2 text-lg font-bold text-slate-950">${escapeHtml(d.nama)}</h3><p class="mt-2 flex-1 text-sm leading-6 text-slate-700">${escapeHtml(d.deskripsi || 'Informasi wilayah belum tersedia.')}</p><span class="mt-4 inline-flex min-h-10 items-center font-bold text-blue-800">Lihat profil dusun →</span></div></a>`; }).join('');
           const total = document.getElementById('stat-total-penduduk');
-          if (total && data.statistik?.total_penduduk) total.textContent = data.statistik.total_penduduk;
+          if (total && data.statistik && Object.hasOwn(data.statistik, 'total_penduduk')) total.textContent = data.statistik.total_penduduk || 'Data belum tersedia';
           const lk = document.getElementById('stat-laki-laki');
-          if (lk && data.statistik?.laki_laki) lk.textContent = `Laki-laki (${data.statistik.laki_laki})`;
+          if (lk && data.statistik && Object.hasOwn(data.statistik, 'laki_laki')) lk.textContent = `Laki-laki (${data.statistik.laki_laki || '—'})`;
           const pm = document.getElementById('stat-perempuan');
-          if (pm && data.statistik?.perempuan) pm.textContent = `Perempuan (${data.statistik.perempuan})`;
+          if (pm && data.statistik && Object.hasOwn(data.statistik, 'perempuan')) pm.textContent = `Perempuan (${data.statistik.perempuan || '—'})`;
           const alamat = document.getElementById('view-alamat-kantor');
-          if (alamat && data.alamat_kantor) alamat.textContent = data.alamat_kantor;
+          if (alamat && Object.hasOwn(data, 'alamat_kantor')) alamat.textContent = data.alamat_kantor || 'Alamat belum tersedia.';
           const foto = document.getElementById('foto-struktur-desa');
           const kosong = document.getElementById('foto-struktur-kosong');
-          if (foto && data.foto_struktur) { foto.src = data.foto_struktur; foto.classList.remove('hidden'); if (kosong) kosong.classList.add('hidden'); }
+          if (foto && Object.hasOwn(data, 'foto_struktur')) {
+            if (data.foto_struktur) { foto.src = data.foto_struktur; foto.classList.remove('hidden'); if (kosong) kosong?.classList.add('hidden'); }
+            else { foto.classList.add('hidden'); if (kosong) kosong?.classList.remove('hidden'); }
+          }
         }
       } catch (error) { console.warn('Profil lokal tidak dapat dibaca.', error); }
     </script>

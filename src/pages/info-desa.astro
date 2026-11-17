@@ -389,10 +389,10 @@ const categories = [
         const elStatus = document.getElementById('info-status-layanan');
         const elJam = document.getElementById('info-jam-operasional');
 
-        if (elNama && parsed.operasional.nama_kantor) elNama.textContent = parsed.operasional.nama_kantor;
-        if (elStatus && parsed.operasional.status_layanan) elStatus.textContent = parsed.operasional.status_layanan;
-        if (elJam && parsed.operasional.jam_senin_kamis) {
-          elJam.innerHTML = `Senin–Kamis: ${parsed.operasional.jam_senin_kamis} <br/>Jumat: ${parsed.operasional.jam_jumat}`;
+        if (elNama) elNama.textContent = parsed.operasional.nama_kantor || '';
+        if (elStatus) elStatus.textContent = parsed.operasional.status_layanan || 'Informasi belum tersedia';
+        if (elJam) {
+          elJam.textContent = `Senin–Kamis: ${parsed.operasional.jam_senin_kamis || ''} | Jumat: ${parsed.operasional.jam_jumat || ''}`;
         }
       }
     }
@@ -406,7 +406,7 @@ const categories = [
     const storedAgenda = localStorage.getItem('timpik_agenda_list');
     if (storedAgenda) {
       const parsed = JSON.parse(storedAgenda);
-      if (Array.isArray(parsed) && parsed.length > 0) {
+      if (Array.isArray(parsed)) {
         agendaList = parsed;
       }
     }

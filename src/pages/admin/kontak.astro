@@ -26,12 +26,12 @@ import kontakData from '../../data/kontak.json';
       <div class="flex flex-wrap items-center gap-2">
         <button
           type="button"
-          id="btn-download-json-kontak"
-          class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-300 transition-colors flex items-center gap-1.5"
-          title="Ekspor data kontak dan jam kerja saat ini ke format kontak.json"
+          id="btn-clear-all-kontak"
+          class="min-h-11 px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 font-bold text-xs border border-rose-300 transition-colors flex items-center gap-1.5"
+          title="Kosongkan seluruh kontak dan informasi operasional"
         >
-          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          <span>Unduh JSON</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7h12m-10 0 1 13h6l1-13M9 7V4h6v3"/></svg>
+          <span>Kosongkan Semua Data</span>
         </button>
 
         <button
@@ -397,7 +397,7 @@ import kontakData from '../../data/kontak.json';
   function populateOperasionalForm() {
     const op = state.operasional || {};
     document.getElementById('op-nama').value = op.nama_kantor || '';
-    document.getElementById('op-status').value = op.status_layanan || 'Buka Normal';
+    document.getElementById('op-status').value = Object.hasOwn(op, 'status_layanan') ? op.status_layanan : 'Buka Normal';
     document.getElementById('op-jam-senin-kamis').value = op.jam_senin_kamis || '';
     document.getElementById('op-jam-jumat').value = op.jam_jumat || '';
     document.getElementById('op-telepon').value = op.telepon || '';
@@ -619,13 +619,22 @@ import kontakData from '../../data/kontak.json';
     renderKontakCards();
   });
 
-  // 4. Unduh JSON
-  document.getElementById('btn-download-json-kontak')?.addEventListener('click', () => {
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state, null, 2));
-    const dlAnchorElem = document.createElement('a');
-    dlAnchorElem.setAttribute('href', dataStr);
-    dlAnchorElem.setAttribute('download', 'kontak.json');
-    dlAnchorElem.click();
+  // Kosongkan kontak dan operasional, lalu simpan ke Supabase.
+  document.getElementById('btn-clear-all-kontak')?.addEventListener('click', async (event) => {
+    if (!confirm('Kosongkan semua informasi kontak dan operasional? Data akan hilang dari halaman publik dan tidak dapat dipulihkan.')) return;
+    const button = event.currentTarget;
+    button.disabled = true;
+    const emptyData = {
+      operasional: Object.fromEntries(Object.keys(state.operasional || {}).map((key) => [key, ''])),
+      kontak_darurat: [],
+    };
+    try {
+      await window.__timpikSaveAdminContent(STORAGE_KEY, emptyData);
+      window.location.reload();
+    } catch (error) {
+      alert(error instanceof Error ? `Data kontak gagal dikosongkan: ${error.message}` : 'Data kontak gagal dikosongkan.');
+      button.disabled = false;
+    }
   });
 
   // 5. Reset Default

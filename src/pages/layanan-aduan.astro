@@ -157,11 +157,17 @@ import Layout from '../layouts/Layout.astro';
       const storedKontak = localStorage.getItem('timpik_kontak_data');
       if (storedKontak) {
         const parsed = JSON.parse(storedKontak);
-        if (parsed && parsed.operasional && parsed.operasional.telepon) {
-          const cleanWa = parsed.operasional.telepon.replace(/[^0-9]/g, '');
+        if (parsed && parsed.operasional) {
+          const cleanWa = (parsed.operasional.telepon || '').replace(/[^0-9]/g, '');
           const aduanLink = document.getElementById('aduan-wa-link') as HTMLAnchorElement | null;
           if (aduanLink && cleanWa) {
-            aduanLink.href = `https://wa.me/6285166439180?text=Halo%20Admin%20Desa%20Timpik,%20saya%20ingin%20menyampaikan%20laporan/pengaduan`;
+            aduanLink.href = `https://wa.me/${cleanWa}?text=Halo%20Admin%20Desa%20Timpik,%20saya%20ingin%20menyampaikan%20laporan/pengaduan`;
+            aduanLink.removeAttribute('aria-disabled');
+          } else if (aduanLink) {
+            aduanLink.href = '#';
+            aduanLink.setAttribute('aria-disabled', 'true');
+            aduanLink.classList.add('pointer-events-none', 'opacity-60');
+            aduanLink.textContent = 'WhatsApp belum tersedia';
           }
         }
       }

@@ -311,6 +311,7 @@ import profilData from '../data/profil.json';
         </div>
 
         <div class="rounded-xl overflow-hidden bg-slate-50 border border-slate-200 p-2 cursor-zoom-in flex items-center justify-center min-h-[350px]" id="profil-container-click">
+          <div id="profil-foto-kosong" class="hidden w-full py-16 text-center text-sm font-semibold text-slate-600">Foto struktur organisasi belum tersedia.</div>
           <img
             id="profil-foto-struktur"
             src="/images/struktur-organisasi-timpik.jpg"
@@ -419,8 +420,8 @@ import profilData from '../data/profil.json';
     // ==========================================
     const visiEl = document.getElementById('profil-visi');
 
-    if (visiEl && data.visi) {
-      visiEl.textContent = `"${data.visi}"`;
+    if (visiEl && Object.hasOwn(data, 'visi')) {
+      visiEl.textContent = data.visi ? `“${data.visi}”` : 'Visi desa belum tersedia.';
     }
 
     // ==========================================
@@ -430,10 +431,9 @@ import profilData from '../data/profil.json';
 
     if (
       misiContainer &&
-      Array.isArray(data.misi) &&
-      data.misi.length > 0
+      Array.isArray(data.misi)
     ) {
-      misiContainer.innerHTML = data.misi.map((misi) => {
+      misiContainer.innerHTML = data.misi.length ? data.misi.map((misi) => {
         const kode = escapeHTML(misi.kode);
         const judul = escapeHTML(misi.judul);
         const deskripsi = escapeHTML(misi.deskripsi);
@@ -479,7 +479,7 @@ import profilData from '../data/profil.json';
 
           </article>
         `;
-      }).join('');
+      }).join('') : '<p class="col-span-full rounded-2xl border border-slate-200 bg-white p-6 text-center text-sm font-semibold text-slate-600">Informasi misi belum tersedia.</p>';
     }
 
     // ==========================================
@@ -487,8 +487,8 @@ import profilData from '../data/profil.json';
     // ==========================================
     const alamatEl = document.getElementById('profil-alamat');
 
-    if (alamatEl && data.alamat_kantor) {
-      alamatEl.textContent = data.alamat_kantor;
+    if (alamatEl && Object.hasOwn(data, 'alamat_kantor')) {
+      alamatEl.textContent = data.alamat_kantor || 'Alamat kantor belum tersedia.';
     }
 
     // ==========================================
@@ -496,8 +496,8 @@ import profilData from '../data/profil.json';
     // ==========================================
     const jamEl = document.getElementById('profil-jam');
 
-    if (jamEl && data.jam_layanan) {
-      jamEl.innerHTML = `<strong>Jam Buka:</strong> ${escapeHTML(data.jam_layanan)}`;
+    if (jamEl && Object.hasOwn(data, 'jam_layanan')) {
+      jamEl.textContent = data.jam_layanan ? `Jam Buka: ${data.jam_layanan}` : 'Informasi jam layanan belum tersedia.';
     }
 
     // ==========================================
@@ -505,8 +505,8 @@ import profilData from '../data/profil.json';
     // ==========================================
     const telEl = document.getElementById('profil-telepon');
 
-    if (telEl && data.telepon) {
-      telEl.innerHTML = `<strong>Hotline:</strong> ${escapeHTML(data.telepon)}`;
+    if (telEl && Object.hasOwn(data, 'telepon')) {
+      telEl.textContent = data.telepon ? `Hotline: ${data.telepon}` : 'Nomor telepon belum tersedia.';
     }
 
     // ==========================================
@@ -524,8 +524,8 @@ import profilData from '../data/profil.json';
     Object.entries(statElements).forEach(([id, value]) => {
       const element = document.getElementById(id);
 
-      if (element && value) {
-        element.textContent = value;
+      if (element && value !== undefined) {
+        element.textContent = value || '—';
       }
     });
 
@@ -536,10 +536,9 @@ import profilData from '../data/profil.json';
 
     if (
       dusunGrid &&
-      Array.isArray(data.dusun) &&
-      data.dusun.length > 0
+      Array.isArray(data.dusun)
     ) {
-      dusunGrid.innerHTML = data.dusun.map((dusun) => `
+      dusunGrid.innerHTML = data.dusun.length ? data.dusun.map((dusun) => `
         <a
           href="/dusun/${encodeURIComponent(dusun.id)}"
           class="glass-panel group overflow-hidden rounded-2xl hover:border-blue-500 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between transition-all"
@@ -585,30 +584,33 @@ import profilData from '../data/profil.json';
           </div>
           </div>
         </a>
-      `).join('');
+      `).join('') : '<p class="col-span-full rounded-2xl border border-slate-200 bg-white p-6 text-center text-sm font-semibold text-slate-600">Data dusun belum tersedia.</p>';
     }
 
     // ==========================================
     // UPDATE FOTO STRUKTUR
     // ==========================================
-    const fotoSrc = data.foto_struktur || '/images/struktur-organisasi-timpik.jpg';
-
     const fotoImg = document.getElementById('profil-foto-struktur');
     const lightboxImg = document.getElementById('profil-lightbox-img');
+    const fotoKosong = document.getElementById('profil-foto-kosong');
 
     const lightboxModal = document.getElementById('profil-lightbox-modal');
     const btnOpen = document.getElementById('profil-btn-lightbox');
     const containerClick = document.getElementById('profil-container-click');
     const btnClose = document.getElementById('profil-btn-close-lightbox');
 
-    if (fotoImg) fotoImg.src = fotoSrc;
-    if (lightboxImg) lightboxImg.src = fotoSrc;
+    const fotoSrc = data.foto_struktur || '';
+    if (fotoImg) {
+      if (fotoSrc) { fotoImg.src = fotoSrc; fotoImg.classList.remove('hidden'); fotoKosong?.classList.add('hidden'); }
+      else { fotoImg.classList.add('hidden'); fotoKosong?.classList.remove('hidden'); }
+    }
+    if (lightboxImg && fotoSrc) lightboxImg.src = fotoSrc;
 
     // ==========================================
     // LIGHTBOX FUNCTIONS
     // ==========================================
     function openLightbox() {
-      if (lightboxModal) {
+      if (lightboxModal && fotoSrc) {
         lightboxModal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
       }

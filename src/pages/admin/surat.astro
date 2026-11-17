@@ -26,12 +26,12 @@ import suratData from '../../data/surat.json';
 
         <button
           type="button"
-          id="btn-export-surat-json"
-          class="min-h-[44px] px-4 py-2.5 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 font-bold text-sm transition-colors flex items-center gap-2"
-          title="Unduh data surat terbaru format JSON untuk arsip/git"
+          id="btn-clear-all-surat"
+          class="min-h-[44px] px-4 py-2.5 rounded-xl border border-rose-300 bg-rose-50 text-sm font-bold text-rose-800 transition-colors hover:bg-rose-100 flex items-center gap-2"
+          title="Kosongkan seluruh katalog layanan surat"
         >
-          <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          <span>Unduh JSON</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7h12m-10 0 1 13h6l1-13M9 7V4h6v3"/></svg>
+          <span>Kosongkan Semua Data</span>
         </button>
 
         <button
@@ -281,7 +281,7 @@ import suratData from '../../data/surat.json';
   const formSyarat = document.getElementById('form-surat-syarat');
   const btnClearGform = document.getElementById('btn-clear-gform');
 
-  const btnExport = document.getElementById('btn-export-surat-json');
+  const btnClearAll = document.getElementById('btn-clear-all-surat');
   const btnReset = document.getElementById('btn-reset-surat');
   const toast = document.getElementById('toast-surat');
   const toastText = document.getElementById('toast-text');
@@ -498,16 +498,17 @@ import suratData from '../../data/surat.json';
     });
   }
 
-  // Export JSON file
-  if (btnExport) {
-    btnExport.addEventListener('click', () => {
-      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(currentList, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute('href', dataStr);
-      downloadAnchor.setAttribute('download', 'surat.json');
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
+  if (btnClearAll) {
+    btnClearAll.addEventListener('click', async () => {
+      if (!confirm('Kosongkan semua layanan surat? Katalog ini akan hilang dari halaman publik dan tidak dapat dipulihkan.')) return;
+      btnClearAll.disabled = true;
+      try {
+        await (window as any).__timpikSaveAdminContent(STORAGE_KEY, []);
+        window.location.reload();
+      } catch (error) {
+        showToast(error instanceof Error ? `Data layanan surat gagal dikosongkan: ${error.message}` : 'Data layanan surat gagal dikosongkan.');
+        btnClearAll.disabled = false;
+      }
     });
   }
 

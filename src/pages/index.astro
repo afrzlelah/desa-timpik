@@ -635,7 +635,7 @@ Dengan memanfaatkan sistem formulir digital, pengajuan dokumen seperti SKU, SKD,
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
+        if (Array.isArray(parsed)) {
           const grid = document.getElementById('home-berita-grid');
           if (grid) {
             grid.innerHTML = parsed.slice(0, 4).map((b: any) => `
@@ -708,8 +708,8 @@ Dengan memanfaatkan sistem formulir digital, pengajuan dokumen seperti SKU, SKD,
       const parsedKontak = JSON.parse(rawKontak);
       if (parsedKontak && parsedKontak.operasional) {
         const homeJam = document.getElementById('home-jam-kerja');
-        if (homeJam && parsedKontak.operasional.jam_senin_kamis && parsedKontak.operasional.jam_jumat) {
-          homeJam.innerHTML = `Senin - Kamis: ${parsedKontak.operasional.jam_senin_kamis}<br/>Jumat: ${parsedKontak.operasional.jam_jumat}`;
+        if (homeJam && parsedKontak.operasional) {
+          homeJam.textContent = `Senin - Kamis: ${parsedKontak.operasional.jam_senin_kamis || ''} | Jumat: ${parsedKontak.operasional.jam_jumat || ''}`;
         }
       }
     }

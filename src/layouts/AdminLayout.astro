@@ -433,6 +433,24 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
           window.alert('Reset belum tersimpan ke Supabase. Periksa kunci server Supabase dan sesi admin.');
         });
       };
+
+      (window as any).__timpikSaveAdminContent = async (storageKey: string, data: unknown) => {
+        const contentKey = contentStorageKeys[storageKey];
+        if (!isAdminPage || !contentKey) throw new Error('Menu admin tidak dikenali.');
+
+        const response = await fetch('/api/admin/content', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ key: contentKey, data }),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.error || `Supabase save failed (${response.status})`);
+
+        syncingContentFromSupabase = true;
+        originalSetItem.call(window.localStorage, storageKey, JSON.stringify(data));
+        syncingContentFromSupabase = false;
+      };
     </script>
 
   </body>

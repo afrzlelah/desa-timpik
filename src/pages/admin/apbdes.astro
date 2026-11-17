@@ -28,12 +28,12 @@ const defaultApbdes = profilData.transparansi_apbdes;
       <div class="flex flex-wrap items-center gap-2">
         <button
           type="button"
-          id="btn-download-json-apbdes"
-          class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-300 transition-colors flex items-center gap-1.5"
-          title="Ekspor data APBDes saat ini ke format JSON"
+          id="btn-clear-all-apbdes"
+          class="min-h-11 px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 font-bold text-xs border border-rose-300 transition-colors flex items-center gap-1.5"
+          title="Kosongkan seluruh data anggaran"
         >
-          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          <span>Unduh JSON</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7h12m-10 0 1 13h6l1-13M9 7V4h6v3"/></svg>
+          <span>Kosongkan Semua Data</span>
         </button>
 
         <button
@@ -266,7 +266,7 @@ const defaultApbdes = profilData.transparansi_apbdes;
             Data yang disimpan pada modul ini langsung disimpan ke penyimpanan lokal browser (<code>timpik_apbdes_data</code>) dan dihidrasi otomatis di halaman <a href="/transparansi" target="_blank" class="text-blue-700 font-bold underline">/transparansi</a> tanpa jeda build.
           </p>
           <p class="leading-relaxed">
-            Gunakan tombol <strong>"Unduh JSON"</strong> jika Anda ingin menyimpan salinan data ini untuk komit repositori git permanen.
+            Gunakan tombol <strong>"Kosongkan Semua Data"</strong> untuk menghapus seluruh nilai APBDes dari halaman publik.
           </p>
         </div>
 
@@ -286,7 +286,7 @@ const defaultApbdes = profilData.transparansi_apbdes;
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (parsed && parsed.total_pendapatan) {
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
           return parsed;
         }
       }
@@ -315,7 +315,7 @@ const defaultApbdes = profilData.transparansi_apbdes;
   let state = getStoredApbdes();
 
   function populateForm() {
-    document.getElementById('edit-tahun').value = state.tahun || '2026';
+    document.getElementById('edit-tahun').value = state.tahun || '';
     document.getElementById('edit-total-pendapatan').value = state.total_pendapatan || '';
     document.getElementById('edit-belanja-pembangunan').value = state.belanja_pembangunan || '';
     document.getElementById('edit-dana-desa').value = state.dana_desa || '';
@@ -325,10 +325,10 @@ const defaultApbdes = profilData.transparansi_apbdes;
     document.getElementById('edit-belanja-pemerintahan').value = state.belanja_pemerintahan || '';
     document.getElementById('edit-pemberdayaan-masyarakat').value = state.pemberdayaan_masyarakat || '';
     document.getElementById('edit-pembinaan-budaya').value = state.pembinaan_budaya || '';
-    document.getElementById('edit-biaya-pelayanan').value = state.biaya_pelayanan_warga || 'Rp 0,- (100% Bebas Pungli)';
+    document.getElementById('edit-biaya-pelayanan').value = state.biaya_pelayanan_warga || '';
 
     const indicator = document.getElementById('apbdes-status-indicator');
-    if (indicator) indicator.textContent = `Tahun Anggaran ${state.tahun || '2026'}`;
+    if (indicator) indicator.textContent = state.tahun ? `Tahun Anggaran ${state.tahun}` : 'Data APBDes kosong';
   }
 
   const form = document.getElementById('form-apbdes');
@@ -354,13 +354,19 @@ const defaultApbdes = profilData.transparansi_apbdes;
     });
   }
 
-  // Unduh JSON
-  document.getElementById('btn-download-json-apbdes')?.addEventListener('click', () => {
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state, null, 2));
-    const dlAnchorElem = document.createElement('a');
-    dlAnchorElem.setAttribute('href', dataStr);
-    dlAnchorElem.setAttribute('download', 'apbdes.json');
-    dlAnchorElem.click();
+  // Kosongkan seluruh rincian anggaran dan simpan ke Supabase.
+  document.getElementById('btn-clear-all-apbdes')?.addEventListener('click', async (event) => {
+    if (!confirm('Kosongkan seluruh data APBDes? Rincian anggaran akan hilang dari halaman publik dan tidak dapat dipulihkan.')) return;
+    const button = event.currentTarget;
+    button.disabled = true;
+    const emptyData = Object.fromEntries(Object.keys(state).map((key) => [key, '']));
+    try {
+      await window.__timpikSaveAdminContent(STORAGE_KEY, emptyData);
+      window.location.reload();
+    } catch (error) {
+      alert(error instanceof Error ? `Data APBDes gagal dikosongkan: ${error.message}` : 'Data APBDes gagal dikosongkan.');
+      button.disabled = false;
+    }
   });
 
   // Reset Default

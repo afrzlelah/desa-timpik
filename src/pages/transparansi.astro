@@ -251,19 +251,17 @@ const apbdes = profilData.transparansi_apbdes;
     const raw = localStorage.getItem('timpik_apbdes_data');
     if (raw) {
       const data = JSON.parse(raw);
-      if (data && data.total_pendapatan) {
+      if (data && typeof data === 'object' && !Array.isArray(data)) {
         const setTxt = (id: string, val: string | undefined) => {
           const el = document.getElementById(id);
-          if (el && val) el.textContent = val;
+          if (el && val !== undefined) el.textContent = val;
         };
 
-        if (data.tahun) {
-          setTxt('view-tahun-title', `Transparansi APBDes Desa Timpik ${data.tahun}`);
-          setTxt('view-tahun-card', `Total Penerimaan Kas Desa ${data.tahun}`);
-        }
+        setTxt('view-tahun-title', data.tahun ? `Transparansi APBDes Desa Timpik ${data.tahun}` : 'Transparansi APBDes Desa Timpik');
+        setTxt('view-tahun-card', data.tahun ? `Total Penerimaan Kas Desa ${data.tahun}` : 'Total Penerimaan Kas Desa');
         setTxt('view-total-pendapatan-card', data.total_pendapatan);
         setTxt('view-belanja-pembangunan-card', data.belanja_pembangunan);
-        setTxt('view-biaya-pelayanan-card', data.biaya_pelayanan_warga || 'Rp 0,- (Gratis)');
+        setTxt('view-biaya-pelayanan-card', data.biaya_pelayanan_warga || '');
         setTxt('view-dana-desa', data.dana_desa);
         setTxt('view-add', data.alokasi_dana_desa);
         setTxt('view-lain-lain', data.lain_lain);
