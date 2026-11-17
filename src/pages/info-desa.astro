@@ -4,7 +4,8 @@ import profilData from '../data/profil.json';
 import agendaData from '../data/agenda.json';
 import kontakData from '../data/kontak.json';
 
-const { dusun, statistik } = profilData;
+const dusun = profilData.dusun as Array<(typeof profilData.dusun)[number] & { foto?: string }>;
+const { statistik } = profilData;
 const { operasional } = kontakData;
 
 const categories = [
@@ -267,9 +268,14 @@ const categories = [
         </p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div id="info-dusun-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {dusun.map((d) => (
-          <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between hover:shadow-lg transition-shadow">
+          <article class="glass-panel rounded-2xl overflow-hidden flex flex-col hover:shadow-lg transition-shadow">
+            <div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200">
+              <div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>
+              {d.foto && <img src={d.foto} alt={`Foto wilayah ${d.nama}`} width="640" height="360" loading="lazy" decoding="async" class="dusun-photo relative h-full w-full object-cover" />}
+            </div>
+            <div class="p-6 flex flex-1 flex-col justify-between">
             <div>
               <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-900 flex items-center justify-center font-black text-base mb-4">
                 {d.panggilan.slice(0, 2).toUpperCase()}
@@ -297,12 +303,42 @@ const categories = [
                 </a>
               </div>
             </div>
-          </div>
+            </div>
+          </article>
         ))}
       </div>
 
     </div>
   </section>
+
+  <script>
+    const escapeInfoDusun = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+    const safeInfoDusunPhoto = (value: unknown) => {
+      try {
+        const url = new URL(String(value ?? ''));
+        return url.protocol === 'https:' && url.hostname.endsWith('.supabase.co') && url.pathname.startsWith('/storage/v1/object/public/dusun/') ? url.href : '';
+      } catch { return ''; }
+    };
+    const renderInfoDusun = (items: unknown) => {
+      const grid = document.getElementById('info-dusun-grid');
+      if (!grid || !Array.isArray(items)) return;
+      grid.innerHTML = items.map((dusun: any) => {
+        const name = escapeInfoDusun(dusun?.nama || 'Wilayah Desa Timpik');
+        const photo = safeInfoDusunPhoto(dusun?.foto);
+        const id = String(dusun?.id ?? '').trim();
+        return `<article class="glass-panel rounded-2xl overflow-hidden flex flex-col hover:shadow-lg transition-shadow">
+          <div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200"><div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>${photo ? `<img src="${escapeInfoDusun(photo)}" alt="Foto wilayah ${name}" width="640" height="360" loading="lazy" decoding="async" class="dusun-photo relative h-full w-full object-cover" />` : ''}</div>
+          <div class="p-6 flex flex-1 flex-col justify-between"><div><div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-base font-black text-blue-900">${escapeInfoDusun(String(dusun?.panggilan || name).slice(0, 2).toUpperCase())}</div><h3 class="mb-1 text-xl font-bold text-slate-900">${name}</h3><p class="mb-2 text-sm font-bold text-blue-900">${escapeInfoDusun(dusun?.potensi_utama || '')}</p><p class="mb-4 line-clamp-3 text-sm leading-relaxed text-slate-600">${escapeInfoDusun(dusun?.deskripsi || '')}</p></div>
+          <div class="space-y-2 border-t border-slate-100 pt-3 text-sm text-slate-700"><div class="flex justify-between"><span class="text-slate-500">Penduduk:</span><span class="font-bold text-slate-900">${escapeInfoDusun(dusun?.jumlah_penduduk || '-')}</span></div><div class="flex justify-between"><span class="text-slate-500">Wilayah RT/RW:</span><span class="font-semibold text-slate-900">${escapeInfoDusun(dusun?.jumlah_rt || '-')}</span></div>${id ? `<a href="/dusun/${encodeURIComponent(id)}" class="mt-2 flex min-h-[44px] items-center justify-center rounded-xl border border-blue-200 bg-blue-50 px-3 py-2.5 text-center text-sm font-bold text-blue-950 transition-colors hover:bg-blue-100">Detail Dusun ${escapeInfoDusun(dusun?.panggilan || '')} →</a>` : ''}</div></div></article>`;
+      }).join('');
+    };
+    const existingProfil = (window as any).__timpikSupabaseContent?.profil;
+    if (Array.isArray(existingProfil?.dusun)) renderInfoDusun(existingProfil.dusun);
+    window.addEventListener('timpik-supabase-content', (event: Event) => {
+      const profil = (event as CustomEvent).detail?.profil;
+      if (Array.isArray(profil?.dusun)) renderInfoDusun(profil.dusun);
+    });
+  </script>
 
   <!-- Banner Pintasan Layanan Terpadu Warga -->
   <section class="py-16 bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 text-white">

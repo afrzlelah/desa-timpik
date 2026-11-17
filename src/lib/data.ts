@@ -24,6 +24,7 @@ export interface Dusun {
   nama: string;
   panggilan: string;
   deskripsi: string;
+  foto?: string;
   kepala_dusun: string;
   potensi_utama: string;
   jumlah_rt: string;

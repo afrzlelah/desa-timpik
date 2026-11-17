@@ -676,12 +676,13 @@ const currentPath = Astro.url.pathname;
         const data = JSON.parse(localStorage.getItem('timpik_profil_data') || 'null');
         if (data) {
           const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+          const safeDusunImage = value => { try { const url = new URL(String(value ?? '')); return url.protocol === 'https:' && url.hostname.endsWith('.supabase.co') && url.pathname.startsWith('/storage/v1/object/public/dusun/') ? url.href : ''; } catch { return ''; } };
           const visi = document.getElementById('profil-visi');
           if (visi) visi.textContent = `“${data.visi || ''}”`;
           const misi = document.getElementById('profil-misi');
           if (misi && Array.isArray(data.misi)) misi.innerHTML = data.misi.map((text, i) => `<div class="bg-white border border-slate-200 p-6 space-y-3"><span class="text-2xl font-black text-blue-700">${String(i+1).padStart(2,'0')}</span><p class="text-base text-slate-800 leading-relaxed">${escapeHtml(text)}</p></div>`).join('');
           const dusun = document.getElementById('profil-dusun-grid');
-          if (dusun && Array.isArray(data.dusun)) dusun.innerHTML = data.dusun.map(d => `<a href="/dusun/${encodeURIComponent(d.id)}" class="glass-panel group overflow-hidden rounded-2xl border border-slate-200 hover:border-blue-500 hover:shadow-md flex flex-col"><div class="h-40 bg-gradient-to-br from-blue-100 to-slate-200">${d.foto ? `<img src="${escapeHtml(d.foto)}" alt="Foto ${escapeHtml(d.nama)}" class="h-40 w-full object-cover" loading="lazy">` : `<div class="flex h-full items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>`}</div><div class="flex flex-1 flex-col p-5"><span class="text-xs font-bold text-blue-800">${escapeHtml(d.panggilan || 'Wilayah Desa Timpik')}</span><h3 class="mt-2 text-lg font-bold text-slate-950">${escapeHtml(d.nama)}</h3><p class="mt-2 flex-1 text-sm leading-6 text-slate-700">${escapeHtml(d.deskripsi || 'Informasi wilayah belum tersedia.')}</p><span class="mt-4 inline-flex min-h-10 items-center font-bold text-blue-800">Lihat profil dusun →</span></div></a>`).join('');
+          if (dusun && Array.isArray(data.dusun)) dusun.innerHTML = data.dusun.map(d => { const photo = safeDusunImage(d.foto); return `<a href="/dusun/${encodeURIComponent(d.id)}" class="glass-panel group overflow-hidden rounded-2xl border border-slate-200 hover:border-blue-500 hover:shadow-md flex flex-col"><div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200"><div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>${photo ? `<img src="${escapeHtml(photo)}" alt="Foto wilayah ${escapeHtml(d.nama)}" width="640" height="360" class="dusun-photo relative h-full w-full object-cover" loading="lazy" decoding="async">` : ''}</div><div class="flex flex-1 flex-col p-5"><span class="text-xs font-bold text-blue-800">${escapeHtml(d.panggilan || 'Wilayah Desa Timpik')}</span><h3 class="mt-2 text-lg font-bold text-slate-950">${escapeHtml(d.nama)}</h3><p class="mt-2 flex-1 text-sm leading-6 text-slate-700">${escapeHtml(d.deskripsi || 'Informasi wilayah belum tersedia.')}</p><span class="mt-4 inline-flex min-h-10 items-center font-bold text-blue-800">Lihat profil dusun →</span></div></a>`; }).join('');
           const total = document.getElementById('stat-total-penduduk');
           if (total && data.statistik?.total_penduduk) total.textContent = data.statistik.total_penduduk;
           const lk = document.getElementById('stat-laki-laki');
@@ -727,6 +728,11 @@ const currentPath = Astro.url.pathname;
           if (changed) window.location.reload();
         })
         .catch((error) => console.warn('Konten Supabase belum dapat dimuat.', error));
+
+      document.addEventListener('error', (event) => {
+        const image = event.target;
+        if (image instanceof HTMLImageElement && image.classList.contains('dusun-photo')) image.hidden = true;
+      }, true);
     </script>
   </body>
 </html>

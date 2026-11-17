@@ -21,7 +21,7 @@ const heroSlides = [
     subcaption: 'Pusat Tata Kelola Pelayanan Administrasi Warga, Musrenbangdes & Pagelaran Budaya'
   },
   {
-    image: '/images/kelembagaan-desa-timpik.jpg',
+    image: '/images/balai-desa-timpik.jpg',
     caption: '14 Kelembagaan Masyarakat Desa Timpik',
     subcaption: 'Pilar Sinergi Pertanian Gapoktan, P3A, BPD, PKK, BUMDes & Karang Taruna'
   }
@@ -360,7 +360,7 @@ const heroSlides = [
       <div class="max-w-2xl">
 
         <h2 class="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
-          4 Dusun Desa Timpik
+          Dusun Desa Timpik
         </h2>
         <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
           Setiap dusun di Desa Timpik menyimpan peran strategis dan karakter unik dalam kesenian adiluhung, konservasi air, pusat pemerintahan, serta lumbung ketahanan pangan.
@@ -368,8 +368,15 @@ const heroSlides = [
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="home-dusun-grid">
-        {profilData.dusun.map((dusun) => (
-          <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 flex flex-col justify-between hover:border-blue-400 hover:shadow-md transition-all">
+        {(profilData.dusun as Array<(typeof profilData.dusun)[number] & { foto?: string }>).map((dusun) => (
+          <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col hover:border-blue-400 hover:shadow-md transition-all">
+            <div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200">
+              <div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>
+              {dusun.foto && (
+                <img src={dusun.foto} alt={`Foto wilayah ${dusun.nama}`} width="640" height="360" loading="lazy" decoding="async" class="dusun-photo relative h-full w-full object-cover" />
+              )}
+            </div>
+            <div class="p-6 sm:p-7 flex flex-1 flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
                 <span class="text-xs font-bold text-blue-700 px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100">
@@ -394,7 +401,8 @@ const heroSlides = [
                 <span>&rarr;</span>
               </a>
             </div>
-          </div>
+            </div>
+          </article>
         ))}
       </div>
 
@@ -729,34 +737,53 @@ Dengan memanfaatkan sistem formulir digital, pengajuan dokumen seperti SKU, SKD,
       if (parsedProfil && Array.isArray(parsedProfil.dusun) && parsedProfil.dusun.length > 0) {
         const dusunGrid = document.getElementById('home-dusun-grid');
         if (dusunGrid) {
-          dusunGrid.innerHTML = parsedProfil.dusun.map((d: any) => `
-            <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 flex flex-col justify-between hover:border-blue-400 hover:shadow-md transition-all">
+        const escapeHtml = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+        const safeDusunPhoto = (value: unknown) => {
+          try {
+            const url = new URL(String(value ?? ''));
+            return url.protocol === 'https:' && url.hostname.endsWith('.supabase.co') && url.pathname.startsWith('/storage/v1/object/public/dusun/') ? url.href : '';
+          } catch { return ''; }
+        };
+        dusunGrid.innerHTML = parsedProfil.dusun.map((d: any) => {
+          const name = escapeHtml(d?.nama || 'Wilayah Desa Timpik');
+          const photo = safeDusunPhoto(d?.foto);
+          const id = String(d?.id ?? '').trim();
+          const href = id ? `/dusun/${encodeURIComponent(id)}` : '#';
+          return `
+            <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col hover:border-blue-400 hover:shadow-md transition-all">
+              <div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200">
+                <div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>
+                ${photo ? `<img src="${escapeHtml(photo)}" alt="Foto wilayah ${name}" width="640" height="360" loading="lazy" decoding="async" class="dusun-photo relative h-full w-full object-cover" />` : ''}
+              </div>
+              <div class="p-6 sm:p-7 flex flex-1 flex-col justify-between">
               <div>
                 <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
                   <span class="text-xs font-bold text-blue-700 px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100">
-                    ${d.jumlah_rt || 'RT/RW'}
+                    ${escapeHtml(d?.jumlah_rt || 'RT/RW')}
                   </span>
-                  <span class="text-xs font-medium text-slate-500">${d.luas || ''}</span>
+                  <span class="text-xs font-medium text-slate-500">${escapeHtml(d?.luas || '')}</span>
                 </div>
 
                 <h3 class="text-xl font-extrabold text-slate-900">
-                  ${d.nama}
+                  ${name}
                 </h3>
 
                 <p class="text-sm text-slate-600 mt-2.5 leading-relaxed line-clamp-3">
-                  ${d.deskripsi || ''}
+                  ${escapeHtml(d?.deskripsi || '')}
                 </p>
               </div>
 
               <div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-sm">
-                <span class="text-slate-500 font-medium text-xs">${d.kepala_dusun || ''}</span>
-                <a href="/dusun/${d.id}" class="font-extrabold text-blue-700 hover:text-blue-900 transition-colors flex items-center gap-1">
+                <span class="text-slate-500 font-medium text-xs">${escapeHtml(d?.kepala_dusun || '')}</span>
+                <a href="${href}" class="font-extrabold text-blue-700 hover:text-blue-900 transition-colors flex items-center gap-1" ${id ? '' : 'aria-disabled="true" tabindex="-1"'}>
                   <span>Info Dusun</span>
                   <span>&rarr;</span>
                 </a>
               </div>
             </div>
-          `).join('');
+          </article>
+          `;
+        }).join('');
         }
       }
     }

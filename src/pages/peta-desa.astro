@@ -127,8 +127,13 @@ import profilData from '../data/profil.json';
         </div>
 
         <div id="peta-dusun-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {profilData.dusun.map((dusun, idx) => (
-            <article class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-4">
+          {(profilData.dusun as Array<(typeof profilData.dusun)[number] & { foto?: string }>).map((dusun, idx) => (
+            <article class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between">
+              <div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200">
+                <div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>
+                {dusun.foto && <img src={dusun.foto} alt={`Foto wilayah ${dusun.nama}`} width="640" height="360" loading="lazy" decoding="async" class="dusun-photo relative h-full w-full object-cover" />}
+              </div>
+              <div class="p-6 flex flex-1 flex-col justify-between space-y-4">
               <div>
                 <span class="text-xs font-mono text-blue-700 font-bold block mb-2">
                   WILAYAH {String(idx + 1).padStart(2, '0')}
@@ -152,6 +157,7 @@ import profilData from '../data/profil.json';
                   <span>&rarr;</span>
                 </a>
               </div>
+              </div>
             </article>
           ))}
         </div>
@@ -170,6 +176,15 @@ import profilData from '../data/profil.json';
       };
 
       return String(value ?? '').replace(/[&<>"']/g, (char) => entities[char]);
+    };
+
+    const safeDusunPhoto = (value: unknown): string => {
+      try {
+        const url = new URL(String(value ?? ''));
+        return url.protocol === 'https:' && url.hostname.endsWith('.supabase.co') && url.pathname.startsWith('/storage/v1/object/public/dusun/') ? url.href : '';
+      } catch {
+        return '';
+      }
     };
 
     const renderPetaDusun = (items: unknown) => {
@@ -200,13 +215,19 @@ import profilData from '../data/profil.json';
         const deskripsi = escapeDusunPeta(
           dusun?.deskripsi || 'Wilayah administratif Desa Timpik.'
         );
+        const foto = safeDusunPhoto(dusun?.foto);
 
         const detailUrl = id
           ? `/dusun/${encodeURIComponent(id)}`
           : '#';
 
         return `
-          <article class="glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-4">
+          <article class="glass-panel rounded-2xl overflow-hidden flex flex-col justify-between">
+            <div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200">
+              <div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>
+              ${foto ? `<img src="${escapeDusunPeta(foto)}" alt="Foto wilayah ${nama}" width="640" height="360" loading="lazy" decoding="async" class="dusun-photo relative h-full w-full object-cover" />` : ''}
+            </div>
+            <div class="p-6 flex flex-1 flex-col justify-between space-y-4">
             <div>
               <span class="text-xs font-mono text-blue-700 font-bold block mb-2">
                 WILAYAH ${String(idx + 1).padStart(2, '0')}
@@ -230,6 +251,7 @@ import profilData from '../data/profil.json';
                 <span>Lihat Informasi Wilayah</span>
                 <span>&rarr;</span>
               </a>
+            </div>
             </div>
           </article>
         `;
