@@ -411,6 +411,7 @@ import profil from '../../data/profil.json';
 
     function activateTab(index) {
       tabs.forEach((t, i) => {
+      console.log("ppppppp")
         if (i === index) {
           t.btn.className = 'pb-3 border-b-2 border-blue-700 text-blue-700 px-3 transition-colors';
           t.panel.classList.remove('hidden');
@@ -805,7 +806,7 @@ import profil from '../../data/profil.json';
         return typeof value === 'string' ? '' : value;
       };
       try {
-        await (window as any).__timpikSaveAdminContent(STORAGE_KEY, emptyProfile(currentData));
+        await (window).__timpikSaveAdminContent(STORAGE_KEY, emptyProfile(currentData));
         window.location.reload();
       } catch (error) {
         alert(error instanceof Error ? `Data profil gagal dikosongkan: ${error.message}` : 'Data profil gagal dikosongkan.');
