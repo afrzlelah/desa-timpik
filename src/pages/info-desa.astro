@@ -261,10 +261,10 @@ const categories = [
           Wilayah Kependudukan
         </span>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-2">
-          4 Dusun Desa Timpik
+          13 Dusun Desa Timpik
         </h2>
         <p class="text-sm sm:text-base text-slate-600 mt-1">
-          Desa Timpik menaungi 4 dusun dengan keunikan potensi kesenian, pertanian sawah, dan kerukunan warga.
+          Desa Timpik menaungi 13 dusun dengan keunikan potensi kesenian, pertanian sawah, dan kerukunan warga.
         </p>
       </div>
 
@@ -281,27 +281,10 @@ const categories = [
                 {d.panggilan.slice(0, 2).toUpperCase()}
               </div>
               <h3 class="text-xl font-bold text-slate-900 mb-1">{d.nama}</h3>
-              <p class="text-sm text-blue-900 font-bold mb-2">{d.potensi_utama}</p>
               <p class="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-4">{d.deskripsi}</p>
             </div>
 
             <div class="border-t border-slate-100 pt-3 space-y-2 text-sm text-slate-700">
-              <div class="flex justify-between">
-                <span class="text-slate-500">Penduduk:</span>
-                <span class="font-bold text-slate-900">{d.jumlah_penduduk}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-slate-500">Wilayah RT/RW:</span>
-                <span class="font-semibold text-slate-900">{d.jumlah_rt}</span>
-              </div>
-              <div class="pt-2">
-                <a
-                  href={`/dusun/${d.id}`}
-                  class="w-full min-h-[44px] py-2.5 px-3 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-950 font-bold text-sm text-center flex items-center justify-center transition-colors border border-blue-200 shadow-2xs"
-                >
-                  Detail Dusun {d.panggilan} &rarr;
-                </a>
-              </div>
             </div>
             </div>
           </article>

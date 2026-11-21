@@ -44,17 +44,17 @@ import profil from '../../data/profil.json';
     </div>
 
     <!-- Tab Section -->
-    <div class="border-b border-slate-200 flex flex-wrap gap-2 text-sm font-bold">
-      <button type="button" id="tab-btn-umum" class="pb-3 border-b-2 border-blue-700 text-blue-700 px-3 transition-colors">
+    <div role="tablist" aria-label="Bagian informasi profil" class="flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-100 p-2 text-sm font-bold">
+      <button type="button" role="tab" aria-selected="true" aria-controls="panel-umum" id="tab-btn-umum" class="min-h-11 rounded-xl border border-blue-700 bg-blue-700 px-4 py-2 text-white shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2">
         1. Visi, Misi & Alamat
       </button>
-      <button type="button" id="tab-btn-dusun" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-3 transition-colors">
+      <button type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-dusun" id="tab-btn-dusun" class="min-h-11 rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-700 transition-colors hover:border-blue-400 hover:bg-blue-50 hover:text-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2">
         2. Kelola Data Dusun (<span id="dusun-tab-count">4</span>)
       </button>
-      <button type="button" id="tab-btn-penduduk" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-3 transition-colors">
+      <button type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-penduduk" id="tab-btn-penduduk" class="min-h-11 rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-700 transition-colors hover:border-blue-400 hover:bg-blue-50 hover:text-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2">
         3. Data Total Warga
       </button>
-      <button type="button" id="tab-btn-struktur" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-3 transition-colors">
+      <button type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-struktur" id="tab-btn-struktur" class="min-h-11 rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-700 transition-colors hover:border-blue-400 hover:bg-blue-50 hover:text-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2">
         4. Foto Struktur Organisasi
       </button>
     </div>
@@ -63,7 +63,7 @@ import profil from '../../data/profil.json';
     <form id="form-info" class="space-y-8">
 
       <!-- ================= SECTION 1: VISI, MISI & ALAMAT ================= -->
-      <div id="panel-umum" class="space-y-6">
+      <div id="panel-umum" role="tabpanel" aria-labelledby="tab-btn-umum" tabindex="0" class="space-y-6">
         <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
           <h2 class="text-lg sm:text-xl font-bold text-slate-900 border-b border-slate-100 pb-3">Visi, Misi & Alamat Kantor Desa</h2>
           
@@ -147,7 +147,7 @@ import profil from '../../data/profil.json';
       </div>
 
       <!-- ================= SECTION 2: DATA DUSUN INTERAKTIF ================= -->
-      <div id="panel-dusun" class="hidden space-y-6">
+      <div id="panel-dusun" role="tabpanel" aria-labelledby="tab-btn-dusun" tabindex="0" class="hidden space-y-6">
         <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
             <div>
@@ -172,7 +172,7 @@ import profil from '../../data/profil.json';
       </div>
 
       <!-- ================= SECTION 3: TOTAL WARGA PENDUDUK ================= -->
-      <div id="panel-penduduk" class="hidden space-y-6">
+      <div id="panel-penduduk" role="tabpanel" aria-labelledby="tab-btn-penduduk" tabindex="0" class="hidden space-y-6">
         <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
           <div>
             <h2 class="text-lg sm:text-xl font-bold text-slate-900 border-b border-slate-100 pb-3">Statistik Total Warga Desa Timpik</h2>
@@ -251,7 +251,7 @@ import profil from '../../data/profil.json';
       </div>
 
       <!-- ================= SECTION 4: STRUKTUR ORGANISASI DARI FOTO ================= -->
-      <div id="panel-struktur" class="hidden space-y-6">
+      <div id="panel-struktur" role="tabpanel" aria-labelledby="tab-btn-struktur" tabindex="0" class="hidden space-y-6">
         <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
           <div class="border-b border-slate-100 pb-3">
             <h2 class="text-lg sm:text-xl font-bold text-slate-900">Foto Bagan Struktur Organisasi Desa</h2>
@@ -411,12 +411,15 @@ import profil from '../../data/profil.json';
 
     function activateTab(index) {
       tabs.forEach((t, i) => {
-      console.log("ppppppp")
         if (i === index) {
-          t.btn.className = 'pb-3 border-b-2 border-blue-700 text-blue-700 px-3 transition-colors';
+          t.btn.className = 'min-h-11 rounded-xl border border-blue-700 bg-blue-700 px-4 py-2 text-white shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2';
+          t.btn.setAttribute('aria-selected', 'true');
+          t.btn.setAttribute('tabindex', '0');
           t.panel.classList.remove('hidden');
         } else {
-          t.btn.className = 'pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-3 transition-colors';
+          t.btn.className = 'min-h-11 rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-700 transition-colors hover:border-blue-400 hover:bg-blue-50 hover:text-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2';
+          t.btn.setAttribute('aria-selected', 'false');
+          t.btn.setAttribute('tabindex', '-1');
           t.panel.classList.add('hidden');
         }
       });
@@ -424,6 +427,18 @@ import profil from '../../data/profil.json';
 
     tabs.forEach((t, i) => {
       t.btn.addEventListener('click', () => activateTab(i));
+      t.btn.addEventListener('keydown', (event) => {
+        let nextIndex = i;
+        if (event.key === 'ArrowRight') nextIndex = (i + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft') nextIndex = (i - 1 + tabs.length) % tabs.length;
+        else if (event.key === 'Home') nextIndex = 0;
+        else if (event.key === 'End') nextIndex = tabs.length - 1;
+        else return;
+
+        event.preventDefault();
+        activateTab(nextIndex);
+        tabs[nextIndex].btn.focus();
+      });
     });
 
     // Populate Fields

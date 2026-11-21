@@ -67,293 +67,490 @@ const currentPath = Astro.url.pathname;
       </div>
     </aside> -->
 
+
+<style>
+  .desktop-dropdown-link {
+    display: block;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    transition: background-color 180ms ease;
+  }
+
+  .desktop-dropdown-link:hover {
+    background-color: rgb(239 246 255);
+  }
+
+  .desktop-dropdown-link strong {
+    display: block;
+    color: rgb(15 23 42);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .desktop-dropdown-link span {
+    display: block;
+    margin-top: 4px;
+    color: rgb(100 116 139);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .mobile-nav-label {
+    padding-left: 0.5rem;
+    color: rgb(147 197 253);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 44px;
+    padding: 0.65rem 0.6rem;
+    border-radius: 0.75rem;
+    color: rgb(241 245 249);
+    font-size: 13px;
+    font-weight: 600;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .mobile-nav-link:hover,
+  .mobile-nav-link:focus-visible {
+    background-color: rgb(255 255 255 / 9%);
+    color: white;
+    outline: none;
+  }
+
+  .mobile-nav-active {
+    background-color: rgb(255 255 255 / 13%);
+    color: white;
+  }
+
+  .mobile-nav-icon {
+    width: 27px;
+    height: 27px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: rgb(255 255 255 / 9%);
+    color: rgb(147 197 253);
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+  .mobile-nav-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .mobile-nav-arrow {
+    color: rgb(148 163 184);
+    font-size: 16px;
+    transition: transform 180ms ease;
+  }
+
+  .mobile-nav-link:hover .mobile-nav-arrow {
+    transform: translateX(3px);
+  }
+
+  #mobile-menu {
+    transform-origin: top right;
+    animation: menuEnter 180ms ease-out;
+  }
+
+  @keyframes menuEnter {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #mobile-menu {
+      animation: none;
+    }
+
+    .mobile-nav-link,
+    .mobile-nav-arrow {
+      transition: none;
+    }
+  }
+</style>
+
     <!-- Main Navigation Header (Clean Crisp White & Elegant Blue) -->
-    <header class="sticky top-0 z-40 w-full glass-panel-blue text-white transition-all">
+    <header class="sticky top-0 z-50 w-full bg-blue-600 text-white border-b border-white/10 shadow-lg shadow-slate-950/10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-20">
-          
-          <!-- Left: Official Civic Identity Lockup -->
-          <div class="flex items-center gap-3 lg:gap-4">
-            <a href="/" class="flex items-center gap-3 group focus:outline-none" aria-label="Beranda Desa Timpik">
-              <div class="w-10 h-10 rounded-lg bg-[#0B1E36] text-white flex items-center justify-center border border-blue-900/60 shadow-xs group-hover:border-blue-500 transition-colors">
-                <svg class="w-5 h-5 text-blue-300" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 3.3L19 9v4.2c0 4.38-2.98 8.49-7 9.6-4.02-1.11-7-5.22-7-9.6V9l7-3.7z"/>
-                </svg>
-              </div>
+        <div class="flex items-center justify-between h-16 sm:h-[72px] lg:h-20 gap-4">
+
+          <div class="flex items-center gap-3 min-w-0 shrink-0">
+            <a href="/" class="flex items-center gap-3 group" aria-label="Beranda Desa Timpik">
+              <img
+                src="/logo/logo.png"
+                alt="Logo Desa Timpik"
+                width="50"
+                height="50"
+                class="w-10 h-10 sm:w-13 sm:h-13 object-contain shrink-0 transition-transform duration-200 group-hover:scale-105"
+              />
+
               <div class="flex flex-col">
-                <span class="text-lg font-black tracking-tight text-white uppercase leading-none group-hover:text-blue-200 transition-colors">
+                <span class="text-base sm:text-lg font-black tracking-tight text-white uppercase leading-none group-hover:text-blue-200 transition-colors">
                   Desa Timpik
+                </span>
+                <span class="text-[9px] sm:text-[10px] text-blue-200/80 uppercase tracking-[0.16em] mt-1.5">
+                  Pemerintah Desa
                 </span>
               </div>
             </a>
 
-            <!-- Quick Search Trigger -->
             <button
               type="button"
               id="global-search-trigger"
-              aria-label="Cari Layanan atau Informasi"
-              class="hidden sm:flex items-center gap-2 px-3.5 py-2.5 rounded-lg border border-white/30 bg-white/10 text-white hover:bg-white/20 hover:border-white/50 text-sm transition-all focus:outline-none ml-2"
+              aria-label="Cari layanan atau informasi"
               title="Pencarian Cepat"
+              class="hidden 2xl:flex items-center gap-2 px-3.5 py-2.5 ml-2 rounded-xl border border-white/20 bg-white/10 text-white hover:bg-white/15 transition-colors"
             >
-              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4 text-blue-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
-              <span class="text-sm text-white">Cari...</span>
-              <kbd class="hidden md:inline-block text-[9px] font-mono px-1 py-0.2 bg-white rounded text-slate-700 border border-slate-200">Ctrl+K</kbd>
+              <span class="text-xs font-medium">Cari informasi...</span>
+              <kbd class="text-[9px] font-mono px-1.5 py-0.5 bg-white/15 rounded text-blue-100 border border-white/10">Ctrl K</kbd>
             </button>
           </div>
 
-          <!-- Center: Clean Grouped Menu Items (Organized & Uncluttered) -->
-          <nav class="desktop-main-nav hidden lg:flex items-center justify-end gap-1 xl:gap-2 font-semibold text-white">
-            <!-- 1. Beranda -->
+          <nav class="hidden xl:flex items-center gap-0.5 2xl:gap-1 font-semibold text-white">
+
             <a
               href="/"
-              class={`px-3.5 py-2.5 rounded-lg transition-colors relative ${currentPath === '/' ? 'text-blue-900 font-bold bg-white' : 'hover:text-white hover:bg-white/10'}`}
+              class={`px-3 py-2.5 rounded-lg text-xs 2xl:text-sm transition-colors ${currentPath === '/' ? 'bg-white text-blue-950 font-bold' : 'text-blue-50 hover:bg-white/10 hover:text-white'}`}
             >
               Beranda
             </a>
 
-            <!-- 2. Profil Desa (Dropdown Group) -->
-            <div class="relative group" id="dropdown-profil-nav">
+            <div class="relative group">
               <button
                 type="button"
-                id="btn-nav-profil"
                 aria-haspopup="true"
-                class={`px-3.5 py-2.5 rounded-lg flex items-center gap-1 transition-colors ${currentPath.startsWith('/profil') || currentPath.startsWith('/pemerintahan') || currentPath.startsWith('/kelembagaan') ? 'text-blue-900 font-bold bg-blue-50' : 'hover:text-white hover:bg-white/10'}`}
+                class={`px-3 py-2.5 rounded-lg flex items-center gap-1.5 text-xs 2xl:text-sm transition-colors ${currentPath.startsWith('/profil') || currentPath.startsWith('/pemerintahan') || currentPath.startsWith('/kelembagaan') || currentPath.startsWith('/potensi') ? 'bg-white text-blue-950 font-bold' : 'text-blue-50 hover:bg-white/10 hover:text-white'}`}
               >
-                <span>Profil Desa</span>
-                <svg class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                Profil Desa
+                <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
                 </svg>
               </button>
 
-              <div
-                id="menu-nav-profil"
-                class="absolute left-0 top-full pt-2 w-64 hidden group-hover:block z-50 transition-all duration-150"
-              >
-                <div class="glass-panel rounded-xl p-2 space-y-1 text-xs">
-                  <a href="/profil" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
-                    <strong class="block text-slate-900">Profil & Wilayah</strong>
-                    <span class="text-[11px] text-slate-500">Sejarah, visi misi & 13 Dusun</span>
+              <div class="absolute left-0 top-full pt-3 w-64 hidden group-hover:block group-focus-within:block z-50">
+                <div class="rounded-2xl border border-black/10 bg-white p-2 shadow-2xl shadow-slate-950/15 text-slate-900">
+                  <a href="/profil" class="desktop-dropdown-link">
+                    <strong>Profil & Wilayah</strong>
+                    <span>Sejarah, visi misi dan 13 wilayah</span>
                   </a>
-                  <a href="/pemerintahan" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
-                    <strong class="block text-slate-900">Pemerintahan & SOTK</strong>
-                    <span class="text-[11px] text-slate-500">Aparatur desa & kepala dusun</span>
+
+                  <a href="/pemerintahan" class="desktop-dropdown-link">
+                    <strong>Pemerintahan & SOTK</strong>
+                    <span>Aparatur dan struktur organisasi desa</span>
                   </a>
-                  <a href="/kelembagaan" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
-                    <strong class="block text-slate-900">14 Kelembagaan Resmi</strong>
-                    <span class="text-[11px] text-slate-500">BPD, PKK, Gapoktan, P3A, dll</span>
-                  </a>
-                  <a href="/potensi" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
-                    <strong class="block text-slate-900">Potensi & Seni Budaya</strong>
-                    <span class="text-[11px] text-slate-500">Sawah 243 Ha & Wayang Orang</span>
+
+                  <a href="/potensi" class="desktop-dropdown-link">
+                    <strong>Potensi & Seni Budaya</strong>
+                    <span>Pertanian dan kesenian lokal</span>
                   </a>
                 </div>
               </div>
             </div>
 
-            <!-- 3. Informasi & Kabar (Dropdown Group) -->
-            <div class="relative group" id="dropdown-info-nav">
+            <div class="relative group">
               <button
                 type="button"
-                id="btn-nav-info"
                 aria-haspopup="true"
-                class={`px-3.5 py-2.5 rounded-lg flex items-center gap-1 transition-colors ${currentPath.startsWith('/info-desa') || currentPath.startsWith('/agenda') || currentPath.startsWith('/berita') ? 'text-blue-900 font-bold bg-blue-50/80' : 'hover:text-white hover:bg-white/10'}`}
+                class={`px-3 py-2.5 rounded-lg flex items-center gap-1.5 text-xs 2xl:text-sm transition-colors ${currentPath.startsWith('/info-desa') || currentPath.startsWith('/agenda') || currentPath.startsWith('/berita') ? 'bg-white text-blue-950 font-bold' : 'text-blue-50 hover:bg-white/10 hover:text-white'}`}
               >
-                <span>Informasi</span>
-                <svg class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                Informasi
+                <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
                 </svg>
               </button>
 
-              <div
-                id="menu-nav-info"
-                class="absolute left-0 top-full pt-2 w-64 hidden group-hover:block z-50 transition-all duration-150"
-              >
-                <div class="glass-panel rounded-xl p-2 space-y-1 text-xs">
-                  <a href="/info-desa" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
-                    <strong class="block text-slate-900">Pusat Informasi & Pengumuman</strong>
-                    <span class="text-[11px] text-slate-500">Kabar kedinasan & jam kantor</span>
+              <div class="absolute left-0 top-full pt-3 w-64 hidden group-hover:block group-focus-within:block z-50">
+                <div class="rounded-2xl border border-black/10 bg-white p-2 shadow-2xl shadow-slate-950/15 text-slate-900">
+                  <a href="/info-desa" class="desktop-dropdown-link">
+                    <strong>Informasi & Pengumuman</strong>
+                    <span>Informasi resmi pemerintah desa</span>
                   </a>
-                  <a href="/berita" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
-                    <strong class="block text-slate-900">Warta Berita Desa</strong>
-                    <span class="text-[11px] text-slate-500">Dokumentasi kegiatan & artikel</span>
+
+                  <a href="/berita" class="desktop-dropdown-link">
+                    <strong>Warta Berita Desa</strong>
+                    <span>Dokumentasi kegiatan dan artikel</span>
                   </a>
-                  <a href="/agenda" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
-                    <strong class="block text-slate-900">Kalender Kegiatan</strong>
-                    <span class="text-[11px] text-slate-500">Jadwal musrenbang, posyandu & warga</span>
+
+                  <a href="/agenda" class="desktop-dropdown-link">
+                    <strong>Kalender Kegiatan</strong>
+                    <span>Agenda dan kegiatan masyarakat</span>
                   </a>
                 </div>
               </div>
             </div>
 
-            <!-- 4. Data & Transparansi (Dropdown Group) -->
-            <div class="relative group" id="dropdown-data-nav">
+            <div class="relative group">
               <button
                 type="button"
-                id="btn-nav-data"
                 aria-haspopup="true"
-                class={`px-3.5 py-2.5 rounded-lg flex items-center gap-1 transition-colors ${currentPath.startsWith('/statistik') || currentPath.startsWith('/peta-desa') || currentPath.startsWith('/transparansi') ? 'text-blue-900 font-bold bg-blue-50/80' : 'hover:text-white hover:bg-white/10'}`}
+                class={`px-3 py-2.5 rounded-lg flex items-center gap-1.5 text-xs 2xl:text-sm transition-colors ${currentPath.startsWith('/statistik') || currentPath.startsWith('/peta-desa') || currentPath.startsWith('/transparansi') ? 'bg-white text-blue-950 font-bold' : 'text-blue-50 hover:bg-white/10 hover:text-white'}`}
               >
-                <span>Data & Transparansi</span>
-                <svg class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                Data Desa
+                <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
                 </svg>
               </button>
 
-              <div
-                id="menu-nav-data"
-                class="absolute left-0 top-full pt-2 w-64 hidden group-hover:block z-50 transition-all duration-150"
-              >
-                <div class="glass-panel rounded-xl p-2 space-y-1 text-xs">
-                  <a href="/transparansi" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
-                    <strong class="block text-slate-900">Transparansi APBDes</strong>
-                    <span class="text-[11px] text-slate-500">Realisasi anggaran & dana desa</span>
+              <div class="absolute left-0 top-full pt-3 w-64 hidden group-hover:block group-focus-within:block z-50">
+                <div class="rounded-2xl border border-black/10 bg-white p-2 shadow-2xl shadow-slate-950/15 text-slate-900">
+                  <a href="/statistik" class="desktop-dropdown-link">
+                    <strong>Statistik Kependudukan</strong>
+                    <span>Demografi dan mata pencaharian</span>
                   </a>
-                  <a href="/statistik" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
-                    <strong class="block text-slate-900">Statistik Kependudukan</strong>
-                    <span class="text-[11px] text-slate-500">Demografi, KK, & mata pencaharian</span>
-                  </a>
-                  <a href="/peta-desa" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
-                    <strong class="block text-slate-900">Peta Wilayah & Geografis</strong>
-                    <span class="text-[11px] text-slate-500">Batas teritorial 13 Dusun</span>
+
+                  <a href="/peta-desa" class="desktop-dropdown-link">
+                    <strong>Peta Wilayah Desa</strong>
+                    <span>Batas geografis dan 13 wilayah</span>
                   </a>
                 </div>
               </div>
             </div>
 
-            <!-- 5. Kontak -->
             <a
               href="/kontak"
-              class={`px-3.5 py-2.5 rounded-lg transition-colors ${currentPath.startsWith('/kontak') ? 'text-blue-900 font-bold bg-blue-50/80' : 'hover:text-white hover:bg-white/10'}`}
+              class={`px-3 py-2.5 rounded-lg text-xs 2xl:text-sm transition-colors ${currentPath.startsWith('/kontak') ? 'bg-white text-blue-950 font-bold' : 'text-blue-50 hover:bg-white/10 hover:text-white'}`}
             >
               Kontak
             </a>
 
-            <div class="hidden sm:flex items-center gap-2.5 ml-2">
+            <div class="flex items-center gap-2 ml-2 pl-3 border-l border-white/20">
               <a
                 href="/layanan-aduan"
-                class={`text-sm font-bold px-3.5 py-2 rounded-xl transition-colors min-h-[44px] flex items-center ${currentPath.startsWith('/layanan-aduan') ? 'text-blue-900 bg-white font-black' : 'text-white hover:bg-white/15'}`}
+                class={`px-3 py-2.5 rounded-lg text-xs 2xl:text-sm font-bold transition-colors ${currentPath.startsWith('/layanan-aduan') ? 'bg-white text-blue-950' : 'text-white hover:bg-white/10'}`}
               >
-                Aduan Warga
+                Aduan
               </a>
-  
-              <a href="/layanan-surat" class="group flex items-center gap-2 rounded-xl border border-white bg-white px-4 py-2 text-sm font-extrabold text-blue-900 shadow-md transition-all duration-200 hover:bg-sky-50 min-h-[44px]">
-                <svg class="h-4 w-4 text-blue-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+              <a
+                href="/layanan-surat"
+                class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white text-blue-950 text-xs 2xl:text-sm font-extrabold shadow-md hover:bg-blue-50 hover:shadow-lg transition-all"
+              >
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                <span>Layanan Surat</span>
+                Layanan Surat
               </a>
             </div>
           </nav>
 
-          <!-- Mobile Actions & Hamburger Menu Button -->
-          <div class="flex lg:hidden items-center gap-2">
+          <div class="flex xl:hidden items-center gap-2 shrink-0">
             <a
               href="/layanan-surat"
-              class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-blue-900 flex items-center gap-1 shadow-sm min-h-[44px]"
+              aria-label="Layanan Surat Online"
+              class="min-h-10 px-3 rounded-lg text-xs font-extrabold bg-white text-blue-950 flex items-center gap-1.5 shadow-sm hover:bg-blue-50 transition-colors"
             >
-              <svg class="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
               <span>Surat</span>
             </a>
-            
+
             <button
               id="mobile-menu-btn"
               type="button"
-              aria-label="Buka Menu Navigasi"
-              class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-white border border-white/40 bg-white/10 hover:bg-white/20 focus:outline-none min-h-[44px]"
+              aria-label="Buka menu navigasi"
+              aria-expanded="false"
+              aria-controls="mobile-menu"
+              class="w-10 h-10 flex items-center justify-center rounded-lg border border-white/25 bg-white/10 text-white hover:bg-white/20 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
             >
-              <svg class="w-6 h-6" id="menu-icon-open" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/>
+              <svg id="menu-icon-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
               </svg>
-              <svg class="w-6 h-6 hidden" id="menu-icon-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+
+              <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
-              <span class="text-xs font-bold uppercase tracking-wider">Menu</span>
             </button>
           </div>
 
         </div>
       </div>
 
-      <!-- Mobile Dropdown Menu (Ramah Usia 40+, Teks Besar & Tombol Lega) -->
-      <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 pt-4 pb-8 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto">
-        
-        <!-- Action Buttons Mobile (Besar & Jelas) -->
-        <div class="grid grid-cols-2 gap-2.5 pb-3 border-b border-slate-200">
-          <a href="/layanan-surat" class="flex flex-col items-center justify-center py-3 px-2 rounded-xl text-center font-extrabold text-sm bg-blue-700 text-white shadow-sm hover:bg-blue-800 min-h-[50px]">
-            <span>Layanan Surat</span>
-            <span class="text-[11px] font-normal text-blue-200">Ajukan Online</span>
-          </a>
-          <a href="/layanan-aduan" class="flex flex-col items-center justify-center py-3 px-2 rounded-xl text-center font-extrabold text-sm bg-sky-50 text-blue-900 border border-blue-200 hover:bg-sky-100 min-h-[50px]">
-            <span>Aduan Warga</span>
-            <span class="text-[11px] font-normal text-slate-600">Lapor Kendala</span>
-          </a>
+      <div
+        id="mobile-menu-backdrop"
+        class="hidden fixed inset-0 z-[60] bg-slate-950/55 backdrop-blur-[3px] xl:hidden"
+        aria-hidden="true"
+      ></div>
+
+      <nav
+        id="mobile-menu"
+        aria-label="Navigasi Mobile"
+        aria-hidden="true"
+        inert
+        class="hidden fixed z-[70] top-[76px] sm:top-[84px] right-3 sm:right-5 w-[calc(100%-24px)] sm:w-[min(390px,calc(100%-40px))] max-h-[calc(100dvh-92px)] overflow-y-auto overscroll-contain rounded-[24px] border border-white/15 bg-blue-600 text-white shadow-2xl shadow-slate-950/40 xl:hidden"
+      >
+        <div class="p-5 sm:p-6">
+
+          <div class="flex items-center justify-between gap-4 pb-5 border-b border-white/10">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-11 h-11 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center shrink-0">
+                <img
+                  src="/logo/logo.png"
+                  alt="Logo Desa Timpik"
+                  width="36"
+                  height="36"
+                  class="w-8 h-8 object-contain"
+                />
+              </div>
+
+              <div class="min-w-0">
+                <h2 class="text-sm font-extrabold text-white">Desa Timpik</h2>
+                <p class="text-[10px] text-blue-200 mt-1 uppercase tracking-wider">
+                  Navigasi Website Desa
+                </p>
+              </div>
+            </div>
+
+            <button
+              id="mobile-menu-close"
+              type="button"
+              aria-label="Tutup menu navigasi"
+              class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-blue-100 transition-colors shrink-0"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="py-4 space-y-1">
+
+            <a href="/" class={`mobile-nav-link ${currentPath === '/' ? 'mobile-nav-active' : ''}`}>
+              <span class="mobile-nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m3 10 9-7 9 7v10a1 1 0 01-1 1h-5v-7H9v7H4a1 1 0 01-1-1V10z"/>
+                </svg>
+              </span>
+              <span class="flex-1">Beranda</span>
+              <span class="mobile-nav-arrow">&rarr;</span>
+            </a>
+
+            <div class="pt-4 pb-2">
+              <p class="mobile-nav-label">Profil & Pemerintahan</p>
+            </div>
+
+            <a href="/profil" class={`mobile-nav-link ${currentPath.startsWith('/profil') ? 'mobile-nav-active' : ''}`}>
+              <span class="mobile-nav-icon">01</span>
+              <span class="flex-1">Profil dan Wilayah Desa</span>
+              <span class="mobile-nav-arrow">&rarr;</span>
+            </a>
+
+            <a href="/pemerintahan" class={`mobile-nav-link ${currentPath.startsWith('/pemerintahan') ? 'mobile-nav-active' : ''}`}>
+              <span class="mobile-nav-icon">02</span>
+              <span class="flex-1">Pemerintahan & SOTK</span>
+              <span class="mobile-nav-arrow">&rarr;</span>
+            </a>
+
+            <a href="/potensi" class={`mobile-nav-link ${currentPath.startsWith('/potensi') ? 'mobile-nav-active' : ''}`}>
+              <span class="mobile-nav-icon">03</span>
+              <span class="flex-1">Potensi & Seni Budaya</span>
+              <span class="mobile-nav-arrow">&rarr;</span>
+            </a>
+
+            <div class="pt-4 pb-2">
+              <p class="mobile-nav-label">Informasi & Kabar</p>
+            </div>
+
+            <a href="/info-desa" class={`mobile-nav-link ${currentPath.startsWith('/info-desa') ? 'mobile-nav-active' : ''}`}>
+              <span class="mobile-nav-icon">04</span>
+              <span class="flex-1">Informasi & Pengumuman</span>
+              <span class="mobile-nav-arrow">&rarr;</span>
+            </a>
+
+            <a href="/berita" class={`mobile-nav-link ${currentPath.startsWith('/berita') ? 'mobile-nav-active' : ''}`}>
+              <span class="mobile-nav-icon">05</span>
+              <span class="flex-1">Warta Berita Desa</span>
+              <span class="mobile-nav-arrow">&rarr;</span>
+            </a>
+
+            <a href="/agenda" class={`mobile-nav-link ${currentPath.startsWith('/agenda') ? 'mobile-nav-active' : ''}`}>
+              <span class="mobile-nav-icon">06</span>
+              <span class="flex-1">Kalender Kegiatan</span>
+              <span class="mobile-nav-arrow">&rarr;</span>
+            </a>
+
+            <div class="pt-4 pb-2">
+              <p class="mobile-nav-label">Data & Kependudukan</p>
+            </div>
+
+            <a href="/statistik" class={`mobile-nav-link ${currentPath.startsWith('/statistik') ? 'mobile-nav-active' : ''}`}>
+              <span class="mobile-nav-icon">07</span>
+              <span class="flex-1">Statistik Kependudukan</span>
+              <span class="mobile-nav-arrow">&rarr;</span>
+            </a>
+
+            <a href="/peta-desa" class={`mobile-nav-link ${currentPath.startsWith('/peta-desa') ? 'mobile-nav-active' : ''}`}>
+              <span class="mobile-nav-icon">08</span>
+              <span class="flex-1">Peta Wilayah Desa</span>
+              <span class="mobile-nav-arrow">&rarr;</span>
+            </a>
+
+            <div class="pt-4 pb-2">
+              <p class="mobile-nav-label">Layanan & Komunikasi</p>
+            </div>
+
+            <a href="/kontak" class={`mobile-nav-link ${currentPath.startsWith('/kontak') ? 'mobile-nav-active' : ''}`}>
+              <span class="mobile-nav-icon">09</span>
+              <span class="flex-1">Kontak Pemerintah Desa</span>
+              <span class="mobile-nav-arrow">&rarr;</span>
+            </a>
+
+          </div>
+
+          <div class="pt-4 border-t border-white/10 space-y-2">
+            <a
+              href="/layanan-surat"
+              class="flex items-center justify-center gap-2 w-full min-h-11 rounded-xl bg-white text-blue-950 font-extrabold text-sm hover:bg-blue-50 transition-colors"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              Layanan Surat Online
+            </a>
+
+            <a
+              href="/layanan-aduan"
+              class="flex items-center justify-center gap-2 w-full min-h-11 rounded-xl border border-white/20 bg-white/10 text-white font-bold text-sm hover:bg-white/15 transition-colors"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h8M8 14h5m-8 6 3-3h10a3 3 0 003-3V6a3 3 0 00-3-3H6a3 3 0 00-3 3v11a3 3 0 003 3z"/>
+              </svg>
+              Aduan Warga
+            </a>
+          </div>
+
+          <p class="text-[10px] text-center text-blue-200/60 mt-5">
+            Pemerintah Desa Timpik
+          </p>
+
         </div>
-
-        <div class="space-y-2">
-          <!-- 1. Beranda -->
-          <a href="/" class="flex items-center justify-between px-4 py-3 rounded-xl text-base font-bold text-slate-900 bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition-colors">
-            <span>Beranda Utama</span>
-            <span class="text-slate-400">&rarr;</span>
-          </a>
-
-          <!-- 2. Profil & Wilayah Dusun -->
-          <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-3 space-y-1">
-            <span class="text-xs font-bold uppercase tracking-wider text-blue-700 block px-2 mb-1">Profil & Pemerintahan</span>
-            <a href="/profil" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
-              • Profil Wilayah & Visi Misi Desa
-            </a>
-            <a href="/pemerintahan" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
-              • Bagan Struktur Organisasi Desa (SOTK)
-            </a>
-            <a href="/kelembagaan" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
-              • 14 Lembaga Desa (BPD, PKK, Gapoktan, P3A)
-            </a>
-            <a href="/potensi" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
-              • Potensi Pertanian & Wayang Orang
-            </a>
-          </div>
-
-          <!-- 3. Informasi & Kabar -->
-          <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-3 space-y-1">
-            <span class="text-xs font-bold uppercase tracking-wider text-blue-700 block px-2 mb-1">Pusat Informasi & Warta</span>
-            <a href="/info-desa" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
-              • Pengumuman Resmi Balai Desa
-            </a>
-            <a href="/berita" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
-              • Berita Kegiatan Desa
-            </a>
-            <a href="/agenda" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
-              • Jadwal Kegiatan & Musyawarah
-            </a>
-          </div>
-
-          <!-- 4. Data & Kependudukan -->
-          <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-3 space-y-1">
-            <span class="text-xs font-bold uppercase tracking-wider text-blue-700 block px-2 mb-1">Data & Kependudukan</span>
-            <a href="/transparansi" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
-              • Transparansi Anggaran APBDes
-            </a>
-            <a href="/statistik" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
-              • Jumlah Penduduk (5.696 Jiwa)
-            </a>
-            <a href="/peta-desa" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
-              • Peta Batas Wilayah 13 Dusun
-            </a>
-          </div>
-
-          <!-- 5. Kontak -->
-          <a href="/kontak" class="flex items-center justify-between px-4 py-3 rounded-xl text-base font-bold text-slate-900 bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition-colors">
-            <span>Kontak & Hotline Kantor Desa</span>
-            <span class="text-slate-400">&rarr;</span>
-          </a>
-        </div>
-      </div>
+      </nav>
     </header>
 
-    <!-- Global Search Quick Modal -->
-    <div id="quick-search-modal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-xs flex items-start justify-center pt-24 p-4">
+
+
+<!-- Global Search Quick Modal -->
+    <div id="quick-search-modal" class="fixed inset-0 z-[100] hidden bg-slate-950/70 backdrop-blur-xs flex items-start justify-center pt-24 p-4">
       <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl modal-enter space-y-4 border border-slate-200">
         <div class="flex items-center justify-between pb-3 border-b border-slate-100">
           <div class="flex items-center gap-2 text-slate-900 font-bold text-sm">
@@ -408,17 +605,15 @@ const currentPath = Astro.url.pathname;
           <!-- Column 1: Identitas Desa (5 cols) -->
           <div class="lg:col-span-4 space-y-4">
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-lg bg-slate-800 text-blue-400 flex items-center justify-center font-black text-sm border border-slate-700">
-                <svg class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 3.3L19 9v4.2c0 4.38-2.98 8.49-7 9.6-4.02-1.11-7-5.22-7-9.6V9l7-3.7z"/>
-                </svg>
+              <div class="w-11 h-11 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center shrink-0">
+                <img src="/logo/logo.png" alt="Logo Desa Timpik" width="40" height="40" class="w-9 h-9 object-contain" loading="lazy" />
               </div>
               <div>
                 <h3 class="text-base font-black text-white uppercase tracking-tight">Pemerintah Desa Timpik</h3>
                 <p class="text-[11px] text-slate-400">Kecamatan Susukan, Kabupaten Semarang</p>
               </div>
             </div>
-
+            
             <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
               Mewujudkan tata kelola birokrasi yang dekat dengan warga, transparan, dan berkeadaban berbasis tradisi agraris berkelanjutan dan kesenian adiluhung Jawa.
             </p>
@@ -491,7 +686,7 @@ const currentPath = Astro.url.pathname;
           </div>
 
         </div>
-
+        
         <!-- Bottom Line: Legal, KKN Credit & Discreet Footer Login -->
         <div class="mt-14 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div>
@@ -514,28 +709,7 @@ const currentPath = Astro.url.pathname;
 
     <!-- Client Scripts: Global Navigation, Hydration & Search Modal -->
     <script>
-      // 1. Mobile Menu Toggle
-      const mobileBtn = document.getElementById('mobile-menu-btn');
-      const mobileMenu = document.getElementById('mobile-menu');
-      const iconOpen = document.getElementById('menu-icon-open');
-      const iconClose = document.getElementById('menu-icon-close');
-
-      if (mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener('click', () => {
-          const isHidden = mobileMenu.classList.contains('hidden');
-          if (isHidden) {
-            mobileMenu.classList.remove('hidden');
-            iconOpen?.classList.add('hidden');
-            iconClose?.classList.remove('hidden');
-          } else {
-            mobileMenu.classList.add('hidden');
-            iconOpen?.classList.remove('hidden');
-            iconClose?.classList.add('hidden');
-          }
-        });
-      }
-
-      // 2. Global Quick Search Modal (Ctrl+K or trigger)
+      // Global Quick Search Modal (Ctrl+K or trigger)
       const searchTrigger = document.getElementById('global-search-trigger');
       const searchModal = document.getElementById('quick-search-modal');
       const closeSearch = document.getElementById('close-search-modal');
@@ -611,31 +785,49 @@ const currentPath = Astro.url.pathname;
         }, 200);
       });
 
+      function escapeSearchText(value: unknown): string {
+        return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        })[char] ?? char);
+      }
+
+      function safeSearchPath(value: unknown): string {
+        const path = String(value ?? '');
+        if (!path.startsWith('/') || path.startsWith('//')) return '#';
+        try {
+          const url = new URL(path, window.location.origin);
+          return url.origin === window.location.origin ? `${url.pathname}${url.search}${url.hash}` : '#';
+        } catch {
+          return '#';
+        }
+      }
+
       function renderSearchResults(results: Array<{ title: string; category: string; description: string; url: string }>) {
         if (!resultsContainer) return;
 
         if (quickLinks) quickLinks.classList.add('hidden');
         resultsContainer.classList.remove('hidden');
 
-        if (results.length === 0) {
+        if (!Array.isArray(results) || results.length === 0) {
           resultsContainer.innerHTML = `
-            <div class="py-6 text-center text-xs text-slate-400">
-              Tidak ditemukan hasil untuk pencarian tersebut. Coba kata kunci lain (misal: SKU, beras, Bogo).
+            <div class="py-6 text-center text-xs text-slate-500">
+              Tidak ditemukan hasil. Coba kata kunci lain seperti SKU, beras, atau nama dusun.
             </div>
           `;
           return;
         }
 
-        resultsContainer.innerHTML = results.map(item => `
-          <a
-            href="${item.url}"
-            class="block p-3 rounded-xl hover:bg-blue-50/70 border border-transparent hover:border-blue-200 transition-colors"
-          >
+        resultsContainer.innerHTML = results.map((item) => `
+          <a href="${safeSearchPath(item.url)}" class="block p-3 rounded-xl hover:bg-blue-50/70 border border-transparent hover:border-blue-200 transition-colors">
             <div class="flex items-center justify-between gap-2">
-              <span class="text-xs font-bold text-slate-900">${item.title}</span>
-              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">${item.category}</span>
+              <span class="text-xs font-bold text-slate-900">${escapeSearchText(item.title)}</span>
+              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">${escapeSearchText(item.category)}</span>
             </div>
-            <p class="text-[11px] text-slate-500 mt-1 line-clamp-1">${item.description}</p>
+            <p class="text-[11px] text-slate-500 mt-1 line-clamp-1">${escapeSearchText(item.description)}</p>
           </a>
         `).join('');
       }
@@ -680,7 +872,7 @@ const currentPath = Astro.url.pathname;
           const visi = document.getElementById('profil-visi');
           if (visi) visi.textContent = data.visi ? `“${data.visi}”` : 'Visi desa belum tersedia.';
           const misi = document.getElementById('profil-misi');
-          if (misi && Array.isArray(data.misi)) misi.innerHTML = data.misi.map((text, i) => `<div class="bg-white border border-slate-200 p-6 space-y-3"><span class="text-2xl font-black text-blue-700">${String(i+1).padStart(2,'0')}</span><p class="text-base text-slate-800 leading-relaxed">${escapeHtml(text)}</p></div>`).join('');
+          if (misi && Array.isArray(data.misi)) misi.innerHTML = data.misi.map((item, i) => { const kode = typeof item === 'string' ? String(i + 1).padStart(2, '0') : escapeHtml(item?.kode || String(i + 1).padStart(2, '0')); const judul = typeof item === 'string' ? '' : escapeHtml(item?.judul || ''); const deskripsi = typeof item === 'string' ? item : (item?.deskripsi || ''); const poin = Array.isArray(item?.poin) ? item.poin : []; return `<article class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 space-y-3"><div class="flex items-center gap-3"><span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-sm font-black text-blue-800">${kode}</span>${judul ? `<h3 class="font-bold text-slate-900">${judul}</h3>` : ''}</div>${deskripsi ? `<p class="text-sm sm:text-base text-slate-700 leading-relaxed">${escapeHtml(deskripsi)}</p>` : ''}${poin.length ? `<ul class="space-y-2 pl-5 list-disc text-sm text-slate-700">${poin.map(point => `<li>${escapeHtml(point)}</li>`).join('')}</ul>` : ''}</article>`; }).join('');
           const dusun = document.getElementById('profil-dusun-grid');
           if (dusun && Array.isArray(data.dusun)) dusun.innerHTML = data.dusun.map(d => { const photo = safeDusunImage(d.foto); return `<a href="/dusun/${encodeURIComponent(d.id)}" class="glass-panel group overflow-hidden rounded-2xl border border-slate-200 hover:border-blue-500 hover:shadow-md flex flex-col"><div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200"><div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>${photo ? `<img src="${escapeHtml(photo)}" alt="Foto wilayah ${escapeHtml(d.nama)}" width="640" height="360" class="dusun-photo relative h-full w-full object-cover" loading="lazy" decoding="async">` : ''}</div><div class="flex flex-1 flex-col p-5"><span class="text-xs font-bold text-blue-800">${escapeHtml(d.panggilan || 'Wilayah Desa Timpik')}</span><h3 class="mt-2 text-lg font-bold text-slate-950">${escapeHtml(d.nama)}</h3><p class="mt-2 flex-1 text-sm leading-6 text-slate-700">${escapeHtml(d.deskripsi || 'Informasi wilayah belum tersedia.')}</p><span class="mt-4 inline-flex min-h-10 items-center font-bold text-blue-800">Lihat profil dusun →</span></div></a>`; }).join('');
           const total = document.getElementById('stat-total-penduduk');
@@ -699,6 +891,67 @@ const currentPath = Astro.url.pathname;
           }
         }
       } catch (error) { console.warn('Profil lokal tidak dapat dibaca.', error); }
+    </script>
+    <script>
+      const mobileMenuButton = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileBackdrop = document.getElementById('mobile-menu-backdrop');
+      const mobileCloseButton = document.getElementById('mobile-menu-close');
+      const menuIconOpen = document.getElementById('menu-icon-open');
+      const menuIconClose = document.getElementById('menu-icon-close');
+    
+      const setMobileMenu = (isOpen: boolean) => {
+        if (!mobileMenu || !mobileBackdrop || !mobileMenuButton) return;
+    
+        mobileMenu.classList.toggle('hidden', !isOpen);
+        mobileBackdrop.classList.toggle('hidden', !isOpen);
+    
+        mobileMenuButton.setAttribute('aria-expanded', String(isOpen));
+        mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+        mobileMenu.toggleAttribute('inert', !isOpen);
+    
+        menuIconOpen?.classList.toggle('hidden', isOpen);
+        menuIconClose?.classList.toggle('hidden', !isOpen);
+    
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+    
+        if (isOpen) {
+          mobileCloseButton?.focus();
+        } else {
+          mobileMenuButton.focus();
+        }
+      };
+    
+      mobileMenuButton?.addEventListener('click', () => {
+        const isOpen = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+        setMobileMenu(!isOpen);
+      });
+    
+      mobileCloseButton?.addEventListener('click', () => {
+        setMobileMenu(false);
+      });
+    
+      mobileBackdrop?.addEventListener('click', () => {
+        setMobileMenu(false);
+      });
+    
+      mobileMenu?.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          setMobileMenu(false);
+        });
+      });
+    
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && mobileMenuButton?.getAttribute('aria-expanded') === 'true') {
+          setMobileMenu(false);
+        }
+      });
+    
+      window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1280 && mobileMenuButton?.getAttribute('aria-expanded') === 'true') {
+          setMobileMenu(false);
+        }
+      });
     </script>
     <script>
       const publicStorageKeys = {
