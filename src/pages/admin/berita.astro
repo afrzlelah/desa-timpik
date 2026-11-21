@@ -383,7 +383,7 @@ import beritaData from '../../data/berita.json';
       btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
         const judul = btn.getAttribute('data-judul');
-        if (await (window as any).__timpikAdminConfirm(`Yakin ingin menghapus artikel berita ini?\n\n"${judul}"`)) {
+        if (await (window).__timpikAdminConfirm(`Yakin ingin menghapus artikel berita ini?\n\n"${judul}"`)) {
           beritaState = beritaState.filter(item => item.id !== id);
           saveStoredBerita(beritaState);
           renderTable();
@@ -574,7 +574,7 @@ import beritaData from '../../data/berita.json';
 
   // Kosongkan seluruh daftar berita dan simpan ke Supabase.
   document.getElementById('btn-clear-all-berita')?.addEventListener('click', async (event) => {
-    if (!(await (window as any).__timpikAdminConfirm('Kosongkan semua berita? Data ini akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan semua berita', 'Ya, kosongkan'))) return;
+    if (!(await (window ).__timpikAdminConfirm('Kosongkan semua berita? Data ini akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan semua berita', 'Ya, kosongkan'))) return;
     const button = event.currentTarget;
     button.disabled = true;
     try {
@@ -588,7 +588,7 @@ import beritaData from '../../data/berita.json';
 
   // Reset Default
   document.getElementById('btn-reset-berita-default')?.addEventListener('click', async () => {
-    if (await (window as any).__timpikAdminConfirm('Yakin ingin mereset seluruh daftar berita ke data default awal?', 'Kembalikan berita ke data awal', 'Ya, reset')) {
+    if (await (window ).__timpikAdminConfirm('Yakin ingin mereset seluruh daftar berita ke data default awal?', 'Kembalikan berita ke data awal', 'Ya, reset')) {
       localStorage.removeItem(STORAGE_KEY);
       beritaState = [...defaultBerita];
       renderTable();

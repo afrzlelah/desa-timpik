@@ -433,10 +433,18 @@ import profilData from '../data/profil.json';
       misiContainer &&
       Array.isArray(data.misi)
     ) {
-      misiContainer.innerHTML = data.misi.length ? data.misi.map((misi) => {
-        const kode = escapeHTML(misi.kode);
-        const judul = escapeHTML(misi.judul);
-        const deskripsi = escapeHTML(misi.deskripsi);
+      const misiList = data.misi
+        .map((item, index) => typeof item === 'string'
+          ? { kode: String(index + 1).padStart(2, '0'), judul: item, deskripsi: '', poin: [] }
+          : item && typeof item === 'object'
+            ? item
+            : null)
+        .filter((item) => item && (item.judul || item.deskripsi || (Array.isArray(item.poin) && item.poin.length)));
+
+      misiContainer.innerHTML = misiList.length ? misiList.map((misi, index) => {
+        const kode = escapeHTML(misi.kode || String(index + 1).padStart(2, '0'));
+        const judul = escapeHTML(misi.judul || '');
+        const deskripsi = escapeHTML(misi.deskripsi || '');
 
         const poinHTML = Array.isArray(misi.poin) && misi.poin.length > 0
           ? `
