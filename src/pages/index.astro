@@ -719,6 +719,73 @@ const heroSlides = [
     console.warn('Gagal hidrasi jam kerja beranda', e);
   }
 
+  function renderHomeDusunGrid(dusunList: any[]) {
+    const grid = document.getElementById('home-dusun-grid');
+    if (!grid) return;
+    if (!dusunList.length) {
+      grid.innerHTML = '<p class="col-span-full rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center text-sm font-semibold text-slate-600">Informasi dusun belum tersedia.</p>';
+      return;
+    }
+
+    const escapeValue = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[char]);
+    const safePhoto = (value: unknown) => {
+      try {
+        const url = new URL(String(value ?? ''));
+        return url.protocol === 'https:' && url.hostname.endsWith('.supabase.co') && url.pathname.startsWith('/storage/v1/object/public/dusun/')
+          ? url.href
+          : '';
+      } catch {
+        return '';
+      }
+    };
+
+    grid.innerHTML = dusunList.map((dusun) => {
+      const name = escapeValue(dusun?.nama || 'Wilayah Desa Timpik');
+      const photo = safePhoto(dusun?.foto);
+      const id = String(dusun?.id ?? '').trim();
+      const href = id ? '/dusun/' + encodeURIComponent(id) : '#';
+      const image = photo
+        ? '<img src="' + escapeValue(photo) + '" alt="Foto wilayah ' + name + '" width="640" height="360" loading="lazy" decoding="async" class="dusun-photo relative h-full w-full object-cover" />'
+        : '';
+
+      return [
+        '<article class="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col hover:border-blue-400 hover:shadow-md transition-all">',
+          '<div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200">',
+            '<div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>',
+            image,
+          '</div>',
+          '<div class="p-6 sm:p-7 flex flex-1 flex-col justify-between">',
+            '<div>',
+              '<div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">',
+                '<span class="text-xs font-bold text-blue-700 px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100">' + escapeValue(dusun?.jumlah_rt || 'RT/RW') + '</span>',
+                '<span class="text-xs font-medium text-slate-500">' + escapeValue(dusun?.luas || '') + '</span>',
+              '</div>',
+              '<h3 class="text-xl font-extrabold text-slate-900">' + name + '</h3>',
+              '<p class="text-sm text-slate-600 mt-2.5 leading-relaxed line-clamp-3">' + escapeValue(dusun?.deskripsi || '') + '</p>',
+            '</div>',
+            '<div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-sm">',
+              '<span class="text-slate-500 font-medium text-xs">' + escapeValue(dusun?.kepala_dusun || '') + '</span>',
+              '<a href="' + escapeValue(href) + '" class="font-extrabold text-blue-700 hover:text-blue-900 transition-colors flex items-center gap-1" ' + (id ? '' : 'aria-disabled="true" tabindex="-1"') + '><span>Info Dusun</span><span>&rarr;</span></a>',
+            '</div>',
+          '</div>',
+        '</article>',
+      ].join('');
+    }).join('');
+  }
+
+  window.addEventListener('timpik-supabase-content', (event: Event) => {
+    const contents = (event as CustomEvent).detail || {};
+    const profile = contents.profil;
+    renderHomeDusunGrid(Array.isArray(profile?.dusun) ? profile.dusun : []);
+  });
+  const syncedPublicContent = (window as any).__timpikSupabaseContent;
+  if (syncedPublicContent) {
+    const syncedDusun = syncedPublicContent.profil?.dusun;
+    renderHomeDusunGrid(Array.isArray(syncedDusun) ? syncedDusun : []);
+  }
+
   // Hydrate total warga & dusun from timpik_profil_data
   try {
     const rawProfil = localStorage.getItem('timpik_profil_data');
@@ -736,7 +803,7 @@ const heroSlides = [
       }
 
       // Hydrate Dusun Grid if updated by admin
-      if (parsedProfil && Array.isArray(parsedProfil.dusun) && parsedProfil.dusun.length > 0) {
+      if (parsedProfil && Array.isArray(parsedProfil.dusun)) {
         const dusunGrid = document.getElementById('home-dusun-grid');
         if (dusunGrid) {
         const escapeHtml = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);

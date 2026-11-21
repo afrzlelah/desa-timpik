@@ -372,7 +372,7 @@ import agendaData from '../../data/agenda.json';
       btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
         const nama = btn.getAttribute('data-nama');
-        if (await (window as any).__timpikAdminConfirm(`Yakin ingin membatalkan dan menghapus agenda ini?\n\n"${nama}"`)) {
+        if (await (window ).__timpikAdminConfirm(`Yakin ingin membatalkan dan menghapus agenda ini?\n\n"${nama}"`)) {
           agendaState = agendaState.filter(item => item.id !== id);
           saveStoredAgenda(agendaState);
           renderCards();
@@ -496,7 +496,7 @@ import agendaData from '../../data/agenda.json';
 
   // Kosongkan seluruh agenda dan simpan ke Supabase.
   document.getElementById('btn-clear-all-agenda')?.addEventListener('click', async (event) => {
-    if (!(await (window as any).__timpikAdminConfirm('Kosongkan semua agenda? Jadwal akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan semua agenda', 'Ya, kosongkan'))) return;
+    if (!(await (window ).__timpikAdminConfirm('Kosongkan semua agenda? Jadwal akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan semua agenda', 'Ya, kosongkan'))) return;
     const button = event.currentTarget;
     button.disabled = true;
     try {
@@ -510,7 +510,7 @@ import agendaData from '../../data/agenda.json';
 
   // Reset Default
   document.getElementById('btn-reset-agenda-default')?.addEventListener('click', async () => {
-    if (await (window as any).__timpikAdminConfirm('Yakin ingin mereset kalender agenda ke jadwal awal?', 'Kembalikan agenda ke data awal', 'Ya, reset')) {
+    if (await (window ).__timpikAdminConfirm('Yakin ingin mereset kalender agenda ke jadwal awal?', 'Kembalikan agenda ke data awal', 'Ya, reset')) {
       localStorage.removeItem(STORAGE_KEY);
       agendaState = [...defaultAgenda];
       renderCards();

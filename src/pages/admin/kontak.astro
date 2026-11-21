@@ -517,11 +517,11 @@ import kontakData from '../../data/kontak.json';
       btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
         const nama = btn.getAttribute('data-nama');
-        if (await (window as any).__timpikAdminConfirm(`Yakin ingin menghapus kontak darurat ini?\n\n"${nama}"`)) {
+        if (await (window ).__timpikAdminConfirm(`Yakin ingin menghapus kontak darurat ini?\n\n"${nama}"`)) {
           state.kontak_darurat = state.kontak_darurat.filter(item => item.id !== id);
           saveStoredData(state);
           renderKontakCards();
-          (window as any).__timpikAdminToast(`Kontak "${nama}" berhasil dihapus.`);
+          (window ).__timpikAdminToast(`Kontak "${nama}" berhasil dihapus.`);
         }
       });
     });
@@ -618,12 +618,12 @@ import kontakData from '../../data/kontak.json';
     saveStoredData(state);
     closeModal();
     renderKontakCards();
-    (window as any).__timpikAdminToast(isEdit ? 'Kontak berhasil diperbarui.' : 'Kontak baru berhasil ditambahkan.');
+    (window ).__timpikAdminToast(isEdit ? 'Kontak berhasil diperbarui.' : 'Kontak baru berhasil ditambahkan.');
   });
 
   // Kosongkan kontak dan operasional, lalu simpan ke Supabase.
   document.getElementById('btn-clear-all-kontak')?.addEventListener('click', async (event) => {
-    if (!(await (window as any).__timpikAdminConfirm('Kosongkan semua informasi kontak dan operasional? Data akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan semua informasi kontak', 'Ya, kosongkan'))) return;
+    if (!(await (window ).__timpikAdminConfirm('Kosongkan semua informasi kontak dan operasional? Data akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan semua informasi kontak', 'Ya, kosongkan'))) return;
     const button = event.currentTarget;
     button.disabled = true;
     const emptyData = {
@@ -641,7 +641,7 @@ import kontakData from '../../data/kontak.json';
 
   // 5. Reset Default
   document.getElementById('btn-reset-kontak-default')?.addEventListener('click', async () => {
-    if (await (window as any).__timpikAdminConfirm('Yakin ingin mereset seluruh kontak dan info jam operasional ke data bawaan awal?', 'Kembalikan kontak ke data awal', 'Ya, reset')) {
+    if (await (window ).__timpikAdminConfirm('Yakin ingin mereset seluruh kontak dan info jam operasional ke data bawaan awal?', 'Kembalikan kontak ke data awal', 'Ya, reset')) {
       localStorage.removeItem(STORAGE_KEY);
       state = JSON.parse(JSON.stringify(defaultKontak));
       populateOperasionalForm();
