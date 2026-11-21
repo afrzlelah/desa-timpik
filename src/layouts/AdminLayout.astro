@@ -3,7 +3,7 @@ import '../styles/global.css';
 
 interface Props {
   title: string;
-  activeMenu?: 'dashboard' | 'surat' | 'berita' | 'agenda' | 'aduan' | 'apbdes' | 'register' | 'kontak' | 'informasi' | 'admins';
+  activeMenu?: 'dashboard' | 'surat' | 'berita' | 'agenda' | 'apbdes' | 'register' | 'kontak' | 'informasi' | 'admins';
 }
 
 const { title, activeMenu = 'dashboard' } = Astro.props;
@@ -54,12 +54,6 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
           <a href="/admin/agenda" title="Agenda Desa" class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition ${activeMenu === 'agenda' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>
             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3m8 4V3M4 11h16M5 21h14a1 1 0 001-1V7a2 2 0 00-2-2H6a2 2 0 00-2 2v13a1 1 0 001 1z"/>
-            </svg>
-          </a>
-
-          <a href="/admin/aduan" title="Aduan Warga" class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition ${activeMenu === 'aduan' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
             </svg>
           </a>
 
@@ -170,13 +164,6 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3m8 4V3M4 11h16M5 21h14a1 1 0 001-1V7a2 2 0 00-2-2H6a2 2 0 00-2 2v13a1 1 0 001 1z"/>
             </svg>
             <span>Agenda & Kegiatan</span>
-          </a>
-
-          <a href="/admin/aduan" class={`flex h-12 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'aduan' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>
-            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-            </svg>
-            <span>Kotak Aduan Warga</span>
           </a>
 
           <a href="/admin/kontak" class={`flex h-12 items-center gap-3.5 rounded-xl px-3.5 text-sm font-semibold transition ${activeMenu === 'kontak' ? 'bg-blue-600 font-bold text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}>

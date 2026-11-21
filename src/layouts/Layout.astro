@@ -24,7 +24,7 @@ const currentPath = Astro.url.pathname;
 
     <title>{title} | Desa Timpik - Kec. Susukan, Kab. Semarang</title>
     <meta name="description" content={description} />
-    <meta name="keywords" content="Desa Timpik, Susukan, Kabupaten Semarang, 13 Dusun Timpik, Bogo, Sumber, Krajan, Kencana, Desa Agraris, Wayang Orang Badoyo, Layanan Surat Timpik, Aduan Warga, KKN Timpik" />
+    <meta name="keywords" content="Desa Timpik, Susukan, Kabupaten Semarang, 13 Dusun Timpik, Bogo, Sumber, Krajan, Kencana, Desa Agraris, Wayang Orang Badoyo, Layanan Surat Timpik, KKN Timpik" />
     <meta name="author" content="Pemerintah Desa Timpik & Tim KKN" />
 
     <!-- Open Graph / Facebook -->
@@ -335,13 +335,6 @@ const currentPath = Astro.url.pathname;
 
             <div class="flex items-center gap-2 ml-2 pl-3 border-l border-white/20">
               <a
-                href="/layanan-aduan"
-                class={`px-3 py-2.5 rounded-lg text-xs 2xl:text-sm font-bold transition-colors ${currentPath.startsWith('/layanan-aduan') ? 'bg-white text-blue-950' : 'text-white hover:bg-white/10'}`}
-              >
-                Aduan
-              </a>
-
-              <a
                 href="/layanan-surat"
                 class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white text-blue-950 text-xs 2xl:text-sm font-extrabold shadow-md hover:bg-blue-50 hover:shadow-lg transition-all"
               >
@@ -528,15 +521,6 @@ const currentPath = Astro.url.pathname;
               Layanan Surat Online
             </a>
 
-            <a
-              href="/layanan-aduan"
-              class="flex items-center justify-center gap-2 w-full min-h-11 rounded-xl border border-white/20 bg-white/10 text-white font-bold text-sm hover:bg-white/15 transition-colors"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h8M8 14h5m-8 6 3-3h10a3 3 0 003-3V6a3 3 0 00-3-3H6a3 3 0 00-3 3v11a3 3 0 003 3z"/>
-              </svg>
-              Aduan Warga
-            </a>
           </div>
 
           <p class="text-[10px] text-center text-blue-200/60 mt-5">
@@ -577,9 +561,6 @@ const currentPath = Astro.url.pathname;
           <div class="grid grid-cols-2 gap-2">
             <a href="/layanan-surat" class="p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 text-slate-800 hover:text-blue-900 font-medium border border-slate-200 transition-colors">
               Pengajuan Surat Online
-            </a>
-            <a href="/layanan-aduan" class="p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 text-slate-800 hover:text-blue-900 font-medium border border-slate-200 transition-colors">
-              Formulir Aduan Warga
             </a>
             <a href="/agenda" class="p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 text-slate-800 hover:text-blue-900 font-medium border border-slate-200 transition-colors">
               Kalender Kegiatan Desa
@@ -642,7 +623,7 @@ const currentPath = Astro.url.pathname;
             </ul>
           </div>
 
-          <!-- Column 3: Layanan Surat & Aduan (3 cols) -->
+          <!-- Column 3: Layanan Warga (3 cols) -->
           <div class="lg:col-span-3 space-y-3">
             <h4 class="text-white font-bold text-xs uppercase tracking-wider pb-2 border-b border-slate-800">
               Layanan Warga
@@ -650,7 +631,6 @@ const currentPath = Astro.url.pathname;
             <ul class="space-y-2 text-xs text-slate-400">
               <li><a href="/layanan-surat" class="text-blue-300 hover:text-white font-semibold transition-colors">Katalog Surat Mandiri</a></li>
               <li><a href="/layanan-surat/pengantar-rt" class="hover:text-white transition-colors">Cetak Blangko Pengantar RT</a></li>
-              <li><a href="/layanan-aduan" class="text-blue-300 hover:text-white font-semibold transition-colors">Saluran Pengaduan Warga</a></li>
               <li><a href="/kontak" class="hover:text-white transition-colors">Hotline Darurat 24 Jam</a></li>
             </ul>
           </div>
