@@ -213,7 +213,7 @@ import defaultPotensi from '../../data/potensi.json';
     };
     clearButton.disabled = true;
     try {
-      await (window as any).__timpikSaveAdminContent(STORAGE_KEY, emptyPotensi);
+      await (window).__timpikSaveAdminContent(STORAGE_KEY, emptyPotensi);
       window.location.reload();
     } catch (error) {
       const notice = document.getElementById('potensi-admin-notice');
@@ -231,7 +231,7 @@ import defaultPotensi from '../../data/potensi.json';
     saveButton.disabled = true;
     saveButton.textContent = 'Menyimpan...';
     try {
-      await (window as any).__timpikSaveAdminContent(STORAGE_KEY, potensiState);
+      await (window).__timpikSaveAdminContent(STORAGE_KEY, potensiState);
       notice.textContent = 'Perubahan berhasil disimpan dan sudah diperbarui di halaman publik.';
       notice.className = 'rounded-xl border border-emerald-300 bg-emerald-50 p-4 text-sm font-semibold text-emerald-950';
     } catch (error) {
