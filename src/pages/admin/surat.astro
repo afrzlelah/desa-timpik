@@ -287,8 +287,8 @@ import suratData from '../../data/surat.json';
   const toastText = document.getElementById('toast-text');
 
   function showToast(msg) {
-    if ((window as any).__timpikAdminToast) {
-      (window as any).__timpikAdminToast(msg);
+    if ((window ).__timpikAdminToast) {
+      (window ).__timpikAdminToast(msg);
       return;
     }
     if (toast && toastText) {
@@ -393,7 +393,7 @@ import suratData from '../../data/surat.json';
       btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
         const nama = btn.getAttribute('data-nama');
-        if (await (window as any).__timpikAdminConfirm(`Yakin ingin menghapus layanan "${nama}"? Surat ini tidak akan muncul lagi di web publik.`)) {
+        if (await (window ).__timpikAdminConfirm(`Yakin ingin menghapus layanan "${nama}"? Surat ini tidak akan muncul lagi di web publik.`)) {
           currentList = currentList.filter(item => item.id !== id);
           saveSuratList(currentList);
           renderTable();
@@ -504,7 +504,7 @@ import suratData from '../../data/surat.json';
 
   if (btnClearAll) {
     btnClearAll.addEventListener('click', async () => {
-      if (!(await (window as any).__timpikAdminConfirm('Kosongkan semua layanan surat? Katalog ini akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan katalog layanan surat', 'Ya, kosongkan'))) return;
+      if (!(await (window ).__timpikAdminConfirm('Kosongkan semua layanan surat? Katalog ini akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan katalog layanan surat', 'Ya, kosongkan'))) return;
       btnClearAll.disabled = true;
       try {
         await (window).__timpikSaveAdminContent(STORAGE_KEY, []);
@@ -519,7 +519,7 @@ import suratData from '../../data/surat.json';
   // Reset to default
   if (btnReset) {
     btnReset.addEventListener('click', async () => {
-      if (await (window as any).__timpikAdminConfirm('Yakin ingin mereset seluruh katalog surat ke data awal? Perubahan khusus yang telah Anda buat akan dikembalikan.', 'Kembalikan layanan surat ke data awal', 'Ya, reset')) {
+      if (await (window ).__timpikAdminConfirm('Yakin ingin mereset seluruh katalog surat ke data awal? Perubahan khusus yang telah Anda buat akan dikembalikan.', 'Kembalikan layanan surat ke data awal', 'Ya, reset')) {
         localStorage.removeItem(STORAGE_KEY);
         currentList = [...defaultSuratData];
         saveSuratList(currentList);
