@@ -587,7 +587,7 @@ import profil from '../../data/profil.json';
     }
 
     async function persistProfil(updatedProfil) {
-      await (window as any).__timpikSaveAdminContent(STORAGE_KEY, updatedProfil);
+      await (window).__timpikSaveAdminContent(STORAGE_KEY, updatedProfil);
       currentData = updatedProfil;
     }
 
