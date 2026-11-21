@@ -586,6 +586,21 @@ import profil from '../../data/profil.json';
       `).join('');
     }
 
+    async function persistProfil(updatedProfil) {
+      await (window as any).__timpikSaveAdminContent(STORAGE_KEY, updatedProfil);
+      currentData = updatedProfil;
+    }
+
+    function showProfileNotice(message) {
+      const toast = document.getElementById('notice-toast');
+      const toastText = document.getElementById('notice-text');
+      if (toast && toastText) {
+        toastText.textContent = message;
+        toast.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
     renderDusunCards();
 
     // Dusun Modal Actions
@@ -694,12 +709,19 @@ import profil from '../../data/profil.json';
       modalDusun.classList.remove('hidden');
     };
 
-    window.deleteDusunItem = (idx) => {
+    window.deleteDusunItem = async (idx) => {
       const d = dusunList[idx];
       if (!d) return;
       if (confirm(`Apakah Anda yakin ingin menghapus data "${d.nama}"?`)) {
-        dusunList.splice(idx, 1);
-        renderDusunCards();
+        const updatedDusunList = dusunList.filter((_, itemIndex) => itemIndex !== idx);
+        try {
+          await persistProfil({ ...currentData, dusun: updatedDusunList });
+          dusunList = updatedDusunList;
+          renderDusunCards();
+          showProfileNotice('Data dusun berhasil dihapus dan tersimpan ke Supabase.');
+        } catch (error) {
+          alert(error instanceof Error ? `Data dusun gagal dihapus: ${error.message}` : 'Data dusun gagal dihapus.');
+        }
       }
     };
 
@@ -749,14 +771,18 @@ import profil from '../../data/profil.json';
         foto: editFoto
       };
 
-      if (idx >= 0 && idx < dusunList.length) {
-        dusunList[idx] = newDusun;
+      const updatedDusunList = [...dusunList];
+      if (idx >= 0 && idx < updatedDusunList.length) {
+        updatedDusunList[idx] = newDusun;
       } else {
-        dusunList.push(newDusun);
+        updatedDusunList.push(newDusun);
       }
 
+      await persistProfil({ ...currentData, dusun: updatedDusunList });
+      dusunList = updatedDusunList;
       modalDusun.classList.add('hidden');
       renderDusunCards();
+      showProfileNotice('Data dusun berhasil disimpan ke Supabase dan diperbarui di halaman publik.');
       } catch (error) {
         editFotoStatus.textContent = error instanceof Error ? error.message : 'Data dusun gagal disimpan.';
         alert(editFotoStatus.textContent);
@@ -768,9 +794,13 @@ import profil from '../../data/profil.json';
 
     // Form Submit Main (Save all)
     const formMain = document.getElementById('form-info');
-    formMain.addEventListener('submit', (e) => {
+    formMain.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const submitButton = formMain.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.querySelector('span').textContent = 'Menyimpan...';
 
+      try {
       const lkNum = parseInt((inLk.value || '').replace(/[^0-9]/g, ''), 10) || 0;
       const pmNum = parseInt((inPm.value || '').replace(/[^0-9]/g, ''), 10) || 0;
       const totalNum = lkNum + pmNum;
@@ -799,14 +829,14 @@ import profil from '../../data/profil.json';
         }
       };
 
-      currentData = updatedProfil;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedProfil));
-
-      const toast = document.getElementById('notice-toast');
-      const toastText = document.getElementById('notice-text');
-      toastText.textContent = 'Pembaruan informasi profil, visi-misi, dusun & struktur berhasil disimpan dan aktif di halaman publik!';
-      toast.classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      await persistProfil(updatedProfil);
+      showProfileNotice('Pembaruan profil, data dusun, statistik, dan foto berhasil disimpan ke Supabase.');
+      } catch (error) {
+        alert(error instanceof Error ? `Pembaruan profil gagal disimpan: ${error.message}` : 'Pembaruan profil gagal disimpan.');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.querySelector('span').textContent = 'Simpan Seluruh Pembaruan';
+      }
     });
 
     document.getElementById('btn-clear-all-profil').addEventListener('click', async (event) => {
