@@ -63,7 +63,21 @@ import Layout from '../layouts/Layout.astro';
     byId('detail-berita-header')?.classList.remove('hidden');
     byId('detail-berita-body')?.classList.remove('hidden');
 
-    document.title = `${article.judul || 'Detail Berita'} | Desa Timpik`;
+    const title = article.judul || 'Detail Berita Desa Timpik';
+    const description = String(article.ringkasan || article.konten || 'Berita resmi Pemerintah Desa Timpik.').replace(/\s+/g, ' ').trim().slice(0, 160);
+    const canonicalUrl = new URL(`/berita/${encodeURIComponent(article.id)}`, window.location.origin).href;
+    document.title = `${title} | Desa Timpik`;
+    const descriptionMeta = document.querySelector('meta[name="description"]');
+    if (descriptionMeta) descriptionMeta.setAttribute('content', description);
+    const canonicalMeta = document.querySelector('link[rel="canonical"]');
+    if (canonicalMeta) canonicalMeta.setAttribute('href', canonicalUrl);
+    const setMeta = (selector, value) => document.querySelector(selector)?.setAttribute('content', value);
+    setMeta('meta[property="og:type"]', 'article');
+    setMeta('meta[property="og:url"]', canonicalUrl);
+    setMeta('meta[property="og:title"]', `${title} | Desa Timpik`);
+    setMeta('meta[property="og:description"]', description);
+    setMeta('meta[name="twitter:title"]', `${title} | Desa Timpik`);
+    setMeta('meta[name="twitter:description"]', description);
     byId('detail-berita-kategori').textContent = article.kategori || 'Berita Desa';
     byId('detail-berita-tag').textContent = article.tag ? `#${article.tag}` : '';
     byId('detail-berita-judul').textContent = article.judul || 'Berita Desa Timpik';
@@ -77,6 +91,28 @@ import Layout from '../layouts/Layout.astro';
     image.src = /^(https?:\/\/|\/)/i.test(imageUrl) ? imageUrl : '/images/balai-desa-timpik.jpg';
     image.alt = article.judul || 'Foto berita Desa Timpik';
     image.onerror = () => { image.src = '/images/balai-desa-timpik.jpg'; };
+    setMeta('meta[property="og:image"]', image.src);
+    setMeta('meta[name="twitter:image"]', image.src);
+
+    let articleSchema = document.getElementById('article-jsonld');
+    if (!articleSchema) {
+      articleSchema = document.createElement('script');
+      articleSchema.id = 'article-jsonld';
+      articleSchema.type = 'application/ld+json';
+      document.head.append(articleSchema);
+    }
+    articleSchema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: title,
+      description,
+      image: image.src,
+      url: canonicalUrl,
+      mainEntityOfPage: canonicalUrl,
+      author: { '@type': 'Organization', name: article.penulis || 'Pemerintah Desa Timpik' },
+      publisher: { '@type': 'GovernmentOrganization', name: 'Pemerintah Desa Timpik', url: window.location.origin },
+      inLanguage: 'id-ID',
+    }).replace(/</g, '\\u003c');
 
     const related = allArticles
       .filter((item) => item.id !== article.id && item.kategori === article.kategori)

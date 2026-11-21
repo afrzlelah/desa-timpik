@@ -102,6 +102,34 @@ import kelembagaanData from '../data/kelembagaan.json';
     const name = dusun.nama || `Dusun ${dusun.panggilan || ''}`.trim();
     const description = dusun.deskripsi || `Informasi wilayah ${name} di Desa Timpik.`;
     document.title = `${name} | Profil Dusun Desa Timpik`;
+    const canonicalUrl = new URL(`/dusun/${encodeURIComponent(dusun.id)}`, window.location.origin).href;
+    const summary = String(description).replace(/\s+/g, ' ').trim().slice(0, 160);
+    document.querySelector('meta[name="description"]')?.setAttribute('content', summary);
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonicalUrl);
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonicalUrl);
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', `${name} | Profil Dusun Desa Timpik`);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', summary);
+    document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', `${name} | Profil Dusun Desa Timpik`);
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', summary);
+    let dusunSchema = document.getElementById('dusun-jsonld');
+    if (!dusunSchema) {
+      dusunSchema = document.createElement('script');
+      dusunSchema.id = 'dusun-jsonld';
+      dusunSchema.type = 'application/ld+json';
+      document.head.append(dusunSchema);
+    }
+    dusunSchema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Place',
+      '@id': canonicalUrl,
+      name,
+      description: summary,
+      url: canonicalUrl,
+      containedInPlace: {
+        '@type': 'AdministrativeArea',
+        name: 'Desa Timpik, Kecamatan Susukan, Kabupaten Semarang, Jawa Tengah',
+      },
+    }).replace(/</g, '\\u003c');
     show('dusun-breadcrumb-name').textContent = name;
     show('dusun-name').textContent = name;
     show('dusun-description').textContent = description;
@@ -112,6 +140,8 @@ import kelembagaanData from '../data/kelembagaan.json';
     photo.src = /^(https?:\/\/|\/)/i.test(photoUrl) ? photoUrl : '/images/gapura-desa-timpik.jpg';
     photo.alt = `Foto ${name}`;
     photo.onerror = () => { photo.src = '/images/gapura-desa-timpik.jpg'; };
+    document.querySelector('meta[property="og:image"]')?.setAttribute('content', photo.src);
+    document.querySelector('meta[name="twitter:image"]')?.setAttribute('content', photo.src);
 
     const potentials = String(dusun.potensi_utama || '').split(/[,;\n]/).map((item) => item.trim()).filter(Boolean);
     show('dusun-potensi-tags').innerHTML = potentials.map((item) => `<span class="rounded-full border border-white/30 bg-white/10 px-3 py-1 text-sm font-semibold text-white">${escapeDusun(item)}</span>`).join('');
