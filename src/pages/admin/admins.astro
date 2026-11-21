@@ -105,7 +105,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       listContainer.classList.remove('hidden');
       document.querySelectorAll('.admin-remove').forEach((button) => button.addEventListener('click', async () => {
         const email = button.getAttribute('data-email') || 'akun ini';
-        if (!window.confirm(`Hapus akses admin untuk ${email}? Akun tersebut langsung tidak dapat membuka panel.`)) return;
+        if (!(await (window as any).__timpikAdminConfirm(`Hapus akses admin untuk ${email}? Akun tersebut langsung tidak dapat membuka panel.`, 'Hapus akses admin'))) return;
         button.disabled = true;
         try {
           const response = await fetch(`/api/admin/admins?id=${encodeURIComponent(button.getAttribute('data-id') || '')}`, {
@@ -114,6 +114,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           const result = await response.json().catch(() => ({}));
           if (!response.ok) throw new Error(result.error || 'Akses admin gagal dihapus.');
           await loadAdmins();
+          (window as any).__timpikAdminToast(`Akses admin ${email} berhasil dihapus.`);
         } catch (error) {
           window.alert(error instanceof Error ? error.message : 'Akses admin gagal dihapus.');
           button.disabled = false;
@@ -143,6 +144,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       if (!response.ok) throw new Error(result.error || 'Undangan gagal dikirim.');
       form.reset();
       setMessage(`Akun admin ${result.admin.email} berhasil dibuat. Bagikan kata sandi awal secara pribadi.`);
+      (window as any).__timpikAdminToast(`Akun admin ${result.admin.email} berhasil dibuat.`);
       await loadAdmins();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Akun admin gagal dibuat.', true);

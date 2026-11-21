@@ -176,9 +176,11 @@ import defaultPotensi from '../../data/potensi.json';
     const field = event.target.closest('[data-komoditas-index]');
     if (field) potensiState.agraris.komoditas_utama[Number(field.dataset.komoditasIndex)][field.dataset.field] = field.value;
   });
-  komoditasList.addEventListener('click', (event) => {
+  komoditasList.addEventListener('click', async (event) => {
     const button = event.target.closest('[data-delete-komoditas]');
     if (!button) return;
+    const item = potensiState.agraris.komoditas_utama[Number(button.dataset.deleteKomoditas)];
+    if (!(await (window as any).__timpikAdminConfirm(`Hapus komoditas "${item?.nama || 'tanpa nama'}" dari daftar?`, 'Hapus komoditas'))) return;
     potensiState.agraris.komoditas_utama.splice(Number(button.dataset.deleteKomoditas), 1);
     renderKomoditas();
   });
@@ -186,9 +188,11 @@ import defaultPotensi from '../../data/potensi.json';
     const field = event.target.closest('[data-kesenian-index]');
     if (field) potensiState.kebudayaan.kesenian[Number(field.dataset.kesenianIndex)][field.dataset.field] = field.value;
   });
-  kesenianList.addEventListener('click', (event) => {
+  kesenianList.addEventListener('click', async (event) => {
     const button = event.target.closest('[data-delete-kesenian]');
     if (!button) return;
+    const item = potensiState.kebudayaan.kesenian[Number(button.dataset.deleteKesenian)];
+    if (!(await (window as any).__timpikAdminConfirm(`Hapus kesenian atau tradisi "${item?.nama || 'tanpa nama'}" dari daftar?`, 'Hapus kesenian'))) return;
     potensiState.kebudayaan.kesenian.splice(Number(button.dataset.deleteKesenian), 1);
     renderKesenian();
   });
@@ -197,15 +201,17 @@ import defaultPotensi from '../../data/potensi.json';
     potensiState.agraris.komoditas_utama.push({ nama: '', deskripsi: '', icon: '' });
     renderKomoditas();
     komoditasList.lastElementChild?.querySelector('input')?.focus();
+    (window as any).__timpikAdminToast('Komoditas ditambahkan. Simpan perubahan untuk menerbitkannya.');
   });
   document.getElementById('add-kesenian').addEventListener('click', () => {
     potensiState.kebudayaan.kesenian.push({ nama: '', lokasi: '', deskripsi: '', keunikan: '' });
     renderKesenian();
     kesenianList.lastElementChild?.querySelector('input')?.focus();
+    (window as any).__timpikAdminToast('Kesenian ditambahkan. Simpan perubahan untuk menerbitkannya.');
   });
 
   document.getElementById('clear-potensi').addEventListener('click', async () => {
-    if (!confirm('Kosongkan seluruh data potensi agraris, komoditas, seni, dan budaya? Data akan dihapus dari halaman publik.')) return;
+    if (!(await (window as any).__timpikAdminConfirm('Kosongkan seluruh data potensi agraris, komoditas, seni, dan budaya? Data akan dihapus dari halaman publik.', 'Kosongkan data potensi desa', 'Ya, kosongkan'))) return;
     const clearButton = document.getElementById('clear-potensi');
     const emptyPotensi = {
       agraris: { judul: '', deskripsi: '', luas_wilayah: '', mayoritas_mata_pencaharian: '', komoditas_utama: [] },
@@ -234,6 +240,7 @@ import defaultPotensi from '../../data/potensi.json';
       await (window).__timpikSaveAdminContent(STORAGE_KEY, potensiState);
       notice.textContent = 'Perubahan berhasil disimpan dan sudah diperbarui di halaman publik.';
       notice.className = 'rounded-xl border border-emerald-300 bg-emerald-50 p-4 text-sm font-semibold text-emerald-950';
+      (window as any).__timpikAdminToast('Potensi desa dan budaya berhasil disimpan.');
     } catch (error) {
       notice.textContent = error instanceof Error ? `Perubahan gagal disimpan: ${error.message}` : 'Perubahan gagal disimpan.';
       notice.className = 'rounded-xl border border-rose-300 bg-rose-50 p-4 text-sm font-semibold text-rose-950';

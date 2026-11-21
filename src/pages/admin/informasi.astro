@@ -599,6 +599,7 @@ import profil from '../../data/profil.json';
         toast.classList.remove('hidden');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
+      (window as any).__timpikAdminToast(message);
     }
 
     renderDusunCards();
@@ -712,7 +713,7 @@ import profil from '../../data/profil.json';
     window.deleteDusunItem = async (idx) => {
       const d = dusunList[idx];
       if (!d) return;
-      if (confirm(`Apakah Anda yakin ingin menghapus data "${d.nama}"?`)) {
+      if (await (window as any).__timpikAdminConfirm(`Apakah Anda yakin ingin menghapus data "${d.nama}"?`)) {
         const updatedDusunList = dusunList.filter((_, itemIndex) => itemIndex !== idx);
         try {
           await persistProfil({ ...currentData, dusun: updatedDusunList });
@@ -840,7 +841,7 @@ import profil from '../../data/profil.json';
     });
 
     document.getElementById('btn-clear-all-profil').addEventListener('click', async (event) => {
-      if (!confirm('Kosongkan semua informasi profil, statistik, foto, visi-misi, dan data dusun? Data akan hilang dari halaman publik dan tidak dapat dipulihkan.')) return;
+      if (!(await (window as any).__timpikAdminConfirm('Kosongkan semua informasi profil, statistik, foto, visi-misi, dan data dusun? Data akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan seluruh informasi desa', 'Ya, kosongkan'))) return;
       const button = event.currentTarget;
       button.disabled = true;
       const emptyProfile = (value) => {

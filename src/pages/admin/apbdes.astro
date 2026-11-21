@@ -356,7 +356,7 @@ const defaultApbdes = profilData.transparansi_apbdes;
 
   // Kosongkan seluruh rincian anggaran dan simpan ke Supabase.
   document.getElementById('btn-clear-all-apbdes')?.addEventListener('click', async (event) => {
-    if (!confirm('Kosongkan seluruh data APBDes? Rincian anggaran akan hilang dari halaman publik dan tidak dapat dipulihkan.')) return;
+    if (!(await (window as any).__timpikAdminConfirm('Kosongkan seluruh data APBDes? Rincian anggaran akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan data APBDes', 'Ya, kosongkan'))) return;
     const button = event.currentTarget;
     button.disabled = true;
     const emptyData = Object.fromEntries(Object.keys(state).map((key) => [key, '']));
@@ -370,8 +370,8 @@ const defaultApbdes = profilData.transparansi_apbdes;
   });
 
   // Reset Default
-  document.getElementById('btn-reset-apbdes-default')?.addEventListener('click', () => {
-    if (confirm('Yakin ingin mereset seluruh angka APBDes ke data awal bawaan?')) {
+  document.getElementById('btn-reset-apbdes-default')?.addEventListener('click', async () => {
+    if (await (window as any).__timpikAdminConfirm('Yakin ingin mereset seluruh angka APBDes ke data awal bawaan?', 'Kembalikan APBDes ke data awal', 'Ya, reset')) {
       localStorage.removeItem(STORAGE_KEY);
       state = JSON.parse(JSON.stringify(defaultApbdesData));
       populateForm();

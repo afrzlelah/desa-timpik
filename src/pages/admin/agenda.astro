@@ -362,17 +362,17 @@ import agendaData from '../../data/agenda.json';
 
   function attachCardEvents() {
     document.querySelectorAll('.btn-edit-agenda').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
         openEditModal(id);
       });
     });
 
     document.querySelectorAll('.btn-delete-agenda').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
         const nama = btn.getAttribute('data-nama');
-        if (confirm(`Yakin ingin membatalkan dan menghapus agenda ini?\n\n"${nama}"`)) {
+        if (await (window as any).__timpikAdminConfirm(`Yakin ingin membatalkan dan menghapus agenda ini?\n\n"${nama}"`)) {
           agendaState = agendaState.filter(item => item.id !== id);
           saveStoredAgenda(agendaState);
           renderCards();
@@ -496,7 +496,7 @@ import agendaData from '../../data/agenda.json';
 
   // Kosongkan seluruh agenda dan simpan ke Supabase.
   document.getElementById('btn-clear-all-agenda')?.addEventListener('click', async (event) => {
-    if (!confirm('Kosongkan semua agenda? Jadwal akan hilang dari halaman publik dan tidak dapat dipulihkan.')) return;
+    if (!(await (window as any).__timpikAdminConfirm('Kosongkan semua agenda? Jadwal akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan semua agenda', 'Ya, kosongkan'))) return;
     const button = event.currentTarget;
     button.disabled = true;
     try {
@@ -509,8 +509,8 @@ import agendaData from '../../data/agenda.json';
   });
 
   // Reset Default
-  document.getElementById('btn-reset-agenda-default')?.addEventListener('click', () => {
-    if (confirm('Yakin ingin mereset kalender agenda ke jadwal awal?')) {
+  document.getElementById('btn-reset-agenda-default')?.addEventListener('click', async () => {
+    if (await (window as any).__timpikAdminConfirm('Yakin ingin mereset kalender agenda ke jadwal awal?', 'Kembalikan agenda ke data awal', 'Ya, reset')) {
       localStorage.removeItem(STORAGE_KEY);
       agendaState = [...defaultAgenda];
       renderCards();
