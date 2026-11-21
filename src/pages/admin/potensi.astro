@@ -1,0 +1,246 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import defaultPotensi from '../../data/potensi.json';
+---
+
+<AdminLayout title="Kelola Potensi Desa & Budaya" activeMenu="potensi">
+  <main class="mx-auto max-w-6xl space-y-6 pb-16">
+    <header class="flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-blue-800">Konten Publik</span>
+        <h1 class="mt-1 text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">Potensi Desa & Budaya</h1>
+        <p class="mt-1 text-sm text-slate-600">Kelola informasi agraris, komoditas, kesenian, dan tradisi yang tampil di halaman publik.</p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <button id="clear-potensi" type="button" class="inline-flex min-h-11 items-center justify-center rounded-xl border border-rose-300 bg-rose-50 px-4 py-2 text-sm font-bold text-rose-800 transition hover:bg-rose-100">Kosongkan Semua Data</button>
+        <a href="/potensi" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center justify-center rounded-xl bg-blue-700 px-4 py-2 text-sm font-bold text-white transition hover:bg-blue-800">Lihat Halaman Publik ↗</a>
+      </div>
+    </header>
+
+    <div id="potensi-admin-notice" role="status" aria-live="polite" class="hidden rounded-xl border p-4 text-sm font-semibold"></div>
+
+    <form id="potensi-admin-form" class="space-y-6">
+      <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+        <div class="mb-5 border-b border-slate-100 pb-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-800">Pertanian & sumber daya</span>
+          <h2 class="mt-1 text-xl font-extrabold text-slate-950">Informasi Potensi Agraris</h2>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="space-y-1.5 sm:col-span-2">
+            <span class="text-sm font-bold text-slate-800">Judul bagian</span>
+            <input id="agraris-judul" data-agraris-field="judul" class="min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200" />
+          </label>
+          <label class="space-y-1.5 sm:col-span-2">
+            <span class="text-sm font-bold text-slate-800">Deskripsi</span>
+            <textarea id="agraris-deskripsi" data-agraris-field="deskripsi" rows="3" class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-3 text-sm leading-6 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200"></textarea>
+          </label>
+          <label class="space-y-1.5">
+            <span class="text-sm font-bold text-slate-800">Luas wilayah</span>
+            <input id="agraris-luas" data-agraris-field="luas_wilayah" class="min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200" />
+          </label>
+          <label class="space-y-1.5">
+            <span class="text-sm font-bold text-slate-800">Mata pencaharian utama</span>
+            <input id="agraris-pekerjaan" data-agraris-field="mayoritas_mata_pencaharian" class="min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200" />
+          </label>
+        </div>
+      </section>
+
+      <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+        <div class="mb-5 flex flex-col gap-3 border-b border-slate-100 pb-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-blue-800">Hasil pertanian</span>
+            <h2 class="mt-1 text-xl font-extrabold text-slate-950">Komoditas Unggulan</h2>
+          </div>
+          <button type="button" id="add-komoditas" class="min-h-11 rounded-xl border border-blue-300 bg-blue-50 px-4 py-2 text-sm font-bold text-blue-900 transition hover:bg-blue-100">+ Tambah Komoditas</button>
+        </div>
+        <div id="komoditas-list" class="grid gap-4 lg:grid-cols-2"></div>
+      </section>
+
+      <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+        <div class="mb-5 border-b border-slate-100 pb-4">
+          <span class="text-xs font-bold uppercase tracking-wider text-purple-800">Warisan budaya</span>
+          <h2 class="mt-1 text-xl font-extrabold text-slate-950">Informasi Seni & Budaya</h2>
+        </div>
+        <div class="grid gap-4">
+          <label class="space-y-1.5">
+            <span class="text-sm font-bold text-slate-800">Judul bagian</span>
+            <input id="budaya-judul" data-budaya-field="judul" class="min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200" />
+          </label>
+          <label class="space-y-1.5">
+            <span class="text-sm font-bold text-slate-800">Deskripsi</span>
+            <textarea id="budaya-deskripsi" data-budaya-field="deskripsi" rows="3" class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-3 text-sm leading-6 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200"></textarea>
+          </label>
+        </div>
+      </section>
+
+      <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+        <div class="mb-5 flex flex-col gap-3 border-b border-slate-100 pb-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-purple-800">Kesenian & tradisi</span>
+            <h2 class="mt-1 text-xl font-extrabold text-slate-950">Daftar Kesenian</h2>
+          </div>
+          <button type="button" id="add-kesenian" class="min-h-11 rounded-xl border border-blue-300 bg-blue-50 px-4 py-2 text-sm font-bold text-blue-900 transition hover:bg-blue-100">+ Tambah Kesenian</button>
+        </div>
+        <div id="kesenian-list" class="space-y-4"></div>
+      </section>
+
+      <div class="sticky bottom-4 z-20 flex flex-col gap-3 rounded-2xl border border-blue-200 bg-white/95 p-4 shadow-lg backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+        <p class="text-sm text-slate-600">Simpan untuk memperbarui halaman publik `/potensi`.</p>
+        <button id="save-potensi" type="submit" class="min-h-12 rounded-xl bg-blue-700 px-6 py-3 text-base font-extrabold text-white shadow-sm transition hover:bg-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2">Simpan Perubahan</button>
+      </div>
+    </form>
+  </main>
+</AdminLayout>
+
+<script define:vars={{ defaultPotensi }}>
+  const STORAGE_KEY = 'timpik_potensi_data';
+  const deepCopy = (value) => JSON.parse(JSON.stringify(value));
+  let potensiState = deepCopy(defaultPotensi);
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+    if (saved && typeof saved === 'object') {
+      potensiState = {
+        ...potensiState,
+        ...saved,
+        agraris: {
+          ...potensiState.agraris,
+          ...(saved.agraris || {}),
+          komoditas_utama: Array.isArray(saved.agraris?.komoditas_utama) ? saved.agraris.komoditas_utama : potensiState.agraris.komoditas_utama,
+        },
+        kebudayaan: {
+          ...potensiState.kebudayaan,
+          ...(saved.kebudayaan || {}),
+          kesenian: Array.isArray(saved.kebudayaan?.kesenian) ? saved.kebudayaan.kesenian : potensiState.kebudayaan.kesenian,
+        },
+      };
+    }
+  } catch (error) {
+    console.warn('Data potensi tersimpan tidak dapat dibaca.', error);
+  }
+
+  const escapePotensiAdmin = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+  const komoditasList = document.getElementById('komoditas-list');
+  const kesenianList = document.getElementById('kesenian-list');
+
+  const setFieldValues = () => {
+    document.querySelectorAll('[data-agraris-field]').forEach((field) => {
+      field.value = potensiState.agraris[field.dataset.agrarisField] || '';
+    });
+    document.querySelectorAll('[data-budaya-field]').forEach((field) => {
+      field.value = potensiState.kebudayaan[field.dataset.budayaField] || '';
+    });
+  };
+
+  const renderKomoditas = () => {
+    komoditasList.innerHTML = potensiState.agraris.komoditas_utama.length ? potensiState.agraris.komoditas_utama.map((item, index) => `
+      <article class="rounded-xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
+        <div class="mb-3 flex items-center justify-between gap-3">
+          <h3 class="font-bold text-slate-900">Komoditas ${index + 1}</h3>
+          <button type="button" data-delete-komoditas="${index}" class="min-h-10 rounded-lg border border-rose-200 bg-rose-50 px-3 text-xs font-bold text-rose-800 hover:bg-rose-100">Hapus</button>
+        </div>
+        <label class="mb-3 block space-y-1.5"><span class="text-xs font-bold text-slate-700">Nama komoditas</span><input data-komoditas-index="${index}" data-field="nama" value="${escapePotensiAdmin(item.nama)}" class="min-h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200" /></label>
+        <label class="mb-3 block space-y-1.5"><span class="text-xs font-bold text-slate-700">Deskripsi</span><textarea data-komoditas-index="${index}" data-field="deskripsi" rows="3" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm leading-5 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200">${escapePotensiAdmin(item.deskripsi)}</textarea></label>
+        <label class="block space-y-1.5"><span class="text-xs font-bold text-slate-700">Kode ikon (opsional)</span><input data-komoditas-index="${index}" data-field="icon" value="${escapePotensiAdmin(item.icon)}" class="min-h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200" /></label>
+      </article>
+    `).join('') : '<p class="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-600 lg:col-span-2">Belum ada komoditas. Tambahkan komoditas untuk ditampilkan.</p>';
+  };
+
+  const renderKesenian = () => {
+    kesenianList.innerHTML = potensiState.kebudayaan.kesenian.length ? potensiState.kebudayaan.kesenian.map((item, index) => `
+      <article class="rounded-xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
+        <div class="mb-3 flex items-center justify-between gap-3">
+          <h3 class="font-bold text-slate-900">Kesenian / Tradisi ${index + 1}</h3>
+          <button type="button" data-delete-kesenian="${index}" class="min-h-10 rounded-lg border border-rose-200 bg-rose-50 px-3 text-xs font-bold text-rose-800 hover:bg-rose-100">Hapus</button>
+        </div>
+        <label class="mb-3 block space-y-1.5"><span class="text-xs font-bold text-slate-700">Nama</span><input data-kesenian-index="${index}" data-field="nama" value="${escapePotensiAdmin(item.nama)}" class="min-h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200" /></label>
+        <label class="mb-3 block space-y-1.5"><span class="text-xs font-bold text-slate-700">Lokasi</span><input data-kesenian-index="${index}" data-field="lokasi" value="${escapePotensiAdmin(item.lokasi)}" class="min-h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200" /></label>
+        <label class="mb-3 block space-y-1.5"><span class="text-xs font-bold text-slate-700">Deskripsi</span><textarea data-kesenian-index="${index}" data-field="deskripsi" rows="3" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm leading-5 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200">${escapePotensiAdmin(item.deskripsi)}</textarea></label>
+        <label class="block space-y-1.5"><span class="text-xs font-bold text-slate-700">Keunikan</span><textarea data-kesenian-index="${index}" data-field="keunikan" rows="2" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm leading-5 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200">${escapePotensiAdmin(item.keunikan)}</textarea></label>
+      </article>
+    `).join('') : '<p class="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-600">Belum ada kesenian atau tradisi. Tambahkan data untuk ditampilkan.</p>';
+  };
+
+  setFieldValues();
+  renderKomoditas();
+  renderKesenian();
+
+  document.querySelectorAll('[data-agraris-field]').forEach((field) => field.addEventListener('input', () => {
+    potensiState.agraris[field.dataset.agrarisField] = field.value;
+  }));
+  document.querySelectorAll('[data-budaya-field]').forEach((field) => field.addEventListener('input', () => {
+    potensiState.kebudayaan[field.dataset.budayaField] = field.value;
+  }));
+
+  komoditasList.addEventListener('input', (event) => {
+    const field = event.target.closest('[data-komoditas-index]');
+    if (field) potensiState.agraris.komoditas_utama[Number(field.dataset.komoditasIndex)][field.dataset.field] = field.value;
+  });
+  komoditasList.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-delete-komoditas]');
+    if (!button) return;
+    potensiState.agraris.komoditas_utama.splice(Number(button.dataset.deleteKomoditas), 1);
+    renderKomoditas();
+  });
+  kesenianList.addEventListener('input', (event) => {
+    const field = event.target.closest('[data-kesenian-index]');
+    if (field) potensiState.kebudayaan.kesenian[Number(field.dataset.kesenianIndex)][field.dataset.field] = field.value;
+  });
+  kesenianList.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-delete-kesenian]');
+    if (!button) return;
+    potensiState.kebudayaan.kesenian.splice(Number(button.dataset.deleteKesenian), 1);
+    renderKesenian();
+  });
+
+  document.getElementById('add-komoditas').addEventListener('click', () => {
+    potensiState.agraris.komoditas_utama.push({ nama: '', deskripsi: '', icon: '' });
+    renderKomoditas();
+    komoditasList.lastElementChild?.querySelector('input')?.focus();
+  });
+  document.getElementById('add-kesenian').addEventListener('click', () => {
+    potensiState.kebudayaan.kesenian.push({ nama: '', lokasi: '', deskripsi: '', keunikan: '' });
+    renderKesenian();
+    kesenianList.lastElementChild?.querySelector('input')?.focus();
+  });
+
+  document.getElementById('clear-potensi').addEventListener('click', async () => {
+    if (!confirm('Kosongkan seluruh data potensi agraris, komoditas, seni, dan budaya? Data akan dihapus dari halaman publik.')) return;
+    const clearButton = document.getElementById('clear-potensi');
+    const emptyPotensi = {
+      agraris: { judul: '', deskripsi: '', luas_wilayah: '', mayoritas_mata_pencaharian: '', komoditas_utama: [] },
+      kebudayaan: { judul: '', deskripsi: '', kesenian: [] },
+    };
+    clearButton.disabled = true;
+    try {
+      await (window as any).__timpikSaveAdminContent(STORAGE_KEY, emptyPotensi);
+      window.location.reload();
+    } catch (error) {
+      const notice = document.getElementById('potensi-admin-notice');
+      notice.textContent = error instanceof Error ? `Data gagal dikosongkan: ${error.message}` : 'Data gagal dikosongkan.';
+      notice.className = 'rounded-xl border border-rose-300 bg-rose-50 p-4 text-sm font-semibold text-rose-950';
+      notice.classList.remove('hidden');
+      clearButton.disabled = false;
+    }
+  });
+
+  document.getElementById('potensi-admin-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const saveButton = document.getElementById('save-potensi');
+    const notice = document.getElementById('potensi-admin-notice');
+    saveButton.disabled = true;
+    saveButton.textContent = 'Menyimpan...';
+    try {
+      await (window as any).__timpikSaveAdminContent(STORAGE_KEY, potensiState);
+      notice.textContent = 'Perubahan berhasil disimpan dan sudah diperbarui di halaman publik.';
+      notice.className = 'rounded-xl border border-emerald-300 bg-emerald-50 p-4 text-sm font-semibold text-emerald-950';
+    } catch (error) {
+      notice.textContent = error instanceof Error ? `Perubahan gagal disimpan: ${error.message}` : 'Perubahan gagal disimpan.';
+      notice.className = 'rounded-xl border border-rose-300 bg-rose-50 p-4 text-sm font-semibold text-rose-950';
+    } finally {
+      notice.classList.remove('hidden');
+      saveButton.disabled = false;
+      saveButton.textContent = 'Simpan Perubahan';
+    }
+  });
+</script>

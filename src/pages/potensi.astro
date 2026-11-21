@@ -45,30 +45,24 @@ import potensiData from '../data/potensi.json';
             </span>
           </div>
 
-          <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 leading-tight">
+          <h2 id="potensi-agraris-title" class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 leading-tight">
             Hamparan Sawah 243 Hektar & Irigasi Mandiri
           </h2>
 
           <div class="w-16 h-1 bg-blue-800 rounded-full mt-5 mb-6"></div>
 
           <div class="space-y-4 text-sm sm:text-base text-slate-600 leading-relaxed">
-            <p>
-              Sebagai desa yang bertumpu pada sektor agraris, Desa Timpik dikaruniai hamparan sawah dan ladang yang produktif. Lebih dari <strong class="text-slate-900">76% penduduk</strong> berprofesi aktif sebagai petani padi, palawija, dan peternak.
-            </p>
-
-            <p>
-              Keberhasilan siklus panen didukung oleh sinergi kelembagaan pertanian. <strong class="text-slate-900">GAPOKTAN "Putri Kencana"</strong> memfasilitasi pengadaan benih bersertifikat, pupuk bersubsidi, dan alat mesin pertanian. Sementara itu, <strong class="text-slate-900">P3A "Bogo Wastro"</strong> mengelola pembagian debit air irigasi persawahan bagi petani di wilayah Desa Timpik.
-            </p>
+            <p id="potensi-agraris-description">{potensiData.agraris.deskripsi}</p>
           </div>
 
           <div class="grid grid-cols-2 gap-3 mt-8">
             <div class="rounded-xl bg-slate-50 border border-black/10 p-4">
-              <span class="block text-2xl sm:text-3xl font-black text-blue-900">243 Ha</span>
+              <span id="potensi-agraris-area" class="block text-2xl sm:text-3xl font-black text-blue-900">{potensiData.agraris.luas_wilayah}</span>
               <span class="text-xs text-slate-500 mt-1 block">Luas sektor agraris</span>
             </div>
 
             <div class="rounded-xl bg-slate-50 border border-black/10 p-4">
-              <span class="block text-2xl sm:text-3xl font-black text-emerald-700">76%+</span>
+              <span id="potensi-agraris-livelihood" class="block text-2xl sm:text-3xl font-black text-emerald-700">{potensiData.agraris.mayoritas_mata_pencaharian}</span>
               <span class="text-xs text-slate-500 mt-1 block">Penduduk berprofesi agraris</span>
             </div>
           </div>
@@ -184,17 +178,17 @@ import potensiData from '../data/potensi.json';
             Warisan Budaya
           </span>
 
-          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-950 mt-3 leading-tight">
+            <h2 id="potensi-budaya-title" class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-950 mt-3 leading-tight">
             Kesenian dan Tradisi Masyarakat
           </h2>
 
-          <p class="text-sm sm:text-base text-slate-500 mt-3 leading-relaxed">
+          <p id="potensi-budaya-description" class="text-sm sm:text-base text-slate-500 mt-3 leading-relaxed">
             Mengenal kesenian tradisional yang tumbuh dan dipertahankan oleh masyarakat Desa Timpik sebagai bagian dari identitas budaya lokal.
           </p>
         </div>
 
-        <span class="text-xs font-semibold text-slate-500 shrink-0">
-          Seni & Budaya Desa Timpik
+        <span id="potensi-kesenian-count" class="text-xs font-semibold text-slate-500 shrink-0">
+          {String(potensiData.kebudayaan.kesenian.length).padStart(2, '0')} Seni & Budaya
         </span>
       </div>
 
@@ -260,6 +254,20 @@ import potensiData from '../data/potensi.json';
     };
 
     const renderPotensi = (data: any) => {
+      const agrarisTitle = document.getElementById('potensi-agraris-title');
+      if (agrarisTitle && data?.agraris?.judul !== undefined) agrarisTitle.textContent = data.agraris.judul;
+      const agrarisDescription = document.getElementById('potensi-agraris-description');
+      if (agrarisDescription && data?.agraris?.deskripsi !== undefined) agrarisDescription.textContent = data.agraris.deskripsi;
+      const agrarisArea = document.getElementById('potensi-agraris-area');
+      if (agrarisArea && data?.agraris?.luas_wilayah !== undefined) agrarisArea.textContent = data.agraris.luas_wilayah;
+      const livelihood = document.getElementById('potensi-agraris-livelihood');
+      if (livelihood && data?.agraris?.mayoritas_mata_pencaharian !== undefined) livelihood.textContent = data.agraris.mayoritas_mata_pencaharian;
+
+      const budayaTitle = document.getElementById('potensi-budaya-title');
+      if (budayaTitle && data?.kebudayaan?.judul !== undefined) budayaTitle.textContent = data.kebudayaan.judul;
+      const budayaDescription = document.getElementById('potensi-budaya-description');
+      if (budayaDescription && data?.kebudayaan?.deskripsi !== undefined) budayaDescription.textContent = data.kebudayaan.deskripsi;
+
       const komoditasGrid = document.getElementById('potensi-komoditas-grid');
 
       if (komoditasGrid && Array.isArray(data?.agraris?.komoditas_utama)) {
@@ -293,6 +301,8 @@ import potensiData from '../data/potensi.json';
 
       if (kesenianGrid && Array.isArray(data?.kebudayaan?.kesenian)) {
         const kesenian = data.kebudayaan.kesenian;
+        const kesenianCount = document.getElementById('potensi-kesenian-count');
+        if (kesenianCount) kesenianCount.textContent = `${String(kesenian.length).padStart(2, '0')} Seni & Budaya`;
 
         kesenianGrid.innerHTML = kesenian.length
           ? kesenian.map((seni: any) => {
@@ -349,6 +359,15 @@ import potensiData from '../data/potensi.json';
 
       if (data) {
         renderPotensi(data);
+      }
+    });
+
+    window.addEventListener('storage', (event: StorageEvent) => {
+      if (event.key !== 'timpik_potensi_data' || !event.newValue) return;
+      try {
+        renderPotensi(JSON.parse(event.newValue));
+      } catch (error) {
+        console.warn('Data potensi terbaru tidak dapat dibaca.', error);
       }
     });
   </script>
