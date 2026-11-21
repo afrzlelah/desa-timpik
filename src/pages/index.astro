@@ -7,6 +7,11 @@ import profilData from '../data/profil.json';
 import beritaData from '../data/berita.json';
 
 const featuredSurat = suratData.slice(0, 4);
+const initialDusunNames = profilData.dusun
+  .map((dusun) => dusun.panggilan || dusun.nama.replace(/^Dusun\s+/i, ''))
+  .filter(Boolean);
+const initialDusunSummary = initialDusunNames.slice(0, 3).join(' • ')
+  + (initialDusunNames.length > 3 ? ' • +' + (initialDusunNames.length - 3) + ' lainnya' : '');
 
 // Carousel Slides
 const heroSlides = [
@@ -104,9 +109,9 @@ const heroSlides = [
       <!-- Horizontal Civic Ledger Metric Bar -->
       <div class="mt-14 w-full max-w-4xl border-t border-white/20 pt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
         <div class="px-3">
-          <span class="text-2xl sm:text-3xl font-black text-blue-300 block font-mono">4</span>
+          <span id="hero-dusun-count" class="text-2xl sm:text-3xl font-black text-blue-300 block font-mono">{profilData.dusun.length}</span>
           <p class="text-xs sm:text-sm font-bold text-white uppercase tracking-wider mt-0.5">Wilayah Dusun</p>
-          <span class="text-xs text-slate-200">Bogo • Sumber • Krajan • Kencana</span>
+          <span id="hero-dusun-names" class="text-xs text-slate-200">{initialDusunSummary || 'Data dusun belum tersedia'}</span>
         </div>
 
         <div class="px-3 border-l border-white/15">
@@ -721,6 +726,17 @@ const heroSlides = [
 
   function renderHomeDusunGrid(dusunList: any[]) {
     const grid = document.getElementById('home-dusun-grid');
+    const count = document.getElementById('hero-dusun-count');
+    const names = document.getElementById('hero-dusun-names');
+    if (count) count.textContent = dusunList.length.toLocaleString('id-ID');
+    if (names) {
+      const dusunNames = dusunList
+        .map((dusun) => String(dusun?.panggilan || dusun?.nama || '').replace(/^Dusun\s+/i, '').trim())
+        .filter(Boolean);
+      names.textContent = dusunNames.length
+        ? dusunNames.slice(0, 3).join(' • ') + (dusunNames.length > 3 ? ' • +' + (dusunNames.length - 3) + ' lainnya' : '')
+        : 'Data dusun belum tersedia';
+    }
     if (!grid) return;
     if (!dusunList.length) {
       grid.innerHTML = '<p class="col-span-full rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center text-sm font-semibold text-slate-600">Informasi dusun belum tersedia.</p>';
@@ -803,7 +819,8 @@ const heroSlides = [
       }
 
       // Hydrate Dusun Grid if updated by admin
-      if (parsedProfil && Array.isArray(parsedProfil.dusun)) {
+      if (parsedProfil && Array.isArray(parsedProfil.dusun) && parsedProfil.dusun.length > 0) {
+        renderHomeDusunGrid(parsedProfil.dusun);
         const dusunGrid = document.getElementById('home-dusun-grid');
         if (dusunGrid) {
         const escapeHtml = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
