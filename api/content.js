@@ -25,7 +25,18 @@ module.exports = async function handler(req, res) {
   }
 
   const key = String(req.query?.key || "");
-  if (key !== "all" && !CONTENT_KEYS.has(key)) return send(res, 400, { error: "Kunci konten tidak valid." });
+  const requestedKeys = String(req.query?.keys || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  if (
+    (key && key !== "all" && !CONTENT_KEYS.has(key)) ||
+    (!key && requestedKeys.length === 0) ||
+    requestedKeys.some((item) => !CONTENT_KEYS.has(item)) ||
+    requestedKeys.length > CONTENT_KEYS.size
+  ) {
+    return send(res, 400, { error: "Kunci konten tidak valid." });
+  }
 
   const url = process.env.PUBLIC_SUPABASE_URL;
   const anonKey = process.env.PUBLIC_SUPABASE_KEY;
@@ -35,11 +46,13 @@ module.exports = async function handler(req, res) {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 
-  if (key === "all") {
-    const { data, error } = await supabase
+  if (key === "all" || requestedKeys.length > 0) {
+    let query = supabase
       .from("site_content")
       .select("content_key,data,updated_at")
       .order("content_key");
+    if (requestedKeys.length > 0) query = query.in("content_key", [...new Set(requestedKeys)]);
+    const { data, error } = await query;
     if (error) return send(res, 502, { error: "Gagal membaca konten dari Supabase." });
     const contents = Object.fromEntries((data || []).map((row) => [row.content_key, row.data]));
     return send(res, 200, { contents });

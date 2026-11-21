@@ -207,7 +207,7 @@ import kelembagaanData from '../data/kelembagaan.json';
     let news = initialBerita;
     let institutions = initialKelembagaan;
     try {
-      const response = await fetch('/api/content?key=all', { cache: 'no-store' });
+      const response = await fetch('/api/content?keys=profil,berita,kelembagaan', { cache: 'no-store' });
       if (response.ok) {
         const { contents = {} } = await response.json();
         if (contents.profil && Array.isArray(contents.profil.dusun)) profile = contents.profil;

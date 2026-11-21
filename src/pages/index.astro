@@ -497,6 +497,20 @@ const heroSlides = [
 
 <!-- Carousel & News Modal Script -->
 <script>
+  const escapeHomeNewsHtml = (value: unknown): string => String(value ?? '').replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char] as string);
+  const safeHomeNewsImage = (value: unknown): string => {
+    try {
+      const url = new URL(String(value || '/images/balai-desa-timpik.jpg'), window.location.origin);
+      return url.origin === window.location.origin || url.protocol === 'https:'
+        ? url.href
+        : new URL('/images/balai-desa-timpik.jpg', window.location.origin).href;
+    } catch {
+      return new URL('/images/balai-desa-timpik.jpg', window.location.origin).href;
+    }
+  };
+
   // 1. CAROUSEL SCRIPT
   const slides = document.querySelectorAll('.carousel-slide') as NodeListOf<HTMLElement>;
   const dots = document.querySelectorAll('.carousel-dot') as NodeListOf<HTMLElement>;
@@ -629,31 +643,33 @@ const heroSlides = [
                 <div>
                   <div class="relative h-44 overflow-hidden bg-slate-100">
                     <img
-                      src="${b.gambar || '/images/balai-desa-timpik.jpg'}"
-                      alt="${b.judul}"
+                      src="${escapeHomeNewsHtml(safeHomeNewsImage(b.gambar))}"
+                      alt="${escapeHomeNewsHtml(b.judul)}"
                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       onerror="this.src='/images/balai-desa-timpik.jpg'"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <span class="absolute top-2.5 left-2.5 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-900/90 text-white font-mono">
-                      ${b.kategori}
+                      ${escapeHomeNewsHtml(b.kategori)}
                     </span>
                   </div>
 
                   <div class="p-6">
                     <div class="flex items-center gap-2 text-xs text-slate-500 mb-2 font-medium">
-                      <span>${b.tanggal}</span>
+                      <span>${escapeHomeNewsHtml(b.tanggal)}</span>
                       <span>&bull;</span>
-                      <span class="font-medium text-slate-700">${b.penulis || 'Pemdes Timpik'}</span>
+                      <span class="font-medium text-slate-700">${escapeHomeNewsHtml(b.penulis || 'Pemdes Timpik')}</span>
                     </div>
 
                     <h3 class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
-                      <a href="/berita/${b.id}" class="hover:underline">
-                        ${b.judul}
+                      <a href="/berita/${escapeHomeNewsHtml(encodeURIComponent(String(b.id || '')))}" class="hover:underline">
+                        ${escapeHomeNewsHtml(b.judul)}
                       </a>
                     </h3>
 
                     <p class="text-sm text-slate-600 mt-2 line-clamp-3 leading-relaxed">
-                      ${b.ringkasan || b.konten || ''}
+                      ${escapeHomeNewsHtml(b.ringkasan || b.konten || '')}
                     </p>
                   </div>
                 </div>
@@ -662,13 +678,13 @@ const heroSlides = [
                   <button
                     type="button"
                     class="btn-baca-berita w-full py-3 px-4 rounded-xl text-sm font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors flex items-center justify-center gap-2 min-h-[44px]"
-                    data-berita-id="${b.id}"
-                    data-berita-judul="${b.judul}"
-                    data-berita-kategori="${b.kategori}"
-                    data-berita-tanggal="${b.tanggal}"
-                    data-berita-penulis="${b.penulis || 'Pemdes Timpik'}"
-                    data-berita-konten="${encodeURIComponent(b.konten || b.ringkasan || '')}"
-                    data-berita-gambar="${b.gambar || '/images/balai-desa-timpik.jpg'}"
+                    data-berita-id="${escapeHomeNewsHtml(b.id)}"
+                    data-berita-judul="${escapeHomeNewsHtml(b.judul)}"
+                    data-berita-kategori="${escapeHomeNewsHtml(b.kategori)}"
+                    data-berita-tanggal="${escapeHomeNewsHtml(b.tanggal)}"
+                    data-berita-penulis="${escapeHomeNewsHtml(b.penulis || 'Pemdes Timpik')}"
+                    data-berita-konten="${escapeHomeNewsHtml(encodeURIComponent(b.konten || b.ringkasan || ''))}"
+                    data-berita-gambar="${escapeHomeNewsHtml(safeHomeNewsImage(b.gambar))}"
                   >
                     <span>Baca Selengkapnya</span>
                     <span class="text-blue-600 font-bold">&rarr;</span>

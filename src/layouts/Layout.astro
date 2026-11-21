@@ -63,6 +63,9 @@ const structuredData = JSON.stringify({
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalUrl} />
     <meta name="generator" content={Astro.generator} />
@@ -989,7 +992,30 @@ const structuredData = JSON.stringify({
         apbdes: 'timpik_apbdes_data',
       };
 
-      fetch('/api/content?key=all', { cache: 'no-store' })
+      const path = window.location.pathname.replace(/\/$/, '') || '/';
+      const contentKeys = path === '/'
+        ? ['profil', 'kontak', 'berita']
+        : path === '/info-desa'
+          ? ['profil', 'kontak', 'agenda']
+          : path === '/berita'
+            ? ['berita']
+            : path.startsWith('/profil') || path.startsWith('/pemerintahan') || path.startsWith('/statistik') || path.startsWith('/peta-desa')
+                ? ['profil']
+                : path.startsWith('/potensi')
+                  ? ['potensi']
+                  : path.startsWith('/kelembagaan')
+                    ? ['kelembagaan']
+                    : path.startsWith('/agenda')
+                      ? ['agenda']
+                      : path.startsWith('/kontak')
+                        ? ['kontak']
+                        : path.startsWith('/layanan-surat')
+                          ? ['surat']
+                          : path.startsWith('/transparansi')
+                            ? ['apbdes']
+                            : [];
+
+      if (contentKeys.length > 0) fetch('/api/content?keys=' + encodeURIComponent(contentKeys.join(',')), { cache: 'no-store' })
         .then(async (response) => {
           if (!response.ok) throw new Error(`Supabase content request failed (${response.status})`);
           const { contents = {} } = await response.json();
@@ -997,7 +1023,9 @@ const structuredData = JSON.stringify({
           window.dispatchEvent(new CustomEvent('timpik-supabase-content', { detail: contents }));
           let changed = false;
 
-          for (const [contentKey, storageKey] of Object.entries(publicStorageKeys)) {
+          for (const contentKey of contentKeys) {
+            const storageKey = publicStorageKeys[contentKey];
+            if (!storageKey) continue;
             const next = Object.hasOwn(contents, contentKey) ? JSON.stringify(contents[contentKey]) : null;
             const previous = localStorage.getItem(storageKey);
             if (next === previous) continue;

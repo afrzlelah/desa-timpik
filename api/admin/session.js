@@ -8,12 +8,50 @@ const {
   isSameOrigin,
 } = require("../_admin-session");
 
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+const LOGIN_MAX_FAILURES = 8;
+const loginFailures = new Map();
+
 function send(res, status, body, headers = {}) {
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.setHeader("Cache-Control", "no-store, max-age=0");
   for (const [name, value] of Object.entries(headers)) res.setHeader(name, value);
   res.end(JSON.stringify(body));
+}
+
+function getLoginClientKey(req) {
+  const forwarded = req.headers["x-forwarded-for"];
+  const clientIp = Array.isArray(forwarded) ? forwarded[0] : String(forwarded || "").split(",")[0];
+  return String(clientIp || req.socket?.remoteAddress || "unknown").trim().slice(0, 100);
+}
+
+function getLoginBlockSeconds(req, now = Date.now()) {
+  for (const [key, record] of loginFailures) {
+    if (record.expiresAt <= now) loginFailures.delete(key);
+  }
+  const record = loginFailures.get(getLoginClientKey(req));
+  return record && record.count >= LOGIN_MAX_FAILURES
+    ? Math.max(1, Math.ceil((record.expiresAt - now) / 1000))
+    : 0;
+}
+
+function recordLoginFailure(req, now = Date.now()) {
+  const key = getLoginClientKey(req);
+  const record = loginFailures.get(key);
+  if (!record || record.expiresAt <= now) {
+    loginFailures.set(key, { count: 1, expiresAt: now + LOGIN_WINDOW_MS });
+    if (loginFailures.size > 5000) {
+      const oldestKey = loginFailures.keys().next().value;
+      if (oldestKey) loginFailures.delete(oldestKey);
+    }
+    return;
+  }
+  record.count += 1;
+}
+
+function clearLoginFailures(req) {
+  loginFailures.delete(getLoginClientKey(req));
 }
 
 async function readJson(req) {
@@ -67,6 +105,12 @@ module.exports = async function handler(req, res) {
 
   if (req.method === "POST") {
     if (!isSameOrigin(req)) return send(res, 403, { error: "Permintaan lintas situs ditolak." });
+    const retryAfter = getLoginBlockSeconds(req);
+    if (retryAfter) {
+      return send(res, 429, { error: "Terlalu banyak percobaan masuk. Coba lagi beberapa menit." }, {
+        "Retry-After": String(retryAfter),
+      });
+    }
 
     let credentials;
     try {
@@ -85,11 +129,13 @@ module.exports = async function handler(req, res) {
       submittedUsername.toLowerCase() === configuredUsername.trim().toLowerCase() &&
       safePasswordEqual(submittedPassword, configuredPassword)
     ) {
+      clearLoginFailures(req);
       return issueSession(req, res, sessionSecret, { auth: "env", role: "owner" });
     }
 
     const { url, anonKey, secretKey } = getSupabaseConfig();
     if (!url || !anonKey || !secretKey || !submittedUsername.includes("@")) {
+      recordLoginFailure(req);
       return send(res, 401, { error: "Email/nama pengguna atau kata sandi tidak cocok." });
     }
 
@@ -100,7 +146,10 @@ module.exports = async function handler(req, res) {
       email: submittedUsername.toLowerCase(),
       password: submittedPassword,
     });
-    if (error || !data.user) return send(res, 401, { error: "Email/nama pengguna atau kata sandi tidak cocok." });
+    if (error || !data.user) {
+      recordLoginFailure(req);
+      return send(res, 401, { error: "Email/nama pengguna atau kata sandi tidak cocok." });
+    }
 
     const userSession = {
       auth: "supabase",
@@ -109,7 +158,11 @@ module.exports = async function handler(req, res) {
       display_name: data.user.user_metadata?.display_name || "Administrator",
     };
     const active = await isActiveAdmin(userSession, createServiceClient(url, secretKey));
-    if (!active) return send(res, 401, { error: "Email/nama pengguna atau kata sandi tidak cocok." });
+    if (!active) {
+      recordLoginFailure(req);
+      return send(res, 401, { error: "Email/nama pengguna atau kata sandi tidak cocok." });
+    }
+    clearLoginFailures(req);
     return issueSession(req, res, sessionSecret, userSession);
   }
 

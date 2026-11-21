@@ -205,6 +205,19 @@ const categories = [
 
 <script is:inline define:vars={{ initialBerita: beritaData }}>
   const STORAGE_KEY = 'timpik_berita_list';
+  const escapeBeritaHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
+  const safeBeritaImage = (value) => {
+    try {
+      const url = new URL(String(value || '/images/balai-desa-timpik.jpg'), window.location.origin);
+      return url.origin === window.location.origin || url.protocol === 'https:'
+        ? url.href
+        : new URL('/images/balai-desa-timpik.jpg', window.location.origin).href;
+    } catch {
+      return new URL('/images/balai-desa-timpik.jpg', window.location.origin).href;
+    }
+  };
 
   function getLocalBerita() {
     try {
@@ -249,38 +262,40 @@ const categories = [
     grid.innerHTML = filtered.map(b => `
       <article
         class="berita-card bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden group"
-        data-judul="${b.judul.toLowerCase()}"
-        data-kategori="${b.kategori}"
-        data-ringkasan="${(b.ringkasan || '').toLowerCase()}"
+        data-judul="${escapeBeritaHtml(b.judul)}"
+        data-kategori="${escapeBeritaHtml(b.kategori)}"
+        data-ringkasan="${escapeBeritaHtml(b.ringkasan || '')}"
       >
         <div>
           <div class="relative h-48 sm:h-52 overflow-hidden bg-slate-100 border-b border-slate-100">
             <img
-              src="${b.gambar || '/images/balai-desa-timpik.jpg'}"
-              alt="${b.judul}"
+              src="${escapeBeritaHtml(safeBeritaImage(b.gambar))}"
+              alt="${escapeBeritaHtml(b.judul)}"
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               onerror="this.src='/images/balai-desa-timpik.jpg'"
+              loading="lazy"
+              decoding="async"
             />
             <span class="absolute top-3 left-3 text-xs uppercase tracking-wider px-2.5 py-1 bg-blue-950/90 text-white font-bold rounded-md">
-              ${b.kategori}
+              ${escapeBeritaHtml(b.kategori)}
             </span>
           </div>
 
           <div class="p-5 sm:p-6 space-y-3">
             <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
-              <span>${b.tanggal}</span>
+              <span>${escapeBeritaHtml(b.tanggal)}</span>
               <span>&bull;</span>
-              <span class="truncate">${b.penulis || 'Pemdes Timpik'}</span>
+              <span class="truncate">${escapeBeritaHtml(b.penulis || 'Pemdes Timpik')}</span>
             </div>
 
             <h2 class="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-blue-800 transition-colors leading-snug line-clamp-2">
-              <a href="/berita/${b.id}">
-                ${b.judul}
+              <a href="/berita/${escapeBeritaHtml(encodeURIComponent(String(b.id || '')))}">
+                ${escapeBeritaHtml(b.judul)}
               </a>
             </h2>
 
             <p class="text-sm text-slate-600 line-clamp-3 leading-relaxed">
-              ${b.ringkasan || ''}
+              ${escapeBeritaHtml(b.ringkasan || '')}
             </p>
           </div>
         </div>
@@ -289,18 +304,18 @@ const categories = [
           <button
             type="button"
             class="btn-baca-berita-page min-h-[44px] py-2 px-3 text-sm font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors flex items-center justify-center"
-            data-berita-id="${b.id}"
-            data-berita-judul="${b.judul}"
-            data-berita-kategori="${b.kategori}"
-            data-berita-tanggal="${b.tanggal}"
-            data-berita-penulis="${b.penulis || 'Pemdes Timpik'}"
-            data-berita-konten="${encodeURIComponent(b.konten || b.ringkasan || '')}"
-            data-berita-gambar="${b.gambar || '/images/balai-desa-timpik.jpg'}"
+            data-berita-id="${escapeBeritaHtml(b.id)}"
+            data-berita-judul="${escapeBeritaHtml(b.judul)}"
+            data-berita-kategori="${escapeBeritaHtml(b.kategori)}"
+            data-berita-tanggal="${escapeBeritaHtml(b.tanggal)}"
+            data-berita-penulis="${escapeBeritaHtml(b.penulis || 'Pemdes Timpik')}"
+            data-berita-konten="${escapeBeritaHtml(encodeURIComponent(b.konten || b.ringkasan || ''))}"
+            data-berita-gambar="${escapeBeritaHtml(safeBeritaImage(b.gambar))}"
           >
             <span>Baca Cepat</span>
           </button>
           <a
-            href="/berita/${b.id}"
+            href="/berita/${escapeBeritaHtml(encodeURIComponent(String(b.id || '')))}"
             class="min-h-[44px] py-2 px-3 text-sm font-bold text-white bg-blue-900 hover:bg-blue-950 rounded-xl transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
           >
             <span>Detail &rarr;</span>

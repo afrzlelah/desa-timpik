@@ -6,7 +6,6 @@ const OFFLINE_URLS = [
   '/transparansi',
   '/kontak',
   '/layanan-surat',
-  '/layanan-surat/lacak',
   '/manifest.webmanifest',
   '/favicon.svg'
 ];
