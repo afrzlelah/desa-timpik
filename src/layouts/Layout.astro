@@ -140,10 +140,10 @@ const currentPath = Astro.url.pathname;
                     <strong class="block text-slate-900">Pemerintahan & SOTK</strong>
                     <span class="text-[11px] text-slate-500">Aparatur desa & kepala dusun</span>
                   </a>
-                  <a href="/kelembagaan" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
+                  <!-- <a href="/kelembagaan" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
                     <strong class="block text-slate-900">14 Kelembagaan Resmi</strong>
                     <span class="text-[11px] text-slate-500">BPD, PKK, Gapoktan, P3A, dll</span>
-                  </a>
+                  </a> -->
                   <a href="/potensi" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
                     <strong class="block text-slate-900">Potensi & Seni Budaya</strong>
                     <span class="text-[11px] text-slate-500">Sawah 243 Ha & Wayang Orang</span>
@@ -195,7 +195,7 @@ const currentPath = Astro.url.pathname;
                 aria-haspopup="true"
                 class={`px-3.5 py-2.5 rounded-lg flex items-center gap-1 transition-colors ${currentPath.startsWith('/statistik') || currentPath.startsWith('/peta-desa') || currentPath.startsWith('/transparansi') ? 'text-blue-900 font-bold bg-blue-50/80' : 'hover:text-white hover:bg-white/10'}`}
               >
-                <span>Data & Transparansi</span>
+                <span>Data & penduduk</span>
                 <svg class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
@@ -206,10 +206,10 @@ const currentPath = Astro.url.pathname;
                 class="absolute left-0 top-full pt-2 w-64 hidden group-hover:block z-50 transition-all duration-150"
               >
                 <div class="glass-panel rounded-xl p-2 space-y-1 text-xs">
-                  <a href="/transparansi" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
+                  <!-- <a href="/transparansi" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
                     <strong class="block text-slate-900">Transparansi APBDes</strong>
                     <span class="text-[11px] text-slate-500">Realisasi anggaran & dana desa</span>
-                  </a>
+                  </a> -->
                   <a href="/statistik" class="block px-3 py-2 rounded-lg text-slate-800 hover:text-blue-700 hover:bg-blue-50/60 transition-colors">
                     <strong class="block text-slate-900">Statistik Kependudukan</strong>
                     <span class="text-[11px] text-slate-500">Demografi, KK, & mata pencaharian</span>
@@ -307,9 +307,9 @@ const currentPath = Astro.url.pathname;
             <a href="/pemerintahan" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
               • Bagan Struktur Organisasi Desa (SOTK)
             </a>
-            <a href="/kelembagaan" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
+            <!-- <a href="/kelembagaan" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
               • 14 Lembaga Desa (BPD, PKK, Gapoktan, P3A)
-            </a>
+            </a> -->
             <a href="/potensi" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
               • Potensi Pertanian & Wayang Orang
             </a>
@@ -332,9 +332,9 @@ const currentPath = Astro.url.pathname;
           <!-- 4. Data & Kependudukan -->
           <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-3 space-y-1">
             <span class="text-xs font-bold uppercase tracking-wider text-blue-700 block px-2 mb-1">Data & Kependudukan</span>
-            <a href="/transparansi" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
+            <!-- <a href="/transparansi" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
               • Transparansi Anggaran APBDes
-            </a>
+            </a> -->
             <a href="/statistik" class="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-white hover:text-blue-700">
               • Jumlah Penduduk (5.696 Jiwa)
             </a>

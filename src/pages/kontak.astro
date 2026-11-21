@@ -42,90 +42,117 @@ const { operasional, kontak_darurat } = kontakData;
   <section class="py-10 bg-gray-100 border-b border-white/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        
-        <!-- Kolom 1: Balai Desa & Jam Kerja -->
-        <div class="p-6 sm:p-8 flex flex-col justify-between space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6 items-stretch">
+
+        <div class="h-full rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm flex flex-col justify-between gap-8">
           <div>
-            <div class="flex items-center justify-between gap-2 mb-3">
-              <span class="text-xs uppercase tracking-widest text-slate-500 font-bold" id="view-nama-kantor">{operasional.nama_kantor}</span>
-              <span class="text-xs uppercase tracking-wider px-2.5 py-1 rounded-md border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold" id="view-status-badge">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+              <span class="text-xs uppercase tracking-widest text-slate-500 font-bold" id="view-nama-kantor">
+                {operasional.nama_kantor}
+              </span>
+
+              <span class="text-xs uppercase tracking-wider px-3 py-1.5 rounded-lg border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold" id="view-status-badge">
                 {operasional.status_layanan}
               </span>
             </div>
-            
-            <h2 class="text-xl font-extrabold text-slate-900">Jam Pelayanan Kantor</h2>
-            <p class="text-sm sm:text-base text-slate-600 mt-1 leading-relaxed" id="view-alamat-kantor">
+
+            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">
+              Jam Pelayanan Kantor
+            </h2>
+
+            <p class="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed" id="view-alamat-kantor">
               {operasional.alamat}
             </p>
           </div>
 
-          <div class="pt-4 border-t border-slate-100 space-y-2 text-sm">
-            <div class="flex items-center justify-between">
-              <span class="text-slate-600">Senin &ndash; Kamis:</span>
-              <strong class="text-slate-900 font-bold" id="view-jam-senin-kamis">{operasional.jam_senin_kamis}</strong>
+          <div class="pt-5 border-t border-slate-100 space-y-4">
+            <div class="flex items-center justify-between gap-4 text-sm">
+              <span class="text-slate-500">Senin – Kamis</span>
+              <strong class="text-slate-900 font-bold text-right" id="view-jam-senin-kamis">
+                {operasional.jam_senin_kamis}
+              </strong>
             </div>
-            <div class="flex items-center justify-between">
-              <span class="text-slate-600">Jumat:</span>
-              <strong class="text-slate-900 font-bold" id="view-jam-jumat">{operasional.jam_jumat}</strong>
+
+            <div class="flex items-center justify-between gap-4 text-sm">
+              <span class="text-slate-500">Jumat</span>
+              <strong class="text-slate-900 font-bold text-right" id="view-jam-jumat">
+                {operasional.jam_jumat}
+              </strong>
             </div>
-            <p class="text-xs text-slate-500 italic pt-1.5 border-t border-dashed border-slate-200" id="view-keterangan-layanan">
+
+            <p class="text-xs text-slate-500 italic pt-3 border-t border-dashed border-slate-200 leading-relaxed" id="view-keterangan-layanan">
               {operasional.keterangan_layanan}
             </p>
           </div>
         </div>
 
-        <!-- Kolom 2: WhatsApp Pelayanan Warga -->
-        <div class="p-6 sm:p-8 flex flex-col justify-between space-y-6 bg-emerald-50/50">
+        <div class="h-full rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-emerald-50/70 p-6 sm:p-8 shadow-sm flex flex-col justify-between gap-8">
           <div>
-            <div class="flex items-center justify-between gap-2 mb-3">
-              <span class="text-xs uppercase tracking-wider text-emerald-800 font-bold">Layanan Warga Online</span>
-              <span class="text-xs px-2.5 py-1 bg-emerald-200/80 text-emerald-950 font-bold rounded-md">Respon Cepat</span>
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+              <span class="text-xs uppercase tracking-wider text-emerald-800 font-bold">
+                Layanan Warga Online atau Kerja Sama
+              </span>
+
+              <span class="text-xs px-3 py-1.5 bg-emerald-100 text-emerald-900 font-bold rounded-lg">
+                Hubungi Kami
+              </span>
             </div>
 
-            <h2 class="text-xl font-bold text-slate-900">WhatsApp Pelayanan Desa</h2>
-            <p class="text-sm text-slate-700 mt-2 leading-relaxed">
-              Konsultasi persyaratan berkas surat, panduan pengisian formulir, atau tindak lanjut dokumen administrasi kependudukan Anda.
+            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">
+              Pusat Komunikasi Desa
+            </h2>
+
+            <p class="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
+              Gunakan layanan WhatsApp untuk menyampaikan pertanyaan, konsultasi administrasi warga, aspirasi, koordinasi kegiatan, maupun menjalin kerja sama dengan Pemerintah Desa Timpik.
             </p>
+
+            <div class="mt-6 space-y-3">
+              <div class="flex items-start gap-3">
+                <span class="w-8 h-8 shrink-0 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.293 9 11.622C17.176 19.293 21 14.591 21 9c0-1.042-.133-2.052-.382-3.016z"/>
+                  </svg>
+                </span>
+                <div>
+                  <p class="text-sm font-bold text-slate-800">Pelayanan Warga</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Informasi administrasi, konsultasi, dan aspirasi masyarakat.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="w-8 h-8 shrink-0 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                </span>
+                <div>
+                  <p class="text-sm font-bold text-slate-800">Kerja Sama dan Kemitraan</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Koordinasi kegiatan, KKN, institusi, dan kolaborasi pembangunan desa.</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="pt-4 border-t border-emerald-200/60">
+          <div class="pt-5 border-t border-emerald-200/70">
             <a
               id="view-wa-link"
-              href={`https://wa.me/6285166439180, '')}?text=Halo%20Admin%20Pelayanan%20Desa%20Timpik,%20saya%20ingin%20berkonsultasi%20mengenai%20pelayanan%20surat`}
+              href={`https://wa.me/${(operasional.telepon || '').replace(/\D/g, '')}?text=${encodeURIComponent('Halo Admin Pemerintah Desa Timpik, saya ingin menghubungi terkait layanan warga atau kerja sama.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="w-full min-h-[48px] py-3 px-4 bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
+              class="w-full min-h-[50px] py-3 px-5 bg-emerald-700 hover:bg-emerald-800 active:bg-emerald-900 text-white text-sm font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-emerald-900/10"
             >
-              <svg class="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.92-9.91-9.92z"/></svg>
-              <span id="view-wa-text">Chat WhatsApp ({operasional.telepon})</span>
+              <svg class="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.92-9.91-9.92z"/>
+              </svg>
+              <span id="view-wa-text">Hubungi WhatsApp Desa</span>
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M7 7h10v10"/>
+              </svg>
             </a>
-          </div>
-        </div>
 
-        <!-- Kolom 3: Email Resmi Kedinasan -->
-        <div class="p-6 sm:p-8 flex flex-col justify-between space-y-6">
-          <div>
-            <div class="flex items-center justify-between gap-2 mb-3">
-              <span class="text-xs uppercase tracking-wider text-blue-900 font-bold">Surat & Kerja Sama</span>
-              <span class="text-xs px-2.5 py-1 bg-blue-100 text-blue-950 font-bold rounded-md">Resmi</span>
-            </div>
-
-            <h2 class="text-xl font-bold text-slate-900">Surat Dinas & Kemitraan</h2>
-            <p class="text-sm text-slate-700 mt-2 leading-relaxed">
-              Penerimaan surat kedinasan, kemitraan perguruan tinggi / KKN, instansi vertikal, maupun kerjasama pembangunan desa.
+            <p class="text-[11px] text-center text-slate-500 mt-3">
+              Terhubung langsung dengan petugas pelayanan Desa Timpik.
             </p>
-          </div>
-
-          <div class="pt-4 border-t border-slate-200">
-            <a
-              id="view-email-link"
-              href={`mailto:${operasional.email}`}
-              class="w-full min-h-[48px] py-3 px-4 bg-blue-900 hover:bg-blue-950 text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm truncate"
-            >
-              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              <span id="view-email-text" class="truncate">{operasional.email}</span>
-            </a>
           </div>
         </div>
 
