@@ -126,11 +126,12 @@ const structuredData = JSON.stringify({
     display: block;
     padding: 0.75rem;
     border-radius: 0.75rem;
-    transition: background-color 180ms ease;
+    transition: background-color 180ms ease, transform 180ms ease;
   }
 
   .desktop-dropdown-link:hover {
-    background-color: rgb(239 246 255);
+    background-color: rgb(219 234 254 / 0.72);
+    transform: translateX(2px);
   }
 
   .desktop-dropdown-link strong {
@@ -150,7 +151,7 @@ const structuredData = JSON.stringify({
 
   .mobile-nav-label {
     padding-left: 0.5rem;
-    color: rgb(147 197 253);
+    color: rgb(191 219 254);
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 0.12em;
@@ -239,9 +240,9 @@ const structuredData = JSON.stringify({
   }
 </style>
 
-    <!-- Main Navigation Header (Clean Crisp White & Elegant Blue) -->
-    <header class="sticky top-0 z-50 w-full bg-blue-600 text-white border-b border-white/10 shadow-lg shadow-slate-950/10">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-50 w-full border-b border-white/20 bg-blue-800/90 text-white shadow-lg shadow-blue-950/15 backdrop-blur-2xl supports-[backdrop-filter]:bg-blue-800/80">
+      <div class="w-full px-4 sm:px-6 lg:px-8 xl:px-10">
         <div class="flex items-center justify-between h-16 sm:h-[72px] lg:h-20 gap-4">
 
           <div class="flex items-center gap-3 min-w-0 shrink-0">
@@ -279,7 +280,7 @@ const structuredData = JSON.stringify({
             </button>
           </div>
 
-          <nav class="hidden xl:flex items-center gap-0.5 2xl:gap-1 font-semibold text-white">
+          <nav class="desktop-main-nav hidden xl:flex items-center gap-0.5 2xl:gap-1 font-semibold text-white" aria-label="Navigasi utama">
 
             <a
               href="/"
@@ -288,10 +289,11 @@ const structuredData = JSON.stringify({
               Beranda
             </a>
 
-            <div class="relative group">
+            <div class="desktop-nav-dropdown relative group">
               <button
                 type="button"
                 aria-haspopup="true"
+                aria-expanded="false"
                 class={`px-3 py-2.5 rounded-lg flex items-center gap-1.5 text-xs 2xl:text-sm transition-colors ${currentPath.startsWith('/profil') || currentPath.startsWith('/pemerintahan') || currentPath.startsWith('/kelembagaan') || currentPath.startsWith('/potensi') ? 'bg-white text-blue-950 font-bold' : 'text-blue-50 hover:bg-white/10 hover:text-white'}`}
               >
                 Profil Desa
@@ -301,7 +303,7 @@ const structuredData = JSON.stringify({
               </button>
 
               <div class="absolute left-0 top-full pt-3 w-64 hidden group-hover:block group-focus-within:block z-50">
-                <div class="rounded-2xl border border-black/10 bg-white p-2 shadow-2xl shadow-slate-950/15 text-slate-900">
+                <div class="rounded-2xl border border-white/80 bg-slate-100/95 p-2 shadow-2xl shadow-blue-950/20 text-slate-900 backdrop-blur-2xl">
                   <a href="/profil" class="desktop-dropdown-link">
                     <strong>Profil & Wilayah</strong>
                     <span>Sejarah, visi misi dan 13 wilayah</span>
@@ -320,10 +322,11 @@ const structuredData = JSON.stringify({
               </div>
             </div>
 
-            <div class="relative group">
+            <div class="desktop-nav-dropdown relative group">
               <button
                 type="button"
                 aria-haspopup="true"
+                aria-expanded="false"
                 class={`px-3 py-2.5 rounded-lg flex items-center gap-1.5 text-xs 2xl:text-sm transition-colors ${currentPath.startsWith('/info-desa') || currentPath.startsWith('/agenda') || currentPath.startsWith('/berita') ? 'bg-white text-blue-950 font-bold' : 'text-blue-50 hover:bg-white/10 hover:text-white'}`}
               >
                 Informasi
@@ -333,7 +336,7 @@ const structuredData = JSON.stringify({
               </button>
 
               <div class="absolute left-0 top-full pt-3 w-64 hidden group-hover:block group-focus-within:block z-50">
-                <div class="rounded-2xl border border-black/10 bg-white p-2 shadow-2xl shadow-slate-950/15 text-slate-900">
+                <div class="rounded-2xl border border-white/80 bg-slate-100/95 p-2 shadow-2xl shadow-blue-950/20 text-slate-900 backdrop-blur-2xl">
                   <a href="/info-desa" class="desktop-dropdown-link">
                     <strong>Informasi & Pengumuman</strong>
                     <span>Informasi resmi pemerintah desa</span>
@@ -352,10 +355,11 @@ const structuredData = JSON.stringify({
               </div>
             </div>
 
-            <div class="relative group">
+            <div class="desktop-nav-dropdown relative group">
               <button
                 type="button"
                 aria-haspopup="true"
+                aria-expanded="false"
                 class={`px-3 py-2.5 rounded-lg flex items-center gap-1.5 text-xs 2xl:text-sm transition-colors ${currentPath.startsWith('/statistik') || currentPath.startsWith('/peta-desa') || currentPath.startsWith('/transparansi') ? 'bg-white text-blue-950 font-bold' : 'text-blue-50 hover:bg-white/10 hover:text-white'}`}
               >
                 Data Desa
@@ -365,7 +369,7 @@ const structuredData = JSON.stringify({
               </button>
 
               <div class="absolute left-0 top-full pt-3 w-64 hidden group-hover:block group-focus-within:block z-50">
-                <div class="rounded-2xl border border-black/10 bg-white p-2 shadow-2xl shadow-slate-950/15 text-slate-900">
+                <div class="rounded-2xl border border-white/80 bg-slate-100/95 p-2 shadow-2xl shadow-blue-950/20 text-slate-900 backdrop-blur-2xl">
                   <a href="/statistik" class="desktop-dropdown-link">
                     <strong>Statistik Kependudukan</strong>
                     <span>Demografi dan mata pencaharian</span>
@@ -443,7 +447,7 @@ const structuredData = JSON.stringify({
         aria-label="Navigasi Mobile"
         aria-hidden="true"
         inert
-        class="hidden fixed z-[70] top-[76px] sm:top-[84px] right-3 sm:right-5 w-[calc(100%-24px)] sm:w-[min(390px,calc(100%-40px))] max-h-[calc(100dvh-92px)] overflow-y-auto overscroll-contain rounded-[24px] border border-white/15 bg-blue-600 text-white shadow-2xl shadow-slate-950/40 xl:hidden"
+        class="hidden fixed z-[70] top-[76px] sm:top-[84px] right-3 sm:right-5 w-[calc(100%-24px)] sm:w-[min(390px,calc(100%-40px))] max-h-[calc(100dvh-92px)] overflow-y-auto overscroll-contain rounded-[24px] border border-white/20 bg-blue-800/90 text-white shadow-2xl shadow-blue-950/40 backdrop-blur-2xl xl:hidden"
       >
         <div class="p-5 sm:p-6">
 
@@ -920,6 +924,40 @@ const structuredData = JSON.stringify({
           }
         }
       } catch (error) { console.warn('Profil lokal tidak dapat dibaca.', error); }
+    </script>
+    <script>
+      const desktopNav = document.querySelector('.desktop-main-nav');
+      const desktopDropdowns = Array.from(desktopNav?.querySelectorAll('.desktop-nav-dropdown') || []);
+
+      const syncDesktopDropdownState = (activeDropdown: Element | null = null) => {
+        desktopDropdowns.forEach((dropdown) => {
+          const trigger = dropdown.querySelector('button[aria-haspopup="true"]');
+          const isOpen = dropdown === activeDropdown || dropdown.contains(document.activeElement);
+          trigger?.setAttribute('aria-expanded', String(isOpen));
+        });
+      };
+
+      desktopNav?.addEventListener('pointerover', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+
+        const hoveredDropdown = target.closest('.desktop-nav-dropdown');
+        desktopDropdowns.forEach((dropdown) => {
+          if (dropdown !== hoveredDropdown && dropdown.contains(document.activeElement)) {
+            (document.activeElement as HTMLElement).blur();
+          }
+        });
+        syncDesktopDropdownState(hoveredDropdown);
+      });
+
+      desktopNav?.addEventListener('pointerleave', () => syncDesktopDropdownState());
+      desktopNav?.addEventListener('focusin', (event) => {
+        const target = event.target;
+        syncDesktopDropdownState(target instanceof Element ? target.closest('.desktop-nav-dropdown') : null);
+      });
+      desktopNav?.addEventListener('focusout', () => {
+        window.setTimeout(() => syncDesktopDropdownState(), 0);
+      });
     </script>
     <script>
       const mobileMenuButton = document.getElementById('mobile-menu-btn');
