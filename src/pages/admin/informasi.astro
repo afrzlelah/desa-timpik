@@ -7,7 +7,7 @@ const pengumumanAwal = [
     id: 'pengumuman-surat',
     kategori: 'Administrasi Surat',
     judul: 'Permohonan Dokumen Administrasi Warga Kini Dapat Diajukan Online',
-    ringkasan: 'Warga dapat mengurus SKU, SKTM, pengantar SKCK, surat domisili, dan surat kematian secara online tanpa harus mengantre di Balai Desa.',
+    ringkasan: 'Warga dapat mengurus SKU, SKTM, pengantar SKCK, surat domisili, dan surat kematian secara online.',
     isi: 'Pemerintah Desa Timpik menyediakan layanan pengajuan dokumen administrasi secara online. Warga dapat mengajukan SKU, SKTM, pengantar SKCK, surat domisili, dan surat kematian melalui formulir layanan yang tersedia.',
     tanggal: '',
     url: '/layanan-surat',
@@ -19,7 +19,7 @@ const pengumumanAwal = [
     id: 'pengumuman-irigasi',
     kategori: 'Pertanian & Irigasi',
     judul: 'Jadwal Pembagian Giliran Aliran Air Irigasi P3A Bogo Wastro',
-    ringkasan: 'Pengurus P3A Bogo Wastro menetapkan rotasi debit air sawah untuk pemerataan suplai air pada wilayah pertanian.',
+    ringkasan: 'Pengurus P3A Bogo Wastro menetapkan rotasi debit air sawah untuk pemerataan suplai air.',
     isi: 'Informasi mengenai jadwal pembagian aliran air irigasi P3A Bogo Wastro untuk wilayah Dusun Bogo, Dusun Sumber, dan wilayah terkait. Warga dapat menghubungi pengurus P3A untuk memperoleh informasi jadwal pelaksanaan.',
     tanggal: '',
     url: '/kelembagaan/p3a',
@@ -31,7 +31,7 @@ const pengumumanAwal = [
     id: 'pengumuman-apbdes',
     kategori: 'Transparansi Anggaran',
     judul: 'Publikasi Rincian APBDes dan Alokasi Pembangunan Fisik',
-    ringkasan: 'Warga dapat memantau informasi penggunaan anggaran desa dan alokasi pembangunan melalui publikasi transparansi APBDes.',
+    ringkasan: 'Warga dapat memantau informasi penggunaan anggaran desa dan alokasi pembangunan.',
     isi: 'Pemerintah Desa Timpik menyediakan informasi transparansi anggaran sebagai bagian dari keterbukaan penyelenggaraan pemerintahan desa. Rincian anggaran dan alokasi pembangunan dapat dilihat melalui halaman transparansi.',
     tanggal: '',
     url: '/transparansi',
@@ -43,414 +43,353 @@ const pengumumanAwal = [
 ---
 
 <AdminLayout title="Kelola Informasi & Profil Desa" activeMenu="informasi">
+
   <main class="mx-auto max-w-6xl space-y-8 pb-16">
-    
-    <!-- Header -->
-    <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+
+    <!-- HEADER -->
+    <header class="flex flex-col justify-between gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center">
       <div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Pengelolaan Informasi Profil Desa</h1>
-        <p class="mt-1 text-sm sm:text-base text-slate-600">Perbarui visi & misi, data dusun, statistik warga, alamat kantor, dan foto struktur organisasi.</p>
+        <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+          Pengelolaan Informasi Profil Desa
+        </h1>
+        <p class="mt-1 text-sm text-slate-600 sm:text-base">
+          Kelola profil, data wilayah, statistik penduduk, struktur organisasi, dan pengumuman Desa Timpik.
+        </p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-2">
-        <button
-          type="button"
-          id="btn-clear-all-profil"
-          class="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-rose-300 bg-rose-50 px-4 py-2 text-sm font-bold text-rose-800 shadow-xs transition-colors hover:bg-rose-100"
-          title="Kosongkan seluruh informasi profil desa"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7h12m-10 0 1 13h6l1-13M9 7V4h6v3"/></svg>
-          <span>Kosongkan Semua Data</span>
+      <div class="flex flex-wrap gap-2">
+        <button type="button" id="btn-clear-all-profil" class="inline-flex min-h-11 items-center gap-2 rounded-xl border border-rose-300 bg-rose-50 px-4 py-2 text-sm font-bold text-rose-800 hover:bg-rose-100">
+          Kosongkan Semua Data
         </button>
-        <a
-          href="/profil"
-          target="_blank"
-          class="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl bg-blue-700 px-4 py-2 text-sm font-bold text-white shadow-xs hover:bg-blue-800 transition-colors"
-        >
-          <span>Buka Halaman Profil Publik</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+
+        <a href="/profil" target="_blank" class="inline-flex min-h-11 items-center rounded-xl bg-blue-700 px-4 py-2 text-sm font-bold text-white hover:bg-blue-800">
+          Buka Profil Publik ↗
         </a>
       </div>
     </header>
 
-    <!-- Notification Alert -->
-    <div id="notice-toast" class="hidden rounded-xl bg-emerald-50 border border-emerald-300 p-4 text-emerald-950 flex items-center justify-between shadow-xs">
-      <div class="flex items-center gap-3">
-        <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-        <span id="notice-text" class="text-sm font-semibold">Perubahan data desa berhasil disimpan dan langsung aktif di halaman publik!</span>
-      </div>
-      <button type="button" onclick="document.getElementById('notice-toast').classList.add('hidden')" class="text-emerald-700 font-bold text-lg">&times;</button>
+    <!-- GLOBAL NOTICE -->
+    <div id="notice-toast" class="hidden items-center justify-between rounded-xl border border-emerald-300 bg-emerald-50 p-4 text-emerald-950">
+      <span id="notice-text" class="text-sm font-semibold"></span>
+      <button type="button" id="btn-close-global-notice" class="text-xl font-bold">&times;</button>
     </div>
 
-    <!-- Tab Section -->
+    <!-- TABS -->
     <div role="tablist" aria-label="Bagian informasi profil" class="flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-100 p-2 text-sm font-bold">
-      <button type="button" role="tab" aria-selected="true" aria-controls="panel-umum" id="tab-btn-umum" class="min-h-11 rounded-xl border border-blue-700 bg-blue-700 px-4 py-2 text-white shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2">
+
+      <button type="button" role="tab" aria-selected="true" aria-controls="panel-umum" id="tab-btn-umum" class="admin-tab active">
         1. Visi, Misi & Alamat
       </button>
-      <button type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-dusun" id="tab-btn-dusun" class="min-h-11 rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-700 transition-colors hover:border-blue-400 hover:bg-blue-50 hover:text-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2">
-        2. Kelola Data Dusun (<span id="dusun-tab-count">4</span>)
+
+      <button type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-dusun" id="tab-btn-dusun" class="admin-tab">
+        2. Data Dusun (<span id="dusun-tab-count">0</span>)
       </button>
-      <button type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-penduduk" id="tab-btn-penduduk" class="min-h-11 rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-700 transition-colors hover:border-blue-400 hover:bg-blue-50 hover:text-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2">
+
+      <button type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-penduduk" id="tab-btn-penduduk" class="admin-tab">
         3. Data Total Warga
       </button>
-      <button type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-struktur" id="tab-btn-struktur" class="min-h-11 rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-700 transition-colors hover:border-blue-400 hover:bg-blue-50 hover:text-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2">
-        4. Foto Struktur Organisasi
+
+      <button type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-struktur" id="tab-btn-struktur" class="admin-tab">
+        4. Struktur Organisasi
       </button>
-      <button type="button" id="tab-btn-pengumuman" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-3 transition-colors">
+
+      <button type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-pengumuman" id="tab-btn-pengumuman" class="admin-tab">
         5. Pengumuman Balai Desa
       </button>
+
     </div>
 
-    <!-- FORM SECTIONS -->
+    <!-- =====================================================
+         FORM PROFIL DESA
+    ====================================================== -->
+
     <form id="form-info" class="space-y-8">
 
-      <!-- ================= SECTION 1: VISI, MISI & ALAMAT ================= -->
-      <div id="panel-umum" role="tabpanel" aria-labelledby="tab-btn-umum" tabindex="0" class="space-y-6">
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
-          <h2 class="text-lg sm:text-xl font-bold text-slate-900 border-b border-slate-100 pb-3">Visi, Misi & Alamat Kantor Desa</h2>
-          
+      <!-- VISI MISI -->
+      <section id="panel-umum" role="tabpanel" aria-labelledby="tab-btn-umum" class="space-y-6">
+
+        <div class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-xs sm:p-8">
+
+          <h2 class="border-b border-slate-100 pb-3 text-xl font-bold text-slate-900">
+            Visi, Misi & Alamat Kantor Desa
+          </h2>
+
           <div>
-            <label for="input-visi" class="block text-sm sm:text-base font-bold text-slate-900 mb-1.5">
+            <label for="input-visi" class="mb-2 block text-sm font-bold text-slate-900">
               Visi Desa Timpik
             </label>
-            <p class="text-xs text-slate-500 mb-2">Tuliskan visi besar arah pembangunan Desa Timpik.</p>
-            <textarea
-              id="input-visi"
-              rows="3"
-              required
-              class="w-full rounded-xl border border-slate-300 p-3.5 text-sm sm:text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
-            ></textarea>
+            <textarea id="input-visi" rows="3" required class="admin-input"></textarea>
           </div>
 
           <div>
-            <div class="mb-3 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h3 class="text-sm sm:text-base font-bold text-slate-900">Misi Desa Timpik</h3>
-                <p class="mt-1 text-xs text-slate-600">Tambah, ubah, atau hapus setiap misi. Perubahan tampil setelah disimpan.</p>
+                <h3 class="font-bold text-slate-900">Misi Desa Timpik</h3>
+                <p class="mt-1 text-xs text-slate-500">Kelola daftar misi desa.</p>
               </div>
-              <button type="button" id="btn-add-misi" class="inline-flex min-h-11 items-center justify-center rounded-xl border border-blue-300 bg-blue-50 px-4 py-2 text-sm font-bold text-blue-900 transition hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2">
+              <button type="button" id="btn-add-misi" class="admin-button-secondary">
                 + Tambah Misi
               </button>
             </div>
+
             <div id="misi-list" class="space-y-3"></div>
-            <p id="misi-empty" class="hidden rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-600">
-              Belum ada misi. Tekan “Tambah Misi” untuk menambahkan.
+
+            <p id="misi-empty" class="hidden rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500">
+              Belum ada misi.
             </p>
           </div>
 
-          <div class="border-t border-slate-100 pt-5 space-y-4">
-            <h3 class="text-base font-bold text-slate-900">Alamat Lengkap & Kontak Resmi Balai Desa</h3>
-            
+          <div class="space-y-4 border-t border-slate-100 pt-5">
+
+            <h3 class="font-bold text-slate-900">
+              Alamat Lengkap & Kontak Resmi Balai Desa
+            </h3>
+
             <div>
-              <label for="input-alamat" class="block text-sm sm:text-base font-bold text-slate-900 mb-1.5">
-                Alamat Kantor Desa
-              </label>
-              <input
-                type="text"
-                id="input-alamat"
-                required
-                class="w-full rounded-xl border border-slate-300 p-3.5 text-sm sm:text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
+              <label for="input-alamat" class="admin-label">Alamat Kantor Desa</label>
+              <input type="text" id="input-alamat" required class="admin-input" />
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="grid gap-4 sm:grid-cols-2">
               <div>
-                <label for="input-telepon" class="block text-sm font-bold text-slate-900 mb-1.5">
-                  Nomor Telepon / WhatsApp
-                </label>
-                <input
-                  type="text"
-                  id="input-telepon"
-                  class="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                />
+                <label for="input-telepon" class="admin-label">Nomor Telepon / WhatsApp</label>
+                <input type="text" id="input-telepon" class="admin-input" />
               </div>
 
               <div>
-                <label for="input-email" class="block text-sm font-bold text-slate-900 mb-1.5">
-                  Email Resmi Desa
-                </label>
-                <input
-                  type="email"
-                  id="input-email"
-                  class="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                />
+                <label for="input-email" class="admin-label">Email Resmi Desa</label>
+                <input type="email" id="input-email" class="admin-input" />
               </div>
             </div>
 
             <div>
-              <label for="input-jam" class="block text-sm font-bold text-slate-900 mb-1.5">
-                Jam Pelayanan Warga
-              </label>
-              <input
-                type="text"
-                id="input-jam"
-                class="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
+              <label for="input-jam" class="admin-label">Jam Pelayanan Warga</label>
+              <input type="text" id="input-jam" class="admin-input" />
             </div>
+
           </div>
         </div>
-      </div>
 
-      <!-- ================= SECTION 2: DATA DUSUN INTERAKTIF ================= -->
-      <div id="panel-dusun" role="tabpanel" aria-labelledby="tab-btn-dusun" tabindex="0" class="hidden space-y-6">
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+      </section>
+
+      <!-- DATA DUSUN -->
+      <section id="panel-dusun" role="tabpanel" aria-labelledby="tab-btn-dusun" tabindex="0" class="hidden space-y-6">
+
+        <div class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-xs sm:p-8">
+
+          <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
             <div>
-              <h2 class="text-lg sm:text-xl font-bold text-slate-900">Data Dusun di Wilayah Desa Timpik</h2>
-              <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Kelola nama dusun, kepala dusun, wilayah RT/RW, dan potensi utama warga.</p>
+              <h2 class="text-xl font-bold text-slate-900">Data Dusun Desa Timpik</h2>
+              <p class="mt-1 text-sm text-slate-500">Kelola wilayah dan informasi setiap dusun.</p>
             </div>
-            <button
-              type="button"
-              id="btn-tambah-dusun"
-              class="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-blue-700 px-4 py-2.5 text-sm font-bold text-white hover:bg-blue-800 transition-colors shadow-xs"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-              <span>Tambah Dusun Baru</span>
+
+            <button type="button" id="btn-tambah-dusun" class="admin-button-primary">
+              + Tambah Dusun
             </button>
           </div>
 
-          <!-- Grid Daftar Card Dusun -->
-          <div id="dusun-card-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Render via JS -->
-          </div>
+          <div id="dusun-card-list" class="grid gap-4 md:grid-cols-2"></div>
+
         </div>
-      </div>
 
-      <!-- ================= SECTION 3: TOTAL WARGA PENDUDUK ================= -->
-      <div id="panel-penduduk" role="tabpanel" aria-labelledby="tab-btn-penduduk" tabindex="0" class="hidden space-y-6">
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
-          <div>
-            <h2 class="text-lg sm:text-xl font-bold text-slate-900 border-b border-slate-100 pb-3">Statistik Total Warga Desa Timpik</h2>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1">Data resmi: Laki-laki: 2.848 jiwa, Perempuan: 2.848 jiwa, Total Penduduk: 5.696 jiwa.</p>
-          </div>
+      </section>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div class="rounded-xl border border-blue-200 bg-blue-50/60 p-5 space-y-2">
-              <label for="input-lk" class="block text-sm font-bold text-blue-950 uppercase tracking-wide">
-                Penduduk Laki-Laki
-              </label>
-              <input
-                type="text"
-                id="input-lk"
-                required
-                placeholder="2.848"
-                class="w-full rounded-xl border border-blue-300 bg-white p-3.5 text-lg font-bold text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              <span class="text-xs text-blue-700 block">Ketik angka murni atau berformat ribuan</span>
-            </div>
+      <!-- STATISTIK PENDUDUK -->
+      <section id="panel-penduduk" role="tabpanel" aria-labelledby="tab-btn-penduduk" tabindex="0" class="hidden space-y-6">
 
-            <div class="rounded-xl border border-blue-200 bg-blue-50/60 p-5 space-y-2">
-              <label for="input-pm" class="block text-sm font-bold text-blue-950 uppercase tracking-wide">
-                Penduduk Perempuan
-              </label>
-              <input
-                type="text"
-                id="input-pm"
-                required
-                placeholder="2.848"
-                class="w-full rounded-xl border border-blue-300 bg-white p-3.5 text-lg font-bold text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              <span class="text-xs text-blue-700 block">Ketik angka murni atau berformat ribuan</span>
-            </div>
+        <div class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-xs sm:p-8">
 
-            <div class="rounded-xl border border-emerald-300 bg-emerald-50/60 p-5 space-y-2">
-              <div class="flex items-center justify-between">
-                <label for="input-total" class="block text-sm font-bold text-emerald-950 uppercase tracking-wide">
-                  Total Jumlah Warga
-                </label>
-                <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-200 text-emerald-900">Otomatis (Lk + Pm)</span>
-              </div>
-              <input
-                type="text"
-                id="input-total"
-                readonly
-                class="w-full rounded-xl border border-emerald-300 bg-slate-100 p-3.5 text-lg font-black text-emerald-900 cursor-not-allowed"
-              />
-              <span class="text-xs text-emerald-700 block" id="total-calc-hint">Hasil penjumlahan otomatis: 5.696 Jiwa</span>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-slate-100">
-            <div>
-              <label for="input-kk" class="block text-sm font-bold text-slate-800 mb-1">
-                Jumlah Kepala Keluarga (KK)
-              </label>
-              <input
-                type="text"
-                id="input-kk"
-                class="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label for="input-luas" class="block text-sm font-bold text-slate-800 mb-1">
-                Total Luas Wilayah Desa
-              </label>
-              <input
-                type="text"
-                id="input-luas"
-                class="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ================= SECTION 4: STRUKTUR ORGANISASI DARI FOTO ================= -->
-      <div id="panel-struktur" role="tabpanel" aria-labelledby="tab-btn-struktur" tabindex="0" class="hidden space-y-6">
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
           <div class="border-b border-slate-100 pb-3">
-            <h2 class="text-lg sm:text-xl font-bold text-slate-900">Foto Bagan Struktur Organisasi Desa</h2>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1">Sesuai ketentuan, bagan struktur organisasi perangkat desa ditampilkan langsung dari foto resmi.</p>
+            <h2 class="text-xl font-bold text-slate-900">Statistik Penduduk Desa Timpik</h2>
+            <p class="mt-1 text-sm text-slate-500">Total penduduk dihitung otomatis.</p>
           </div>
 
-          <div class="space-y-4">
+          <div class="grid gap-5 sm:grid-cols-3">
+
+            <div class="rounded-xl border border-blue-200 bg-blue-50 p-5">
+              <label for="input-lk" class="admin-label">Penduduk Laki-Laki</label>
+              <input type="text" id="input-lk" required placeholder="2848" class="admin-input text-lg font-bold" />
+            </div>
+
+            <div class="rounded-xl border border-blue-200 bg-blue-50 p-5">
+              <label for="input-pm" class="admin-label">Penduduk Perempuan</label>
+              <input type="text" id="input-pm" required placeholder="2848" class="admin-input text-lg font-bold" />
+            </div>
+
+            <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-5">
+              <label for="input-total" class="admin-label">Total Penduduk</label>
+              <input type="text" id="input-total" readonly class="admin-input bg-slate-100 text-lg font-black" />
+              <p id="total-calc-hint" class="mt-2 text-xs text-emerald-800"></p>
+            </div>
+
+          </div>
+
+          <div class="grid gap-4 border-t border-slate-100 pt-4 sm:grid-cols-2">
             <div>
-              <label class="block text-sm sm:text-base font-bold text-slate-900 mb-2">
-                Pilih Berkas Foto Struktur Baru (JPG / PNG / WEBP)
-              </label>
-              <input
-                id="input-foto"
-                type="file"
-                accept="image/*"
-                class="block w-full text-sm text-slate-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer border border-slate-300 rounded-xl p-2"
-              />
-              <span class="mt-1.5 block text-xs text-slate-500">Maksimal ukuran berkas 3 MB. Gambar langsung disimpan ke memori sistem.</span>
+              <label for="input-kk" class="admin-label">Jumlah Kepala Keluarga</label>
+              <input type="text" id="input-kk" class="admin-input" />
             </div>
 
-            <!-- Preview Foto Struktur -->
-            <div class="pt-4 border-t border-slate-100 space-y-3">
-              <span class="block text-xs font-bold uppercase tracking-wider text-slate-500">Pratinjau Foto Struktur Saat Ini:</span>
-              <div class="max-w-2xl rounded-2xl border border-slate-200 overflow-hidden bg-slate-50 p-2 shadow-xs">
-                <img
-                  id="preview-foto-struktur"
-                  src="/images/struktur-organisasi-timpik.jpg"
-                  alt="Struktur Organisasi Pemerintahan Desa Timpik"
-                  class="w-full h-auto max-h-[450px] object-contain rounded-xl mx-auto"
-                />
-              </div>
-              <div class="flex items-center gap-3">
-                <button
-                  type="button"
-                  id="btn-reset-foto"
-                  class="text-xs font-bold text-rose-600 hover:underline"
-                >
-                  Kembalikan ke foto bawaan
-                </button>
-              </div>
+            <div>
+              <label for="input-luas" class="admin-label">Luas Wilayah Desa</label>
+              <input type="text" id="input-luas" class="admin-input" />
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Action Buttons -->
-      <div id="profile-save-actions" class="sticky bottom-4 z-20 rounded-2xl border border-blue-200 bg-white/95 backdrop-blur-md p-4 shadow-lg flex flex-wrap items-center justify-between gap-3">
-        <p class="text-xs sm:text-sm text-slate-600">
-          Klik tombol <strong>Simpan Pembaruan</strong> untuk memperbarui data di situs ini.
+        </div>
+
+      </section>
+
+      <!-- STRUKTUR ORGANISASI -->
+      <section id="panel-struktur" role="tabpanel" aria-labelledby="tab-btn-struktur" tabindex="0" class="hidden space-y-6">
+
+        <div class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-xs sm:p-8">
+
+          <div class="border-b border-slate-100 pb-3">
+            <h2 class="text-xl font-bold text-slate-900">Foto Struktur Organisasi Desa</h2>
+            <p class="mt-1 text-sm text-slate-500">Upload foto bagan organisasi resmi Desa Timpik.</p>
+          </div>
+
+          <div>
+            <label for="input-foto" class="admin-label">Pilih Foto Struktur</label>
+            <input id="input-foto" type="file" accept="image/jpeg,image/png,image/webp" class="admin-input" />
+            <p class="mt-2 text-xs text-slate-500">Maksimal 3 MB.</p>
+          </div>
+
+          <div class="space-y-3 border-t border-slate-100 pt-4">
+            <p class="text-xs font-bold uppercase tracking-wide text-slate-500">Pratinjau Foto</p>
+
+            <div class="max-w-2xl overflow-hidden rounded-xl border border-slate-200 bg-slate-50 p-2">
+              <img id="preview-foto-struktur" src="/images/struktur-organisasi-timpik.jpg" alt="Struktur organisasi Desa Timpik" class="mx-auto max-h-[450px] w-full rounded-lg object-contain" />
+            </div>
+
+            <button type="button" id="btn-reset-foto" class="text-xs font-bold text-rose-600 hover:underline">
+              Kembalikan ke foto bawaan
+            </button>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- SIMPAN PROFIL -->
+      <div id="profile-save-actions" class="sticky bottom-4 z-20 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-blue-200 bg-white/95 p-4 shadow-lg backdrop-blur-md">
+
+        <p class="text-xs text-slate-600">
+          Simpan perubahan informasi profil desa.
         </p>
-        <button
-          type="submit"
-          class="inline-flex min-h-[48px] items-center gap-2 rounded-xl bg-blue-700 hover:bg-blue-800 px-7 py-3 text-base font-extrabold text-white shadow-md transition-all"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+
+        <button type="submit" class="admin-button-primary min-h-12 px-7">
           <span>Simpan Seluruh Pembaruan</span>
         </button>
+
       </div>
 
     </form>
 
-    <section id="panel-pengumuman" class="hidden space-y-6">
+    <!-- =====================================================
+         PENGELOLAAN PENGUMUMAN
+    ====================================================== -->
 
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+    <section id="panel-pengumuman" role="tabpanel" aria-labelledby="tab-btn-pengumuman" tabindex="0" class="hidden space-y-6">
 
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+      <div class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-xs sm:p-8">
+
+        <header class="flex flex-col justify-between gap-4 border-b border-slate-100 pb-5 sm:flex-row sm:items-center">
+
           <div>
-            <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-blue-800">
+            <span class="rounded-full bg-blue-100 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-blue-800">
               Informasi Publik Desa
             </span>
 
-            <h2 class="mt-2 text-xl font-extrabold text-slate-900">
+            <h2 class="mt-3 text-xl font-extrabold text-slate-900">
               Pengumuman Balai Desa Timpik
             </h2>
 
             <p class="mt-1 text-sm text-slate-500">
-              Kelola informasi resmi yang ditampilkan kepada masyarakat Desa Timpik.
+              Kelola pengumuman resmi yang akan ditampilkan kepada masyarakat.
             </p>
           </div>
 
-          <button type="button" id="btn-tambah-pengumuman" class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-blue-800 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-900">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            Tambah Pengumuman
+          <button type="button" id="btn-tambah-pengumuman" class="admin-button-primary">
+            + Tambah Pengumuman
           </button>
-        </div>
+
+        </header>
 
         <div id="pengumuman-notice" class="hidden rounded-xl border p-4 text-sm font-semibold" role="status" aria-live="polite"></div>
 
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <!-- STATISTIK PENGUMUMAN -->
+        <div class="grid gap-4 sm:grid-cols-3">
 
           <article class="rounded-xl border border-slate-200 bg-slate-50 p-5">
-            <p class="text-xs font-bold uppercase tracking-wide text-slate-500">Total Pengumuman</p>
+            <p class="text-xs font-bold uppercase text-slate-500">Total Pengumuman</p>
             <p id="pengumuman-total" class="mt-2 text-3xl font-black text-slate-900">0</p>
-            <span class="text-xs text-slate-500">Seluruh data informasi</span>
+            <p class="text-xs text-slate-500">Seluruh data</p>
           </article>
 
           <article class="rounded-xl border border-emerald-200 bg-emerald-50 p-5">
-            <p class="text-xs font-bold uppercase tracking-wide text-emerald-700">Telah Terbit</p>
+            <p class="text-xs font-bold uppercase text-emerald-700">Telah Terbit</p>
             <p id="pengumuman-terbit" class="mt-2 text-3xl font-black text-emerald-900">0</p>
-            <span class="text-xs text-emerald-700">Ditampilkan kepada warga</span>
+            <p class="text-xs text-emerald-700">Ditampilkan ke publik</p>
           </article>
 
           <article class="rounded-xl border border-amber-200 bg-amber-50 p-5">
-            <p class="text-xs font-bold uppercase tracking-wide text-amber-700">Draf</p>
+            <p class="text-xs font-bold uppercase text-amber-700">Draf</p>
             <p id="pengumuman-draf" class="mt-2 text-3xl font-black text-amber-900">0</p>
-            <span class="text-xs text-amber-700">Belum ditampilkan</span>
+            <p class="text-xs text-amber-700">Belum diterbitkan</p>
           </article>
 
         </div>
 
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <!-- SEARCH AND FILTER -->
+        <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
 
           <div>
-            <h3 class="text-lg font-bold text-slate-900">Daftar Pengumuman</h3>
-            <p class="text-xs text-slate-500 mt-1">Informasi yang tersimpan dan status publikasinya.</p>
+            <h3 class="font-bold text-slate-900">Daftar Pengumuman</h3>
+            <p class="mt-1 text-xs text-slate-500">Kelola data yang sudah tersimpan.</p>
           </div>
 
-          <div class="flex flex-col sm:flex-row gap-2">
+          <div class="flex flex-col gap-2 sm:flex-row">
 
-            <input
-              id="pengumuman-search"
-              type="search"
-              placeholder="Cari pengumuman..."
-              class="min-h-10 rounded-xl border border-slate-300 px-3.5 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
+            <input id="pengumuman-search" type="search" placeholder="Cari pengumuman..." class="admin-input sm:min-w-56" />
 
-            <select id="pengumuman-filter" class="min-h-10 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+            <select id="pengumuman-filter" class="admin-input sm:min-w-36">
               <option value="semua">Semua Status</option>
               <option value="terbit">Terbit</option>
               <option value="draf">Draf</option>
             </select>
 
           </div>
+
         </div>
 
+        <!-- ANNOUNCEMENT LIST -->
         <div id="pengumuman-list" class="space-y-3">
-          <div class="rounded-xl border border-dashed border-slate-300 p-10 text-center text-sm text-slate-500">
-            Memuat data pengumuman...
+
+          <div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-10 text-center text-sm text-slate-500">
+            Memuat pengumuman...
           </div>
+
         </div>
 
       </div>
+
     </section>
+
+    <!-- =====================================================
+         MODAL PENGUMUMAN
+    ====================================================== -->
 
     <div id="modal-pengumuman" class="fixed inset-0 z-[90] hidden items-center justify-center overflow-y-auto bg-slate-950/60 p-3 backdrop-blur-sm sm:p-5" role="dialog" aria-modal="true" aria-labelledby="modal-pengumuman-title" aria-hidden="true">
 
       <div class="my-auto w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl">
 
-        <div class="flex items-start justify-between gap-4 border-b border-slate-100 px-5 py-4 sm:px-7">
+        <header class="flex items-start justify-between gap-4 border-b border-slate-100 px-5 py-4 sm:px-7">
+
           <div>
             <p class="text-[11px] font-bold uppercase tracking-wider text-blue-700">
-              Form Informasi Desa
+              Informasi Desa
             </p>
 
             <h3 id="modal-pengumuman-title" class="mt-1 text-xl font-extrabold text-slate-900">
@@ -458,42 +397,34 @@ const pengumumanAwal = [
             </h3>
 
             <p class="mt-1 text-xs text-slate-500">
-              Pastikan informasi yang disampaikan jelas dan sesuai dengan pengumuman resmi desa.
+              Lengkapi informasi pengumuman yang akan disampaikan kepada warga.
             </p>
           </div>
 
-          <button type="button" id="btn-close-pengumuman" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-2xl text-slate-500 hover:bg-slate-100">
+          <button type="button" id="btn-close-pengumuman" class="flex h-10 w-10 items-center justify-center rounded-xl text-2xl text-slate-500 hover:bg-slate-100">
             &times;
           </button>
-        </div>
 
-        <form id="form-pengumuman" class="max-h-[75vh] overflow-y-auto space-y-5 p-5 sm:p-7">
+        </header>
+
+        <form id="form-pengumuman" class="max-h-[75vh] space-y-5 overflow-y-auto p-5 sm:p-7">
 
           <input type="hidden" id="pengumuman-id" />
 
           <div>
-            <label for="pengumuman-judul" class="mb-1.5 block text-sm font-bold text-slate-800">
-              Judul Pengumuman <span class="text-rose-500">*</span>
+            <label for="pengumuman-judul" class="admin-label">
+              Judul Pengumuman *
             </label>
 
-            <input
-              id="pengumuman-judul"
-              type="text"
-              maxlength="120"
-              required
-              placeholder="Contoh: Jadwal Pelayanan Administrasi Desa"
-              class="w-full min-h-11 rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
+            <input id="pengumuman-judul" type="text" maxlength="120" required placeholder="Contoh: Jadwal Pelayanan Administrasi Desa" class="admin-input" />
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="grid gap-4 sm:grid-cols-2">
 
             <div>
-              <label for="pengumuman-kategori" class="mb-1.5 block text-sm font-bold text-slate-800">
-                Kategori
-              </label>
+              <label for="pengumuman-kategori" class="admin-label">Kategori</label>
 
-              <select id="pengumuman-kategori" class="w-full min-h-11 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm">
+              <select id="pengumuman-kategori" class="admin-input">
                 <option>Administrasi Surat</option>
                 <option>Pertanian & Irigasi</option>
                 <option>Kesehatan</option>
@@ -506,28 +437,18 @@ const pengumumanAwal = [
             </div>
 
             <div>
-              <label for="pengumuman-tanggal" class="mb-1.5 block text-sm font-bold text-slate-800">
-                Tanggal Pengumuman
-              </label>
-
-              <input id="pengumuman-tanggal" type="date" class="w-full min-h-11 rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm" />
+              <label for="pengumuman-tanggal" class="admin-label">Tanggal Pengumuman</label>
+              <input id="pengumuman-tanggal" type="date" class="admin-input" />
             </div>
 
           </div>
 
           <div>
-            <label for="pengumuman-ringkasan" class="mb-1.5 block text-sm font-bold text-slate-800">
-              Ringkasan Pengumuman <span class="text-rose-500">*</span>
+            <label for="pengumuman-ringkasan" class="admin-label">
+              Ringkasan Pengumuman *
             </label>
 
-            <textarea
-              id="pengumuman-ringkasan"
-              rows="3"
-              maxlength="280"
-              required
-              placeholder="Tuliskan ringkasan singkat yang akan terlihat pada kartu pengumuman."
-              class="w-full rounded-xl border border-slate-300 px-3.5 py-3 text-sm leading-relaxed outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            ></textarea>
+            <textarea id="pengumuman-ringkasan" rows="3" maxlength="280" required placeholder="Tuliskan ringkasan singkat pengumuman." class="admin-input"></textarea>
 
             <p class="mt-1 text-right text-xs text-slate-400">
               <span id="pengumuman-char-count">0</span>/280 karakter
@@ -535,69 +456,42 @@ const pengumumanAwal = [
           </div>
 
           <div>
-            <label for="pengumuman-isi" class="mb-1.5 block text-sm font-bold text-slate-800">
-              Isi Lengkap Pengumuman <span class="text-rose-500">*</span>
+            <label for="pengumuman-isi" class="admin-label">
+              Isi Lengkap Pengumuman *
             </label>
 
-            <textarea
-              id="pengumuman-isi"
-              rows="6"
-              required
-              placeholder="Tuliskan informasi lengkap, tanggal pelaksanaan, ketentuan, dan hal lain yang perlu diketahui warga."
-              class="w-full rounded-xl border border-slate-300 px-3.5 py-3 text-sm leading-relaxed outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            ></textarea>
+            <textarea id="pengumuman-isi" rows="6" required placeholder="Tuliskan informasi lengkap pengumuman." class="admin-input"></textarea>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="grid gap-4 sm:grid-cols-2">
 
             <div>
-              <label for="pengumuman-url" class="mb-1.5 block text-sm font-bold text-slate-800">
-                Tautan Informasi (Opsional)
-              </label>
-
-              <input
-                id="pengumuman-url"
-                type="text"
-                placeholder="/layanan-surat atau https://..."
-                class="w-full min-h-11 rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm"
-              />
+              <label for="pengumuman-url" class="admin-label">Tautan Informasi</label>
+              <input id="pengumuman-url" type="text" placeholder="/layanan-surat atau https://..." class="admin-input" />
             </div>
 
             <div>
-              <label for="pengumuman-label-link" class="mb-1.5 block text-sm font-bold text-slate-800">
-                Teks Tombol
-              </label>
-
-              <input
-                id="pengumuman-label-link"
-                type="text"
-                maxlength="60"
-                placeholder="Baca informasi lebih lanjut"
-                class="w-full min-h-11 rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm"
-              />
+              <label for="pengumuman-label-link" class="admin-label">Teks Tombol</label>
+              <input id="pengumuman-label-link" type="text" maxlength="60" placeholder="Baca selengkapnya" class="admin-input" />
             </div>
 
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="grid gap-4 sm:grid-cols-2">
 
             <div>
-              <label for="pengumuman-status" class="mb-1.5 block text-sm font-bold text-slate-800">
-                Status Publikasi
-              </label>
+              <label for="pengumuman-status" class="admin-label">Status Publikasi</label>
 
-              <select id="pengumuman-status" class="w-full min-h-11 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm">
+              <select id="pengumuman-status" class="admin-input">
                 <option value="draf">Simpan sebagai Draf</option>
                 <option value="terbit">Terbitkan Sekarang</option>
               </select>
             </div>
 
             <div>
-              <label for="pengumuman-prioritas" class="mb-1.5 block text-sm font-bold text-slate-800">
-                Prioritas
-              </label>
+              <label for="pengumuman-prioritas" class="admin-label">Prioritas</label>
 
-              <select id="pengumuman-prioritas" class="w-full min-h-11 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm">
+              <select id="pengumuman-prioritas" class="admin-input">
                 <option value="normal">Normal</option>
                 <option value="penting">Penting</option>
               </select>
@@ -605,633 +499,217 @@ const pengumumanAwal = [
 
           </div>
 
-          <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 border-t border-slate-100 pt-5">
+          <footer class="flex flex-col-reverse justify-end gap-2 border-t border-slate-100 pt-5 sm:flex-row">
 
-            <button type="button" id="btn-batal-pengumuman" class="min-h-11 rounded-xl border border-slate-300 px-5 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50">
+            <button type="button" id="btn-batal-pengumuman" class="admin-button-secondary">
               Batal
             </button>
 
-            <button type="submit" id="btn-simpan-pengumuman" class="min-h-11 rounded-xl bg-blue-800 px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-900">
+            <button type="submit" id="btn-simpan-pengumuman" class="admin-button-primary">
               Simpan Pengumuman
             </button>
 
-          </div>
+          </footer>
 
         </form>
+
       </div>
+
     </div>
 
-    <!-- ================= MODAL TAMBAH / EDIT DUSUN ================= -->
-    <div id="modal-dusun" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border border-slate-200 max-h-[90vh] overflow-y-auto">
-        <div class="flex items-start justify-between pb-3 border-b border-slate-100">
-          <div>
-            <h3 id="modal-dusun-title" class="text-lg font-bold text-slate-900">Tambah Dusun Baru</h3>
-            <p class="text-xs text-slate-500">Isi data dan foto utama wilayah dusun.</p>
-          </div>
-          <button type="button" id="close-modal-dusun" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 text-xl font-bold">&times;</button>
-        </div>
+    <!-- =====================================================
+         MODAL DUSUN
+    ====================================================== -->
 
-        <form id="form-edit-dusun" class="py-4 space-y-4">
+    <div id="modal-dusun" class="fixed inset-0 z-[80] hidden items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm">
+
+      <div class="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl sm:p-8">
+
+        <header class="flex items-start justify-between border-b border-slate-100 pb-3">
+          <div>
+            <h3 id="modal-dusun-title" class="font-bold text-slate-900">Tambah Dusun Baru</h3>
+            <p class="text-xs text-slate-500">Lengkapi informasi dusun.</p>
+          </div>
+
+          <button type="button" id="close-modal-dusun" class="text-xl text-slate-400">&times;</button>
+        </header>
+
+        <form id="form-edit-dusun" class="space-y-4 py-4">
+
           <input type="hidden" id="edit-dusun-index" value="-1" />
-          
+
           <div>
-            <label for="edit-dusun-id" class="block text-xs font-bold text-slate-800 uppercase mb-1">ID Dusun (Unik / huruf kecil)</label>
-            <input type="text" id="edit-dusun-id" required placeholder="contoh: krajan, bogo" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            <label for="edit-dusun-id" class="admin-label">ID Dusun</label>
+            <input id="edit-dusun-id" type="text" required placeholder="bogo" class="admin-input" />
           </div>
 
           <div>
-            <label for="edit-dusun-nama" class="block text-xs font-bold text-slate-800 uppercase mb-1">Nama Lengkap Dusun</label>
-            <input type="text" id="edit-dusun-nama" required placeholder="contoh: Dusun Bogo" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            <label for="edit-dusun-nama" class="admin-label">Nama Dusun</label>
+            <input id="edit-dusun-nama" type="text" required placeholder="Dusun Bogo" class="admin-input" />
           </div>
 
           <div>
-            <label for="edit-dusun-kadus" class="block text-xs font-bold text-slate-800 uppercase mb-1">Nama Kepala Dusun (Kadus)</label>
-            <input type="text" id="edit-dusun-kadus" required placeholder="contoh: Bapak Sutrisno" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            <label for="edit-dusun-kadus" class="admin-label">Nama Kepala Dusun</label>
+            <input id="edit-dusun-kadus" type="text" required class="admin-input" />
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label for="edit-dusun-rt" class="block text-xs font-bold text-slate-800 uppercase mb-1">Wilayah RT / RW</label>
-              <input type="text" id="edit-dusun-rt" placeholder="contoh: 4 RT / 1 RW" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
+              <label for="edit-dusun-rt" class="admin-label">Wilayah RT/RW</label>
+              <input id="edit-dusun-rt" type="text" class="admin-input" />
             </div>
+
             <div>
-              <label for="edit-dusun-luas" class="block text-xs font-bold text-slate-800 uppercase mb-1">Estimasi Luas</label>
-              <input type="text" id="edit-dusun-luas" placeholder="contoh: 60 Ha" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
+              <label for="edit-dusun-luas" class="admin-label">Estimasi Luas</label>
+              <input id="edit-dusun-luas" type="text" class="admin-input" />
             </div>
           </div>
 
           <div>
-            <label for="edit-dusun-potensi" class="block text-xs font-bold text-slate-800 uppercase mb-1">Potensi Utama Dusun</label>
-            <input type="text" id="edit-dusun-potensi" placeholder="contoh: Pertanian Padi, Seni Wayang Orang" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            <label for="edit-dusun-potensi" class="admin-label">Potensi Utama</label>
+            <input id="edit-dusun-potensi" type="text" class="admin-input" />
           </div>
 
           <div>
-            <label for="edit-dusun-deskripsi" class="block text-xs font-bold text-slate-800 uppercase mb-1">Deskripsi Singkat</label>
-            <textarea id="edit-dusun-deskripsi" rows="3" placeholder="Tuliskan gambaran ringkas kondisi dusun..." class="w-full rounded-lg border border-slate-300 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+            <label for="edit-dusun-deskripsi" class="admin-label">Deskripsi</label>
+            <textarea id="edit-dusun-deskripsi" rows="3" class="admin-input"></textarea>
           </div>
 
           <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <label for="edit-dusun-foto-file" class="block text-sm font-bold text-slate-800">Foto dusun</label>
-            <p class="mt-1 text-xs text-slate-600">Foto akan disimpan ke Supabase Storage dan tampil di halaman dusun.</p>
-            <input id="edit-dusun-foto-file" type="file" accept="image/jpeg,image/png,image/webp,image/avif" class="mt-3 block w-full text-sm text-slate-700 file:mr-3 file:min-h-10 file:rounded-lg file:border-0 file:bg-blue-800 file:px-3 file:font-semibold file:text-white hover:file:bg-blue-900" />
-            <p id="edit-dusun-foto-status" class="mt-2 text-xs text-slate-600" aria-live="polite">JPG, PNG, WebP, atau AVIF. Maksimal 4 MB.</p>
-            <div id="edit-dusun-foto-preview-wrap" class="hidden mt-3 overflow-hidden rounded-xl border border-slate-200 bg-white">
+            <label for="edit-dusun-foto-file" class="admin-label">Foto Dusun</label>
+
+            <input id="edit-dusun-foto-file" type="file" accept="image/jpeg,image/png,image/webp,image/avif" class="admin-input" />
+
+            <p id="edit-dusun-foto-status" class="mt-2 text-xs text-slate-500">
+              JPG, PNG, WebP, atau AVIF. Maksimal 4 MB.
+            </p>
+
+            <div id="edit-dusun-foto-preview-wrap" class="mt-3 hidden overflow-hidden rounded-xl border border-slate-200 bg-white">
               <img id="edit-dusun-foto-preview" alt="Pratinjau foto dusun" class="h-44 w-full object-cover" />
-              <button type="button" id="edit-dusun-foto-remove" class="min-h-10 w-full border-t border-slate-200 px-3 text-sm font-semibold text-rose-700 hover:bg-rose-50">Hapus foto dusun</button>
+
+              <button type="button" id="edit-dusun-foto-remove" class="w-full border-t border-slate-200 p-3 text-sm font-semibold text-rose-700">
+                Hapus foto
+              </button>
             </div>
           </div>
 
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
-            <button type="button" id="btn-batal-dusun" class="px-4 py-2 rounded-lg border border-slate-300 text-sm font-semibold text-slate-700 hover:bg-slate-50">Batal</button>
-            <button type="submit" class="px-5 py-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-sm font-bold text-white shadow-xs">Simpan Dusun</button>
-          </div>
+          <footer class="flex justify-end gap-2 border-t border-slate-100 pt-4">
+            <button type="button" id="btn-batal-dusun" class="admin-button-secondary">Batal</button>
+            <button type="submit" class="admin-button-primary">Simpan Dusun</button>
+          </footer>
+
         </form>
+
       </div>
+
     </div>
 
   </main>
 
-  <script define:vars={{ defaultProfil: profil, defaultPengumuman: pengumumanAwal }}>
-    const STORAGE_KEY = 'timpik_profil_data';
-    let currentData = defaultProfil;
-
-    // Load data from localStorage if exists
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (parsed && typeof parsed === 'object') {
-          currentData = { ...defaultProfil, ...parsed };
-        }
-      }
-    } catch (e) {
-      console.error('Error loading profil from storage', e);
+  <style>
+    .admin-tab {
+      min-height: 44px;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.75rem;
+      background: white;
+      padding: 0.625rem 1rem;
+      color: #334155;
+      transition: all 180ms ease;
     }
 
-    // Tabs logic
-    const tabs = [
-      { btn: document.getElementById('tab-btn-umum'), panel: document.getElementById('panel-umum') },
-      { btn: document.getElementById('tab-btn-dusun'), panel: document.getElementById('panel-dusun') },
-      { btn: document.getElementById('tab-btn-penduduk'), panel: document.getElementById('panel-penduduk') },
-      { btn: document.getElementById('tab-btn-struktur'), panel: document.getElementById('panel-struktur') },
-      { btn: document.getElementById('tab-btn-pengumuman'), panel: document.getElementById('panel-pengumuman') }
-    ];
-
-    function activateTab(index) {
-      if (profileActions) {
-        profileActions.classList.toggle('hidden', index === 4);
-      }
-
-      tabs.forEach((t, i) => {
-        if (i === index) {
-          t.btn.className = 'min-h-11 rounded-xl border border-blue-700 bg-blue-700 px-4 py-2 text-white shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2';
-          t.btn.setAttribute('aria-selected', 'true');
-          t.btn.setAttribute('tabindex', '0');
-          t.panel.classList.remove('hidden');
-        } else {
-          t.btn.className = 'min-h-11 rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-700 transition-colors hover:border-blue-400 hover:bg-blue-50 hover:text-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2';
-          t.btn.setAttribute('aria-selected', 'false');
-          t.btn.setAttribute('tabindex', '-1');
-          t.panel.classList.add('hidden');
-        }
-      });
+    .admin-tab:hover {
+      border-color: #60a5fa;
+      background: #eff6ff;
+      color: #1e3a8a;
     }
 
-    tabs.forEach((t, i) => {
-      t.btn.addEventListener('click', () => activateTab(i));
-      t.btn.addEventListener('keydown', (event) => {
-        let nextIndex = i;
-        if (event.key === 'ArrowRight') nextIndex = (i + 1) % tabs.length;
-        else if (event.key === 'ArrowLeft') nextIndex = (i - 1 + tabs.length) % tabs.length;
-        else if (event.key === 'Home') nextIndex = 0;
-        else if (event.key === 'End') nextIndex = tabs.length - 1;
-        else return;
-
-        event.preventDefault();
-        activateTab(nextIndex);
-        tabs[nextIndex].btn.focus();
-      });
-    });
-
-    // Populate Fields
-    const inVisi = document.getElementById('input-visi');
-    const misiListContainer = document.getElementById('misi-list');
-    const misiEmptyState = document.getElementById('misi-empty');
-    const addMisiButton = document.getElementById('btn-add-misi');
-    const inAlamat = document.getElementById('input-alamat');
-    const inTelepon = document.getElementById('input-telepon');
-    const inEmail = document.getElementById('input-email');
-    const inJam = document.getElementById('input-jam');
-
-    const inLk = document.getElementById('input-lk');
-    const inPm = document.getElementById('input-pm');
-    const inTotal = document.getElementById('input-total');
-    const inKk = document.getElementById('input-kk');
-    const inLuas = document.getElementById('input-luas');
-
-    const fotoPreview = document.getElementById('preview-foto-struktur');
-    let fotoStrukturBase64 = currentData.foto_struktur || '';
-
-    const profileActions = document.getElementById('profile-save-actions');
-
-    inVisi.value = currentData.visi || '';
-    const misiList = Array.isArray(currentData.misi) ? currentData.misi.map((item) => {
-      if (typeof item === 'string') return item;
-      if (!item || typeof item !== 'object') return '';
-      const detail = [item.deskripsi, ...(Array.isArray(item.poin) ? item.poin : [])]
-        .filter((value) => typeof value === 'string' && value.trim() && value.trim() !== item.judul)
-        .join('; ');
-      return [item.judul, detail].filter(Boolean).join(' — ');
-    }).filter(Boolean) : [];
-
-    const escapeMisiHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    })[char]);
-
-    function renderMisiList() {
-      if (!misiListContainer) return;
-      misiEmptyState?.classList.toggle('hidden', misiList.length > 0);
-      misiListContainer.innerHTML = misiList.map((misi, index) =>
-        '<div class="flex flex-col gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 sm:flex-row sm:items-center sm:p-4">' +
-          '<label class="flex-1 space-y-1.5">' +
-            '<span class="text-xs font-bold text-slate-700">Misi ' + (index + 1) + '</span>' +
-            '<input type="text" data-misi-index="' + index + '" value="' + escapeMisiHtml(misi) + '" required maxlength="500" placeholder="Tuliskan satu misi desa" class="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200" />' +
-          '</label>' +
-          '<button type="button" data-remove-misi="' + index + '" aria-label="Hapus misi ' + (index + 1) + '" class="min-h-11 rounded-lg border border-rose-200 bg-white px-4 text-sm font-bold text-rose-800 transition hover:bg-rose-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-600 focus-visible:ring-offset-2">Hapus</button>' +
-        '</div>'
-      ).join('');
+    .admin-tab.active {
+      border-color: #1d4ed8;
+      background: #1d4ed8;
+      color: white;
     }
 
-    renderMisiList();
-    addMisiButton?.addEventListener('click', () => {
-      misiList.push('');
-      renderMisiList();
-      misiListContainer?.lastElementChild?.querySelector('input')?.focus();
-      (window).__timpikAdminToast('Misi ditambahkan. Simpan perubahan untuk menerbitkannya.');
-    });
-    misiListContainer?.addEventListener('input', (event) => {
-      const input = event.target.closest('[data-misi-index]');
-      if (input) misiList[Number(input.dataset.misiIndex)] = input.value;
-    });
-    misiListContainer?.addEventListener('click', async (event) => {
-      const button = event.target.closest('[data-remove-misi]');
-      if (!button) return;
-      const index = Number(button.dataset.removeMisi);
-      const mission = misiList[index];
-      if (!(await (window).__timpikAdminConfirm('Hapus misi “' + (mission || 'Misi ' + (index + 1)) + '”?', 'Hapus misi'))) return;
-      misiList.splice(index, 1);
-      renderMisiList();
-      (window).__timpikAdminToast('Misi dihapus. Simpan perubahan untuk menerbitkannya.');
-    });
-    inAlamat.value = currentData.alamat_kantor || '';
-    inTelepon.value = currentData.telepon || '';
-    inEmail.value = currentData.email || '';
-    inJam.value = currentData.jam_layanan || '';
-
-    // Statistik Warga (Default LK: 2.848, PM: 2.848, Total: 5.696)
-    const stats = currentData.statistik || {};
-    inLk.value = stats.laki_laki != null ? String(stats.laki_laki).replace(/[^0-9]/g, '') : '';
-    inPm.value = stats.perempuan != null ? String(stats.perempuan).replace(/[^0-9]/g, '') : '';
-    inKk.value = stats.total_kk || '';
-    inLuas.value = stats.luas_wilayah || '';
-
-    function formatNumber(num) {
-      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    .admin-input {
+      display: block;
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.75rem;
+      background: white;
+      padding: 0.75rem 0.875rem;
+      font-size: 0.875rem;
+      color: #0f172a;
+      outline: none;
     }
 
-    function calculateTotal() {
-      if (!inLk.value.trim() && !inPm.value.trim()) {
-        inTotal.value = '';
-        const hint = document.getElementById('total-calc-hint');
-        if (hint) hint.textContent = 'Isi jumlah laki-laki dan perempuan untuk menghitung total warga.';
-        return;
-      }
-      const lkVal = parseInt((inLk.value || '').replace(/[^0-9]/g, ''), 10) || 0;
-      const pmVal = parseInt((inPm.value || '').replace(/[^0-9]/g, ''), 10) || 0;
-      const totalVal = lkVal + pmVal;
-
-      inTotal.value = formatNumber(totalVal) + ' Jiwa';
-      const hint = document.getElementById('total-calc-hint');
-      if (hint) {
-        hint.textContent = `Penjumlahan otomatis: ${formatNumber(lkVal)} (Lk) + ${formatNumber(pmVal)} (Pm) = ${formatNumber(totalVal)} Jiwa`;
-      }
+    .admin-input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgb(37 99 235 / 12%);
     }
 
-    inLk.addEventListener('input', calculateTotal);
-    inPm.addEventListener('input', calculateTotal);
-    calculateTotal();
-
-    if (fotoStrukturBase64) {
-      fotoPreview.src = fotoStrukturBase64;
-    } else {
-      fotoPreview.classList.add('hidden');
+    .admin-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #1e293b;
     }
 
-    // Foto File Upload Handler
-    const inFoto = document.getElementById('input-foto');
-    inFoto.addEventListener('change', (e) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      if (file.size > 3145728) {
-        alert('Ukuran file foto maksimal 3 MB.');
-        e.target.value = '';
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () => {
-        fotoStrukturBase64 = reader.result;
-        fotoPreview.src = fotoStrukturBase64;
-        fotoPreview.classList.remove('hidden');
-      };
-      reader.readAsDataURL(file);
-    });
-
-    document.getElementById('btn-reset-foto').addEventListener('click', () => {
-      fotoStrukturBase64 = '/images/struktur-organisasi-timpik.jpg';
-      fotoPreview.src = fotoStrukturBase64;
-      fotoPreview.classList.remove('hidden');
-      inFoto.value = '';
-    });
-
-    // Dusun Data Manager
-    let dusunList = Array.isArray(currentData.dusun) ? [...currentData.dusun] : [];
-    const escapeDusunHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    })[char]);
-
-    function renderDusunCards() {
-      const container = document.getElementById('dusun-card-list');
-      const tabCount = document.getElementById('dusun-tab-count');
-      if (tabCount) tabCount.textContent = dusunList.length;
-
-      if (!container) return;
-      if (dusunList.length === 0) {
-        container.innerHTML = `
-          <div class="col-span-2 py-8 text-center text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-200">
-            Belum ada data dusun. Klik "Tambah Dusun Baru" di atas.
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = dusunList.map((d, index) => `
-        <article class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs flex flex-col justify-between">
-          ${d.foto ? `<img src="${escapeDusunHtml(d.foto)}" alt="Foto ${escapeDusunHtml(d.nama || 'dusun')}" class="h-40 w-full object-cover bg-slate-100" onerror="this.style.display='none'" />` : ''}
-          <div class="p-5 space-y-3">
-          <div>
-            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-              <span class="text-xs font-mono font-bold text-blue-700 uppercase">ID: ${escapeDusunHtml(d.id || '-')}</span>
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-100">${escapeDusunHtml(d.jumlah_rt || 'RT/RW belum diisi')}</span>
-            </div>
-            <h4 class="text-base font-bold text-slate-900 mt-2">${escapeDusunHtml(d.nama || 'Tanpa Nama Dusun')}</h4>
-            <p class="text-xs text-slate-600 mt-1"><strong>Kepala Dusun:</strong> ${escapeDusunHtml(d.kepala_dusun || 'Belum diisi')}</p>
-            <p class="text-sm text-slate-700 mt-2 line-clamp-2">${escapeDusunHtml(d.deskripsi || 'Deskripsi belum diisi.')}</p>
-            ${d.potensi_utama ? `<p class="text-xs text-emerald-800 font-semibold mt-2">🌱 ${escapeDusunHtml(d.potensi_utama)}</p>` : ''}
-          </div>
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
-            <button
-              type="button"
-              onclick="window.editDusunItem(${index})"
-              class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors"
-            >
-              Edit
-            </button>
-            <button
-              type="button"
-              onclick="window.deleteDusunItem(${index})"
-              class="px-3 py-1.5 rounded-lg border border-rose-200 text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors"
-            >
-              Hapus
-            </button>
-          </div>
-          </div>
-        </article>
-      `).join('');
+    .admin-button-primary {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border-radius: 0.75rem;
+      background: #1e40af;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: white;
+      transition: background 180ms ease;
     }
 
-    async function persistProfil(updatedProfil) {
-      await (window).__timpikSaveAdminContent(STORAGE_KEY, updatedProfil);
-      currentData = updatedProfil;
+    .admin-button-primary:hover {
+      background: #1e3a8a;
     }
 
-    function showProfileNotice(message) {
-      const toast = document.getElementById('notice-toast');
-      const toastText = document.getElementById('notice-text');
-      if (toast && toastText) {
-        toastText.textContent = message;
-        toast.classList.remove('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-      (window).__timpikAdminToast(message);
+    .admin-button-primary:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
     }
 
-    renderDusunCards();
-
-    // Dusun Modal Actions
-    const modalDusun = document.getElementById('modal-dusun');
-    const formEditDusun = document.getElementById('form-edit-dusun');
-    const editIndex = document.getElementById('edit-dusun-index');
-    const editId = document.getElementById('edit-dusun-id');
-    const editNama = document.getElementById('edit-dusun-nama');
-    const editKadus = document.getElementById('edit-dusun-kadus');
-    const editRt = document.getElementById('edit-dusun-rt');
-    const editLuas = document.getElementById('edit-dusun-luas');
-    const editPotensi = document.getElementById('edit-dusun-potensi');
-    const editDeskripsi = document.getElementById('edit-dusun-deskripsi');
-    const editFotoFile = document.getElementById('edit-dusun-foto-file');
-    const editFotoStatus = document.getElementById('edit-dusun-foto-status');
-    const editFotoPreview = document.getElementById('edit-dusun-foto-preview');
-    const editFotoPreviewWrap = document.getElementById('edit-dusun-foto-preview-wrap');
-    let editFoto = '';
-    let pendingDusunImage = null;
-    let dusunPhotoPreviewUrl = '';
-
-    function showDusunPhotoPreview(src) {
-      if (dusunPhotoPreviewUrl) URL.revokeObjectURL(dusunPhotoPreviewUrl);
-      dusunPhotoPreviewUrl = src?.startsWith('blob:') ? src : '';
-      if (src) {
-        editFotoPreview.src = src;
-        editFotoPreviewWrap.classList.remove('hidden');
-      } else {
-        editFotoPreview.removeAttribute('src');
-        editFotoPreviewWrap.classList.add('hidden');
-      }
+    .admin-button-secondary {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.75rem;
+      background: white;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #334155;
     }
 
-    function resetDusunPhoto() {
-      editFoto = '';
-      pendingDusunImage = null;
-      editFotoFile.value = '';
-      editFotoStatus.textContent = 'JPG, PNG, WebP, atau AVIF. Maksimal 4 MB.';
-      showDusunPhotoPreview('');
+    .admin-button-secondary:hover {
+      background: #f8fafc;
     }
+  </style>
 
-    editFotoFile.addEventListener('change', () => {
-      const file = editFotoFile.files?.[0];
-      if (!file) return;
-      if (file.size > 4 * 1024 * 1024) {
-        editFotoFile.value = '';
-        pendingDusunImage = null;
-        showDusunPhotoPreview(editFoto);
-        editFotoStatus.textContent = 'Ukuran gambar maksimal 4 MB.';
-        return;
-      }
-      if (!['image/jpeg', 'image/png', 'image/webp', 'image/avif'].includes(file.type)) {
-        editFotoFile.value = '';
-        pendingDusunImage = null;
-        showDusunPhotoPreview(editFoto);
-        editFotoStatus.textContent = 'Pilih gambar JPG, PNG, WebP, atau AVIF.';
-        return;
-      }
-      pendingDusunImage = file;
-      editFotoStatus.textContent = `${file.name} dipilih. Foto diunggah saat tombol Simpan Dusun ditekan.`;
-      showDusunPhotoPreview(URL.createObjectURL(file));
-    });
+  <script define:vars={{ defaultProfil: profil }}>
 
-    document.getElementById('edit-dusun-foto-remove').addEventListener('click', resetDusunPhoto);
+    // =========================================================
+    // KONFIGURASI
+    // =========================================================
 
-    document.getElementById('btn-tambah-dusun').addEventListener('click', () => {
-      document.getElementById('modal-dusun-title').textContent = 'Tambah Dusun Baru';
-      editIndex.value = '-1';
-      editId.value = '';
-      editNama.value = '';
-      editKadus.value = '';
-      editRt.value = '';
-      editLuas.value = '';
-      editPotensi.value = '';
-      editDeskripsi.value = '';
-      resetDusunPhoto();
-      modalDusun.classList.remove('hidden');
-    });
+    const PROFILE_KEY = 'timpik_profil_data';
+    const ANNOUNCEMENT_KEY = 'timpik_pengumuman_list';
 
-    document.getElementById('close-modal-dusun').addEventListener('click', () => {
-      modalDusun.classList.add('hidden');
-      resetDusunPhoto();
-    });
-    document.getElementById('btn-batal-dusun').addEventListener('click', () => {
-      modalDusun.classList.add('hidden');
-      resetDusunPhoto();
-    });
+    const $ = (id) => document.getElementById(id);
 
-    window.editDusunItem = (idx) => {
-      const d = dusunList[idx];
-      if (!d) return;
-      document.getElementById('modal-dusun-title').textContent = 'Edit Data Dusun: ' + (d.nama || '');
-      editIndex.value = String(idx);
-      editId.value = d.id || '';
-      editNama.value = d.nama || '';
-      editKadus.value = d.kepala_dusun || '';
-      editRt.value = d.jumlah_rt || '';
-      editLuas.value = d.luas || '';
-      editPotensi.value = d.potensi_utama || '';
-      editDeskripsi.value = d.deskripsi || '';
-      editFoto = d.foto || '';
-      pendingDusunImage = null;
-      editFotoFile.value = '';
-      editFotoStatus.textContent = 'Pilih foto baru untuk mengganti foto saat ini.';
-      showDusunPhotoPreview(editFoto);
-      modalDusun.classList.remove('hidden');
-    };
-
-    window.deleteDusunItem = async (idx) => {
-      const d = dusunList[idx];
-      if (!d) return;
-      if (await (window).__timpikAdminConfirm(`Apakah Anda yakin ingin menghapus data "${d.nama}"?`)) {
-        const updatedDusunList = dusunList.filter((_, itemIndex) => itemIndex !== idx);
-        try {
-          await persistProfil({ ...currentData, dusun: updatedDusunList });
-          dusunList = updatedDusunList;
-          renderDusunCards();
-          showProfileNotice('Data dusun berhasil dihapus dan tersimpan ke Supabase.');
-        } catch (error) {
-          alert(error instanceof Error ? `Data dusun gagal dihapus: ${error.message}` : 'Data dusun gagal dihapus.');
-        }
-      }
-    };
-
-    formEditDusun.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const saveButton = formEditDusun.querySelector('button[type="submit"]');
-      saveButton.disabled = true;
-      saveButton.textContent = pendingDusunImage ? 'Mengunggah foto...' : 'Menyimpan...';
-
-      try {
-      const idx = parseInt(editIndex.value, 10);
-      const newId = editId.value.trim().toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-      if (!newId) throw new Error('ID dusun harus berisi huruf atau angka.');
-      if (dusunList.some((item, itemIndex) => itemIndex !== idx && item.id === newId)) {
-        throw new Error('ID dusun sudah digunakan. Pilih ID yang berbeda.');
-      }
-      if (pendingDusunImage) {
-        const response = await fetch('/api/admin/berita-image?folder=dusun', {
-          method: 'POST',
-          headers: { 'Content-Type': pendingDusunImage.type },
-          credentials: 'same-origin',
-          body: pendingDusunImage,
-        });
-        const result = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          const message = response.status === 404
-            ? 'API upload belum aktif. Jalankan npm run dev agar Vercel Functions ikut berjalan.'
-            : result.error || 'Foto dusun gagal diunggah.';
-          throw new Error(message);
-        }
-        editFoto = result.publicUrl;
-        pendingDusunImage = null;
-        editFotoStatus.textContent = 'Foto berhasil diunggah ke Supabase.';
-      }
-
-      const newDusun = {
-        id: newId,
-        nama: editNama.value.trim(),
-        panggilan: editNama.value.replace(/dusun/i, '').trim(),
-        kepala_dusun: editKadus.value.trim(),
-        jumlah_rt: editRt.value.trim(),
-        luas: editLuas.value.trim(),
-        potensi_utama: editPotensi.value.trim(),
-        deskripsi: editDeskripsi.value.trim(),
-        foto: editFoto
-      };
-
-      const updatedDusunList = [...dusunList];
-      if (idx >= 0 && idx < updatedDusunList.length) {
-        updatedDusunList[idx] = newDusun;
-      } else {
-        updatedDusunList.push(newDusun);
-      }
-
-      await persistProfil({ ...currentData, dusun: updatedDusunList });
-      dusunList = updatedDusunList;
-      modalDusun.classList.add('hidden');
-      renderDusunCards();
-      showProfileNotice('Data dusun berhasil disimpan ke Supabase dan diperbarui di halaman publik.');
-      } catch (error) {
-        editFotoStatus.textContent = error instanceof Error ? error.message : 'Data dusun gagal disimpan.';
-        alert(editFotoStatus.textContent);
-      } finally {
-        saveButton.disabled = false;
-        saveButton.textContent = 'Simpan Dusun';
-      }
-    });
-
-    // Form Submit Main (Save all)
-    const formMain = document.getElementById('form-info');
-    formMain.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const submitButton = formMain.querySelector('button[type="submit"]');
-      submitButton.disabled = true;
-      submitButton.querySelector('span').textContent = 'Menyimpan...';
-
-      try {
-      const lkNum = parseInt((inLk.value || '').replace(/[^0-9]/g, ''), 10) || 0;
-      const pmNum = parseInt((inPm.value || '').replace(/[^0-9]/g, ''), 10) || 0;
-      const totalNum = lkNum + pmNum;
-
-      const formattedLk = formatNumber(lkNum) + ' Jiwa';
-      const formattedPm = formatNumber(pmNum) + ' Jiwa';
-      const formattedTotal = formatNumber(totalNum) + ' Jiwa';
-
-      const updatedProfil = {
-        ...currentData,
-        visi: inVisi.value.trim(),
-        misi: misiList.map((item) => item.trim()).filter(Boolean),
-        alamat_kantor: inAlamat.value.trim(),
-        telepon: inTelepon.value.trim(),
-        email: inEmail.value.trim(),
-        jam_layanan: inJam.value.trim(),
-        foto_struktur: fotoStrukturBase64,
-        dusun: dusunList,
-        statistik: {
-          ...currentData.statistik,
-          laki_laki: formattedLk,
-          perempuan: formattedPm,
-          total_penduduk: formattedTotal,
-          total_kk: inKk.value.trim(),
-          luas_wilayah: inLuas.value.trim()
-        }
-      };
-
-      await persistProfil(updatedProfil);
-      showProfileNotice('Pembaruan profil, data dusun, statistik, dan foto berhasil disimpan ke Supabase.');
-      } catch (error) {
-        alert(error instanceof Error ? `Pembaruan profil gagal disimpan: ${error.message}` : 'Pembaruan profil gagal disimpan.');
-      } finally {
-        submitButton.disabled = false;
-        submitButton.querySelector('span').textContent = 'Simpan Seluruh Pembaruan';
-      }
-    });
-
-    const ANNOUNCEMENT_STORAGE_KEY = 'timpik_pengumuman_list';
-
-    let announcementItems = Array.isArray(defaultPengumuman)
-      ? defaultPengumuman.map(item => ({ ...item }))
-      : [];
-
-    const announcementList = document.getElementById('pengumuman-list');
-    const announcementModal = document.getElementById('modal-pengumuman');
-    const announcementForm = document.getElementById('form-pengumuman');
-    const announcementNotice = document.getElementById('pengumuman-notice');
-
-    const announcementFields = {
-      id: document.getElementById('pengumuman-id'),
-      judul: document.getElementById('pengumuman-judul'),
-      kategori: document.getElementById('pengumuman-kategori'),
-      tanggal: document.getElementById('pengumuman-tanggal'),
-      ringkasan: document.getElementById('pengumuman-ringkasan'),
-      isi: document.getElementById('pengumuman-isi'),
-      url: document.getElementById('pengumuman-url'),
-      label: document.getElementById('pengumuman-label-link'),
-      status: document.getElementById('pengumuman-status'),
-      prioritas: document.getElementById('pengumuman-prioritas')
-    };
-
-    let announcementSearch = '';
-    let announcementFilter = 'semua';
-
-    const escapeAnnouncement = (value) => String(value ?? '').replace(/[&<>"']/g, char => ({
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, char => ({
       '&': '&amp;',
       '<': '&lt;',
       '>': '&gt;',
@@ -1239,29 +717,786 @@ const pengumumanAwal = [
       "'": '&#39;'
     })[char]);
 
-    const generateAnnouncementId = () => {
-      return `pengumuman-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const generateId = () => {
+      return `pengumuman-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
     };
 
+    function normalizeStatus(status) {
+      return status === 'draft' ? 'draf' : status;
+    }
+
+    function normalizeAnnouncement(item) {
+      return {
+        id: String(item.id || generateId()),
+        kategori: String(item.kategori || 'Pemerintahan'),
+        judul: String(item.judul || ''),
+        ringkasan: String(item.ringkasan || ''),
+        isi: String(item.isi || ''),
+        tanggal: String(item.tanggal || ''),
+        url: String(item.url || ''),
+        label_tautan: String(item.label_tautan || ''),
+        status: normalizeStatus(item.status) === 'terbit' ? 'terbit' : 'draf',
+        prioritas: item.prioritas === 'penting' ? 'penting' : 'normal',
+        dibuat_pada: item.dibuat_pada || new Date().toISOString(),
+        diperbarui_pada: item.diperbarui_pada || item.dibuat_pada || new Date().toISOString()
+      };
+    }
+
+    // =========================================================
+    // GLOBAL NOTIFICATION
+    // =========================================================
+
+    $('btn-close-global-notice').addEventListener('click', () => {
+      $('notice-toast').classList.add('hidden');
+    });
+
+    function showProfileNotice(message) {
+      $('notice-text').textContent = message;
+      $('notice-toast').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (typeof window.__timpikAdminToast === 'function') {
+        window.__timpikAdminToast(message);
+      }
+    }
+
+    // =========================================================
+    // PROFILE DATA INITIALIZATION
+    // =========================================================
+
+    let currentData = { ...defaultProfil };
+
+    try {
+      const stored = localStorage.getItem(PROFILE_KEY);
+
+      if (stored) {
+        const parsed = JSON.parse(stored);
+
+        if (parsed && typeof parsed === 'object') {
+          currentData = { ...defaultProfil, ...parsed };
+        }
+      }
+    } catch (error) {
+      console.warn('Gagal membaca cache profil:', error);
+    }
+
+    // =========================================================
+    // TAB MANAGEMENT
+    // =========================================================
+
+    const tabDefinitions = [
+      { btn: $('tab-btn-umum'), panel: $('panel-umum') },
+      { btn: $('tab-btn-dusun'), panel: $('panel-dusun') },
+      { btn: $('tab-btn-penduduk'), panel: $('panel-penduduk') },
+      { btn: $('tab-btn-struktur'), panel: $('panel-struktur') },
+      { btn: $('tab-btn-pengumuman'), panel: $('panel-pengumuman') }
+    ];
+
+    const profileActions = $('profile-save-actions');
+
+    function activateTab(index) {
+      tabDefinitions.forEach((tab, currentIndex) => {
+        const active = index === currentIndex;
+
+        tab.btn.classList.toggle('active', active);
+        tab.btn.setAttribute('aria-selected', String(active));
+        tab.btn.setAttribute('tabindex', active ? '0' : '-1');
+
+        tab.panel.classList.toggle('hidden', !active);
+      });
+
+      profileActions.classList.toggle('hidden', index === 4);
+    }
+
+    tabDefinitions.forEach((tab, index) => {
+      tab.btn.addEventListener('click', () => activateTab(index));
+
+      tab.btn.addEventListener('keydown', event => {
+        let next = index;
+
+        if (event.key === 'ArrowRight') next = (index + 1) % tabDefinitions.length;
+        else if (event.key === 'ArrowLeft') next = (index - 1 + tabDefinitions.length) % tabDefinitions.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = tabDefinitions.length - 1;
+        else return;
+
+        event.preventDefault();
+        activateTab(next);
+        tabDefinitions[next].btn.focus();
+      });
+    });
+
+    // =========================================================
+    // PROFILE FORM REFERENCES
+    // =========================================================
+
+    const inVisi = $('input-visi');
+    const inAlamat = $('input-alamat');
+    const inTelepon = $('input-telepon');
+    const inEmail = $('input-email');
+    const inJam = $('input-jam');
+
+    const inLk = $('input-lk');
+    const inPm = $('input-pm');
+    const inTotal = $('input-total');
+    const inKk = $('input-kk');
+    const inLuas = $('input-luas');
+
+    const misiContainer = $('misi-list');
+    const misiEmpty = $('misi-empty');
+
+    inVisi.value = currentData.visi || '';
+    inAlamat.value = currentData.alamat_kantor || '';
+    inTelepon.value = currentData.telepon || '';
+    inEmail.value = currentData.email || '';
+    inJam.value = currentData.jam_layanan || '';
+
+    let misiList = Array.isArray(currentData.misi)
+      ? currentData.misi.map(item => {
+          if (typeof item === 'string') return item;
+
+          if (!item || typeof item !== 'object') return '';
+
+          const detail = [
+            item.deskripsi,
+            ...(Array.isArray(item.poin) ? item.poin : [])
+          ].filter(Boolean).join('; ');
+
+          return [item.judul, detail].filter(Boolean).join(' — ');
+        }).filter(Boolean)
+      : [];
+
+    // =========================================================
+    // MISI MANAGEMENT
+    // =========================================================
+
+    function renderMisi() {
+      misiEmpty.classList.toggle('hidden', misiList.length > 0);
+
+      misiContainer.innerHTML = misiList.map((item, index) => `
+        <div class="flex flex-col gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 sm:flex-row sm:items-center">
+          <label class="flex-1">
+            <span class="mb-1 block text-xs font-bold text-slate-700">Misi ${index + 1}</span>
+            <input
+              type="text"
+              data-misi-index="${index}"
+              maxlength="500"
+              required
+              value="${escapeHtml(item)}"
+              class="admin-input"
+              placeholder="Tuliskan misi desa"
+            />
+          </label>
+
+          <button type="button" data-remove-misi="${index}" class="min-h-11 rounded-lg border border-rose-200 bg-white px-4 text-sm font-bold text-rose-700">
+            Hapus
+          </button>
+        </div>
+      `).join('');
+    }
+
+    $('btn-add-misi').addEventListener('click', () => {
+      misiList.push('');
+      renderMisi();
+      misiContainer.lastElementChild?.querySelector('input')?.focus();
+    });
+
+    misiContainer.addEventListener('input', event => {
+      const input = event.target.closest('[data-misi-index]');
+
+      if (input) {
+        misiList[Number(input.dataset.misiIndex)] = input.value;
+      }
+    });
+
+    misiContainer.addEventListener('click', async event => {
+      const button = event.target.closest('[data-remove-misi]');
+
+      if (!button) return;
+
+      const index = Number(button.dataset.removeMisi);
+
+      if (!await window.__timpikAdminConfirm(
+        'Hapus misi ini?',
+        'Hapus misi'
+      )) return;
+
+      misiList.splice(index, 1);
+      renderMisi();
+    });
+
+    renderMisi();
+
+    // =========================================================
+    // POPULATION STATISTICS
+    // =========================================================
+
+    const stats = currentData.statistik || {};
+
+    inLk.value = String(stats.laki_laki ?? '').replace(/[^0-9]/g, '');
+    inPm.value = String(stats.perempuan ?? '').replace(/[^0-9]/g, '');
+    inKk.value = stats.total_kk || '';
+    inLuas.value = stats.luas_wilayah || '';
+
+    function formatNumber(value) {
+      return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    function calculateTotal() {
+      const lk = parseInt(inLk.value.replace(/[^0-9]/g, ''), 10) || 0;
+      const pm = parseInt(inPm.value.replace(/[^0-9]/g, ''), 10) || 0;
+
+      if (!inLk.value.trim() && !inPm.value.trim()) {
+        inTotal.value = '';
+        $('total-calc-hint').textContent = 'Masukkan jumlah penduduk.';
+        return;
+      }
+
+      const total = lk + pm;
+
+      inTotal.value = `${formatNumber(total)} Jiwa`;
+
+      $('total-calc-hint').textContent =
+        `${formatNumber(lk)} + ${formatNumber(pm)} = ${formatNumber(total)} Jiwa`;
+    }
+
+    inLk.addEventListener('input', calculateTotal);
+    inPm.addEventListener('input', calculateTotal);
+
+    calculateTotal();
+
+    // =========================================================
+    // STRUCTURE PHOTO
+    // =========================================================
+
+    const fotoPreview = $('preview-foto-struktur');
+    const inFoto = $('input-foto');
+
+    let fotoStruktur = currentData.foto_struktur || '/images/struktur-organisasi-timpik.jpg';
+
+    fotoPreview.src = fotoStruktur;
+
+    inFoto.addEventListener('change', event => {
+      const file = event.target.files?.[0];
+
+      if (!file) return;
+
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+        alert('Pilih gambar JPG, PNG, atau WebP.');
+        inFoto.value = '';
+        return;
+      }
+
+      if (file.size > 3 * 1024 * 1024) {
+        alert('Ukuran gambar maksimal 3 MB.');
+        inFoto.value = '';
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        fotoStruktur = reader.result;
+        fotoPreview.src = fotoStruktur;
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    $('btn-reset-foto').addEventListener('click', () => {
+      fotoStruktur = '/images/struktur-organisasi-timpik.jpg';
+      fotoPreview.src = fotoStruktur;
+      inFoto.value = '';
+    });
+
+    // =========================================================
+    // PROFILE PERSISTENCE
+    // =========================================================
+
+    async function persistProfil(updatedProfil) {
+      if (typeof window.__timpikSaveAdminContent !== 'function') {
+        throw new Error('Layanan penyimpanan server tidak tersedia.');
+      }
+
+      await window.__timpikSaveAdminContent(PROFILE_KEY, updatedProfil);
+
+      currentData = updatedProfil;
+
+      localStorage.setItem(PROFILE_KEY, JSON.stringify(updatedProfil));
+    }
+
+    // =========================================================
+    // DUSUN MANAGEMENT
+    // =========================================================
+
+    let dusunList = Array.isArray(currentData.dusun)
+      ? [...currentData.dusun]
+      : [];
+
+    const modalDusun = $('modal-dusun');
+    const formDusun = $('form-edit-dusun');
+
+    const dusunFields = {
+      index: $('edit-dusun-index'),
+      id: $('edit-dusun-id'),
+      nama: $('edit-dusun-nama'),
+      kadus: $('edit-dusun-kadus'),
+      rt: $('edit-dusun-rt'),
+      luas: $('edit-dusun-luas'),
+      potensi: $('edit-dusun-potensi'),
+      deskripsi: $('edit-dusun-deskripsi'),
+      foto: $('edit-dusun-foto-file'),
+      status: $('edit-dusun-foto-status'),
+      preview: $('edit-dusun-foto-preview'),
+      previewWrap: $('edit-dusun-foto-preview-wrap')
+    };
+
+    let editFoto = '';
+    let pendingDusunImage = null;
+    let dusunPhotoPreviewUrl = '';
+
+    function showDusunPhoto(src) {
+      if (dusunPhotoPreviewUrl) {
+        URL.revokeObjectURL(dusunPhotoPreviewUrl);
+        dusunPhotoPreviewUrl = '';
+      }
+
+      if (!src) {
+        dusunFields.preview.removeAttribute('src');
+        dusunFields.previewWrap.classList.add('hidden');
+        return;
+      }
+
+      if (src.startsWith('blob:')) {
+        dusunPhotoPreviewUrl = src;
+      }
+
+      dusunFields.preview.src = src;
+      dusunFields.previewWrap.classList.remove('hidden');
+    }
+
+    function resetDusunPhoto() {
+      editFoto = '';
+      pendingDusunImage = null;
+      dusunFields.foto.value = '';
+      dusunFields.status.textContent = 'JPG, PNG, WebP, AVIF. Maksimal 4 MB.';
+      showDusunPhoto('');
+    }
+
+    function renderDusunCards() {
+      $('dusun-tab-count').textContent = dusunList.length;
+
+      const container = $('dusun-card-list');
+
+      if (!dusunList.length) {
+        container.innerHTML = `
+          <div class="col-span-full rounded-xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center text-sm text-slate-500">
+            Belum ada data dusun.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = dusunList.map((d, index) => `
+        <article class="overflow-hidden rounded-xl border border-slate-200 bg-white">
+
+          ${d.foto ? `
+            <img
+              src="${escapeHtml(d.foto)}"
+              alt="${escapeHtml(d.nama)}"
+              class="h-40 w-full bg-slate-100 object-cover"
+              onerror="this.style.display='none'"
+            />
+          ` : ''}
+
+          <div class="space-y-3 p-5">
+
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs font-bold uppercase text-blue-700">
+                ${escapeHtml(d.id)}
+              </span>
+
+              <span class="rounded-lg bg-blue-50 px-2 py-1 text-xs text-blue-800">
+                ${escapeHtml(d.jumlah_rt || 'RT/RW belum diisi')}
+              </span>
+            </div>
+
+            <div>
+              <h3 class="font-bold text-slate-900">${escapeHtml(d.nama)}</h3>
+              <p class="mt-1 text-xs text-slate-600">
+                Kepala Dusun: ${escapeHtml(d.kepala_dusun || '-')}
+              </p>
+              <p class="mt-2 text-sm text-slate-600">
+                ${escapeHtml(d.deskripsi || 'Belum ada deskripsi.')}
+              </p>
+              <p class="mt-2 text-xs font-semibold text-emerald-800">
+                ${escapeHtml(d.potensi_utama || '')}
+              </p>
+            </div>
+
+            <div class="flex justify-end gap-2 border-t border-slate-100 pt-3">
+
+              <button type="button" data-dusun-edit="${index}" class="rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-700">
+                Edit
+              </button>
+
+              <button type="button" data-dusun-delete="${index}" class="rounded-lg border border-rose-200 px-3 py-2 text-xs font-bold text-rose-700">
+                Hapus
+              </button>
+
+            </div>
+
+          </div>
+        </article>
+      `).join('');
+    }
+
+    renderDusunCards();
+
+    $('dusun-card-list').addEventListener('click', event => {
+      const editButton = event.target.closest('[data-dusun-edit]');
+      const deleteButton = event.target.closest('[data-dusun-delete]');
+
+      if (editButton) {
+        openDusunEdit(Number(editButton.dataset.dusunEdit));
+      }
+
+      if (deleteButton) {
+        deleteDusun(Number(deleteButton.dataset.dusunDelete));
+      }
+    });
+
+    function openDusunModal() {
+      modalDusun.classList.remove('hidden');
+      modalDusun.classList.add('flex');
+    }
+
+    function closeDusunModal() {
+      modalDusun.classList.add('hidden');
+      modalDusun.classList.remove('flex');
+      resetDusunPhoto();
+    }
+
+    function openDusunEdit(index) {
+      const d = dusunList[index];
+
+      if (!d) return;
+
+      $('modal-dusun-title').textContent = 'Edit Data Dusun';
+
+      dusunFields.index.value = index;
+      dusunFields.id.value = d.id || '';
+      dusunFields.nama.value = d.nama || '';
+      dusunFields.kadus.value = d.kepala_dusun || '';
+      dusunFields.rt.value = d.jumlah_rt || '';
+      dusunFields.luas.value = d.luas || '';
+      dusunFields.potensi.value = d.potensi_utama || '';
+      dusunFields.deskripsi.value = d.deskripsi || '';
+
+      editFoto = d.foto || '';
+      pendingDusunImage = null;
+      dusunFields.foto.value = '';
+
+      dusunFields.status.textContent = 'Pilih foto baru jika ingin mengganti foto saat ini.';
+
+      showDusunPhoto(editFoto);
+      openDusunModal();
+    }
+
+    $('btn-tambah-dusun').addEventListener('click', () => {
+      $('modal-dusun-title').textContent = 'Tambah Dusun Baru';
+
+      Object.values(dusunFields).forEach(field => {
+        if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+          if (field.type !== 'file' && field.type !== 'hidden') {
+            field.value = '';
+          }
+        }
+      });
+
+      dusunFields.index.value = '-1';
+
+      resetDusunPhoto();
+      openDusunModal();
+    });
+
+    $('close-modal-dusun').addEventListener('click', closeDusunModal);
+    $('btn-batal-dusun').addEventListener('click', closeDusunModal);
+
+    dusunFields.foto.addEventListener('change', () => {
+      const file = dusunFields.foto.files?.[0];
+
+      if (!file) return;
+
+      if (!['image/jpeg', 'image/png', 'image/webp', 'image/avif'].includes(file.type)) {
+        dusunFields.foto.value = '';
+        dusunFields.status.textContent = 'Format gambar tidak didukung.';
+        return;
+      }
+
+      if (file.size > 4 * 1024 * 1024) {
+        dusunFields.foto.value = '';
+        dusunFields.status.textContent = 'Ukuran gambar maksimal 4 MB.';
+        return;
+      }
+
+      pendingDusunImage = file;
+
+      dusunFields.status.textContent = `${file.name} dipilih.`;
+      showDusunPhoto(URL.createObjectURL(file));
+    });
+
+    $('edit-dusun-foto-remove').addEventListener('click', resetDusunPhoto);
+
+    async function uploadDusunPhoto(file) {
+      const response = await fetch('/api/admin/berita-image?folder=dusun', {
+        method: 'POST',
+        headers: {
+          'Content-Type': file.type
+        },
+        credentials: 'same-origin',
+        body: file
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Upload foto dusun gagal.');
+      }
+
+      if (!result.publicUrl) {
+        throw new Error('Server tidak mengembalikan URL foto.');
+      }
+
+      return result.publicUrl;
+    }
+
+    async function deleteDusun(index) {
+      const item = dusunList[index];
+
+      if (!item) return;
+
+      if (!await window.__timpikAdminConfirm(
+        `Hapus data ${item.nama}?`,
+        'Hapus dusun',
+        'Ya, hapus'
+      )) return;
+
+      const previous = [...dusunList];
+
+      dusunList = dusunList.filter((_, i) => i !== index);
+
+      try {
+        await persistProfil({
+          ...currentData,
+          dusun: dusunList
+        });
+
+        renderDusunCards();
+        showProfileNotice('Data dusun berhasil dihapus.');
+
+      } catch (error) {
+        dusunList = previous;
+        renderDusunCards();
+        alert(error.message || 'Gagal menghapus dusun.');
+      }
+    }
+
+    formDusun.addEventListener('submit', async event => {
+      event.preventDefault();
+
+      const saveButton = formDusun.querySelector('button[type="submit"]');
+
+      if (saveButton.disabled) return;
+
+      saveButton.disabled = true;
+      saveButton.textContent = 'Menyimpan...';
+
+      const previous = [...dusunList];
+
+      try {
+        const index = Number(dusunFields.index.value);
+
+        const id = dusunFields.id.value.trim().toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '');
+
+        if (!id) throw new Error('ID dusun wajib diisi.');
+
+        if (dusunList.some((item, i) => i !== index && item.id === id)) {
+          throw new Error('ID dusun sudah digunakan.');
+        }
+
+        let foto = editFoto;
+
+        if (pendingDusunImage) {
+          foto = await uploadDusunPhoto(pendingDusunImage);
+        }
+
+        const record = {
+          id,
+          nama: dusunFields.nama.value.trim(),
+          panggilan: dusunFields.nama.value.replace(/dusun/i, '').trim(),
+          kepala_dusun: dusunFields.kadus.value.trim(),
+          jumlah_rt: dusunFields.rt.value.trim(),
+          luas: dusunFields.luas.value.trim(),
+          potensi_utama: dusunFields.potensi.value.trim(),
+          deskripsi: dusunFields.deskripsi.value.trim(),
+          foto
+        };
+
+        if (index >= 0 && index < dusunList.length) {
+          dusunList[index] = record;
+        } else {
+          dusunList.push(record);
+        }
+
+        await persistProfil({
+          ...currentData,
+          dusun: dusunList
+        });
+
+        closeDusunModal();
+        renderDusunCards();
+
+        showProfileNotice('Data dusun berhasil disimpan.');
+
+      } catch (error) {
+        dusunList = previous;
+        renderDusunCards();
+        alert(error.message || 'Data dusun gagal disimpan.');
+      } finally {
+        saveButton.disabled = false;
+        saveButton.textContent = 'Simpan Dusun';
+      }
+    });
+
+    // =========================================================
+    // MAIN PROFILE SUBMISSION
+    // =========================================================
+
+    $('form-info').addEventListener('submit', async event => {
+      event.preventDefault();
+
+      const button = $('form-info').querySelector('button[type="submit"]');
+      const label = button.querySelector('span');
+
+      button.disabled = true;
+      label.textContent = 'Menyimpan...';
+
+      try {
+        const lk = parseInt(inLk.value.replace(/[^0-9]/g, ''), 10) || 0;
+        const pm = parseInt(inPm.value.replace(/[^0-9]/g, ''), 10) || 0;
+
+        const updatedProfil = {
+          ...currentData,
+
+          visi: inVisi.value.trim(),
+          misi: misiList.map(item => item.trim()).filter(Boolean),
+
+          alamat_kantor: inAlamat.value.trim(),
+          telepon: inTelepon.value.trim(),
+          email: inEmail.value.trim(),
+          jam_layanan: inJam.value.trim(),
+
+          foto_struktur: fotoStruktur,
+
+          dusun: dusunList,
+
+          statistik: {
+            ...(currentData.statistik || {}),
+            laki_laki: `${formatNumber(lk)} Jiwa`,
+            perempuan: `${formatNumber(pm)} Jiwa`,
+            total_penduduk: `${formatNumber(lk + pm)} Jiwa`,
+            total_kk: inKk.value.trim(),
+            luas_wilayah: inLuas.value.trim()
+          }
+        };
+
+        await persistProfil(updatedProfil);
+
+        showProfileNotice('Informasi profil desa berhasil diperbarui.');
+
+      } catch (error) {
+        alert(error.message || 'Gagal menyimpan profil.');
+      } finally {
+        button.disabled = false;
+        label.textContent = 'Simpan Seluruh Pembaruan';
+      }
+    });
+
+    // =========================================================
+    // ANNOUNCEMENT MANAGEMENT
+    // =========================================================
+
+    const announcementList = $('pengumuman-list');
+    const announcementModal = $('modal-pengumuman');
+    const announcementForm = $('form-pengumuman');
+    const announcementNotice = $('pengumuman-notice');
+    const announcementSaveButton = $('btn-simpan-pengumuman');
+
+    const announcementFields = {
+      id: $('pengumuman-id'),
+      judul: $('pengumuman-judul'),
+      kategori: $('pengumuman-kategori'),
+      tanggal: $('pengumuman-tanggal'),
+      ringkasan: $('pengumuman-ringkasan'),
+      isi: $('pengumuman-isi'),
+      url: $('pengumuman-url'),
+      label: $('pengumuman-label-link'),
+      status: $('pengumuman-status'),
+      prioritas: $('pengumuman-prioritas')
+    };
+
+    let announcementItems = [];
+    let announcementSearch = '';
+    let announcementFilter = 'semua';
+    let announcementSaving = false;
+
+    // =========================================================
+    // ANNOUNCEMENT NOTIFICATION
+    // =========================================================
+
     function showAnnouncementNotice(message, type = 'success') {
-      if (!announcementNotice) return;
+      const styles = {
+        success: 'border-emerald-300 bg-emerald-50 text-emerald-900',
+        error: 'border-rose-300 bg-rose-50 text-rose-900',
+        warning: 'border-amber-300 bg-amber-50 text-amber-900'
+      };
 
       announcementNotice.textContent = message;
 
-      announcementNotice.className = `rounded-xl border p-4 text-sm font-semibold ${
-        type === 'error'
-          ? 'border-rose-300 bg-rose-50 text-rose-900'
-          : type === 'warning'
-            ? 'border-amber-300 bg-amber-50 text-amber-900'
-            : 'border-emerald-300 bg-emerald-50 text-emerald-900'
-      }`;
+      announcementNotice.className =
+        `rounded-xl border p-4 text-sm font-semibold ${styles[type] || styles.success}`;
 
-      window.clearTimeout(showAnnouncementNotice.timer);
+      announcementNotice.classList.remove('hidden');
 
-      showAnnouncementNotice.timer = window.setTimeout(() => {
+      clearTimeout(showAnnouncementNotice.timer);
+
+      showAnnouncementNotice.timer = setTimeout(() => {
         announcementNotice.classList.add('hidden');
       }, 5000);
     }
+
+    // =========================================================
+    // ANNOUNCEMENT STATISTICS
+    // =========================================================
+
+    function updateAnnouncementStats() {
+      $('pengumuman-total').textContent = announcementItems.length;
+
+      $('pengumuman-terbit').textContent =
+        announcementItems.filter(item => item.status === 'terbit').length;
+
+      $('pengumuman-draf').textContent =
+        announcementItems.filter(item => item.status === 'draf').length;
+    }
+
+    // =========================================================
+    // ANNOUNCEMENT RENDERING
+    // =========================================================
 
     function formatAnnouncementDate(value) {
       if (!value) return 'Tanggal belum ditentukan';
@@ -1277,136 +1512,183 @@ const pengumumanAwal = [
       }).format(date);
     }
 
-    function updateAnnouncementStats() {
-      document.getElementById('pengumuman-total').textContent = announcementItems.length;
-
-      document.getElementById('pengumuman-terbit').textContent =
-        announcementItems.filter(item => item.status === 'terbit').length;
-
-      document.getElementById('pengumuman-draf').textContent =
-        announcementItems.filter(item => item.status === 'draf' || item.status === 'draft').length;
-    }
-
     function renderAnnouncementList() {
-      if (!announcementList) return;
-
       updateAnnouncementStats();
 
-      const filtered = announcementItems.filter(item => {
-        const status = item.status === 'draft' ? 'draf' : item.status;
+      const filtered = announcementItems
+        .filter(item => {
+          const searchContent = [
+            item.judul,
+            item.kategori,
+            item.ringkasan,
+            item.isi
+          ].join(' ').toLowerCase();
 
-        const searchable = [
-          item.judul,
-          item.kategori,
-          item.ringkasan,
-          item.isi
-        ].join(' ').toLowerCase();
-
-        const matchSearch = searchable.includes(announcementSearch);
-
-        const matchFilter = announcementFilter === 'semua'
-          || status === announcementFilter;
-
-        return matchSearch && matchFilter;
-      }).sort((a, b) => String(b.tanggal || '').localeCompare(String(a.tanggal || '')));
+          return searchContent.includes(announcementSearch) &&
+            (announcementFilter === 'semua' || item.status === announcementFilter);
+        })
+        .sort((a, b) => {
+          return String(b.tanggal || '').localeCompare(String(a.tanggal || ''));
+        });
 
       if (!filtered.length) {
         announcementList.innerHTML = `
           <div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-10 text-center">
-            <p class="text-sm font-bold text-slate-800">Belum ada pengumuman</p>
-            <p class="mt-1 text-xs text-slate-500">Tambahkan informasi baru melalui tombol Tambah Pengumuman.</p>
+            <p class="font-bold text-slate-800">Belum ada pengumuman</p>
+            <p class="mt-1 text-xs text-slate-500">
+              Gunakan tombol Tambah Pengumuman untuk membuat informasi baru.
+            </p>
           </div>
         `;
-
         return;
       }
 
-      announcementList.innerHTML = filtered.map(item => {
-        const published = item.status === 'terbit';
+      announcementList.innerHTML = filtered.map(item => `
+        <article class="rounded-xl border border-slate-200 bg-white p-4 transition hover:border-blue-200 hover:shadow-sm sm:p-5">
 
-        return `
-          <article class="rounded-xl border border-slate-200 bg-white p-4 transition hover:border-blue-200 hover:shadow-sm sm:p-5">
+          <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
 
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div class="min-w-0 flex-1">
 
-              <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-2">
 
-                <div class="flex flex-wrap items-center gap-2">
+                <span class="rounded-lg bg-blue-50 px-2.5 py-1 text-[10px] font-bold uppercase text-blue-900">
+                  ${escapeHtml(item.kategori)}
+                </span>
 
-                  <span class="rounded-lg bg-blue-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-blue-900">
-                    ${escapeAnnouncement(item.kategori)}
+                <span class="rounded-full px-2.5 py-1 text-[10px] font-bold ${
+                  item.status === 'terbit'
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : 'bg-amber-100 text-amber-900'
+                }">
+                  ${item.status === 'terbit' ? 'Terbit' : 'Draf'}
+                </span>
+
+                ${item.prioritas === 'penting' ? `
+                  <span class="rounded-full bg-rose-100 px-2.5 py-1 text-[10px] font-bold text-rose-800">
+                    Penting
                   </span>
-
-                  <span class="rounded-full px-2.5 py-1 text-[10px] font-bold ${
-                    published
-                      ? 'bg-emerald-100 text-emerald-800'
-                      : 'bg-amber-100 text-amber-900'
-                  }">
-                    ${published ? 'Terbit' : 'Draf'}
-                  </span>
-
-                  ${item.prioritas === 'penting'
-                    ? '<span class="rounded-full bg-rose-100 px-2.5 py-1 text-[10px] font-bold text-rose-800">Penting</span>'
-                    : ''
-                  }
-
-                </div>
-
-                <h3 class="mt-3 text-base font-extrabold leading-snug text-slate-950">
-                  ${escapeAnnouncement(item.judul)}
-                </h3>
-
-                <p class="mt-1 text-xs text-slate-400">
-                  ${escapeAnnouncement(formatAnnouncementDate(item.tanggal))}
-                </p>
-
-                <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-slate-600">
-                  ${escapeAnnouncement(item.ringkasan)}
-                </p>
+                ` : ''}
 
               </div>
 
-              <div class="flex shrink-0 flex-wrap gap-2">
+              <h3 class="mt-3 text-base font-extrabold text-slate-950">
+                ${escapeHtml(item.judul)}
+              </h3>
 
-                <button
-                  type="button"
-                  data-announcement-action="edit"
-                  data-id="${escapeAnnouncement(item.id)}"
-                  class="min-h-9 rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50"
-                >
-                  Edit
-                </button>
+              <p class="mt-1 text-xs text-slate-400">
+                ${escapeHtml(formatAnnouncementDate(item.tanggal))}
+              </p>
 
-                <button
-                  type="button"
-                  data-announcement-action="toggle"
-                  data-id="${escapeAnnouncement(item.id)}"
-                  class="min-h-9 rounded-lg border px-3 py-2 text-xs font-bold ${
-                    published
-                      ? 'border-amber-300 text-amber-800 hover:bg-amber-50'
-                      : 'border-emerald-300 text-emerald-800 hover:bg-emerald-50'
-                  }"
-                >
-                  ${published ? 'Jadikan Draf' : 'Terbitkan'}
-                </button>
-
-                <button
-                  type="button"
-                  data-announcement-action="delete"
-                  data-id="${escapeAnnouncement(item.id)}"
-                  class="min-h-9 rounded-lg border border-rose-200 px-3 py-2 text-xs font-bold text-rose-700 hover:bg-rose-50"
-                >
-                  Hapus
-                </button>
-
-              </div>
+              <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-slate-600">
+                ${escapeHtml(item.ringkasan)}
+              </p>
 
             </div>
 
-          </article>
-        `;
-      }).join('');
+            <div class="flex shrink-0 flex-wrap gap-2">
+
+              <button type="button" data-announcement-action="edit" data-id="${escapeHtml(item.id)}" class="min-h-9 rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50">
+                Edit
+              </button>
+
+              <button type="button" data-announcement-action="toggle" data-id="${escapeHtml(item.id)}" class="min-h-9 rounded-lg border px-3 py-2 text-xs font-bold ${
+                item.status === 'terbit'
+                  ? 'border-amber-300 text-amber-800 hover:bg-amber-50'
+                  : 'border-emerald-300 text-emerald-800 hover:bg-emerald-50'
+              }">
+                ${item.status === 'terbit' ? 'Jadikan Draf' : 'Terbitkan'}
+              </button>
+
+              <button type="button" data-announcement-action="delete" data-id="${escapeHtml(item.id)}" class="min-h-9 rounded-lg border border-rose-200 px-3 py-2 text-xs font-bold text-rose-700 hover:bg-rose-50">
+                Hapus
+              </button>
+
+            </div>
+
+          </div>
+
+        </article>
+      `).join('');
     }
+
+    // =========================================================
+    // ANNOUNCEMENT SERVER STORAGE
+    // =========================================================
+
+    async function persistAnnouncementData() {
+      if (typeof window.__timpikSaveAdminContent !== 'function') {
+        throw new Error(
+          'Layanan penyimpanan Supabase tidak tersedia. Periksa AdminLayout.'
+        );
+      }
+
+      const payload = announcementItems.map(normalizeAnnouncement);
+
+      // Sumber penyimpanan utama: Supabase.
+      await window.__timpikSaveAdminContent(
+        ANNOUNCEMENT_KEY,
+        payload
+      );
+
+      // Cache browser hanya diperbarui setelah server berhasil.
+      localStorage.setItem(
+        ANNOUNCEMENT_KEY,
+        JSON.stringify(payload)
+      );
+
+      announcementItems = payload;
+
+      // Sinkronisasi komponen pada halaman yang sama.
+      window.dispatchEvent(new CustomEvent('timpik-supabase-content', {
+        detail: {
+          pengumuman: payload,
+          [ANNOUNCEMENT_KEY]: payload
+        }
+      }));
+
+      return true;
+    }
+
+    // =========================================================
+    // ANNOUNCEMENT LOAD
+    // =========================================================
+
+    function getRemoteAnnouncements(data) {
+      if (!data || typeof data !== 'object') return null;
+
+      if (Array.isArray(data[ANNOUNCEMENT_KEY])) {
+        return data[ANNOUNCEMENT_KEY];
+      }
+
+      if (Array.isArray(data.pengumuman)) {
+        return data.pengumuman;
+      }
+
+      return null;
+    }
+
+    function loadInitialAnnouncements() {
+      const remote = getRemoteAnnouncements(
+        window.__timpikSupabaseContent
+      );
+
+      // Prioritaskan data dari Supabase.
+      if (remote !== null) {
+        announcementItems = remote.map(normalizeAnnouncement);
+      } else {
+        // Gunakan data awal dari profil.json.
+        announcementItems = Array.isArray(defaultProfil.pengumuman)
+          ? defaultProfil.pengumuman.map(normalizeAnnouncement)
+          : [];
+      }
+
+      renderAnnouncementList();
+    }
+
+    // =========================================================
+    // ANNOUNCEMENT MODAL
+    // =========================================================
 
     function openAnnouncementModal(item = null) {
       announcementForm.reset();
@@ -1419,18 +1701,16 @@ const pengumumanAwal = [
       announcementFields.isi.value = item?.isi || '';
       announcementFields.url.value = item?.url || '';
       announcementFields.label.value = item?.label_tautan || '';
-      announcementFields.status.value = item
-        ? (item.status === 'draft' ? 'draf' : item.status || 'draf')
-        : 'draf';
+      announcementFields.status.value = item?.status || 'draf';
       announcementFields.prioritas.value = item?.prioritas || 'normal';
 
-      document.getElementById('modal-pengumuman-title').textContent =
+      $('modal-pengumuman-title').textContent =
         item ? 'Edit Pengumuman' : 'Tambah Pengumuman';
 
-      document.getElementById('btn-simpan-pengumuman').textContent =
+      announcementSaveButton.textContent =
         item ? 'Simpan Perubahan' : 'Simpan Pengumuman';
 
-      document.getElementById('pengumuman-char-count').textContent =
+      $('pengumuman-char-count').textContent =
         announcementFields.ringkasan.value.length;
 
       announcementModal.classList.remove('hidden');
@@ -1450,87 +1730,117 @@ const pengumumanAwal = [
       document.body.classList.remove('overflow-hidden');
     }
 
-    async function persistAnnouncementData() {
-      const saveFunction = window.__timpikSaveAdminContent;
+    // =========================================================
+    // ANNOUNCEMENT FORM: CREATE & UPDATE
+    // =========================================================
 
-      if (typeof saveFunction === 'function') {
-        await saveFunction(ANNOUNCEMENT_STORAGE_KEY, announcementItems);
+    announcementForm.addEventListener('submit', async event => {
+      event.preventDefault();
 
-        localStorage.setItem(
-          ANNOUNCEMENT_STORAGE_KEY,
-          JSON.stringify(announcementItems)
+      if (announcementSaving) return;
+
+      if (!announcementForm.reportValidity()) return;
+
+      const url = announcementFields.url.value.trim();
+
+      if (url && !url.startsWith('/') && !/^https?:\/\//i.test(url)) {
+        showAnnouncementNotice(
+          'Tautan harus berupa halaman lokal atau URL HTTP/HTTPS.',
+          'error'
         );
-
-        window.dispatchEvent(new CustomEvent('timpik-supabase-content', {
-          detail: {
-            pengumuman: announcementItems
-          }
-        }));
-
-        return 'server';
+        return;
       }
 
-      localStorage.setItem(
-        ANNOUNCEMENT_STORAGE_KEY,
-        JSON.stringify(announcementItems)
+      const id = announcementFields.id.value || generateId();
+
+      const existingIndex = announcementItems.findIndex(
+        item => String(item.id) === String(id)
       );
 
-      window.dispatchEvent(new CustomEvent('timpik-supabase-content', {
-        detail: {
-          pengumuman: announcementItems
+      const existing = existingIndex >= 0
+        ? announcementItems[existingIndex]
+        : null;
+
+      const now = new Date().toISOString();
+
+      const record = normalizeAnnouncement({
+        id,
+        judul: announcementFields.judul.value.trim(),
+        kategori: announcementFields.kategori.value,
+        tanggal: announcementFields.tanggal.value,
+        ringkasan: announcementFields.ringkasan.value.trim(),
+        isi: announcementFields.isi.value.trim(),
+        url,
+        label_tautan: announcementFields.label.value.trim(),
+        status: announcementFields.status.value,
+        prioritas: announcementFields.prioritas.value,
+        dibuat_pada: existing?.dibuat_pada || now,
+        diperbarui_pada: now
+      });
+
+      if (!record.judul || !record.ringkasan || !record.isi) {
+        showAnnouncementNotice(
+          'Judul, ringkasan, dan isi wajib diisi.',
+          'error'
+        );
+        return;
+      }
+
+      const previous = announcementItems.map(item => ({ ...item }));
+
+      announcementSaving = true;
+      announcementSaveButton.disabled = true;
+      announcementSaveButton.textContent = 'Menyimpan...';
+
+      try {
+        if (existingIndex >= 0) {
+          announcementItems[existingIndex] = record;
+        } else {
+          announcementItems.unshift(record);
         }
-      }));
 
-      return 'local';
-    }
+        await persistAnnouncementData();
 
-    document.getElementById('btn-tambah-pengumuman')
-      .addEventListener('click', () => openAnnouncementModal());
-
-    document.getElementById('btn-close-pengumuman')
-      .addEventListener('click', closeAnnouncementModal);
-
-    document.getElementById('btn-batal-pengumuman')
-      .addEventListener('click', closeAnnouncementModal);
-
-    announcementModal.addEventListener('click', event => {
-      if (event.target === announcementModal) {
         closeAnnouncementModal();
+        renderAnnouncementList();
+
+        showAnnouncementNotice(
+          existing
+            ? 'Pengumuman berhasil diperbarui dan disimpan.'
+            : 'Pengumuman berhasil ditambahkan dan disimpan.',
+          'success'
+        );
+
+      } catch (error) {
+        announcementItems = previous;
+        renderAnnouncementList();
+
+        showAnnouncementNotice(
+          error.message || 'Pengumuman gagal disimpan.',
+          'error'
+        );
+
+      } finally {
+        announcementSaving = false;
+        announcementSaveButton.disabled = false;
+        announcementSaveButton.textContent = 'Simpan Pengumuman';
       }
     });
 
-    document.addEventListener('keydown', event => {
-      if (
-        event.key === 'Escape'
-        && !announcementModal.classList.contains('hidden')
-      ) {
-        closeAnnouncementModal();
-      }
-    });
-
-    announcementFields.ringkasan.addEventListener('input', () => {
-      document.getElementById('pengumuman-char-count').textContent =
-        announcementFields.ringkasan.value.length;
-    });
-
-    document.getElementById('pengumuman-search').addEventListener('input', event => {
-      announcementSearch = event.target.value.trim().toLowerCase();
-      renderAnnouncementList();
-    });
-
-    document.getElementById('pengumuman-filter').addEventListener('change', event => {
-      announcementFilter = event.target.value;
-      renderAnnouncementList();
-    });
+    // =========================================================
+    // ANNOUNCEMENT ACTIONS
+    // =========================================================
 
     announcementList.addEventListener('click', async event => {
       const button = event.target.closest('[data-announcement-action]');
 
-      if (!button) return;
+      if (!button || announcementSaving) return;
 
       const id = button.dataset.id;
 
-      const item = announcementItems.find(entry => String(entry.id) === String(id));
+      const item = announcementItems.find(
+        entry => String(entry.id) === String(id)
+      );
 
       if (!item) return;
 
@@ -1542,182 +1852,178 @@ const pengumumanAwal = [
       }
 
       if (action === 'delete') {
-        const confirmed = window.confirm(
-          `Hapus pengumuman "${item.judul}"? Tindakan ini tidak dapat dibatalkan.`
+        const confirmDelete = await window.__timpikAdminConfirm(
+          `Hapus pengumuman "${item.judul}"?`,
+          'Hapus pengumuman',
+          'Ya, hapus'
         );
 
-        if (!confirmed) return;
+        if (!confirmDelete) return;
       }
 
-      const previousItems = announcementItems.map(entry => ({ ...entry }));
+      const previous = announcementItems.map(entry => ({ ...entry }));
 
-      if (action === 'delete') {
-        announcementItems = announcementItems.filter(
-          entry => String(entry.id) !== String(id)
-        );
-      }
-
-      if (action === 'toggle') {
-        item.status = item.status === 'terbit' ? 'draf' : 'terbit';
-      }
+      announcementSaving = true;
+      button.disabled = true;
 
       try {
-        const destination = await persistAnnouncementData();
-
-        renderAnnouncementList();
-
-        showAnnouncementNotice(
-          destination === 'server'
-            ? 'Perubahan pengumuman berhasil disimpan.'
-            : 'Pengumuman tersimpan di browser ini. Sinkronisasi lintas perangkat belum tersedia.',
-          destination === 'server' ? 'success' : 'warning'
-        );
-
-      } catch (error) {
-        announcementItems = previousItems;
-        renderAnnouncementList();
-
-        showAnnouncementNotice(
-          error instanceof Error ? error.message : 'Perubahan pengumuman gagal disimpan.',
-          'error'
-        );
-      }
-    });
-
-    announcementForm.addEventListener('submit', async event => {
-      event.preventDefault();
-
-      if (!announcementForm.reportValidity()) return;
-
-      const saveButton = document.getElementById('btn-simpan-pengumuman');
-      const previousLabel = saveButton.textContent;
-
-      saveButton.disabled = true;
-      saveButton.textContent = 'Menyimpan...';
-
-      const id = announcementFields.id.value || generateAnnouncementId();
-
-      const existing = announcementItems.find(
-        item => String(item.id) === String(id)
-      );
-
-      const record = {
-        id,
-        kategori: announcementFields.kategori.value,
-        judul: announcementFields.judul.value.trim(),
-        ringkasan: announcementFields.ringkasan.value.trim(),
-        isi: announcementFields.isi.value.trim(),
-        tanggal: announcementFields.tanggal.value,
-        url: announcementFields.url.value.trim(),
-        label_tautan: announcementFields.label.value.trim(),
-        status: announcementFields.status.value,
-        prioritas: announcementFields.prioritas.value,
-        dibuat_pada: existing?.dibuat_pada || new Date().toISOString(),
-        diperbarui_pada: new Date().toISOString()
-      };
-
-      if (
-        record.url
-        && !record.url.startsWith('/')
-        && !/^https?:\/\//i.test(record.url)
-      ) {
-        showAnnouncementNotice(
-          'Tautan harus berupa alamat halaman lokal atau URL HTTP/HTTPS.',
-          'error'
-        );
-
-        saveButton.disabled = false;
-        saveButton.textContent = previousLabel;
-        return;
-      }
-
-      const previousItems = announcementItems.map(item => ({ ...item }));
-
-      if (existing) {
-        announcementItems = announcementItems.map(item =>
-          String(item.id) === String(id) ? record : item
-        );
-      } else {
-        announcementItems.unshift(record);
-      }
-
-      try {
-        const destination = await persistAnnouncementData();
-
-        closeAnnouncementModal();
-        renderAnnouncementList();
-
-        showAnnouncementNotice(
-          destination === 'server'
-            ? 'Pengumuman berhasil disimpan.'
-            : 'Pengumuman tersimpan di browser ini. Hubungkan penyimpanan server agar dapat diakses dari perangkat lain.',
-          destination === 'server' ? 'success' : 'warning'
-        );
-
-      } catch (error) {
-        announcementItems = previousItems;
-        renderAnnouncementList();
-
-        showAnnouncementNotice(
-          error instanceof Error ? error.message : 'Pengumuman gagal disimpan.',
-          'error'
-        );
-      } finally {
-        saveButton.disabled = false;
-        saveButton.textContent = previousLabel;
-      }
-    });
-
-    try {
-      const storedAnnouncements = localStorage.getItem(ANNOUNCEMENT_STORAGE_KEY);
-
-      if (storedAnnouncements) {
-        const parsed = JSON.parse(storedAnnouncements);
-
-        if (Array.isArray(parsed)) {
-          announcementItems = parsed;
+        if (action === 'delete') {
+          announcementItems = announcementItems.filter(
+            entry => String(entry.id) !== String(id)
+          );
         }
+
+        if (action === 'toggle') {
+          item.status = item.status === 'terbit' ? 'draf' : 'terbit';
+          item.diperbarui_pada = new Date().toISOString();
+        }
+
+        await persistAnnouncementData();
+
+        renderAnnouncementList();
+
+        showAnnouncementNotice(
+          action === 'delete'
+            ? 'Pengumuman berhasil dihapus.'
+            : item.status === 'terbit'
+              ? 'Pengumuman berhasil diterbitkan.'
+              : 'Pengumuman berhasil dijadikan draf.',
+          'success'
+        );
+
+      } catch (error) {
+        announcementItems = previous;
+        renderAnnouncementList();
+
+        showAnnouncementNotice(
+          error.message || 'Perubahan pengumuman gagal disimpan.',
+          'error'
+        );
+
+      } finally {
+        announcementSaving = false;
       }
-    } catch (error) {
-      console.warn('Data pengumuman lokal tidak dapat dibaca.', error);
-    }
+    });
 
-    const remoteAnnouncements = window.__timpikSupabaseContent?.pengumuman;
+    // =========================================================
+    // ANNOUNCEMENT SEARCH & FILTER
+    // =========================================================
 
-    if (Array.isArray(remoteAnnouncements)) {
-      announcementItems = remoteAnnouncements;
-    }
+    $('pengumuman-search').addEventListener('input', event => {
+      announcementSearch = event.target.value.trim().toLowerCase();
+      renderAnnouncementList();
+    });
+
+    $('pengumuman-filter').addEventListener('change', event => {
+      announcementFilter = event.target.value;
+      renderAnnouncementList();
+    });
+
+    // =========================================================
+    // ANNOUNCEMENT CHARACTER COUNTER
+    // =========================================================
+
+    announcementFields.ringkasan.addEventListener('input', () => {
+      $('pengumuman-char-count').textContent =
+        announcementFields.ringkasan.value.length;
+    });
+
+    // =========================================================
+    // ANNOUNCEMENT MODAL EVENTS
+    // =========================================================
+
+    $('btn-tambah-pengumuman').addEventListener('click', () => {
+      openAnnouncementModal();
+    });
+
+    $('btn-close-pengumuman').addEventListener('click', closeAnnouncementModal);
+    $('btn-batal-pengumuman').addEventListener('click', closeAnnouncementModal);
+
+    announcementModal.addEventListener('click', event => {
+      if (event.target === announcementModal) {
+        closeAnnouncementModal();
+      }
+    });
+
+    document.addEventListener('keydown', event => {
+      if (
+        event.key === 'Escape' &&
+        !announcementModal.classList.contains('hidden')
+      ) {
+        closeAnnouncementModal();
+      }
+    });
+
+    // =========================================================
+    // REMOTE ANNOUNCEMENT SYNCHRONIZATION
+    // =========================================================
 
     window.addEventListener('timpik-supabase-content', event => {
-      const remote = event.detail?.pengumuman;
+      const remote = getRemoteAnnouncements(event.detail);
 
-      if (Array.isArray(remote)) {
-        announcementItems = remote;
-        localStorage.setItem(ANNOUNCEMENT_STORAGE_KEY, JSON.stringify(remote));
-        renderAnnouncementList();
-      }
+      if (remote === null || announcementSaving) return;
+
+      announcementItems = remote.map(normalizeAnnouncement);
+
+      renderAnnouncementList();
     });
 
-    renderAnnouncementList();
-    document.getElementById('btn-clear-all-profil').addEventListener('click', async (event) => {
-      if (!(await (window ).__timpikAdminConfirm('Kosongkan semua informasi profil, statistik, foto, visi-misi, dan data dusun? Data akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan seluruh informasi desa', 'Ya, kosongkan'))) return;
+    // =========================================================
+    // INITIALIZE ANNOUNCEMENTS
+    // =========================================================
+
+    loadInitialAnnouncements();
+
+    // =========================================================
+    // CLEAR PROFILE DATA
+    // =========================================================
+
+    $('btn-clear-all-profil').addEventListener('click', async event => {
+      const confirmed = await window.__timpikAdminConfirm(
+        'Kosongkan seluruh informasi profil, statistik, foto, visi-misi, dan data dusun? Pengumuman tidak akan ikut dihapus.',
+        'Kosongkan informasi profil',
+        'Ya, kosongkan'
+      );
+
+      if (!confirmed) return;
+
       const button = event.currentTarget;
+
       button.disabled = true;
-      const emptyProfile = (value) => {
+
+      function emptyProfile(value) {
         if (Array.isArray(value)) return [];
+
         if (value && typeof value === 'object') {
-          return Object.fromEntries(Object.entries(value).map(([key, nestedValue]) => [key, emptyProfile(nestedValue)]));
+          return Object.fromEntries(
+            Object.entries(value).map(([key, nested]) => [
+              key,
+              emptyProfile(nested)
+            ])
+          );
         }
+
         return typeof value === 'string' ? '' : value;
-      };
+      }
+
       try {
-        await (window).__timpikSaveAdminContent(STORAGE_KEY, emptyProfile(currentData));
+        const emptyData = emptyProfile(currentData);
+
+        await window.__timpikSaveAdminContent(
+          PROFILE_KEY,
+          emptyData
+        );
+
+        localStorage.removeItem(PROFILE_KEY);
+
         window.location.reload();
+
       } catch (error) {
-        alert(error instanceof Error ? `Data profil gagal dikosongkan: ${error.message}` : 'Data profil gagal dikosongkan.');
+        alert(error.message || 'Data profil gagal dikosongkan.');
         button.disabled = false;
       }
     });
 
   </script>
+
 </AdminLayout>

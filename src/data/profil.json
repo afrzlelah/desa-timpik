@@ -152,6 +152,50 @@
     "pembinaan_budaya": "Rp 84.260.000",
     "biaya_pelayanan_warga": "Rp 0,- (100% Gratis)"
   },
+  "pengumuman": [
+    {
+      "id": "pengumuman-surat",
+      "kategori": "Administrasi Surat",
+      "judul": "Permohonan Dokumen Administrasi Warga Kini Dapat Diajukan Online",
+      "ringkasan": "Warga dapat mengurus SKU, SKTM, pengantar SKCK, surat domisili, dan surat kematian secara online tanpa harus mengantre di Balai Desa.",
+      "isi": "Pemerintah Desa Timpik menyediakan layanan pengajuan dokumen administrasi secara online. Warga dapat mengajukan SKU, SKTM, pengantar SKCK, surat domisili, dan surat kematian melalui formulir layanan yang tersedia.",
+      "tanggal": "",
+      "url": "/layanan-surat",
+      "label_tautan": "Buka Katalog Layanan Surat",
+      "status": "terbit",
+      "prioritas": "normal",
+      "dibuat_pada": "",
+      "diperbarui_pada": ""
+    },
+    {
+      "id": "pengumuman-irigasi",
+      "kategori": "Pertanian & Irigasi",
+      "judul": "Jadwal Pembagian Giliran Aliran Air Irigasi P3A Bogo Wastro",
+      "ringkasan": "Pengurus P3A Bogo Wastro menetapkan rotasi debit air sawah untuk pemerataan suplai air pada wilayah pertanian.",
+      "isi": "Informasi mengenai jadwal pembagian aliran air irigasi P3A Bogo Wastro untuk wilayah Dusun Bogo, Dusun Sumber, dan wilayah terkait. Warga dapat menghubungi pengurus P3A untuk memperoleh informasi jadwal pelaksanaan.",
+      "tanggal": "",
+      "url": "/kelembagaan/p3a",
+      "label_tautan": "Lihat Detail P3A",
+      "status": "terbit",
+      "prioritas": "normal",
+      "dibuat_pada": "",
+      "diperbarui_pada": ""
+    },
+    {
+      "id": "pengumuman-apbdes",
+      "kategori": "Transparansi Anggaran",
+      "judul": "Publikasi Rincian APBDes dan Alokasi Pembangunan Fisik",
+      "ringkasan": "Warga dapat memantau informasi penggunaan anggaran desa dan alokasi pembangunan melalui publikasi transparansi APBDes.",
+      "isi": "Pemerintah Desa Timpik menyediakan informasi transparansi anggaran sebagai bagian dari keterbukaan penyelenggaraan pemerintahan desa. Rincian anggaran dan alokasi pembangunan dapat dilihat melalui halaman transparansi.",
+      "tanggal": "",
+      "url": "/transparansi",
+      "label_tautan": "Buka Laporan APBDes",
+      "status": "terbit",
+      "prioritas": "normal",
+      "dibuat_pada": "",
+      "diperbarui_pada": ""
+    }
+  ],
   "sosial_media": {
     "instagram": "https://instagram.com/desatimpik_official",
     "facebook": "https://facebook.com/desatimpiksusukan",

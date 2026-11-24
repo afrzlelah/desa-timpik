@@ -8,6 +8,10 @@ const dusun = profilData.dusun as Array<(typeof profilData.dusun)[number] & { fo
 const { statistik } = profilData;
 const { operasional } = kontakData;
 
+const pengumumanAwal = Array.isArray(profilData.pengumuman)
+  ? profilData.pengumuman
+  : [];
+
 const categories = [
   'Semua Kategori',
   'Pertanian',
@@ -77,80 +81,211 @@ const categories = [
       <!-- Grid 3 Pengumuman Utama -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        <!-- Pengumuman 1: Layanan Surat Digital Mandiri -->
-        <div class="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between">
-          <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-blue-100 text-blue-900">
-                Administrasi Surat
-              </span>
-              <span class="text-xs text-slate-500 font-semibold">Aktif Berlaku</span>
-            </div>
-            <h3 class="text-lg font-bold text-slate-900 leading-snug">
-              Permohonan Dokumen Administrasi Warga Kini Dapat Diajukan Online
-            </h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              Warga dapat mengurus SKU, SKTM, pengantar SKCK, surat domisili, dan surat kematian secara online dari rumah via formulir tanpa perlu antre di Balai Desa.
-            </p>
-          </div>
-          <div class="pt-4 mt-4 border-t border-slate-100">
-            <a href="/layanan-surat" class="min-h-[44px] text-sm font-bold text-blue-800 hover:text-blue-950 flex items-center gap-1.5">
-              <span>Buka Katalog Layanan Surat &rarr;</span>
-            </a>
-          </div>
-        </div>
+       <!-- Grid Pengumuman Dinamis -->
+        <div id="info-pengumuman-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {
+            pengumumanAwal
+              .filter((item) => item.status === 'terbit')
+              .map((item) => (
+                <article class="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between">
+                  <div class="space-y-3">
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-blue-100 text-blue-900">
+                        {item.kategori}
+                      </span>
+                      <span class="text-xs text-slate-500 font-semibold">
+                        {item.prioritas === 'penting' ? 'Pengumuman Penting' : 'Informasi Desa'}
+                      </span>
+                    </div>
 
-        <!-- Pengumuman 2: Jadwal Giliran Debit Air Irigasi P3A -->
-        <div class="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between">
-          <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-teal-100 text-teal-900">
-                Pertanian & Irigasi
-              </span>
-              <span class="text-xs text-slate-500 font-semibold">Musim Tanam II</span>
-            </div>
-            <h3 class="text-lg font-bold text-slate-900 leading-snug">
-              Jadwal Pembagian Giliran Aliran Air Irigasi P3A Bogo Wastro
-            </h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              Pengurus P3A Bogo Wastro menetapkan rotasi debit air sawah untuk Dusun Bogo, Dusun Sumber, dan Kencana demi pemerataan suplai bibit padi musim tanam.
-            </p>
-          </div>
-          <div class="pt-4 mt-4 border-t border-slate-100">
-            <a href="/kelembagaan/p3a" class="min-h-[44px] text-sm font-bold text-teal-800 hover:text-teal-950 flex items-center gap-1.5">
-              <span>Lihat Detail P3A Bogo Wastro &rarr;</span>
-            </a>
-          </div>
-        </div>
+                    <h3 class="text-lg font-bold text-slate-900 leading-snug">
+                      {item.judul}
+                    </h3>
 
-        <!-- Pengumuman 3: Transparansi APBDes -->
-        <div class="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between">
-          <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-emerald-100 text-emerald-900">
-                Transparansi Anggaran
-              </span>
-              <span class="text-xs text-slate-500 font-semibold">Tahun 2026</span>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                      {item.ringkasan || item.isi}
+                    </p>
+                  </div>
+
+                  <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                    <span class="text-xs text-slate-500">
+                      {item.tanggal || 'Informasi Desa Timpik'}
+                    </span>
+
+                    {item.url && (
+                      <a
+                        href={item.url}
+                        class="min-h-[44px] text-sm font-bold text-blue-800 hover:text-blue-950 flex items-center gap-1.5"
+                      >
+                        <span>{item.label_tautan || 'Selengkapnya'} →</span>
+                      </a>
+                    )}
+                  </div>
+                </article>
+              ))
+          }
+
+          {pengumumanAwal.filter((item) => item.status === 'terbit').length === 0 && (
+            <div class="col-span-full rounded-2xl border border-slate-200 bg-white p-10 text-center">
+              <h3 class="font-bold text-slate-800">Belum Ada Pengumuman</h3>
+              <p class="text-sm text-slate-500 mt-2">
+                Informasi terbaru dari Pemerintah Desa Timpik akan ditampilkan di sini.
+              </p>
             </div>
-            <h3 class="text-lg font-bold text-slate-900 leading-snug">
-              Publikasi Rincian APBDes & Alokasi Pembangunan Fisik 2026
-            </h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              Warga dapat memantau keterbukaan penggunaan Dana Desa (APBN), Alokasi Dana Desa (ADD), dan PAD untuk pembangunan normalisasi saluran air dan bansos.
-            </p>
-          </div>
-          <div class="pt-4 mt-4 border-t border-slate-100">
-            <a href="/transparansi" class="min-h-[44px] text-sm font-bold text-emerald-900 hover:text-emerald-950 flex items-center gap-1.5">
-              <span>Buka Laporan APBDes &rarr;</span>
-            </a>
-          </div>
+          )}
         </div>
 
       </div>
 
     </div>
   </section>
+  <script is:inline define:vars={{ initialPengumuman: pengumumanAwal }}>
+    (() => {
+      const STORAGE_KEY = 'timpik_pengumuman_list';
+      const grid = document.getElementById('info-pengumuman-grid');
 
+      if (!grid) return;
+
+      const escapeHTML = (value) => {
+        return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        })[char]);
+      };
+
+      const safeURL = (value) => {
+        const url = String(value ?? '').trim();
+
+        if (!url) return '';
+
+        try {
+          const parsed = new URL(url, window.location.origin);
+
+          if (!['http:', 'https:'].includes(parsed.protocol)) {
+            return '';
+          }
+
+          return parsed.href;
+        } catch {
+          return '';
+        }
+      };
+
+      const getRemoteAnnouncements = (data) => {
+        if (!data || typeof data !== 'object') return null;
+
+        if (Array.isArray(data[STORAGE_KEY])) {
+          return data[STORAGE_KEY];
+        }
+
+        if (Array.isArray(data.pengumuman)) {
+          return data.pengumuman;
+        }
+
+        return null;
+      };
+
+      const renderAnnouncements = (items) => {
+        const published = Array.isArray(items)
+          ? items.filter((item) => item && item.status === 'terbit')
+          : [];
+
+        if (published.length === 0) {
+          grid.innerHTML = `
+            <div class="col-span-full rounded-2xl border border-slate-200 bg-white p-10 text-center">
+              <h3 class="font-bold text-slate-800">Belum Ada Pengumuman</h3>
+              <p class="text-sm text-slate-500 mt-2">
+                Informasi terbaru dari Pemerintah Desa Timpik akan ditampilkan di sini.
+              </p>
+            </div>
+          `;
+
+          return;
+        }
+
+        grid.innerHTML = published.map((item) => {
+          const kategori = escapeHTML(item.kategori || 'Informasi Desa');
+          const judul = escapeHTML(item.judul || 'Pengumuman Desa');
+          const ringkasan = escapeHTML(item.ringkasan || item.isi || '');
+          const tanggal = escapeHTML(item.tanggal || 'Informasi Desa Timpik');
+          const prioritas = item.prioritas === 'penting'
+            ? 'Pengumuman Penting'
+            : 'Informasi Desa';
+
+          const url = safeURL(item.url);
+          const labelTautan = escapeHTML(item.label_tautan || 'Selengkapnya');
+
+          return `
+            <article class="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-blue-100 text-blue-900">
+                    ${kategori}
+                  </span>
+                  <span class="text-xs text-slate-500 font-semibold">
+                    ${prioritas}
+                  </span>
+                </div>
+
+                <h3 class="text-lg font-bold text-slate-900 leading-snug">
+                  ${judul}
+                </h3>
+
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  ${ringkasan}
+                </p>
+              </div>
+
+              <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                <span class="text-xs text-slate-500">
+                  ${tanggal}
+                </span>
+
+                ${url ? `
+                  <a href="${escapeHTML(url)}" class="min-h-[44px] text-sm font-bold text-blue-800 hover:text-blue-950 flex items-center gap-1.5">
+                    <span>${labelTautan} →</span>
+                  </a>
+                ` : ''}
+              </div>
+            </article>
+          `;
+        }).join('');
+      };
+
+      // 1. Tampilkan data awal dari profil.json.
+      renderAnnouncements(initialPengumuman);
+
+      // 2. Periksa data Supabase yang sudah tersedia.
+      const remoteData = getRemoteAnnouncements(
+        window.__timpikSupabaseContent
+      );
+
+      if (remoteData !== null) {
+        renderAnnouncements(remoteData);
+      }
+
+      // 3. Dengarkan perubahan data dari Supabase.
+      window.addEventListener('timpik-supabase-content', (event) => {
+        const detail = event.detail || {};
+
+        const updatedData = getRemoteAnnouncements(detail);
+
+        if (updatedData !== null) {
+          renderAnnouncements(updatedData);
+          return;
+        }
+
+        // Mendukung event yang hanya membawa array pengumuman.
+        if (Array.isArray(detail)) {
+          renderAnnouncements(detail);
+        }
+      });
+    })();
+  </script>
+  
   <!-- Kalender & Agenda Kegiatan Desa (Dinamis dari timpik_agenda_list) -->
   <section id="agenda" class="py-16 bg-gray-100 border-t border-white/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
