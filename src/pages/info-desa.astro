@@ -620,6 +620,38 @@ const categories = [
         renderAnnouncements(updatedData);
       }
     });
+    // Ambil pengumuman langsung dari Supabase
+    const loadPublicAnnouncements = async () => {
+      try {
+        const response = await fetch('/api/content?key=pengumuman', {
+          method: 'GET',
+          cache: 'no-store',
+        });
+
+        if (response.status === 404) {
+          setAnnouncements(pengumumanAwal);
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`Gagal mengambil pengumuman (${response.status})`);
+        }
+
+        const result = await response.json();
+
+        // Endpoint key=pengumuman mengembalikan row:
+        // { content_key, data, updated_at }
+        if (Array.isArray(result.data)) {
+          setAnnouncements(result.data, true);
+        } else {
+          console.warn('Format data pengumuman Supabase tidak sesuai:', result);
+        }
+      } catch (error) {
+        console.error('Gagal memuat pengumuman publik:', error);
+      }
+    };
+
+    loadPublicAnnouncements();
   })();
 </script>
 
