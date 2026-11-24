@@ -463,27 +463,22 @@ const categories = [
 
     if (!grid) return;
 
-    const escapeHTML = (value) => {
-      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;'
-      })[char]);
-    };
+    const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[char]);
 
     const safeURL = (value) => {
       const raw = String(value ?? '').trim();
-
       if (!raw) return '';
 
       try {
         const parsed = new URL(raw, window.location.origin);
 
-        if (!['http:', 'https:'].includes(parsed.protocol)) {
-          return '';
-        }
+        if (!['http:', 'https:'].includes(parsed.protocol)) return '';
 
         return parsed.href;
       } catch {
@@ -500,6 +495,14 @@ const categories = [
 
       if (Array.isArray(data.pengumuman)) {
         return data.pengumuman;
+      }
+
+      if (Array.isArray(data.data)) {
+        return data.data;
+      }
+
+      if (data.contents && Array.isArray(data.contents.pengumuman)) {
+        return data.contents.pengumuman;
       }
 
       return null;
@@ -536,7 +539,10 @@ const categories = [
 
     const renderAnnouncements = (items) => {
       const published = Array.isArray(items)
-        ? items.filter((item) => item && item.status === 'terbit')
+        ? items.filter(item => {
+            const status = String(item?.status || '').toLowerCase();
+            return status === 'terbit' || status === 'published';
+          })
         : [];
 
       if (published.length === 0) {
@@ -544,13 +550,21 @@ const categories = [
         return;
       }
 
-      grid.innerHTML = published.map((item) => {
-        const category = String(item.kategori || 'Informasi Desa');
-        const categoryClass = getCategoryStyle(category);
+      const sorted = [...published].sort((a, b) => {
+        const priority = (String(b.prioritas).toLowerCase() === 'penting' ? 1 : 0)
+          - (String(a.prioritas).toLowerCase() === 'penting' ? 1 : 0);
+
+        return priority || String(b.tanggal || b.dibuat_pada || '')
+          .localeCompare(String(a.tanggal || a.dibuat_pada || ''));
+      });
+
+      grid.innerHTML = sorted.map(item => {
+        const category = escapeHTML(item.kategori || 'Informasi Desa');
+        const categoryClass = getCategoryStyle(item.kategori);
         const title = escapeHTML(item.judul || 'Pengumuman Desa');
         const description = escapeHTML(item.ringkasan || item.isi || '');
         const date = escapeHTML(item.tanggal || 'Pemerintah Desa Timpik');
-        const isImportant = item.prioritas === 'penting';
+        const isImportant = String(item.prioritas || '').toLowerCase() === 'penting';
         const url = safeURL(item.url);
         const linkLabel = escapeHTML(item.label_tautan || 'Selengkapnya');
 
@@ -561,7 +575,7 @@ const categories = [
             <div class="flex flex-1 flex-col p-6 sm:p-7">
               <div class="mb-5 flex items-center justify-between gap-3">
                 <span class="inline-flex max-w-[70%] items-center rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider ${categoryClass}">
-                  ${escapeHTML(category)}
+                  ${category}
                 </span>
 
                 ${isImportant
@@ -584,7 +598,7 @@ const categories = [
                 </span>
 
                 ${url ? `
-                  <a href="${escapeHTML(url)}" class="inline-flex min-h-10 items-center gap-1.5 text-xs font-bold text-blue-700 transition hover:gap-2.5 hover:text-blue-900">
+                  <a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-10 items-center gap-1.5 text-xs font-bold text-blue-700 transition hover:gap-2.5 hover:text-blue-900">
                     ${linkLabel}
                     <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -596,58 +610,56 @@ const categories = [
           </article>
         `;
       }).join('');
+
+      console.info(`[Pengumuman] ${published.length} pengumuman berhasil ditampilkan.`);
     };
 
-    // Tampilkan data awal dari profil.json.
+    // 1. Tampilkan data awal dari profil.json.
     renderAnnouncements(initialPengumuman);
 
-    // Periksa data Supabase yang telah dimuat.
-    const remoteData = getAnnouncements(
-      window.__timpikSupabaseContent
-    );
+    // 2. Baca data Supabase yang mungkin sudah dimuat Layout.
+    const remoteData = getAnnouncements(window.__timpikSupabaseContent);
 
     if (remoteData !== null) {
       renderAnnouncements(remoteData);
     }
 
-    // Dengarkan perubahan data dari AdminLayout.
+    // 3. Dengarkan pembaruan dari Layout.
     window.addEventListener('timpik-supabase-content', (event) => {
-      const detail = event.detail || {};
-
-      const updatedData = getAnnouncements(detail);
+      const updatedData = getAnnouncements(event.detail);
 
       if (updatedData !== null) {
         renderAnnouncements(updatedData);
       }
     });
-    // Ambil pengumuman langsung dari Supabase
+
+    // 4. Ambil data terbaru langsung dari endpoint.
     const loadPublicAnnouncements = async () => {
       try {
         const response = await fetch('/api/content?key=pengumuman', {
           method: 'GET',
-          cache: 'no-store',
+          cache: 'no-store'
         });
 
-        if (response.status === 404) {
-          setAnnouncements(pengumumanAwal);
-          return;
-        }
-
         if (!response.ok) {
-          throw new Error(`Gagal mengambil pengumuman (${response.status})`);
+          throw new Error(`HTTP ${response.status}: Gagal mengambil pengumuman.`);
         }
 
         const result = await response.json();
+        const announcements = getAnnouncements(result);
 
-        // Endpoint key=pengumuman mengembalikan row:
-        // { content_key, data, updated_at }
-        if (Array.isArray(result.data)) {
-          setAnnouncements(result.data, true);
-        } else {
-          console.warn('Format data pengumuman Supabase tidak sesuai:', result);
+        if (announcements === null) {
+          console.error('[Pengumuman] Format respons tidak dikenali:', result);
+          return;
         }
+
+        // Simpan cache dan render data terbaru.
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(announcements));
+        renderAnnouncements(announcements);
+
+        console.info(`[Pengumuman] ${announcements.length} data berhasil dimuat dari Supabase.`);
       } catch (error) {
-        console.error('Gagal memuat pengumuman publik:', error);
+        console.error('[Pengumuman] Gagal memuat data:', error);
       }
     };
 
