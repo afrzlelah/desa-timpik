@@ -1,6 +1,45 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import profil from '../../data/profil.json';
+
+const pengumumanAwal = [
+  {
+    id: 'pengumuman-surat',
+    kategori: 'Administrasi Surat',
+    judul: 'Permohonan Dokumen Administrasi Warga Kini Dapat Diajukan Online',
+    ringkasan: 'Warga dapat mengurus SKU, SKTM, pengantar SKCK, surat domisili, dan surat kematian secara online tanpa harus mengantre di Balai Desa.',
+    isi: 'Pemerintah Desa Timpik menyediakan layanan pengajuan dokumen administrasi secara online. Warga dapat mengajukan SKU, SKTM, pengantar SKCK, surat domisili, dan surat kematian melalui formulir layanan yang tersedia.',
+    tanggal: '',
+    url: '/layanan-surat',
+    label_tautan: 'Buka Katalog Layanan Surat',
+    status: 'terbit',
+    prioritas: 'normal'
+  },
+  {
+    id: 'pengumuman-irigasi',
+    kategori: 'Pertanian & Irigasi',
+    judul: 'Jadwal Pembagian Giliran Aliran Air Irigasi P3A Bogo Wastro',
+    ringkasan: 'Pengurus P3A Bogo Wastro menetapkan rotasi debit air sawah untuk pemerataan suplai air pada wilayah pertanian.',
+    isi: 'Informasi mengenai jadwal pembagian aliran air irigasi P3A Bogo Wastro untuk wilayah Dusun Bogo, Dusun Sumber, dan wilayah terkait. Warga dapat menghubungi pengurus P3A untuk memperoleh informasi jadwal pelaksanaan.',
+    tanggal: '',
+    url: '/kelembagaan/p3a',
+    label_tautan: 'Lihat Detail P3A',
+    status: 'terbit',
+    prioritas: 'normal'
+  },
+  {
+    id: 'pengumuman-apbdes',
+    kategori: 'Transparansi Anggaran',
+    judul: 'Publikasi Rincian APBDes dan Alokasi Pembangunan Fisik',
+    ringkasan: 'Warga dapat memantau informasi penggunaan anggaran desa dan alokasi pembangunan melalui publikasi transparansi APBDes.',
+    isi: 'Pemerintah Desa Timpik menyediakan informasi transparansi anggaran sebagai bagian dari keterbukaan penyelenggaraan pemerintahan desa. Rincian anggaran dan alokasi pembangunan dapat dilihat melalui halaman transparansi.',
+    tanggal: '',
+    url: '/transparansi',
+    label_tautan: 'Buka Laporan APBDes',
+    status: 'terbit',
+    prioritas: 'normal'
+  }
+];
 ---
 
 <AdminLayout title="Kelola Informasi & Profil Desa" activeMenu="informasi">
@@ -56,6 +95,9 @@ import profil from '../../data/profil.json';
       </button>
       <button type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-struktur" id="tab-btn-struktur" class="min-h-11 rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-700 transition-colors hover:border-blue-400 hover:bg-blue-50 hover:text-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2">
         4. Foto Struktur Organisasi
+      </button>
+      <button type="button" id="tab-btn-pengumuman" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 px-3 transition-colors">
+        5. Pengumuman Balai Desa
       </button>
     </div>
 
@@ -301,7 +343,7 @@ import profil from '../../data/profil.json';
       </div>
 
       <!-- Action Buttons -->
-      <div class="sticky bottom-4 z-20 rounded-2xl border border-blue-200 bg-white/95 backdrop-blur-md p-4 shadow-lg flex flex-wrap items-center justify-between gap-3">
+      <div id="profile-save-actions" class="sticky bottom-4 z-20 rounded-2xl border border-blue-200 bg-white/95 backdrop-blur-md p-4 shadow-lg flex flex-wrap items-center justify-between gap-3">
         <p class="text-xs sm:text-sm text-slate-600">
           Klik tombol <strong>Simpan Pembaruan</strong> untuk memperbarui data di situs ini.
         </p>
@@ -315,6 +357,269 @@ import profil from '../../data/profil.json';
       </div>
 
     </form>
+
+    <section id="panel-pengumuman" class="hidden space-y-6">
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+          <div>
+            <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-blue-800">
+              Informasi Publik Desa
+            </span>
+
+            <h2 class="mt-2 text-xl font-extrabold text-slate-900">
+              Pengumuman Balai Desa Timpik
+            </h2>
+
+            <p class="mt-1 text-sm text-slate-500">
+              Kelola informasi resmi yang ditampilkan kepada masyarakat Desa Timpik.
+            </p>
+          </div>
+
+          <button type="button" id="btn-tambah-pengumuman" class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-blue-800 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-900">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            Tambah Pengumuman
+          </button>
+        </div>
+
+        <div id="pengumuman-notice" class="hidden rounded-xl border p-4 text-sm font-semibold" role="status" aria-live="polite"></div>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+          <article class="rounded-xl border border-slate-200 bg-slate-50 p-5">
+            <p class="text-xs font-bold uppercase tracking-wide text-slate-500">Total Pengumuman</p>
+            <p id="pengumuman-total" class="mt-2 text-3xl font-black text-slate-900">0</p>
+            <span class="text-xs text-slate-500">Seluruh data informasi</span>
+          </article>
+
+          <article class="rounded-xl border border-emerald-200 bg-emerald-50 p-5">
+            <p class="text-xs font-bold uppercase tracking-wide text-emerald-700">Telah Terbit</p>
+            <p id="pengumuman-terbit" class="mt-2 text-3xl font-black text-emerald-900">0</p>
+            <span class="text-xs text-emerald-700">Ditampilkan kepada warga</span>
+          </article>
+
+          <article class="rounded-xl border border-amber-200 bg-amber-50 p-5">
+            <p class="text-xs font-bold uppercase tracking-wide text-amber-700">Draf</p>
+            <p id="pengumuman-draf" class="mt-2 text-3xl font-black text-amber-900">0</p>
+            <span class="text-xs text-amber-700">Belum ditampilkan</span>
+          </article>
+
+        </div>
+
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">Daftar Pengumuman</h3>
+            <p class="text-xs text-slate-500 mt-1">Informasi yang tersimpan dan status publikasinya.</p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-2">
+
+            <input
+              id="pengumuman-search"
+              type="search"
+              placeholder="Cari pengumuman..."
+              class="min-h-10 rounded-xl border border-slate-300 px-3.5 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+
+            <select id="pengumuman-filter" class="min-h-10 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+              <option value="semua">Semua Status</option>
+              <option value="terbit">Terbit</option>
+              <option value="draf">Draf</option>
+            </select>
+
+          </div>
+        </div>
+
+        <div id="pengumuman-list" class="space-y-3">
+          <div class="rounded-xl border border-dashed border-slate-300 p-10 text-center text-sm text-slate-500">
+            Memuat data pengumuman...
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div id="modal-pengumuman" class="fixed inset-0 z-[90] hidden items-center justify-center overflow-y-auto bg-slate-950/60 p-3 backdrop-blur-sm sm:p-5" role="dialog" aria-modal="true" aria-labelledby="modal-pengumuman-title" aria-hidden="true">
+
+      <div class="my-auto w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+
+        <div class="flex items-start justify-between gap-4 border-b border-slate-100 px-5 py-4 sm:px-7">
+          <div>
+            <p class="text-[11px] font-bold uppercase tracking-wider text-blue-700">
+              Form Informasi Desa
+            </p>
+
+            <h3 id="modal-pengumuman-title" class="mt-1 text-xl font-extrabold text-slate-900">
+              Tambah Pengumuman
+            </h3>
+
+            <p class="mt-1 text-xs text-slate-500">
+              Pastikan informasi yang disampaikan jelas dan sesuai dengan pengumuman resmi desa.
+            </p>
+          </div>
+
+          <button type="button" id="btn-close-pengumuman" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-2xl text-slate-500 hover:bg-slate-100">
+            &times;
+          </button>
+        </div>
+
+        <form id="form-pengumuman" class="max-h-[75vh] overflow-y-auto space-y-5 p-5 sm:p-7">
+
+          <input type="hidden" id="pengumuman-id" />
+
+          <div>
+            <label for="pengumuman-judul" class="mb-1.5 block text-sm font-bold text-slate-800">
+              Judul Pengumuman <span class="text-rose-500">*</span>
+            </label>
+
+            <input
+              id="pengumuman-judul"
+              type="text"
+              maxlength="120"
+              required
+              placeholder="Contoh: Jadwal Pelayanan Administrasi Desa"
+              class="w-full min-h-11 rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            <div>
+              <label for="pengumuman-kategori" class="mb-1.5 block text-sm font-bold text-slate-800">
+                Kategori
+              </label>
+
+              <select id="pengumuman-kategori" class="w-full min-h-11 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm">
+                <option>Administrasi Surat</option>
+                <option>Pertanian & Irigasi</option>
+                <option>Kesehatan</option>
+                <option>Kebudayaan</option>
+                <option>Pemerintahan</option>
+                <option>Bansos</option>
+                <option>Transparansi Anggaran</option>
+                <option>Lainnya</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="pengumuman-tanggal" class="mb-1.5 block text-sm font-bold text-slate-800">
+                Tanggal Pengumuman
+              </label>
+
+              <input id="pengumuman-tanggal" type="date" class="w-full min-h-11 rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm" />
+            </div>
+
+          </div>
+
+          <div>
+            <label for="pengumuman-ringkasan" class="mb-1.5 block text-sm font-bold text-slate-800">
+              Ringkasan Pengumuman <span class="text-rose-500">*</span>
+            </label>
+
+            <textarea
+              id="pengumuman-ringkasan"
+              rows="3"
+              maxlength="280"
+              required
+              placeholder="Tuliskan ringkasan singkat yang akan terlihat pada kartu pengumuman."
+              class="w-full rounded-xl border border-slate-300 px-3.5 py-3 text-sm leading-relaxed outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            ></textarea>
+
+            <p class="mt-1 text-right text-xs text-slate-400">
+              <span id="pengumuman-char-count">0</span>/280 karakter
+            </p>
+          </div>
+
+          <div>
+            <label for="pengumuman-isi" class="mb-1.5 block text-sm font-bold text-slate-800">
+              Isi Lengkap Pengumuman <span class="text-rose-500">*</span>
+            </label>
+
+            <textarea
+              id="pengumuman-isi"
+              rows="6"
+              required
+              placeholder="Tuliskan informasi lengkap, tanggal pelaksanaan, ketentuan, dan hal lain yang perlu diketahui warga."
+              class="w-full rounded-xl border border-slate-300 px-3.5 py-3 text-sm leading-relaxed outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            ></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            <div>
+              <label for="pengumuman-url" class="mb-1.5 block text-sm font-bold text-slate-800">
+                Tautan Informasi (Opsional)
+              </label>
+
+              <input
+                id="pengumuman-url"
+                type="text"
+                placeholder="/layanan-surat atau https://..."
+                class="w-full min-h-11 rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm"
+              />
+            </div>
+
+            <div>
+              <label for="pengumuman-label-link" class="mb-1.5 block text-sm font-bold text-slate-800">
+                Teks Tombol
+              </label>
+
+              <input
+                id="pengumuman-label-link"
+                type="text"
+                maxlength="60"
+                placeholder="Baca informasi lebih lanjut"
+                class="w-full min-h-11 rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm"
+              />
+            </div>
+
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            <div>
+              <label for="pengumuman-status" class="mb-1.5 block text-sm font-bold text-slate-800">
+                Status Publikasi
+              </label>
+
+              <select id="pengumuman-status" class="w-full min-h-11 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm">
+                <option value="draf">Simpan sebagai Draf</option>
+                <option value="terbit">Terbitkan Sekarang</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="pengumuman-prioritas" class="mb-1.5 block text-sm font-bold text-slate-800">
+                Prioritas
+              </label>
+
+              <select id="pengumuman-prioritas" class="w-full min-h-11 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm">
+                <option value="normal">Normal</option>
+                <option value="penting">Penting</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 border-t border-slate-100 pt-5">
+
+            <button type="button" id="btn-batal-pengumuman" class="min-h-11 rounded-xl border border-slate-300 px-5 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50">
+              Batal
+            </button>
+
+            <button type="submit" id="btn-simpan-pengumuman" class="min-h-11 rounded-xl bg-blue-800 px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-900">
+              Simpan Pengumuman
+            </button>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
 
     <!-- ================= MODAL TAMBAH / EDIT DUSUN ================= -->
     <div id="modal-dusun" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
@@ -387,7 +692,7 @@ import profil from '../../data/profil.json';
 
   </main>
 
-  <script define:vars={{ defaultProfil: profil }}>
+  <script define:vars={{ defaultProfil: profil, defaultPengumuman: pengumumanAwal }}>
     const STORAGE_KEY = 'timpik_profil_data';
     let currentData = defaultProfil;
 
@@ -409,7 +714,8 @@ import profil from '../../data/profil.json';
       { btn: document.getElementById('tab-btn-umum'), panel: document.getElementById('panel-umum') },
       { btn: document.getElementById('tab-btn-dusun'), panel: document.getElementById('panel-dusun') },
       { btn: document.getElementById('tab-btn-penduduk'), panel: document.getElementById('panel-penduduk') },
-      { btn: document.getElementById('tab-btn-struktur'), panel: document.getElementById('panel-struktur') }
+      { btn: document.getElementById('tab-btn-struktur'), panel: document.getElementById('panel-struktur') },
+      { btn: document.getElementById('tab-btn-pengumuman'), panel: document.getElementById('panel-pengumuman') }
     ];
 
     function activateTab(index) {
@@ -462,6 +768,12 @@ import profil from '../../data/profil.json';
 
     const fotoPreview = document.getElementById('preview-foto-struktur');
     let fotoStrukturBase64 = currentData.foto_struktur || '';
+
+    const profileActions = document.getElementById('profile-save-actions');
+
+    if (profileActions) {
+      profileActions.classList.toggle('hidden', index === 4);
+    }
 
     inVisi.value = currentData.visi || '';
     const misiList = Array.isArray(currentData.misi) ? currentData.misi.map((item) => {
@@ -892,6 +1204,501 @@ import profil from '../../data/profil.json';
       }
     });
 
+    const ANNOUNCEMENT_STORAGE_KEY = 'timpik_pengumuman_list';
+
+    let announcementItems = Array.isArray(defaultPengumuman)
+      ? defaultPengumuman.map(item => ({ ...item }))
+      : [];
+
+    const announcementList = document.getElementById('pengumuman-list');
+    const announcementModal = document.getElementById('modal-pengumuman');
+    const announcementForm = document.getElementById('form-pengumuman');
+    const announcementNotice = document.getElementById('pengumuman-notice');
+
+    const announcementFields = {
+      id: document.getElementById('pengumuman-id'),
+      judul: document.getElementById('pengumuman-judul'),
+      kategori: document.getElementById('pengumuman-kategori'),
+      tanggal: document.getElementById('pengumuman-tanggal'),
+      ringkasan: document.getElementById('pengumuman-ringkasan'),
+      isi: document.getElementById('pengumuman-isi'),
+      url: document.getElementById('pengumuman-url'),
+      label: document.getElementById('pengumuman-label-link'),
+      status: document.getElementById('pengumuman-status'),
+      prioritas: document.getElementById('pengumuman-prioritas')
+    };
+
+    let announcementSearch = '';
+    let announcementFilter = 'semua';
+
+    const escapeAnnouncement = (value) => String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[char]);
+
+    const generateAnnouncementId = () => {
+      return `pengumuman-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    };
+
+    function showAnnouncementNotice(message, type = 'success') {
+      if (!announcementNotice) return;
+
+      announcementNotice.textContent = message;
+
+      announcementNotice.className = `rounded-xl border p-4 text-sm font-semibold ${
+        type === 'error'
+          ? 'border-rose-300 bg-rose-50 text-rose-900'
+          : type === 'warning'
+            ? 'border-amber-300 bg-amber-50 text-amber-900'
+            : 'border-emerald-300 bg-emerald-50 text-emerald-900'
+      }`;
+
+      window.clearTimeout(showAnnouncementNotice.timer);
+
+      showAnnouncementNotice.timer = window.setTimeout(() => {
+        announcementNotice.classList.add('hidden');
+      }, 5000);
+    }
+
+    function formatAnnouncementDate(value) {
+      if (!value) return 'Tanggal belum ditentukan';
+
+      const date = new Date(`${value}T00:00:00`);
+
+      if (Number.isNaN(date.getTime())) return value;
+
+      return new Intl.DateTimeFormat('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      }).format(date);
+    }
+
+    function updateAnnouncementStats() {
+      document.getElementById('pengumuman-total').textContent = announcementItems.length;
+
+      document.getElementById('pengumuman-terbit').textContent =
+        announcementItems.filter(item => item.status === 'terbit').length;
+
+      document.getElementById('pengumuman-draf').textContent =
+        announcementItems.filter(item => item.status === 'draf' || item.status === 'draft').length;
+    }
+
+    function renderAnnouncementList() {
+      if (!announcementList) return;
+
+      updateAnnouncementStats();
+
+      const filtered = announcementItems.filter(item => {
+        const status = item.status === 'draft' ? 'draf' : item.status;
+
+        const searchable = [
+          item.judul,
+          item.kategori,
+          item.ringkasan,
+          item.isi
+        ].join(' ').toLowerCase();
+
+        const matchSearch = searchable.includes(announcementSearch);
+
+        const matchFilter = announcementFilter === 'semua'
+          || status === announcementFilter;
+
+        return matchSearch && matchFilter;
+      }).sort((a, b) => String(b.tanggal || '').localeCompare(String(a.tanggal || '')));
+
+      if (!filtered.length) {
+        announcementList.innerHTML = `
+          <div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-10 text-center">
+            <p class="text-sm font-bold text-slate-800">Belum ada pengumuman</p>
+            <p class="mt-1 text-xs text-slate-500">Tambahkan informasi baru melalui tombol Tambah Pengumuman.</p>
+          </div>
+        `;
+
+        return;
+      }
+
+      announcementList.innerHTML = filtered.map(item => {
+        const published = item.status === 'terbit';
+
+        return `
+          <article class="rounded-xl border border-slate-200 bg-white p-4 transition hover:border-blue-200 hover:shadow-sm sm:p-5">
+
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+
+              <div class="min-w-0 flex-1">
+
+                <div class="flex flex-wrap items-center gap-2">
+
+                  <span class="rounded-lg bg-blue-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-blue-900">
+                    ${escapeAnnouncement(item.kategori)}
+                  </span>
+
+                  <span class="rounded-full px-2.5 py-1 text-[10px] font-bold ${
+                    published
+                      ? 'bg-emerald-100 text-emerald-800'
+                      : 'bg-amber-100 text-amber-900'
+                  }">
+                    ${published ? 'Terbit' : 'Draf'}
+                  </span>
+
+                  ${item.prioritas === 'penting'
+                    ? '<span class="rounded-full bg-rose-100 px-2.5 py-1 text-[10px] font-bold text-rose-800">Penting</span>'
+                    : ''
+                  }
+
+                </div>
+
+                <h3 class="mt-3 text-base font-extrabold leading-snug text-slate-950">
+                  ${escapeAnnouncement(item.judul)}
+                </h3>
+
+                <p class="mt-1 text-xs text-slate-400">
+                  ${escapeAnnouncement(formatAnnouncementDate(item.tanggal))}
+                </p>
+
+                <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-slate-600">
+                  ${escapeAnnouncement(item.ringkasan)}
+                </p>
+
+              </div>
+
+              <div class="flex shrink-0 flex-wrap gap-2">
+
+                <button
+                  type="button"
+                  data-announcement-action="edit"
+                  data-id="${escapeAnnouncement(item.id)}"
+                  class="min-h-9 rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  data-announcement-action="toggle"
+                  data-id="${escapeAnnouncement(item.id)}"
+                  class="min-h-9 rounded-lg border px-3 py-2 text-xs font-bold ${
+                    published
+                      ? 'border-amber-300 text-amber-800 hover:bg-amber-50'
+                      : 'border-emerald-300 text-emerald-800 hover:bg-emerald-50'
+                  }"
+                >
+                  ${published ? 'Jadikan Draf' : 'Terbitkan'}
+                </button>
+
+                <button
+                  type="button"
+                  data-announcement-action="delete"
+                  data-id="${escapeAnnouncement(item.id)}"
+                  class="min-h-9 rounded-lg border border-rose-200 px-3 py-2 text-xs font-bold text-rose-700 hover:bg-rose-50"
+                >
+                  Hapus
+                </button>
+
+              </div>
+
+            </div>
+
+          </article>
+        `;
+      }).join('');
+    }
+
+    function openAnnouncementModal(item = null) {
+      announcementForm.reset();
+
+      announcementFields.id.value = item?.id || '';
+      announcementFields.judul.value = item?.judul || '';
+      announcementFields.kategori.value = item?.kategori || 'Pemerintahan';
+      announcementFields.tanggal.value = item?.tanggal || '';
+      announcementFields.ringkasan.value = item?.ringkasan || '';
+      announcementFields.isi.value = item?.isi || '';
+      announcementFields.url.value = item?.url || '';
+      announcementFields.label.value = item?.label_tautan || '';
+      announcementFields.status.value = item
+        ? (item.status === 'draft' ? 'draf' : item.status || 'draf')
+        : 'draf';
+      announcementFields.prioritas.value = item?.prioritas || 'normal';
+
+      document.getElementById('modal-pengumuman-title').textContent =
+        item ? 'Edit Pengumuman' : 'Tambah Pengumuman';
+
+      document.getElementById('btn-simpan-pengumuman').textContent =
+        item ? 'Simpan Perubahan' : 'Simpan Pengumuman';
+
+      document.getElementById('pengumuman-char-count').textContent =
+        announcementFields.ringkasan.value.length;
+
+      announcementModal.classList.remove('hidden');
+      announcementModal.classList.add('flex');
+      announcementModal.setAttribute('aria-hidden', 'false');
+
+      document.body.classList.add('overflow-hidden');
+
+      announcementFields.judul.focus();
+    }
+
+    function closeAnnouncementModal() {
+      announcementModal.classList.add('hidden');
+      announcementModal.classList.remove('flex');
+      announcementModal.setAttribute('aria-hidden', 'true');
+
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    async function persistAnnouncementData() {
+      const saveFunction = (window as any).__timpikSaveAdminContent;
+
+      if (typeof saveFunction === 'function') {
+        await saveFunction(ANNOUNCEMENT_STORAGE_KEY, announcementItems);
+
+        localStorage.setItem(
+          ANNOUNCEMENT_STORAGE_KEY,
+          JSON.stringify(announcementItems)
+        );
+
+        window.dispatchEvent(new CustomEvent('timpik-supabase-content', {
+          detail: {
+            pengumuman: announcementItems
+          }
+        }));
+
+        return 'server';
+      }
+
+      localStorage.setItem(
+        ANNOUNCEMENT_STORAGE_KEY,
+        JSON.stringify(announcementItems)
+      );
+
+      window.dispatchEvent(new CustomEvent('timpik-supabase-content', {
+        detail: {
+          pengumuman: announcementItems
+        }
+      }));
+
+      return 'local';
+    }
+
+    document.getElementById('btn-tambah-pengumuman')
+      .addEventListener('click', () => openAnnouncementModal());
+
+    document.getElementById('btn-close-pengumuman')
+      .addEventListener('click', closeAnnouncementModal);
+
+    document.getElementById('btn-batal-pengumuman')
+      .addEventListener('click', closeAnnouncementModal);
+
+    announcementModal.addEventListener('click', event => {
+      if (event.target === announcementModal) {
+        closeAnnouncementModal();
+      }
+    });
+
+    document.addEventListener('keydown', event => {
+      if (
+        event.key === 'Escape'
+        && !announcementModal.classList.contains('hidden')
+      ) {
+        closeAnnouncementModal();
+      }
+    });
+
+    announcementFields.ringkasan.addEventListener('input', () => {
+      document.getElementById('pengumuman-char-count').textContent =
+        announcementFields.ringkasan.value.length;
+    });
+
+    document.getElementById('pengumuman-search').addEventListener('input', event => {
+      announcementSearch = event.target.value.trim().toLowerCase();
+      renderAnnouncementList();
+    });
+
+    document.getElementById('pengumuman-filter').addEventListener('change', event => {
+      announcementFilter = event.target.value;
+      renderAnnouncementList();
+    });
+
+    announcementList.addEventListener('click', async event => {
+      const button = (event.target as HTMLElement).closest('[data-announcement-action]');
+
+      if (!button) return;
+
+      const id = button.dataset.id;
+
+      const item = announcementItems.find(entry => String(entry.id) === String(id));
+
+      if (!item) return;
+
+      const action = button.dataset.announcementAction;
+
+      if (action === 'edit') {
+        openAnnouncementModal(item);
+        return;
+      }
+
+      if (action === 'delete') {
+        const confirmed = window.confirm(
+          `Hapus pengumuman "${item.judul}"? Tindakan ini tidak dapat dibatalkan.`
+        );
+
+        if (!confirmed) return;
+      }
+
+      const previousItems = announcementItems.map(entry => ({ ...entry }));
+
+      if (action === 'delete') {
+        announcementItems = announcementItems.filter(
+          entry => String(entry.id) !== String(id)
+        );
+      }
+
+      if (action === 'toggle') {
+        item.status = item.status === 'terbit' ? 'draf' : 'terbit';
+      }
+
+      try {
+        const destination = await persistAnnouncementData();
+
+        renderAnnouncementList();
+
+        showAnnouncementNotice(
+          destination === 'server'
+            ? 'Perubahan pengumuman berhasil disimpan.'
+            : 'Pengumuman tersimpan di browser ini. Sinkronisasi lintas perangkat belum tersedia.',
+          destination === 'server' ? 'success' : 'warning'
+        );
+
+      } catch (error) {
+        announcementItems = previousItems;
+        renderAnnouncementList();
+
+        showAnnouncementNotice(
+          error instanceof Error ? error.message : 'Perubahan pengumuman gagal disimpan.',
+          'error'
+        );
+      }
+    });
+
+    announcementForm.addEventListener('submit', async event => {
+      event.preventDefault();
+
+      if (!announcementForm.reportValidity()) return;
+
+      const saveButton = document.getElementById('btn-simpan-pengumuman');
+      const previousLabel = saveButton.textContent;
+
+      saveButton.disabled = true;
+      saveButton.textContent = 'Menyimpan...';
+
+      const id = announcementFields.id.value || generateAnnouncementId();
+
+      const existing = announcementItems.find(
+        item => String(item.id) === String(id)
+      );
+
+      const record = {
+        id,
+        kategori: announcementFields.kategori.value,
+        judul: announcementFields.judul.value.trim(),
+        ringkasan: announcementFields.ringkasan.value.trim(),
+        isi: announcementFields.isi.value.trim(),
+        tanggal: announcementFields.tanggal.value,
+        url: announcementFields.url.value.trim(),
+        label_tautan: announcementFields.label.value.trim(),
+        status: announcementFields.status.value,
+        prioritas: announcementFields.prioritas.value,
+        dibuat_pada: existing?.dibuat_pada || new Date().toISOString(),
+        diperbarui_pada: new Date().toISOString()
+      };
+
+      if (
+        record.url
+        && !record.url.startsWith('/')
+        && !/^https?:\/\//i.test(record.url)
+      ) {
+        showAnnouncementNotice(
+          'Tautan harus berupa alamat halaman lokal atau URL HTTP/HTTPS.',
+          'error'
+        );
+
+        saveButton.disabled = false;
+        saveButton.textContent = previousLabel;
+        return;
+      }
+
+      const previousItems = announcementItems.map(item => ({ ...item }));
+
+      if (existing) {
+        announcementItems = announcementItems.map(item =>
+          String(item.id) === String(id) ? record : item
+        );
+      } else {
+        announcementItems.unshift(record);
+      }
+
+      try {
+        const destination = await persistAnnouncementData();
+
+        closeAnnouncementModal();
+        renderAnnouncementList();
+
+        showAnnouncementNotice(
+          destination === 'server'
+            ? 'Pengumuman berhasil disimpan.'
+            : 'Pengumuman tersimpan di browser ini. Hubungkan penyimpanan server agar dapat diakses dari perangkat lain.',
+          destination === 'server' ? 'success' : 'warning'
+        );
+
+      } catch (error) {
+        announcementItems = previousItems;
+        renderAnnouncementList();
+
+        showAnnouncementNotice(
+          error instanceof Error ? error.message : 'Pengumuman gagal disimpan.',
+          'error'
+        );
+      } finally {
+        saveButton.disabled = false;
+        saveButton.textContent = previousLabel;
+      }
+    });
+
+    try {
+      const storedAnnouncements = localStorage.getItem(ANNOUNCEMENT_STORAGE_KEY);
+
+      if (storedAnnouncements) {
+        const parsed = JSON.parse(storedAnnouncements);
+
+        if (Array.isArray(parsed)) {
+          announcementItems = parsed;
+        }
+      }
+    } catch (error) {
+      console.warn('Data pengumuman lokal tidak dapat dibaca.', error);
+    }
+
+    const remoteAnnouncements = (window as any).__timpikSupabaseContent?.pengumuman;
+
+    if (Array.isArray(remoteAnnouncements)) {
+      announcementItems = remoteAnnouncements;
+    }
+
+    window.addEventListener('timpik-supabase-content', event => {
+      const remote = (event as CustomEvent).detail?.pengumuman;
+
+      if (Array.isArray(remote)) {
+        announcementItems = remote;
+        localStorage.setItem(ANNOUNCEMENT_STORAGE_KEY, JSON.stringify(remote));
+        renderAnnouncementList();
+      }
+    });
+
+    renderAnnouncementList();
     document.getElementById('btn-clear-all-profil').addEventListener('click', async (event) => {
       if (!(await (window ).__timpikAdminConfirm('Kosongkan semua informasi profil, statistik, foto, visi-misi, dan data dusun? Data akan hilang dari halaman publik dan tidak dapat dipulihkan.', 'Kosongkan seluruh informasi desa', 'Ya, kosongkan'))) return;
       const button = event.currentTarget;
