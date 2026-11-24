@@ -705,7 +705,7 @@ const pengumumanAwal = [
     // =========================================================
 
     const PROFILE_KEY = 'timpik_profil_data';
-    const ANNOUNCEMENT_KEY = 'timpik_pengumuman_list';
+     = 'timpik_pengumuman_list';
 
     const $ = (id) => document.getElementById(id);
 
@@ -1615,37 +1615,21 @@ const pengumumanAwal = [
     // =========================================================
     // ANNOUNCEMENT SERVER STORAGE
     // =========================================================
-
     async function persistAnnouncementData() {
       if (typeof window.__timpikSaveAdminContent !== 'function') {
         throw new Error(
-          'Layanan penyimpanan Supabase tidak tersedia. Periksa AdminLayout.'
+          'Layanan penyimpanan belum tersedia. Periksa AdminLayout.'
         );
       }
 
       const payload = announcementItems.map(normalizeAnnouncement);
 
-      // Sumber penyimpanan utama: Supabase.
       await window.__timpikSaveAdminContent(
         ANNOUNCEMENT_KEY,
         payload
       );
 
-      // Cache browser hanya diperbarui setelah server berhasil.
-      localStorage.setItem(
-        ANNOUNCEMENT_KEY,
-        JSON.stringify(payload)
-      );
-
       announcementItems = payload;
-
-      // Sinkronisasi komponen pada halaman yang sama.
-      window.dispatchEvent(new CustomEvent('timpik-supabase-content', {
-        detail: {
-          pengumuman: payload,
-          [ANNOUNCEMENT_KEY]: payload
-        }
-      }));
 
       return true;
     }
@@ -2027,3 +2011,4 @@ const pengumumanAwal = [
   </script>
 
 </AdminLayout>
+

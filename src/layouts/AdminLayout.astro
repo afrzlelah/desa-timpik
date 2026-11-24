@@ -409,118 +409,344 @@ const { title, activeMenu = 'dashboard' } = Astro.props;
         (window as any).__timpikAdminToast(text, isSuccess ? 'success' : 'error');
       };
 
-      // Keep the admin's existing editor UI, but hydrate and persist its content in Supabase.
-      const contentStorageKeys = {
+      // =====================================================
+      // SUPABASE CONTENT INTEGRATION
+      // =====================================================
+
+      // Pemetaan localStorage key ke key Supabase.
+      const contentStorageKeys: Record<string, string> = {
         timpik_profil_data: 'profil',
+        timpik_pengumuman_list: 'pengumuman',
         timpik_kontak_data: 'kontak',
         timpik_berita_list: 'berita',
         timpik_agenda_list: 'agenda',
         timpik_surat_list: 'surat',
         timpik_apbdes_data: 'apbdes',
-        timpik_potensi_data: 'potensi',
+        timpik_potensi_data: 'potensi'
       };
+
       const isAdminPage = window.location.pathname.startsWith('/admin/');
-      const storageKeyByAdminPath = {
-        '/admin/informasi': 'timpik_profil_data',
-        '/admin/kontak': 'timpik_kontak_data',
-        '/admin/berita': 'timpik_berita_list',
-        '/admin/agenda': 'timpik_agenda_list',
-        '/admin/surat': 'timpik_surat_list',
-        '/admin/apbdes': 'timpik_apbdes_data',
-        '/admin/potensi': 'timpik_potensi_data',
+
+      const currentPath = window.location.pathname.replace(/\/+$/, '');
+
+      // Satu halaman dapat memiliki lebih dari satu sumber data.
+      const storageKeysByAdminPath: Record<string, string[]> = {
+        '/admin/informasi': [
+          'timpik_profil_data',
+          'timpik_pengumuman_list'
+        ],
+        '/admin/kontak': [
+          'timpik_kontak_data'
+        ],
+        '/admin/berita': [
+          'timpik_berita_list'
+        ],
+        '/admin/agenda': [
+          'timpik_agenda_list'
+        ],
+        '/admin/surat': [
+          'timpik_surat_list'
+        ],
+        '/admin/apbdes': [
+          'timpik_apbdes_data'
+        ],
+        '/admin/potensi': [
+          'timpik_potensi_data'
+        ]
       };
-      const currentStorageKey = storageKeyByAdminPath[window.location.pathname];
-      const currentContentKey = currentStorageKey ? contentStorageKeys[currentStorageKey] : undefined;
+
+      const currentStorageKeys = storageKeysByAdminPath[currentPath] || [];
+
       let syncingContentFromSupabase = false;
 
-      if (isAdminPage && currentContentKey) {
-        fetch(`/api/content?key=${encodeURIComponent(currentContentKey)}`, { cache: 'no-store' })
-          .then(async (response) => {
-            if (response.status === 404) {
-              if (localStorage.getItem(currentStorageKey) !== null) {
-                syncingContentFromSupabase = true;
-                localStorage.removeItem(currentStorageKey);
-                syncingContentFromSupabase = false;
-                window.location.reload();
-              }
-              return;
-            }
-            if (!response.ok) throw new Error(`Content load failed (${response.status})`);
-            if (!response.headers.get('content-type')?.includes('application/json')) {
-              throw new Error('Endpoint admin lokal belum aktif. Jalankan npm run dev agar Vercel Functions ikut berjalan.');
-            }
-            const row = await response.json();
-            const next = JSON.stringify(row.data);
-            if (localStorage.getItem(currentStorageKey) !== next) {
-              syncingContentFromSupabase = true;
-              localStorage.setItem(currentStorageKey, next);
-              syncingContentFromSupabase = false;
-              window.location.reload();
+      // =====================================================
+      // GLOBAL SUPABASE CONTENT
+      // =====================================================
+
+      const getSupabaseContent = () => {
+        const target = window as any;
+
+        if (!target.__timpikSupabaseContent) {
+          target.__timpikSupabaseContent = {};
+        }
+
+        return target.__timpikSupabaseContent;
+      };
+
+      const publishContentUpdate = (contentKey: string, data: unknown) => {
+        const globalContent = getSupabaseContent();
+
+        globalContent[contentKey] = data;
+
+        window.dispatchEvent(
+          new CustomEvent('timpik-supabase-content', {
+            detail: {
+              [contentKey]: data
             }
           })
-          .catch((error) => console.error('Gagal memuat data admin dari Supabase.', error));
-      }
+        );
+      };
+
 
       const originalSetItem = Storage.prototype.setItem;
       const originalRemoveItem = Storage.prototype.removeItem;
+
+      // =====================================================
+      // LOAD CONTENT FROM SUPABASE
+      // =====================================================
+
+      if (isAdminPage && currentStorageKeys.length > 0) {
+        const loadAdminContent = async () => {
+          let shouldReload = false;
+
+          const requests = currentStorageKeys.map(async (storageKey) => {
+            const contentKey = contentStorageKeys[storageKey];
+
+            if (!contentKey) return;
+
+            try {
+              const response = await fetch(
+                `/api/content?key=${encodeURIComponent(contentKey)}`,
+                {
+                  credentials: 'same-origin',
+                  cache: 'no-store'
+                }
+              );
+
+              // Belum ada data di Supabase.
+              // Jangan hapus data lokal atau data awal.
+              if (response.status === 404) {
+                return;
+              }
+
+              if (!response.ok) {
+                throw new Error(`Content load failed (${response.status})`);
+              }
+
+              if (!response.headers.get('content-type')?.includes('application/json')) {
+                throw new Error(
+                  'Endpoint admin lokal belum aktif. Jalankan npm run dev.'
+                );
+              }
+
+              const row = await response.json();
+              const data = row.data;
+
+              if (data === undefined) return;
+
+              const next = JSON.stringify(data);
+              const current = localStorage.getItem(storageKey);
+
+              // Simpan hasil Supabase ke localStorage tanpa memicu
+              // mekanisme penyimpanan otomatis.
+              if (current !== next) {
+                syncingContentFromSupabase = true;
+
+                originalSetItem.call(
+                  window.localStorage,
+                  storageKey,
+                  next
+                );
+
+                syncingContentFromSupabase = false;
+
+                shouldReload = true;
+              }
+
+              // Simpan data ke global state.
+              publishContentUpdate(contentKey, data);
+
+            } catch (error) {
+              syncingContentFromSupabase = false;
+
+              console.error(
+                `Gagal memuat data ${contentKey} dari Supabase:`,
+                error
+              );
+            }
+          });
+
+          await Promise.all(requests);
+
+          // Reload sekali setelah seluruh data selesai dimuat.
+          if (shouldReload) {
+            window.location.reload();
+          }
+        };
+
+        loadAdminContent();
+      }
+
+      // =====================================================
+      // INTERCEPT LOCALSTORAGE SETITEM
+      // =====================================================
+
+
       Storage.prototype.setItem = function (key, value) {
         originalSetItem.call(this, key, value);
-        const contentKey = isAdminPage && !syncingContentFromSupabase && this === window.localStorage ? contentStorageKeys[key] : undefined;
+
+        const contentKey =
+          isAdminPage &&
+          !syncingContentFromSupabase &&
+          this === window.localStorage
+            ? contentStorageKeys[key]
+            : undefined;
+
         if (!contentKey) return;
-        let data;
-        try { data = JSON.parse(value); } catch { return; }
+
+        let data: unknown;
+
+        try {
+          data = JSON.parse(value);
+        } catch {
+          return;
+        }
+
         fetch('/api/admin/content', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json'
+          },
           credentials: 'same-origin',
-          body: JSON.stringify({ key: contentKey, data }),
-        }).then(async (response) => {
-          if (!response.ok) {
+          body: JSON.stringify({
+            key: contentKey,
+            data
+          })
+        })
+          .then(async (response) => {
             const result = await response.json().catch(() => ({}));
-            throw new Error(result.error || `Supabase save failed (${response.status})`);
-          }
-        }).catch((error) => {
-          console.error('Perubahan admin belum tersimpan ke Supabase.', error);
-          window.alert('Perubahan belum tersimpan ke Supabase. Periksa kunci server Supabase dan sesi admin.');
-        });
+
+            if (!response.ok) {
+              throw new Error(
+                result.error || `Supabase save failed (${response.status})`
+              );
+            }
+
+            publishContentUpdate(contentKey, data);
+          })
+          .catch((error) => {
+            console.error(
+              `Gagal menyimpan ${contentKey} ke Supabase:`,
+              error
+            );
+
+            window.alert(
+              'Perubahan belum berhasil disimpan ke Supabase. Periksa koneksi dan sesi admin.'
+            );
+          });
       };
+
+      // =====================================================
+      // INTERCEPT LOCALSTORAGE REMOVEITEM
+      // =====================================================
 
       Storage.prototype.removeItem = function (key) {
         originalRemoveItem.call(this, key);
-        const contentKey = isAdminPage && !syncingContentFromSupabase && this === window.localStorage ? contentStorageKeys[key] : undefined;
+
+        const contentKey =
+          isAdminPage &&
+          !syncingContentFromSupabase &&
+          this === window.localStorage
+            ? contentStorageKeys[key]
+            : undefined;
+
         if (!contentKey) return;
+
         fetch('/api/admin/content', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json'
+          },
           credentials: 'same-origin',
-          body: JSON.stringify({ key: contentKey, action: 'delete' }),
-        }).then(async (response) => {
-          if (!response.ok) {
+          body: JSON.stringify({
+            key: contentKey,
+            action: 'delete'
+          })
+        })
+          .then(async (response) => {
             const result = await response.json().catch(() => ({}));
-            throw new Error(result.error || `Supabase reset failed (${response.status})`);
-          }
-        }).catch((error) => {
-          console.error('Reset admin belum tersimpan ke Supabase.', error);
-          window.alert('Reset belum tersimpan ke Supabase. Periksa kunci server Supabase dan sesi admin.');
-        });
+
+            if (!response.ok) {
+              throw new Error(
+                result.error || `Supabase reset failed (${response.status})`
+              );
+            }
+
+            const globalContent = getSupabaseContent();
+
+            delete globalContent[contentKey];
+
+            window.dispatchEvent(
+              new CustomEvent('timpik-supabase-content', {
+                detail: {
+                  [contentKey]: null
+                }
+              })
+            );
+          })
+          .catch((error) => {
+            console.error(
+              `Gagal menghapus ${contentKey} dari Supabase:`,
+              error
+            );
+
+            window.alert(
+              'Reset belum berhasil disimpan ke Supabase. Periksa koneksi dan sesi admin.'
+            );
+          });
       };
 
-      (window as any).__timpikSaveAdminContent = async (storageKey: string, data: unknown) => {
+      // =====================================================
+      // DIRECT ADMIN CONTENT SAVE
+      // =====================================================
+
+      (window as any).__timpikSaveAdminContent = async (
+        storageKey: string,
+        data: unknown
+      ) => {
         const contentKey = contentStorageKeys[storageKey];
-        if (!isAdminPage || !contentKey) throw new Error('Menu admin tidak dikenali.');
+
+        if (!isAdminPage || !contentKey) {
+          throw new Error(
+            `Menu admin tidak dikenali: ${storageKey}`
+          );
+        }
 
         const response = await fetch('/api/admin/content', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json'
+          },
           credentials: 'same-origin',
-          body: JSON.stringify({ key: contentKey, data }),
+          body: JSON.stringify({
+            key: contentKey,
+            data
+          })
         });
-        const result = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(result.error || `Supabase save failed (${response.status})`);
 
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(
+            result.error || `Supabase save failed (${response.status})`
+          );
+        }
+
+        // Perbarui cache lokal tanpa memicu POST kedua.
         syncingContentFromSupabase = true;
-        originalSetItem.call(window.localStorage, storageKey, JSON.stringify(data));
+
+        originalSetItem.call(
+          window.localStorage,
+          storageKey,
+          JSON.stringify(data)
+        );
+
         syncingContentFromSupabase = false;
+
+        // Perbarui global state dan beri tahu komponen lain.
+        publishContentUpdate(contentKey, data);
+
+        return result;
       };
     </script>
 
