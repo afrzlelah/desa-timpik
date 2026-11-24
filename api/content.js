@@ -5,6 +5,7 @@ const CONTENT_KEYS = new Set([
   "kontak",
   "berita",
   "agenda",
+  "pengumuman",
   "surat",
   "kelembagaan",
   "potensi",
@@ -21,29 +22,46 @@ function send(res, status, body) {
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
-    return send(res, 405, { error: "Metode tidak didukung." });
+    return send(res, 405, {
+      error: "Metode tidak didukung.",
+    });
   }
 
   const key = String(req.query?.key || "");
+
   const requestedKeys = String(req.query?.keys || "")
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean);
+
   if (
     (key && key !== "all" && !CONTENT_KEYS.has(key)) ||
     (!key && requestedKeys.length === 0) ||
     requestedKeys.some((item) => !CONTENT_KEYS.has(item)) ||
     requestedKeys.length > CONTENT_KEYS.size
   ) {
-    return send(res, 400, { error: "Kunci konten tidak valid." });
+    return send(res, 400, {
+      error: "Kunci konten tidak valid.",
+      receivedKey: key || null,
+      receivedKeys: requestedKeys,
+      allowedKeys: [...CONTENT_KEYS],
+    });
   }
 
   const url = process.env.PUBLIC_SUPABASE_URL;
   const anonKey = process.env.PUBLIC_SUPABASE_KEY;
-  if (!url || !anonKey) return send(res, 503, { error: "Konfigurasi Supabase publik belum lengkap." });
+
+  if (!url || !anonKey) {
+    return send(res, 503, {
+      error: "Konfigurasi Supabase publik belum lengkap.",
+    });
+  }
 
   const supabase = createClient(url, anonKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
   });
 
   if (key === "all" || requestedKeys.length > 0) {
@@ -51,11 +69,36 @@ module.exports = async function handler(req, res) {
       .from("site_content")
       .select("content_key,data,updated_at")
       .order("content_key");
-    if (requestedKeys.length > 0) query = query.in("content_key", [...new Set(requestedKeys)]);
+
+    if (requestedKeys.length > 0) {
+      query = query.in(
+        "content_key",
+        [...new Set(requestedKeys)]
+      );
+    }
+
     const { data, error } = await query;
-    if (error) return send(res, 502, { error: "Gagal membaca konten dari Supabase." });
-    const contents = Object.fromEntries((data || []).map((row) => [row.content_key, row.data]));
-    return send(res, 200, { contents });
+
+    if (error) {
+      console.error("Supabase content read error:", error);
+
+      return send(res, 502, {
+        error: "Gagal membaca konten dari Supabase.",
+        detail: error.message,
+        code: error.code,
+      });
+    }
+
+    const contents = Object.fromEntries(
+      (data || []).map((row) => [
+        row.content_key,
+        row.data,
+      ])
+    );
+
+    return send(res, 200, {
+      contents,
+    });
   }
 
   const { data, error } = await supabase
@@ -64,7 +107,22 @@ module.exports = async function handler(req, res) {
     .eq("content_key", key)
     .maybeSingle();
 
-  if (error) return send(res, 502, { error: "Gagal membaca konten dari Supabase." });
-  if (!data) return send(res, 404, { error: "Konten belum tersedia di Supabase.", key });
+  if (error) {
+    console.error("Supabase content read error:", error);
+
+    return send(res, 502, {
+      error: "Gagal membaca konten dari Supabase.",
+      detail: error.message,
+      code: error.code,
+    });
+  }
+
+  if (!data) {
+    return send(res, 404, {
+      error: "Konten belum tersedia di Supabase.",
+      key,
+    });
+  }
+
   return send(res, 200, data);
 };
