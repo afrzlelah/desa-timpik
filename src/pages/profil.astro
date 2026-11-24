@@ -646,14 +646,19 @@ import profilData from '../data/profil.json';
     // ==========================================
     // LISTEN PEMBARUAN DATA SUPABASE
     // ==========================================
+
+    let lastProfilSignature = JSON.stringify(data);
+
     window.addEventListener('timpik-supabase-content', (event) => {
       const contents = event.detail?.contents || event.detail || {};
       const profil = contents.profil;
 
-      if (!profil || typeof profil !== 'object') return;
+      if (!profil || typeof profil !== 'object' || Array.isArray(profil)) {
+        return;
+      }
 
-      // Perbarui data profil
-      data = {
+      // Gabungkan data profil terbaru
+      const updatedData = {
         ...data,
         ...profil,
 
@@ -673,14 +678,26 @@ import profilData from '../data/profil.json';
         },
       };
 
-      // Perbarui localStorage
+      // Buat signature untuk mendeteksi perubahan data
+      const newSignature = JSON.stringify(updatedData);
+
+      // Jika data sama, hentikan proses
+      if (newSignature === lastProfilSignature) {
+        return;
+      }
+
+      // Simpan data terbaru dalam memori
+      data = updatedData;
+      lastProfilSignature = newSignature;
+
+      // Simpan localStorage hanya ketika data berubah
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        localStorage.setItem(STORAGE_KEY, newSignature);
       } catch (error) {
         console.error('Gagal memperbarui localStorage profil:', error);
       }
 
-      // Render ulang bagian sejarah
+      // Render hanya bagian yang mengalami perubahan
       renderSejarah(data);
     });
     // ==========================================
