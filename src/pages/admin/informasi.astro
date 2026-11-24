@@ -323,7 +323,7 @@ const pengumumanAwal = [
               <div class="max-w-2xl rounded-2xl border border-slate-200 overflow-hidden bg-slate-50 p-2 shadow-xs">
                 <img
                   id="preview-foto-struktur"
-                  src="/images/balai-desa-timpik.jpg"
+                  src="/images/struktur-organisasi-timpik.jpg"
                   alt="Struktur Organisasi Pemerintahan Desa Timpik"
                   class="w-full h-auto max-h-[450px] object-contain rounded-xl mx-auto"
                 />
@@ -719,6 +719,10 @@ const pengumumanAwal = [
     ];
 
     function activateTab(index) {
+      if (profileActions) {
+        profileActions.classList.toggle('hidden', index === 4);
+      }
+
       tabs.forEach((t, i) => {
         if (i === index) {
           t.btn.className = 'min-h-11 rounded-xl border border-blue-700 bg-blue-700 px-4 py-2 text-white shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2';
@@ -770,10 +774,6 @@ const pengumumanAwal = [
     let fotoStrukturBase64 = currentData.foto_struktur || '';
 
     const profileActions = document.getElementById('profile-save-actions');
-
-    if (profileActions) {
-      profileActions.classList.toggle('hidden', index === 4);
-    }
 
     inVisi.value = currentData.visi || '';
     const misiList = Array.isArray(currentData.misi) ? currentData.misi.map((item) => {
@@ -831,8 +831,8 @@ const pengumumanAwal = [
 
     // Statistik Warga (Default LK: 2.848, PM: 2.848, Total: 5.696)
     const stats = currentData.statistik || {};
-    inLk.value = stats.laki_laki ? stats.laki_laki.replace(/[^0-9]/g, '') : '';
-    inPm.value = stats.perempuan ? stats.perempuan.replace(/[^0-9]/g, '') : '';
+    inLk.value = stats.laki_laki != null ? String(stats.laki_laki).replace(/[^0-9]/g, '') : '';
+    inPm.value = stats.perempuan != null ? String(stats.perempuan).replace(/[^0-9]/g, '') : '';
     inKk.value = stats.total_kk || '';
     inLuas.value = stats.luas_wilayah || '';
 
@@ -1451,7 +1451,7 @@ const pengumumanAwal = [
     }
 
     async function persistAnnouncementData() {
-      const saveFunction = (window as any).__timpikSaveAdminContent;
+      const saveFunction = window.__timpikSaveAdminContent;
 
       if (typeof saveFunction === 'function') {
         await saveFunction(ANNOUNCEMENT_STORAGE_KEY, announcementItems);
@@ -1524,7 +1524,7 @@ const pengumumanAwal = [
     });
 
     announcementList.addEventListener('click', async event => {
-      const button = (event.target as HTMLElement).closest('[data-announcement-action]');
+      const button = event.target.closest('[data-announcement-action]');
 
       if (!button) return;
 
@@ -1682,14 +1682,14 @@ const pengumumanAwal = [
       console.warn('Data pengumuman lokal tidak dapat dibaca.', error);
     }
 
-    const remoteAnnouncements = (window as any).__timpikSupabaseContent?.pengumuman;
+    const remoteAnnouncements = window.__timpikSupabaseContent?.pengumuman;
 
     if (Array.isArray(remoteAnnouncements)) {
       announcementItems = remoteAnnouncements;
     }
 
     window.addEventListener('timpik-supabase-content', event => {
-      const remote = (event as CustomEvent).detail?.pengumuman;
+      const remote = event.detail?.pengumuman;
 
       if (Array.isArray(remote)) {
         announcementItems = remote;
