@@ -32,136 +32,230 @@ import potensiData from '../data/potensi.json';
     </div>
   </section>
 
-  <section id="agraris" class="py-12 sm:py-16 bg-slate-50 border-b border-black/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+  <section id="agraris" class="border-b border-slate-200 bg-slate-50 py-14 sm:py-20">
+    <div class="mx-auto max-w-7xl space-y-12 px-4 sm:px-6 lg:px-8">
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
-
-        <div class="lg:col-span-7 rounded-2xl border border-black/10 bg-white p-6 sm:p-8 lg:p-9 shadow-sm flex flex-col justify-center">
-          <div class="flex items-center gap-2 mb-4">
-            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-            <span class="text-xs font-bold uppercase tracking-widest text-emerald-800">
-              Sektor Agraris
-            </span>
-          </div>
-
-          <h2 id="potensi-agraris-title" class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 leading-tight">
-            Hamparan Sawah 243 Hektar & Irigasi Mandiri
+      <!-- Section Heading -->
+      <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">Potensi Unggulan Desa</span>
+          <h2 class="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+            Sektor Agraris & Pertanian
           </h2>
+          <p class="mt-2 max-w-2xl text-sm leading-relaxed text-slate-500 sm:text-base">
+            Mengenal kondisi pertanian, komoditas unggulan, dan sumber penghidupan masyarakat Desa Timpik.
+          </p>
+        </div>
 
-          <div class="w-16 h-1 bg-blue-800 rounded-full mt-5 mb-6"></div>
+        <span class="inline-flex w-fit shrink-0 items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-2 text-xs font-bold text-emerald-800">
+          <span class="size-2 rounded-full bg-emerald-600"></span>
+          Sektor Agraris
+        </span>
+      </div>
 
-          <div class="space-y-4 text-sm sm:text-base text-slate-600 leading-relaxed">
-            <p id="potensi-agraris-description">{potensiData.agraris.deskripsi}</p>
-          </div>
+      <!-- Main Agraris Card: Full Width -->
+      <article class="w-full overflow-hidden rounded-3xl border border-emerald-200 bg-white shadow-sm">
 
-          <div class="grid grid-cols-2 gap-3 mt-8">
-            <div class="rounded-xl bg-slate-50 border border-black/10 p-4">
-              <span id="potensi-agraris-area" class="block text-2xl sm:text-3xl font-black text-blue-900">{potensiData.agraris.luas_wilayah}</span>
-              <span class="text-xs text-slate-500 mt-1 block">Luas sektor agraris</span>
-            </div>
+        <!-- Agraris Header -->
+        <div class="relative isolate overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-800 px-6 py-8 sm:px-9 sm:py-10 lg:px-12 lg:py-12">
+          <div class="absolute -right-12 -top-20 size-64 rounded-full border border-white/10"></div>
+          <div class="absolute -right-5 -top-12 size-44 rounded-full border border-white/10"></div>
+          <div class="absolute -bottom-24 left-1/2 size-64 rounded-full bg-emerald-400/10 blur-3xl"></div>
 
-            <div class="rounded-xl bg-slate-50 border border-black/10 p-4">
-              <span id="potensi-agraris-livelihood" class="block text-2xl sm:text-3xl font-black text-emerald-700">{potensiData.agraris.mayoritas_mata_pencaharian}</span>
-              <span class="text-xs text-slate-500 mt-1 block">Penduduk berprofesi agraris</span>
-            </div>
+          <div class="relative z-10 max-w-4xl">
+            <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-emerald-200">
+              <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 22v-8m0 0c-4.5 0-8-3.5-8-8 4.5 0 8 3.5 8 8Zm0 0c0-4.5 3.5-8 8-8 0 4.5-3.5 8-8 8Z"/>
+              </svg>
+              Gambaran Sektor Pertanian
+            </span>
+
+            <h3 id="potensi-agraris-title" class="mt-4 text-2xl font-black leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
+              Hamparan Sawah 243 Hektar & Irigasi Mandiri
+            </h3>
+
+            <div class="my-5 h-1 w-16 rounded-full bg-emerald-400"></div>
+
+            <p id="potensi-agraris-description" class="max-w-3xl text-sm leading-relaxed text-emerald-100 sm:text-base sm:leading-8">
+              {potensiData.agraris.deskripsi}
+            </p>
           </div>
         </div>
 
-        <!-- <div class="lg:col-span-5 rounded-2xl border border-black/10 bg-white shadow-sm overflow-hidden flex flex-col">
-          <div class="p-6 sm:p-7 bg-slate-50 border-b border-black/10">
-            <span class="text-xs font-bold uppercase tracking-widest text-blue-800">
-              Organisasi & Kelembagaan
-            </span>
-            <h3 class="text-xl font-black text-slate-900 mt-2">
-              Kelembagaan Pertanian
-            </h3>
-            <p class="text-sm text-slate-500 mt-2 leading-relaxed">
-              Lembaga yang mendukung pengelolaan dan keberlanjutan sektor pertanian desa.
-            </p>
+        <!-- Agraris Statistics -->
+        <div class="grid grid-cols-1 divide-y divide-slate-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+
+          <div class="flex items-center gap-4 p-6 sm:p-8">
+            <div class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-800">
+              <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m3 7 6-4 6 4 6-4v14l-6 4-6-4-6 4V7Zm6-4v14m6-10v14"/>
+              </svg>
+            </div>
+
+            <div class="min-w-0">
+              <span class="block text-xs font-bold uppercase tracking-wider text-slate-400">
+                Luas Wilayah Agraris
+              </span>
+              <span id="potensi-agraris-area" class="mt-1 block text-2xl font-black text-slate-900 sm:text-3xl">
+                {potensiData.agraris.luas_wilayah}
+              </span>
+            </div>
           </div>
 
-          <div class="divide-y divide-black/10 flex-1">
-            <a href="/kelembagaan/gapoktan" class="p-5 sm:p-6 flex items-start justify-between gap-4 hover:bg-blue-50/60 transition-colors group">
-              <div>
-                <h4 class="font-bold text-slate-900 text-sm sm:text-base group-hover:text-blue-800 transition-colors">
-                  GAPOKTAN "Putri Kencana"
-                </h4>
-                <p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
-                  Gabungan kelompok tani yang mendukung proses tanam, mekanisasi pertanian, hingga pascapanen.
-                </p>
-              </div>
-              <span class="text-blue-800 font-bold text-lg shrink-0 group-hover:translate-x-1 transition-transform">&rarr;</span>
-            </a>
+          <div class="flex items-center gap-4 p-6 sm:p-8">
+            <div class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700">
+              <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m16 0v-2a4 4 0 0 0-3-3.87M14 3.13a4 4 0 0 1 0 7.75M14 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/>
+              </svg>
+            </div>
 
-            <a href="/kelembagaan/p3a" class="p-5 sm:p-6 flex items-start justify-between gap-4 hover:bg-blue-50/60 transition-colors group">
-              <div>
-                <h4 class="font-bold text-slate-900 text-sm sm:text-base group-hover:text-blue-800 transition-colors">
-                  P3A "Bogo Wastro"
-                </h4>
-                <p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
-                  Perkumpulan petani pemakai air yang mengelola irigasi dan pemeliharaan saluran pertanian.
-                </p>
-              </div>
-              <span class="text-blue-800 font-bold text-lg shrink-0 group-hover:translate-x-1 transition-transform">&rarr;</span>
-            </a>
-
-            <a href="/kelembagaan/lpm" class="p-5 sm:p-6 flex items-start justify-between gap-4 hover:bg-blue-50/60 transition-colors group">
-              <div>
-                <h4 class="font-bold text-slate-900 text-sm sm:text-base group-hover:text-blue-800 transition-colors">
-                  Lumbung Pangan Masyarakat
-                </h4>
-                <p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
-                  Cadangan pangan masyarakat untuk mendukung ketahanan pangan desa.
-                </p>
-              </div>
-              <span class="text-blue-800 font-bold text-lg shrink-0 group-hover:translate-x-1 transition-transform">&rarr;</span>
-            </a>
+            <div class="min-w-0">
+              <span class="block text-xs font-bold uppercase tracking-wider text-slate-400">
+                Mata Pencaharian
+              </span>
+              <span id="potensi-agraris-livelihood" class="mt-1 block text-2xl font-black text-slate-900 sm:text-3xl">
+                {potensiData.agraris.mayoritas_mata_pencaharian}
+              </span>
+            </div>
           </div>
-        </div> -->
 
-      </div>
+        </div>
+      </article>
 
-      <div>
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
+      <!-- Komoditas Unggulan -->
+      <div class="space-y-6">
+        <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
-            <span class="text-xs font-bold uppercase tracking-widest text-emerald-800">
-              Hasil Pertanian
-            </span>
-            <h3 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">
+            <span class="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">Hasil Pertanian</span>
+            <h3 class="mt-2 text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
               Komoditas Unggulan Desa
             </h3>
-            <p class="text-sm text-slate-500 mt-2">
+            <p class="mt-2 text-sm leading-relaxed text-slate-500">
               Ragam hasil pertanian yang menjadi bagian dari potensi agraris Desa Timpik.
             </p>
           </div>
-          <span class="text-xs font-semibold text-slate-500">
-            04 Komoditas
+
+          <span id="potensi-komoditas-count" class="w-fit shrink-0 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-600">
+            {String(potensiData.agraris.komoditas_utama.length).padStart(2, '0')} Komoditas
           </span>
         </div>
 
-        <div id="potensi-komoditas-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div id="potensi-komoditas-grid" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {potensiData.agraris.komoditas_utama.map((item, idx) => (
-            <article class="rounded-2xl border border-black/10 bg-white p-5 sm:p-6 flex flex-col justify-between gap-5 shadow-sm hover:shadow-md hover:border-blue-900/30 transition-all duration-200">
+            <article class="group flex h-full flex-col justify-between gap-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-md sm:p-6">
               <div>
-                <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-blue-50 text-blue-900 text-xs font-black mb-4">
-                  {String(idx + 1).padStart(2, '0')}
-                </span>
-                <h4 class="font-bold text-base sm:text-lg text-slate-900">
+                <div class="mb-5 flex items-center justify-between">
+                  <span class="flex size-10 items-center justify-center rounded-xl bg-emerald-50 text-xs font-black text-emerald-800 transition-colors group-hover:bg-emerald-700 group-hover:text-white">
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
+
+                  <svg class="size-5 text-emerald-700 transition-transform duration-300 group-hover:rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 22v-8m0 0c-4.5 0-8-3.5-8-8 4.5 0 8 3.5 8 8Zm0 0c0-4.5 3.5-8 8-8 0 4.5-3.5 8-8 8Z"/>
+                  </svg>
+                </div>
+
+                <h4 class="text-lg font-extrabold text-slate-900 transition-colors group-hover:text-emerald-800">
                   {item.nama}
                 </h4>
-                <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+
+                <p class="mt-3 text-sm leading-relaxed text-slate-500">
                   {item.deskripsi}
                 </p>
               </div>
 
-              <div class="pt-4 border-t border-black/10">
-                <span class="text-[10px] uppercase tracking-widest text-emerald-800 font-bold">
+              <div class="border-t border-slate-100 pt-4">
+                <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-emerald-700">
                   Komoditas Pertanian
                 </span>
               </div>
             </article>
           ))}
+        </div>
+      </div>
+
+      <!-- Kelembagaan Pertanian -->
+      <div class="space-y-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-[0.18em] text-blue-700">Organisasi & Kelembagaan</span>
+          <h3 class="mt-2 text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
+            Kelembagaan Pertanian
+          </h3>
+          <p class="mt-2 max-w-2xl text-sm leading-relaxed text-slate-500">
+            Lembaga yang mendukung pengelolaan pertanian dan ketahanan pangan masyarakat desa.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+
+          <a href="/kelembagaan/gapoktan" class="group flex h-full flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md sm:p-6">
+            <div>
+              <div class="mb-5 flex size-11 items-center justify-center rounded-xl bg-blue-50 text-blue-800">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m16 0v-2a4 4 0 0 0-3-3.87M14 3.13a4 4 0 0 1 0 7.75M14 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/>
+                </svg>
+              </div>
+
+              <h4 class="text-base font-extrabold text-slate-900 transition-colors group-hover:text-blue-800">
+                GAPOKTAN "Putri Kencana"
+              </h4>
+
+              <p class="mt-3 text-sm leading-relaxed text-slate-500">
+                Gabungan kelompok tani yang mendukung proses tanam, mekanisasi pertanian, hingga pascapanen.
+              </p>
+            </div>
+
+            <div class="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
+              <span class="text-xs font-bold text-blue-800">Pelajari lebih lanjut</span>
+              <span class="text-lg text-blue-800 transition-transform group-hover:translate-x-1">→</span>
+            </div>
+          </a>
+
+          <a href="/kelembagaan/p3a" class="group flex h-full flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md sm:p-6">
+            <div>
+              <div class="mb-5 flex size-11 items-center justify-center rounded-xl bg-cyan-50 text-cyan-800">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m-7-7 7 7 7-7M5 7l7-4 7 4"/>
+                </svg>
+              </div>
+
+              <h4 class="text-base font-extrabold text-slate-900 transition-colors group-hover:text-blue-800">
+                P3A "Bogo Wastro"
+              </h4>
+
+              <p class="mt-3 text-sm leading-relaxed text-slate-500">
+                Perkumpulan petani pemakai air yang mengelola irigasi dan pemeliharaan saluran pertanian.
+              </p>
+            </div>
+
+            <div class="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
+              <span class="text-xs font-bold text-blue-800">Pelajari lebih lanjut</span>
+              <span class="text-lg text-blue-800 transition-transform group-hover:translate-x-1">→</span>
+            </div>
+          </a>
+
+          <a href="/kelembagaan/lpm" class="group flex h-full flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md sm:p-6">
+            <div>
+              <div class="mb-5 flex size-11 items-center justify-center rounded-xl bg-amber-50 text-amber-700">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 21V8l8-5 8 5v13M4 12h16M9 21v-5h6v5"/>
+                </svg>
+              </div>
+
+              <h4 class="text-base font-extrabold text-slate-900 transition-colors group-hover:text-blue-800">
+                Lumbung Pangan Masyarakat
+              </h4>
+
+              <p class="mt-3 text-sm leading-relaxed text-slate-500">
+                Cadangan pangan masyarakat untuk mendukung ketahanan pangan desa.
+              </p>
+            </div>
+
+            <div class="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
+              <span class="text-xs font-bold text-blue-800">Pelajari lebih lanjut</span>
+              <span class="text-lg text-blue-800 transition-transform group-hover:translate-x-1">→</span>
+            </div>
+          </a>
+
         </div>
       </div>
 

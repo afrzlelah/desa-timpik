@@ -87,53 +87,91 @@ import profilData from '../data/profil.json';
   </section>
 
   <!-- Sejarah & Alamat Lengkap Kantor Desa -->
-  <section id="sejarah" class="py-12 sm:py-16 bg-gray-100 border-b border-white/70">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-        
-        <div class="lg:col-span-7 space-y-6">
-          <div class="border-b border-slate-200 pb-3">
-            <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-blue-700 block">Sejarah & Letak Geografis</span>
-            <h2 id="profil-sejarah-judul" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+<!-- Sejarah dan Alamat -->
+  <section id="sejarah" class="border-b border-slate-200 bg-white py-14 sm:py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
+        <div class="space-y-7 lg:col-span-7">
+          <div class="space-y-3">
+            <span class="text-xs font-bold uppercase tracking-[0.18em] text-blue-700">Mengenal Desa</span>
+            <h2 id="profil-sejarah-judul" class="text-2xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-3xl">
               Desa Timpik, Kecamatan Susukan
             </h2>
+            <div class="h-1 w-16 rounded-full bg-blue-700"></div>
           </div>
 
-          <p id="profil-sejarah-1" class="text-base sm:text-lg text-slate-700 leading-relaxed">
-            Desa Timpik merupakan salah satu desa di wilayah Kecamatan Susukan, Kabupaten Semarang, Jawa Tengah. Dikelilingi panorama perbukitan di lereng Gunung Merbabu, wilayah ini dikenal sebagai pusat agraris yang subur serta lumbung pelestarian seni budaya Wayang Orang dan Angguk.
-          </p>
-
-          <p id="profil-sejarah-2" class="text-base sm:text-lg text-slate-700 leading-relaxed">
-            Masyarakat Desa Timpik hidup rukun bergotong-royong yang tersebar di empat dusun utama: Dusun Timpik Krajan, Dusun Bogo, Dusun Sumber, dan Dusun Kencana.
-          </p>
-
-          <!-- Alamat Lengkap Kantor Desa -->
-          <div class="rounded-2xl border border-blue-200 bg-blue-50/60 p-6 space-y-3">
-            <span class="text-xs font-bold uppercase tracking-wider text-blue-800 block">Alamat Lengkap Kantor Balai Desa:</span>
-            <p id="profil-alamat" class="text-base sm:text-lg font-bold text-slate-900 leading-relaxed">
-              {profilData.alamat_kantor || 'Jl. Raya Balai Desa Timpik, Kec. Susukan, Kab. Semarang, Jawa Tengah 50774'}
+          <div class="space-y-5">
+            <p id="profil-sejarah-1" class="text-base leading-8 text-slate-600 sm:text-lg">
             </p>
-            <div class="pt-3 border-t border-blue-200/60 flex flex-wrap gap-4 text-sm text-slate-700">
-              <span id="profil-jam"><strong>Jam Buka:</strong> {profilData.jam_layanan || 'Senin - Kamis: 08.00 - 15.00 WIB | Jumat: 08.00 - 11.30 WIB'}</span>
-              <span id="profil-telepon"><strong>Hotline:</strong> {profilData.telepon || '6285166439180'}</span>
+
+            <p id="profil-sejarah-2" class="text-base leading-8 text-slate-600 sm:text-lg">
+              Masyarakat Desa Timpik hidup rukun bergotong-royong yang tersebar di empat dusun utama: Dusun Timpik Krajan, Dusun Bogo, Dusun Sumber, dan Dusun Kencana.
+            </p>
+          </div>
+
+          <!-- Informasi Kantor Desa -->
+          <div class="overflow-hidden rounded-2xl border border-blue-200 bg-blue-50/70">
+            <div class="flex items-center gap-3 border-b border-blue-200/70 px-5 py-4 sm:px-6">
+              <div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-800">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M9 9h.01M15 9h.01"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900">Kantor Pemerintah Desa</h3>
+                <p class="text-xs text-slate-500">Pusat pelayanan masyarakat Desa Timpik</p>
+              </div>
+            </div>
+
+            <div class="space-y-4 p-5 sm:p-6">
+              <div>
+                <span class="mb-2 block text-xs font-bold uppercase tracking-wider text-blue-800">Alamat Lengkap</span>
+                <p id="profil-alamat" class="text-base font-bold leading-relaxed text-slate-900 sm:text-lg">
+                  {profilData.alamat_kantor || 'Jl. Raya Balai Desa Timpik, Kec. Susukan, Kab. Semarang, Jawa Tengah 50774'}
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 gap-4 border-t border-blue-200/70 pt-4 sm:grid-cols-2">
+                <div>
+                  <span class="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-500">Jam Pelayanan</span>
+                  <p id="profil-jam" class="text-sm font-medium leading-relaxed text-slate-700">
+                    {profilData.jam_layanan || 'Senin - Kamis: 08.00 - 15.00 WIB | Jumat: 08.00 - 11.30 WIB'}
+                  </p>
+                </div>
+                <div>
+                  <span class="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-500">Hotline</span>
+                  <p id="profil-telepon" class="text-sm font-semibold text-slate-700">
+                    {profilData.telepon || '6285166439180'}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="lg:col-span-5 space-y-4">
-          <div class="rounded-2xl border border-slate-200 overflow-hidden shadow-sm bg-white">
-            <img
-              src="/images/balai-desa-timpik.jpg"
-              alt="Kantor Balai Desa Timpik"
-              class="w-full h-auto object-cover max-h-[320px]"
-            />
-            <div class="p-5 bg-slate-900 text-white space-y-1">
-              <p class="font-bold text-lg text-white">Kompleks Balai Desa & Pendopo Pertemuan</p>
-              <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">Pusat pelayanan administrasi kependudukan dan musyawarah warga.</p>
+        <!-- Foto Balai Desa -->
+        <div class="lg:sticky lg:top-24 lg:col-span-5">
+          <figure class="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div class="relative overflow-hidden bg-slate-100">
+              <img
+                src="/images/balai-desa-timpik.jpg"
+                alt="Kantor Balai Desa Timpik"
+                class="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/50 to-transparent"></div>
+              <span class="absolute bottom-4 left-4 rounded-lg border border-white/20 bg-white/15 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
+                Pemerintah Desa Timpik
+              </span>
             </div>
-          </div>
+            <figcaption class="space-y-1 p-5 sm:p-6">
+              <h3 class="text-lg font-bold text-slate-900">Balai Desa Timpik</h3>
+              <p class="text-sm leading-relaxed text-slate-500">
+                Pusat pelayanan administrasi pemerintahan dan kegiatan musyawarah masyarakat.
+              </p>
+            </figcaption>
+          </figure>
         </div>
-
       </div>
     </div>
   </section>
