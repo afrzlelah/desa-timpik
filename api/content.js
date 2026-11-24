@@ -19,13 +19,50 @@ function send(res, status, body) {
   res.end(JSON.stringify(body));
 }
 
+function normalizeProfil(data) {
+  if (!data || typeof data !== "object" || Array.isArray(data)) {
+    return data;
+  }
+
+  return {
+    ...data,
+
+    // Data sejarah desa
+    sejarah_judul:
+      data.sejarah_judul || "Desa Timpik, Kecamatan Susukan",
+
+    sejarah_paragraf_1:
+      data.sejarah_paragraf_1 || "",
+
+    sejarah_paragraf_2:
+      data.sejarah_paragraf_2 || "",
+  };
+}
+
+function normalizeContent(key, data) {
+  if (key === "profil") {
+    return normalizeProfil(data);
+  }
+
+  return data;
+}
+
 module.exports = async function handler(req, res) {
+  // ==========================================
+  // 1. VALIDASI METHOD
+  // ==========================================
+
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
+
     return send(res, 405, {
       error: "Metode tidak didukung.",
     });
   }
+
+  // ==========================================
+  // 2. VALIDASI PARAMETER
+  // ==========================================
 
   const key = String(req.query?.key || "");
 
@@ -48,6 +85,10 @@ module.exports = async function handler(req, res) {
     });
   }
 
+  // ==========================================
+  // 3. KONFIGURASI SUPABASE
+  // ==========================================
+
   const url = process.env.PUBLIC_SUPABASE_URL;
   const anonKey = process.env.PUBLIC_SUPABASE_KEY;
 
@@ -63,6 +104,10 @@ module.exports = async function handler(req, res) {
       autoRefreshToken: false,
     },
   });
+
+  // ==========================================
+  // 4. AMBIL SEMUA KONTEN
+  // ==========================================
 
   if (key === "all" || requestedKeys.length > 0) {
     let query = supabase
@@ -92,7 +137,7 @@ module.exports = async function handler(req, res) {
     const contents = Object.fromEntries(
       (data || []).map((row) => [
         row.content_key,
-        row.data,
+        normalizeContent(row.content_key, row.data),
       ])
     );
 
@@ -100,6 +145,10 @@ module.exports = async function handler(req, res) {
       contents,
     });
   }
+
+  // ==========================================
+  // 5. AMBIL SATU KONTEN
+  // ==========================================
 
   const { data, error } = await supabase
     .from("site_content")
@@ -124,5 +173,14 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  return send(res, 200, data);
+  // ==========================================
+  // 6. NORMALISASI DATA PROFIL
+  // ==========================================
+
+  const response = {
+    ...data,
+    data: normalizeContent(data.content_key, data.data),
+  };
+
+  return send(res, 200, response);
 };

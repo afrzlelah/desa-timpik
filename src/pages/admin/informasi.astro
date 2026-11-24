@@ -121,6 +121,34 @@ const pengumumanAwal = [
             <textarea id="input-visi" rows="3" required class="admin-input"></textarea>
           </div>
 
+          <!-- SEJARAH DESA -->
+          <div class="space-y-5 border-t border-slate-100 pt-6">
+            <div>
+              <h3 class="text-base font-bold text-slate-900">Sejarah dan Letak Geografis Desa</h3>
+              <p class="mt-1 text-xs text-slate-500">Kelola informasi sejarah dan gambaran wilayah Desa Timpik yang ditampilkan pada halaman profil publik.</p>
+            </div>
+
+            <div>
+              <label for="input-sejarah-judul" class="mb-1.5 block text-sm font-bold text-slate-900">
+                Judul Sejarah
+              </label>
+              <input id="input-sejarah-judul" type="text" maxlength="150" class="w-full rounded-xl border border-slate-300 p-3.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Desa Timpik, Kecamatan Susukan" />
+            </div>
+
+            <div>
+              <label for="input-sejarah-1" class="mb-1.5 block text-sm font-bold text-slate-900">
+                Paragraf Sejarah Pertama
+              </label>
+              <textarea id="input-sejarah-1" rows="5" class="w-full rounded-xl border border-slate-300 p-3.5 text-sm leading-relaxed text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Tuliskan sejarah dan gambaran geografis Desa Timpik..."></textarea>
+            </div>
+
+            <div>
+              <label for="input-sejarah-2" class="mb-1.5 block text-sm font-bold text-slate-900">
+                Paragraf Sejarah Kedua
+              </label>
+              <textarea id="input-sejarah-2" rows="5" class="w-full rounded-xl border border-slate-300 p-3.5 text-sm leading-relaxed text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Tuliskan informasi kehidupan masyarakat dan wilayah dusun..."></textarea>
+            </div>
+          </div>
           <div>
             <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
               <div>
@@ -825,27 +853,48 @@ const pengumumanAwal = [
         tabDefinitions[next].btn.focus();
       });
     });
-
     // =========================================================
     // PROFILE FORM REFERENCES
     // =========================================================
 
+    // Visi dan sejarah
     const inVisi = $('input-visi');
+    const inSejarahJudul = $('input-sejarah-judul');
+    const inSejarah1 = $('input-sejarah-1');
+    const inSejarah2 = $('input-sejarah-2');
+
+    // Informasi umum
     const inAlamat = $('input-alamat');
     const inTelepon = $('input-telepon');
     const inEmail = $('input-email');
     const inJam = $('input-jam');
 
+    // Statistik penduduk
     const inLk = $('input-lk');
     const inPm = $('input-pm');
     const inTotal = $('input-total');
     const inKk = $('input-kk');
     const inLuas = $('input-luas');
 
+    // Misi
     const misiContainer = $('misi-list');
     const misiEmpty = $('misi-empty');
 
+    // =========================================================
+    // INITIALIZE PROFILE FORM
+    // =========================================================
+
     inVisi.value = currentData.visi || '';
+
+    inSejarahJudul.value =
+      currentData.sejarah_judul || 'Desa Timpik, Kecamatan Susukan';
+
+    inSejarah1.value =
+      currentData.sejarah_paragraf_1 || '';
+
+    inSejarah2.value =
+      currentData.sejarah_paragraf_2 || '';
+
     inAlamat.value = currentData.alamat_kantor || '';
     inTelepon.value = currentData.telepon || '';
     inEmail.value = currentData.email || '';
@@ -1395,6 +1444,11 @@ const pengumumanAwal = [
 
           visi: inVisi.value.trim(),
           misi: misiList.map(item => item.trim()).filter(Boolean),
+
+          // Sejarah desa
+          sejarah_judul: inSejarahJudul.value.trim(),
+          sejarah_paragraf_1: inSejarah1.value.trim(),
+          sejarah_paragraf_2: inSejarah2.value.trim(),
 
           alamat_kantor: inAlamat.value.trim(),
           telepon: inTelepon.value.trim(),
@@ -2012,3 +2066,4 @@ const pengumumanAwal = [
 
 </AdminLayout>
 
+const updatedProfil

@@ -94,16 +94,16 @@ import profilData from '../data/profil.json';
         <div class="lg:col-span-7 space-y-6">
           <div class="border-b border-slate-200 pb-3">
             <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-blue-700 block">Sejarah & Letak Geografis</span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+            <h2 id="profil-sejarah-judul" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
               Desa Timpik, Kecamatan Susukan
             </h2>
           </div>
 
-          <p class="text-base sm:text-lg text-slate-700 leading-relaxed">
+          <p id="profil-sejarah-1" class="text-base sm:text-lg text-slate-700 leading-relaxed">
             Desa Timpik merupakan salah satu desa di wilayah Kecamatan Susukan, Kabupaten Semarang, Jawa Tengah. Dikelilingi panorama perbukitan di lereng Gunung Merbabu, wilayah ini dikenal sebagai pusat agraris yang subur serta lumbung pelestarian seni budaya Wayang Orang dan Angguk.
           </p>
 
-          <p class="text-base sm:text-lg text-slate-700 leading-relaxed">
+          <p id="profil-sejarah-2" class="text-base sm:text-lg text-slate-700 leading-relaxed">
             Masyarakat Desa Timpik hidup rukun bergotong-royong yang tersebar di empat dusun utama: Dusun Timpik Krajan, Dusun Bogo, Dusun Sumber, dan Dusun Kencana.
           </p>
 
@@ -425,6 +425,35 @@ import profilData from '../data/profil.json';
     }
 
     // ==========================================
+    // UPDATE SEJARAH & LETAK GEOGRAFIS
+    // ==========================================
+    function renderSejarah(profil) {
+      if (!profil) return;
+
+      const sejarahJudul = document.getElementById('profil-sejarah-judul');
+      const sejarahParagraf1 = document.getElementById('profil-sejarah-1');
+      const sejarahParagraf2 = document.getElementById('profil-sejarah-2');
+
+      if (sejarahJudul) {
+        sejarahJudul.textContent =
+          profil.sejarah_judul || 'Desa Timpik, Kecamatan Susukan';
+      }
+
+      if (sejarahParagraf1) {
+        sejarahParagraf1.textContent =
+          profil.sejarah_paragraf_1 || 'Informasi sejarah desa belum tersedia.';
+      }
+
+      if (sejarahParagraf2) {
+        sejarahParagraf2.textContent =
+          profil.sejarah_paragraf_2 || '';
+      }
+    }
+
+    // Render data awal
+    renderSejarah(data);
+
+    // ==========================================
     // UPDATE MISI
     // ==========================================
     const misiContainer = document.getElementById('profil-misi');
@@ -614,6 +643,46 @@ import profilData from '../data/profil.json';
     }
     if (lightboxImg && fotoSrc) lightboxImg.src = fotoSrc;
 
+    // ==========================================
+    // LISTEN PEMBARUAN DATA SUPABASE
+    // ==========================================
+    window.addEventListener('timpik-supabase-content', (event) => {
+      const contents = event.detail?.contents || event.detail || {};
+      const profil = contents.profil;
+
+      if (!profil || typeof profil !== 'object') return;
+
+      // Perbarui data profil
+      data = {
+        ...data,
+        ...profil,
+
+        statistik: {
+          ...(data.statistik || {}),
+          ...(profil.statistik || {}),
+        },
+
+        sosial_media: {
+          ...(data.sosial_media || {}),
+          ...(profil.sosial_media || {}),
+        },
+
+        transparansi_apbdes: {
+          ...(data.transparansi_apbdes || {}),
+          ...(profil.transparansi_apbdes || {}),
+        },
+      };
+
+      // Perbarui localStorage
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch (error) {
+        console.error('Gagal memperbarui localStorage profil:', error);
+      }
+
+      // Render ulang bagian sejarah
+      renderSejarah(data);
+    });
     // ==========================================
     // LIGHTBOX FUNCTIONS
     // ==========================================
