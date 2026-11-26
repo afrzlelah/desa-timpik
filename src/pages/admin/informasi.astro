@@ -727,14 +727,9 @@ const pengumumanAwal = [
   </style>
 
   <script define:vars={{ defaultProfil: profil }}>
-
-    // =========================================================
-    // KONFIGURASI
-    // =========================================================
-
+  (async function initInformasiAdmin() {
     const PROFILE_KEY = 'timpik_profil_data';
     const ANNOUNCEMENT_KEY = 'timpik_pengumuman_list';
-
     const $ = (id) => document.getElementById(id);
 
     const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, char => ({
@@ -770,10 +765,6 @@ const pengumumanAwal = [
       };
     }
 
-    // =========================================================
-    // GLOBAL NOTIFICATION
-    // =========================================================
-
     $('btn-close-global-notice').addEventListener('click', () => {
       $('notice-toast').classList.add('hidden');
     });
@@ -788,29 +779,81 @@ const pengumumanAwal = [
       }
     }
 
-    // =========================================================
-    // PROFILE DATA INITIALIZATION
-    // =========================================================
+    function mergeProfileData(base, incoming) {
+      const source = incoming && typeof incoming === 'object' && !Array.isArray(incoming)
+        ? incoming
+        : {};
 
-    let currentData = { ...defaultProfil };
-
-    try {
-      const stored = localStorage.getItem(PROFILE_KEY);
-
-      if (stored) {
-        const parsed = JSON.parse(stored);
-
-        if (parsed && typeof parsed === 'object') {
-          currentData = { ...defaultProfil, ...parsed };
+      return {
+        ...base,
+        ...source,
+        statistik: {
+          ...(base?.statistik || {}),
+          ...(source.statistik && typeof source.statistik === 'object' ? source.statistik : {})
         }
-      }
-    } catch (error) {
-      console.warn('Gagal membaca cache profil:', error);
+      };
     }
 
-    // =========================================================
-    // TAB MANAGEMENT
-    // =========================================================
+    async function loadInitialProfile() {
+      let cachedProfile = {};
+
+      try {
+        const stored = localStorage.getItem(PROFILE_KEY);
+        const parsed = stored ? JSON.parse(stored) : null;
+
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+          cachedProfile = parsed;
+        }
+      } catch (error) {
+        console.warn('Gagal membaca cache profil:', error);
+      }
+
+      const fallbackProfile = mergeProfileData(defaultProfil, cachedProfile);
+
+      try {
+        const response = await fetch('/api/content?key=profil', {
+          method: 'GET',
+          cache: 'no-store',
+          credentials: 'same-origin',
+          headers: {
+            Accept: 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`API profil mengembalikan status ${response.status}.`);
+        }
+
+        const result = await response.json();
+
+        const remoteRecord = result?.content_key === 'profil'
+          ? result
+          : result?.contents?.profil;
+
+        const remoteProfile = remoteRecord?.data && typeof remoteRecord.data === 'object'
+          ? remoteRecord.data
+          : remoteRecord;
+
+        if (!remoteProfile || typeof remoteProfile !== 'object' || Array.isArray(remoteProfile)) {
+          throw new Error('Respons API profil tidak memiliki objek data profil yang valid.');
+        }
+
+        const latestProfile = mergeProfileData(defaultProfil, remoteProfile);
+
+        localStorage.setItem(PROFILE_KEY, JSON.stringify(latestProfile));
+
+        return latestProfile;
+      } catch (error) {
+        console.error(
+          'Gagal mengambil profil terbaru dari Supabase. Menggunakan cache sementara:',
+          error
+        );
+
+        return fallbackProfile;
+      }
+    }
+
+    let currentData = await loadInitialProfile();
 
     const tabDefinitions = [
       { btn: $('tab-btn-umum'), panel: $('panel-umum') },
@@ -829,7 +872,6 @@ const pengumumanAwal = [
         tab.btn.classList.toggle('active', active);
         tab.btn.setAttribute('aria-selected', String(active));
         tab.btn.setAttribute('tabindex', active ? '0' : '-1');
-
         tab.panel.classList.toggle('hidden', !active);
       });
 
@@ -853,36 +895,25 @@ const pengumumanAwal = [
         tabDefinitions[next].btn.focus();
       });
     });
-    // =========================================================
-    // PROFILE FORM REFERENCES
-    // =========================================================
 
-    // Visi dan sejarah
     const inVisi = $('input-visi');
     const inSejarahJudul = $('input-sejarah-judul');
     const inSejarah1 = $('input-sejarah-1');
     const inSejarah2 = $('input-sejarah-2');
 
-    // Informasi umum
     const inAlamat = $('input-alamat');
     const inTelepon = $('input-telepon');
     const inEmail = $('input-email');
     const inJam = $('input-jam');
 
-    // Statistik penduduk
     const inLk = $('input-lk');
     const inPm = $('input-pm');
     const inTotal = $('input-total');
     const inKk = $('input-kk');
     const inLuas = $('input-luas');
 
-    // Misi
     const misiContainer = $('misi-list');
     const misiEmpty = $('misi-empty');
-
-    // =========================================================
-    // INITIALIZE PROFILE FORM
-    // =========================================================
 
     inVisi.value = currentData.visi || '';
 
@@ -903,7 +934,6 @@ const pengumumanAwal = [
     let misiList = Array.isArray(currentData.misi)
       ? currentData.misi.map(item => {
           if (typeof item === 'string') return item;
-
           if (!item || typeof item !== 'object') return '';
 
           const detail = [
@@ -914,10 +944,6 @@ const pengumumanAwal = [
           return [item.judul, detail].filter(Boolean).join(' — ');
         }).filter(Boolean)
       : [];
-
-    // =========================================================
-    // MISI MANAGEMENT
-    // =========================================================
 
     function renderMisi() {
       misiEmpty.classList.toggle('hidden', misiList.length > 0);
@@ -936,7 +962,6 @@ const pengumumanAwal = [
               placeholder="Tuliskan misi desa"
             />
           </label>
-
           <button type="button" data-remove-misi="${index}" class="min-h-11 rounded-lg border border-rose-200 bg-white px-4 text-sm font-bold text-rose-700">
             Hapus
           </button>
@@ -976,10 +1001,6 @@ const pengumumanAwal = [
 
     renderMisi();
 
-    // =========================================================
-    // POPULATION STATISTICS
-    // =========================================================
-
     const stats = currentData.statistik || {};
 
     inLk.value = String(stats.laki_laki ?? '').replace(/[^0-9]/g, '');
@@ -1013,10 +1034,6 @@ const pengumumanAwal = [
     inPm.addEventListener('input', calculateTotal);
 
     calculateTotal();
-
-    // =========================================================
-    // STRUCTURE PHOTO
-    // =========================================================
 
     const fotoPreview = $('preview-foto-struktur');
     const inFoto = $('input-foto');
@@ -1058,10 +1075,6 @@ const pengumumanAwal = [
       inFoto.value = '';
     });
 
-    // =========================================================
-    // PROFILE PERSISTENCE
-    // =========================================================
-
     async function persistProfil(updatedProfil) {
       if (typeof window.__timpikSaveAdminContent !== 'function') {
         throw new Error('Layanan penyimpanan server tidak tersedia.');
@@ -1073,10 +1086,6 @@ const pengumumanAwal = [
 
       localStorage.setItem(PROFILE_KEY, JSON.stringify(updatedProfil));
     }
-
-    // =========================================================
-    // DUSUN MANAGEMENT
-    // =========================================================
 
     let dusunList = Array.isArray(currentData.dusun)
       ? [...currentData.dusun]
@@ -1143,12 +1152,12 @@ const pengumumanAwal = [
             Belum ada data dusun.
           </div>
         `;
+
         return;
       }
 
       container.innerHTML = dusunList.map((d, index) => `
         <article class="overflow-hidden rounded-xl border border-slate-200 bg-white">
-
           ${d.foto ? `
             <img
               src="${escapeHtml(d.foto)}"
@@ -1157,19 +1166,15 @@ const pengumumanAwal = [
               onerror="this.style.display='none'"
             />
           ` : ''}
-
           <div class="space-y-3 p-5">
-
             <div class="flex flex-wrap items-center justify-between gap-2">
               <span class="text-xs font-bold uppercase text-blue-700">
                 ${escapeHtml(d.id)}
               </span>
-
               <span class="rounded-lg bg-blue-50 px-2 py-1 text-xs text-blue-800">
                 ${escapeHtml(d.jumlah_rt || 'RT/RW belum diisi')}
               </span>
             </div>
-
             <div>
               <h3 class="font-bold text-slate-900">${escapeHtml(d.nama)}</h3>
               <p class="mt-1 text-xs text-slate-600">
@@ -1182,19 +1187,14 @@ const pengumumanAwal = [
                 ${escapeHtml(d.potensi_utama || '')}
               </p>
             </div>
-
             <div class="flex justify-end gap-2 border-t border-slate-100 pt-3">
-
               <button type="button" data-dusun-edit="${index}" class="rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-700">
                 Edit
               </button>
-
               <button type="button" data-dusun-delete="${index}" class="rounded-lg border border-rose-200 px-3 py-2 text-xs font-bold text-rose-700">
                 Hapus
               </button>
-
             </div>
-
           </div>
         </article>
       `).join('');
@@ -1292,6 +1292,7 @@ const pengumumanAwal = [
       pendingDusunImage = file;
 
       dusunFields.status.textContent = `${file.name} dipilih.`;
+
       showDusunPhoto(URL.createObjectURL(file));
     });
 
@@ -1343,7 +1344,6 @@ const pengumumanAwal = [
 
         renderDusunCards();
         showProfileNotice('Data dusun berhasil dihapus.');
-
       } catch (error) {
         dusunList = previous;
         renderDusunCards();
@@ -1411,7 +1411,6 @@ const pengumumanAwal = [
         renderDusunCards();
 
         showProfileNotice('Data dusun berhasil disimpan.');
-
       } catch (error) {
         dusunList = previous;
         renderDusunCards();
@@ -1421,10 +1420,6 @@ const pengumumanAwal = [
         saveButton.textContent = 'Simpan Dusun';
       }
     });
-
-    // =========================================================
-    // MAIN PROFILE SUBMISSION
-    // =========================================================
 
     $('form-info').addEventListener('submit', async event => {
       event.preventDefault();
@@ -1441,24 +1436,17 @@ const pengumumanAwal = [
 
         const updatedProfil = {
           ...currentData,
-
           visi: inVisi.value.trim(),
           misi: misiList.map(item => item.trim()).filter(Boolean),
-
-          // Sejarah desa
           sejarah_judul: inSejarahJudul.value.trim(),
           sejarah_paragraf_1: inSejarah1.value.trim(),
           sejarah_paragraf_2: inSejarah2.value.trim(),
-
           alamat_kantor: inAlamat.value.trim(),
           telepon: inTelepon.value.trim(),
           email: inEmail.value.trim(),
           jam_layanan: inJam.value.trim(),
-
           foto_struktur: fotoStruktur,
-
           dusun: dusunList,
-
           statistik: {
             ...(currentData.statistik || {}),
             laki_laki: `${formatNumber(lk)} Jiwa`,
@@ -1472,7 +1460,6 @@ const pengumumanAwal = [
         await persistProfil(updatedProfil);
 
         showProfileNotice('Informasi profil desa berhasil diperbarui.');
-
       } catch (error) {
         alert(error.message || 'Gagal menyimpan profil.');
       } finally {
@@ -1480,10 +1467,6 @@ const pengumumanAwal = [
         label.textContent = 'Simpan Seluruh Pembaruan';
       }
     });
-
-    // =========================================================
-    // ANNOUNCEMENT MANAGEMENT
-    // =========================================================
 
     const announcementList = $('pengumuman-list');
     const announcementModal = $('modal-pengumuman');
@@ -1509,10 +1492,6 @@ const pengumumanAwal = [
     let announcementFilter = 'semua';
     let announcementSaving = false;
 
-    // =========================================================
-    // ANNOUNCEMENT NOTIFICATION
-    // =========================================================
-
     function showAnnouncementNotice(message, type = 'success') {
       const styles = {
         success: 'border-emerald-300 bg-emerald-50 text-emerald-900',
@@ -1534,10 +1513,6 @@ const pengumumanAwal = [
       }, 5000);
     }
 
-    // =========================================================
-    // ANNOUNCEMENT STATISTICS
-    // =========================================================
-
     function updateAnnouncementStats() {
       $('pengumuman-total').textContent = announcementItems.length;
 
@@ -1547,10 +1522,6 @@ const pengumumanAwal = [
       $('pengumuman-draf').textContent =
         announcementItems.filter(item => item.status === 'draf').length;
     }
-
-    // =========================================================
-    // ANNOUNCEMENT RENDERING
-    // =========================================================
 
     function formatAnnouncementDate(value) {
       if (!value) return 'Tanggal belum ditentukan';
@@ -1594,22 +1565,18 @@ const pengumumanAwal = [
             </p>
           </div>
         `;
+
         return;
       }
 
       announcementList.innerHTML = filtered.map(item => `
         <article class="rounded-xl border border-slate-200 bg-white p-4 transition hover:border-blue-200 hover:shadow-sm sm:p-5">
-
           <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
-
             <div class="min-w-0 flex-1">
-
               <div class="flex flex-wrap items-center gap-2">
-
                 <span class="rounded-lg bg-blue-50 px-2.5 py-1 text-[10px] font-bold uppercase text-blue-900">
                   ${escapeHtml(item.kategori)}
                 </span>
-
                 <span class="rounded-full px-2.5 py-1 text-[10px] font-bold ${
                   item.status === 'terbit'
                     ? 'bg-emerald-100 text-emerald-800'
@@ -1617,35 +1584,26 @@ const pengumumanAwal = [
                 }">
                   ${item.status === 'terbit' ? 'Terbit' : 'Draf'}
                 </span>
-
                 ${item.prioritas === 'penting' ? `
                   <span class="rounded-full bg-rose-100 px-2.5 py-1 text-[10px] font-bold text-rose-800">
                     Penting
                   </span>
                 ` : ''}
-
               </div>
-
               <h3 class="mt-3 text-base font-extrabold text-slate-950">
                 ${escapeHtml(item.judul)}
               </h3>
-
               <p class="mt-1 text-xs text-slate-400">
                 ${escapeHtml(formatAnnouncementDate(item.tanggal))}
               </p>
-
               <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-slate-600">
                 ${escapeHtml(item.ringkasan)}
               </p>
-
             </div>
-
             <div class="flex shrink-0 flex-wrap gap-2">
-
               <button type="button" data-announcement-action="edit" data-id="${escapeHtml(item.id)}" class="min-h-9 rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50">
                 Edit
               </button>
-
               <button type="button" data-announcement-action="toggle" data-id="${escapeHtml(item.id)}" class="min-h-9 rounded-lg border px-3 py-2 text-xs font-bold ${
                 item.status === 'terbit'
                   ? 'border-amber-300 text-amber-800 hover:bg-amber-50'
@@ -1653,22 +1611,15 @@ const pengumumanAwal = [
               }">
                 ${item.status === 'terbit' ? 'Jadikan Draf' : 'Terbitkan'}
               </button>
-
               <button type="button" data-announcement-action="delete" data-id="${escapeHtml(item.id)}" class="min-h-9 rounded-lg border border-rose-200 px-3 py-2 text-xs font-bold text-rose-700 hover:bg-rose-50">
                 Hapus
               </button>
-
             </div>
-
           </div>
-
         </article>
       `).join('');
     }
 
-    // =========================================================
-    // ANNOUNCEMENT SERVER STORAGE
-    // =========================================================
     async function persistAnnouncementData() {
       if (typeof window.__timpikSaveAdminContent !== 'function') {
         throw new Error(
@@ -1687,10 +1638,6 @@ const pengumumanAwal = [
 
       return true;
     }
-
-    // =========================================================
-    // ANNOUNCEMENT LOAD
-    // =========================================================
 
     function getRemoteAnnouncements(data) {
       if (!data || typeof data !== 'object') return null;
@@ -1711,11 +1658,9 @@ const pengumumanAwal = [
         window.__timpikSupabaseContent
       );
 
-      // Prioritaskan data dari Supabase.
       if (remote !== null) {
         announcementItems = remote.map(normalizeAnnouncement);
       } else {
-        // Gunakan data awal dari profil.json.
         announcementItems = Array.isArray(defaultProfil.pengumuman)
           ? defaultProfil.pengumuman.map(normalizeAnnouncement)
           : [];
@@ -1723,10 +1668,6 @@ const pengumumanAwal = [
 
       renderAnnouncementList();
     }
-
-    // =========================================================
-    // ANNOUNCEMENT MODAL
-    // =========================================================
 
     function openAnnouncementModal(item = null) {
       announcementForm.reset();
@@ -1768,10 +1709,6 @@ const pengumumanAwal = [
       document.body.classList.remove('overflow-hidden');
     }
 
-    // =========================================================
-    // ANNOUNCEMENT FORM: CREATE & UPDATE
-    // =========================================================
-
     announcementForm.addEventListener('submit', async event => {
       event.preventDefault();
 
@@ -1781,11 +1718,12 @@ const pengumumanAwal = [
 
       const url = announcementFields.url.value.trim();
 
-      if (url && !url.startsWith('/') && !/^https?:\/\//i.test(url)) {
+      if (url && !url.startsWith('/') && !/^https?:\/\/\S+$/i.test(url)) {
         showAnnouncementNotice(
           'Tautan harus berupa halaman lokal atau URL HTTP/HTTPS.',
           'error'
         );
+
         return;
       }
 
@@ -1821,6 +1759,7 @@ const pengumumanAwal = [
           'Judul, ringkasan, dan isi wajib diisi.',
           'error'
         );
+
         return;
       }
 
@@ -1848,7 +1787,6 @@ const pengumumanAwal = [
             : 'Pengumuman berhasil ditambahkan dan disimpan.',
           'success'
         );
-
       } catch (error) {
         announcementItems = previous;
         renderAnnouncementList();
@@ -1857,17 +1795,12 @@ const pengumumanAwal = [
           error.message || 'Pengumuman gagal disimpan.',
           'error'
         );
-
       } finally {
         announcementSaving = false;
         announcementSaveButton.disabled = false;
         announcementSaveButton.textContent = 'Simpan Pengumuman';
       }
     });
-
-    // =========================================================
-    // ANNOUNCEMENT ACTIONS
-    // =========================================================
 
     announcementList.addEventListener('click', async event => {
       const button = event.target.closest('[data-announcement-action]');
@@ -1928,7 +1861,6 @@ const pengumumanAwal = [
               : 'Pengumuman berhasil dijadikan draf.',
           'success'
         );
-
       } catch (error) {
         announcementItems = previous;
         renderAnnouncementList();
@@ -1937,15 +1869,10 @@ const pengumumanAwal = [
           error.message || 'Perubahan pengumuman gagal disimpan.',
           'error'
         );
-
       } finally {
         announcementSaving = false;
       }
     });
-
-    // =========================================================
-    // ANNOUNCEMENT SEARCH & FILTER
-    // =========================================================
 
     $('pengumuman-search').addEventListener('input', event => {
       announcementSearch = event.target.value.trim().toLowerCase();
@@ -1957,18 +1884,10 @@ const pengumumanAwal = [
       renderAnnouncementList();
     });
 
-    // =========================================================
-    // ANNOUNCEMENT CHARACTER COUNTER
-    // =========================================================
-
     announcementFields.ringkasan.addEventListener('input', () => {
       $('pengumuman-char-count').textContent =
         announcementFields.ringkasan.value.length;
     });
-
-    // =========================================================
-    // ANNOUNCEMENT MODAL EVENTS
-    // =========================================================
 
     $('btn-tambah-pengumuman').addEventListener('click', () => {
       openAnnouncementModal();
@@ -1992,10 +1911,6 @@ const pengumumanAwal = [
       }
     });
 
-    // =========================================================
-    // REMOTE ANNOUNCEMENT SYNCHRONIZATION
-    // =========================================================
-
     window.addEventListener('timpik-supabase-content', event => {
       const remote = getRemoteAnnouncements(event.detail);
 
@@ -2006,15 +1921,7 @@ const pengumumanAwal = [
       renderAnnouncementList();
     });
 
-    // =========================================================
-    // INITIALIZE ANNOUNCEMENTS
-    // =========================================================
-
     loadInitialAnnouncements();
-
-    // =========================================================
-    // CLEAR PROFILE DATA
-    // =========================================================
 
     $('btn-clear-all-profil').addEventListener('click', async event => {
       const confirmed = await window.__timpikAdminConfirm(
@@ -2055,13 +1962,12 @@ const pengumumanAwal = [
         localStorage.removeItem(PROFILE_KEY);
 
         window.location.reload();
-
       } catch (error) {
         alert(error.message || 'Data profil gagal dikosongkan.');
         button.disabled = false;
       }
     });
-
+  })();
   </script>
 
 </AdminLayout>

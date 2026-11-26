@@ -1,12 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import suratData from '../data/surat.json';
-import kelembagaanData from '../data/kelembagaan.json';
-import potensiData from '../data/potensi.json';
 import profilData from '../data/profil.json';
 import beritaData from '../data/berita.json';
 
-const featuredSurat = suratData.slice(0, 4);
 const initialDusunNames = profilData.dusun
   .map((dusun) => dusun.panggilan || dusun.nama.replace(/^Dusun\s+/i, ''))
   .filter(Boolean);
@@ -121,9 +117,13 @@ const heroSlides = [
         </div>
 
         <div class="px-3 border-l border-white/15">
-          <span class="text-2xl sm:text-3xl font-black text-blue-300 block font-mono">243 Ha</span>
-          <p class="text-xs sm:text-sm font-bold text-white uppercase tracking-wider mt-0.5">Luas Wilayah</p>
-          <span class="text-xs text-slate-200">78% Lahan Pertanian Subur</span>
+          <span id="hero-luas-wilayah" class="text-2xl sm:text-3xl font-black text-blue-300 block font-mono">
+            {profilData.statistik?.luas_wilayah || 'Data belum tersedia'}
+          </span>
+          <p class="text-xs sm:text-sm font-bold text-white uppercase tracking-wider mt-0.5">
+            Luas Wilayah
+          </p>
+          <span class="text-xs text-slate-200">Luas keseluruhan wilayah desa</span>
         </div>
 
         <div class="px-3 border-l border-white/15">
@@ -791,91 +791,78 @@ const heroSlides = [
     }).join('');
   }
 
-  window.addEventListener('timpik-supabase-content', (event: Event) => {
-    const contents = (event as CustomEvent).detail || {};
-    const profile = contents.profil;
-    renderHomeDusunGrid(Array.isArray(profile?.dusun) ? profile.dusun : []);
-  });
-  const syncedPublicContent = (window as any).__timpikSupabaseContent;
-  if (syncedPublicContent) {
-    const syncedDusun = syncedPublicContent.profil?.dusun;
-    renderHomeDusunGrid(Array.isArray(syncedDusun) ? syncedDusun : []);
-  }
+  function renderHomeProfile(profile: any) {
+    if (!profile || typeof profile !== 'object') return;
 
-  // Hydrate total warga & dusun from timpik_profil_data
-  try {
-    const rawProfil = localStorage.getItem('timpik_profil_data');
-    if (rawProfil) {
-      const parsedProfil = JSON.parse(rawProfil);
-      if (parsedProfil && parsedProfil.statistik) {
-        const elTotal = document.getElementById('hero-total-warga');
-        const elDetail = document.getElementById('hero-detail-warga');
-        if (elTotal && parsedProfil.statistik.total_penduduk) {
-          elTotal.textContent = parsedProfil.statistik.total_penduduk.replace(/[^0-9.]/g, '') || parsedProfil.statistik.total_penduduk;
-        }
-        if (elDetail && parsedProfil.statistik.laki_laki && parsedProfil.statistik.perempuan) {
-          elDetail.innerHTML = `LK ${parsedProfil.statistik.laki_laki.replace(/[^0-9.]/g, '')} &bull; PM ${parsedProfil.statistik.perempuan.replace(/[^0-9.]/g, '')}`;
-        }
-      }
+    const statistics = profile.statistik || {};
+    const total = document.getElementById('hero-total-warga');
+    const detail = document.getElementById('hero-detail-warga');
+    const area = document.getElementById('hero-luas-wilayah');
 
-      // Hydrate Dusun Grid if updated by admin
-      if (parsedProfil && Array.isArray(parsedProfil.dusun) && parsedProfil.dusun.length > 0) {
-        renderHomeDusunGrid(parsedProfil.dusun);
-        const dusunGrid = document.getElementById('home-dusun-grid');
-        if (dusunGrid) {
-        const escapeHtml = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
-        const safeDusunPhoto = (value: unknown) => {
-          try {
-            const url = new URL(String(value ?? ''));
-            return url.protocol === 'https:' && url.hostname.endsWith('.supabase.co') && url.pathname.startsWith('/storage/v1/object/public/dusun/') ? url.href : '';
-          } catch { return ''; }
-        };
-        dusunGrid.innerHTML = parsedProfil.dusun.map((d: any) => {
-          const name = escapeHtml(d?.nama || 'Wilayah Desa Timpik');
-          const photo = safeDusunPhoto(d?.foto);
-          const id = String(d?.id ?? '').trim();
-          const href = id ? `/dusun/${encodeURIComponent(id)}` : '#';
-          return `
-            <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col hover:border-blue-400 hover:shadow-md transition-all">
-              <div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200">
-                <div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>
-                ${photo ? `<img src="${escapeHtml(photo)}" alt="Foto wilayah ${name}" width="640" height="360" loading="lazy" decoding="async" class="dusun-photo relative h-full w-full object-cover" />` : ''}
-              </div>
-              <div class="p-6 sm:p-7 flex flex-1 flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
-                  <span class="text-xs font-bold text-blue-700 px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100">
-                    ${escapeHtml(d?.jumlah_rt || 'RT/RW')}
-                  </span>
-                  <span class="text-xs font-medium text-slate-500">${escapeHtml(d?.luas || '')}</span>
-                </div>
+    const formatPopulation = (value: unknown) => {
+      const raw = String(value ?? '').trim();
+      if (!raw) return '';
+      const number = raw.replace(/[^0-9]/g, '');
+      return number ? Number(number).toLocaleString('id-ID') : raw;
+    };
 
-                <h3 class="text-xl font-extrabold text-slate-900">
-                  ${name}
-                </h3>
+    const totalValue = formatPopulation(statistics.total_penduduk);
+    const maleValue = formatPopulation(statistics.laki_laki);
+    const femaleValue = formatPopulation(statistics.perempuan);
+    const areaValue = String(statistics.luas_wilayah ?? '').trim();
 
-                <p class="text-sm text-slate-600 mt-2.5 leading-relaxed line-clamp-3">
-                  ${escapeHtml(d?.deskripsi || '')}
-                </p>
-              </div>
-
-              <div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-sm">
-                <span class="text-slate-500 font-medium text-xs">${escapeHtml(d?.kepala_dusun || '')}</span>
-                <a href="${href}" class="font-extrabold text-blue-700 hover:text-blue-900 transition-colors flex items-center gap-1" ${id ? '' : 'aria-disabled="true" tabindex="-1"'}>
-                  <span>Info Dusun</span>
-                  <span>&rarr;</span>
-                </a>
-              </div>
-            </div>
-          </article>
-          `;
-        }).join('');
-        }
-      }
+    if (total && totalValue) total.textContent = totalValue;
+    if (detail && (maleValue || femaleValue)) {
+      detail.textContent = `LK ${maleValue || '-'} • PM ${femaleValue || '-'}`;
     }
-  } catch (e) {
-    console.warn('Gagal hidrasi data warga beranda', e);
+    if (area && areaValue) area.textContent = areaValue;
+
+    if (Array.isArray(profile.dusun)) {
+      renderHomeDusunGrid(profile.dusun);
+    }
   }
+
+  const getProfileFromEvent = (event: Event) => {
+    const detail = (event as CustomEvent).detail || {};
+    return detail?.contents?.profil || detail?.profil || null;
+  };
+
+  window.addEventListener('timpik-supabase-content', (event: Event) => {
+    const profile = getProfileFromEvent(event);
+    if (profile) renderHomeProfile(profile);
+  });
+
+  const syncedPublicContent = (window as any).__timpikSupabaseContent;
+  if (syncedPublicContent?.profil) {
+    renderHomeProfile(syncedPublicContent.profil);
+  }
+
+  async function loadHomeProfile() {
+    try {
+      const response = await fetch('/api/content?key=profil', {
+        method: 'GET',
+        cache: 'no-store',
+        headers: { Accept: 'application/json' }
+      });
+
+      if (!response.ok) {
+        throw new Error(`API profil mengembalikan status ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result?.content_key !== 'profil' || !result?.data || typeof result.data !== 'object') {
+        throw new Error('Format respons API profil tidak sesuai. Respons harus memuat content_key dan data.');
+      }
+
+      renderHomeProfile(result.data);
+    } catch (error) {
+      console.error('Gagal memuat data profil beranda dari Supabase:', error);
+    }
+  }
+
+  loadHomeProfile();
+
 
   function closeBeritaModal() {
     if (beritaModal) {
