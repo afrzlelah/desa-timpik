@@ -25,7 +25,7 @@ import profilData from '../data/profil.json';
         </h1>
         
         <p class="text-slate-300 text-sm sm:text-base leading-relaxed pt-1">
-          Penyajian data agregat kependudukan resmi, sebaran demografi 4 dusun, rasio gender, serta struktur mata pencaharian sektor agraris Desa Timpik, Kecamatan Susukan tahun 2026.
+          Penyajian data agregat kependudukan resmi, sebaran demografi <span id="stat-dusun-count">{profilData.dusun.length}</span> dusun, rasio gender, serta struktur mata pencaharian sektor agraris Desa Timpik, Kecamatan Susukan tahun 2026.
         </p>
       </div>
 
@@ -42,7 +42,7 @@ import profilData from '../data/profil.json';
             <h2 id="stat-total-penduduk" class="text-3xl sm:text-4xl font-black text-civic-navy tracking-tight">
               {profilData.statistik.total_penduduk}
             </h2>
-          <p class="text-xs text-civic-muted font-sans">Tersebar di 4 wilayah kadus</p>
+          <p id="stat-dusun-count-label" class="text-xs text-civic-muted font-sans">Tersebar di {profilData.dusun.length} dusun</p>
         </div>
 
         <div class="p-6 sm:p-8 space-y-2">
@@ -197,6 +197,7 @@ import profilData from '../data/profil.json';
           <thead class="bg-civic-navy text-white text-[10px]  uppercase tracking-wider">
             <tr>
               <th class="p-4 sm:p-5">Wilayah Dusun</th>
+              <th class="p-4 sm:p-5">Jumlah Penduduk</th>
               <th class="p-4 sm:p-5">Jumlah RT / RW</th>
               <th class="p-4 sm:p-5">Keunggulan & Potensi</th>
               <th class="p-4 sm:p-5">Karakteristik Wilayah</th>
@@ -207,13 +208,16 @@ import profilData from '../data/profil.json';
             {profilData.dusun.map((dusun, idx) => (
               <tr class="hover:bg-civic-sand/20 transition-colors">
                 <td class="p-4 sm:p-5 font-bold text-civic-navy text-sm sm:text-base">
-                  <span class="text-xs text-blue-700 font-bold mr-2">0{idx + 1}</span>
+                  <span class="text-xs text-blue-700 font-bold mr-2">{String(idx + 1).padStart(2, '0')}</span>
                   <a href={`/dusun/${dusun.id}`} class="hover:text-blue-700">
                     {dusun.nama}
                   </a>
                 </td>
                 <td class="p-4 sm:p-5 text-civic-navy font-bold">
-                  {dusun.jumlah_rt}
+                  {dusun.jumlah_penduduk !== null && dusun.jumlah_penduduk !== undefined && dusun.jumlah_penduduk !== '' ? `${dusun.jumlah_penduduk} jiwa` : 'Belum diisi'}
+                </td>
+                <td class="p-4 sm:p-5 text-civic-navy font-bold">
+                  {dusun.jumlah_rt || '—'}
                 </td>
                 <td class="p-4 sm:p-5">
                   <span class="inline-block px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-900 text-xs font-bold">
@@ -257,6 +261,12 @@ import profilData from '../data/profil.json';
     return Number.parseInt(number, 10) || 0;
   }
 
+  function formatPopulation(value) {
+    const digits = String(value ?? '').replace(/[^0-9]/g, '');
+    if (!digits) return 'Belum diisi';
+    return `${Number.parseInt(digits, 10).toLocaleString('id-ID')} jiwa`;
+  }
+
   function createGenderLabel(id, label, value, color) {
     const element = $(id);
 
@@ -289,7 +299,7 @@ import profilData from '../data/profil.json';
     if (!dusunList.length) {
       container.innerHTML = `
         <tr>
-          <td colspan="5" class="p-6 text-center text-slate-500">
+          <td colspan="6" class="p-6 text-center text-slate-500">
             Belum ada data dusun.
           </td>
         </tr>
@@ -310,6 +320,10 @@ import profilData from '../data/profil.json';
             <a href="/dusun/${id}" class="hover:text-blue-700">
               ${escapeHtml(dusun.nama || '-')}
             </a>
+          </td>
+
+          <td class="p-4 sm:p-5 text-civic-navy font-bold">
+            ${formatPopulation(dusun.jumlah_penduduk)}
           </td>
 
           <td class="p-4 sm:p-5 text-civic-navy font-bold">
@@ -399,6 +413,8 @@ import profilData from '../data/profil.json';
 
     if (Array.isArray(profile.dusun)) {
       renderDusun(profile.dusun);
+      setText('stat-dusun-count', profile.dusun.length);
+      setText('stat-dusun-count-label', `Tersebar di ${profile.dusun.length} dusun`);
     }
   }
 

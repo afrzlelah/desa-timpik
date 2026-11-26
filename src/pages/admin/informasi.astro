@@ -594,6 +594,12 @@ const pengumumanAwal = [
           </div>
 
           <div>
+            <label for="edit-dusun-penduduk" class="admin-label">Jumlah Penduduk Dusun</label>
+            <input id="edit-dusun-penduduk" type="number" min="0" step="1" inputmode="numeric" placeholder="Kosongkan jika belum ada data resmi" class="admin-input" />
+            <p class="mt-1 text-xs text-slate-500">Data ini akan ditampilkan pada tabel Sebaran Penduduk &amp; Dusun di halaman Statistik.</p>
+          </div>
+
+          <div>
             <label for="edit-dusun-potensi" class="admin-label">Potensi Utama</label>
             <input id="edit-dusun-potensi" type="text" class="admin-input" />
           </div>
@@ -1101,6 +1107,7 @@ const pengumumanAwal = [
       kadus: $('edit-dusun-kadus'),
       rt: $('edit-dusun-rt'),
       luas: $('edit-dusun-luas'),
+      penduduk: $('edit-dusun-penduduk'),
       potensi: $('edit-dusun-potensi'),
       deskripsi: $('edit-dusun-deskripsi'),
       foto: $('edit-dusun-foto-file'),
@@ -1180,6 +1187,9 @@ const pengumumanAwal = [
               <p class="mt-1 text-xs text-slate-600">
                 Kepala Dusun: ${escapeHtml(d.kepala_dusun || '-')}
               </p>
+              <p class="mt-1 text-xs font-semibold text-blue-800">
+                Penduduk: ${d.jumlah_penduduk === null || d.jumlah_penduduk === undefined || d.jumlah_penduduk === '' ? 'Belum diisi' : `${formatNumber(d.jumlah_penduduk)} jiwa`}
+              </p>
               <p class="mt-2 text-sm text-slate-600">
                 ${escapeHtml(d.deskripsi || 'Belum ada deskripsi.')}
               </p>
@@ -1239,6 +1249,7 @@ const pengumumanAwal = [
       dusunFields.kadus.value = d.kepala_dusun || '';
       dusunFields.rt.value = d.jumlah_rt || '';
       dusunFields.luas.value = d.luas || '';
+      dusunFields.penduduk.value = String(d.jumlah_penduduk ?? '').replace(/[^0-9]/g, '');
       dusunFields.potensi.value = d.potensi_utama || '';
       dusunFields.deskripsi.value = d.deskripsi || '';
 
@@ -1391,6 +1402,7 @@ const pengumumanAwal = [
           kepala_dusun: dusunFields.kadus.value.trim(),
           jumlah_rt: dusunFields.rt.value.trim(),
           luas: dusunFields.luas.value.trim(),
+          jumlah_penduduk: dusunFields.penduduk.value === '' ? null : Number.parseInt(dusunFields.penduduk.value, 10),
           potensi_utama: dusunFields.potensi.value.trim(),
           deskripsi: dusunFields.deskripsi.value.trim(),
           foto
