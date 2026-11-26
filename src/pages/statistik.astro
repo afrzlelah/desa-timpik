@@ -39,15 +39,15 @@ import profilData from '../data/profil.json';
         
         <div class="p-6 sm:p-8 space-y-2">
           <span class="text-[10px]  uppercase tracking-widest text-civic-muted block">Total Penduduk</span>
-          <h2 id="stat-total-penduduk" class="text-3xl sm:text-4xl font-black text-civic-navy tracking-tight">
-            {profilData.statistik.total_penduduk}
-          </h2>
+            <h2 id="stat-total-penduduk" class="text-3xl sm:text-4xl font-black text-civic-navy tracking-tight">
+              {profilData.statistik.total_penduduk}
+            </h2>
           <p class="text-xs text-civic-muted font-sans">Tersebar di 4 wilayah kadus</p>
         </div>
 
         <div class="p-6 sm:p-8 space-y-2">
           <span class="text-[10px]  uppercase tracking-widest text-civic-muted block">Kepala Keluarga</span>
-          <h2 class="text-3xl sm:text-4xl  font-black text-civic-navy tracking-tight">
+          <h2 id="stat-total-kk" class="text-3xl sm:text-4xl font-black text-civic-navy tracking-tight">
             {profilData.statistik.total_kk}
           </h2>
           <p class="text-xs text-civic-muted font-sans">Tercatat dalam administrasi KK</p>
@@ -55,15 +55,15 @@ import profilData from '../data/profil.json';
 
         <div class="p-6 sm:p-8 space-y-2">
           <span class="text-[10px]  uppercase tracking-widest text-civic-muted block">Luas Wilayah</span>
-          <h2 class="text-3xl sm:text-4xl  font-black text-civic-navy tracking-tight">
-            {profilData.statistik.luas_wilayah}
-          </h2>
+            <h2 id="stat-luas-wilayah" class="text-3xl sm:text-4xl font-black text-civic-navy tracking-tight">
+              {profilData.statistik.luas_wilayah}
+            </h2>
           <p class="text-xs text-civic-muted font-sans">± 7,2 hingga 7,3 km² daratan</p>
         </div>
 
         <div class="p-6 sm:p-8 space-y-2 bg-slate-50/40">
           <span class="text-[10px]  uppercase tracking-widest text-emerald-800 font-bold block">Lahan Pertanian</span>
-          <h2 class="text-3xl sm:text-4xl  font-black text-emerald-900 tracking-tight">
+          <h2 id="stat-lahan-pertanian" class="text-3xl sm:text-4xl font-black text-emerald-900 tracking-tight">
             {profilData.statistik.lahan_pertanian}
           </h2>
           <p class="text-xs text-civic-muted font-sans">Padi sawah irigasi & palawija</p>
@@ -98,10 +98,10 @@ import profilData from '../data/profil.json';
                 <span class="text-slate-900 flex items-center gap-2" id="stat-laki-laki">
                   <span class="w-3 h-3 bg-blue-700 rounded-sm inline-block"></span> Laki-laki ({profilData.statistik.laki_laki})
                 </span>
-                <span class="text-blue-900 font-bold">50.0%</span>
+                <span id="stat-persen-lk" class="text-blue-900 font-bold">50.0%</span>
               </div>
               <div class="w-full h-3 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
-                <div class="h-full bg-blue-700 rounded-full" style="width: 50.0%"></div>
+                <div id="stat-bar-lk" class="h-full bg-blue-700 rounded-full" style="width: 50%"></div>
               </div>
             </div>
 
@@ -110,10 +110,10 @@ import profilData from '../data/profil.json';
                 <span class="text-slate-900 flex items-center gap-2" id="stat-perempuan">
                   <span class="w-3 h-3 bg-indigo-700 rounded-sm inline-block"></span> Perempuan ({profilData.statistik.perempuan})
                 </span>
-                <span class="text-indigo-900 font-bold">50.0%</span>
+                <span id="stat-persen-pm" class="text-indigo-900 font-bold">50.0%</span>
               </div>
               <div class="w-full h-3 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
-                <div class="h-full bg-indigo-700 rounded-full" style="width: 50.0%"></div>
+                <div id="stat-bar-pm" class="h-full bg-indigo-700 rounded-full" style="width: 50%"></div>
               </div>
             </div>
 
@@ -203,31 +203,28 @@ import profilData from '../data/profil.json';
               <th class="p-4 sm:p-5 text-right">Aksi</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-civic-border text-civic-ink font-sans">
+          <tbody id="stat-dusun-list" class="divide-y divide-civic-border text-civic-ink font-sans">
             {profilData.dusun.map((dusun, idx) => (
               <tr class="hover:bg-civic-sand/20 transition-colors">
-                <td class="p-4 sm:p-5  font-bold text-civic-navy text-sm sm:text-base">
-                  <span class=" text-xs text-blue-700 font-bold mr-2">0{idx + 1}</span>
+                <td class="p-4 sm:p-5 font-bold text-civic-navy text-sm sm:text-base">
+                  <span class="text-xs text-blue-700 font-bold mr-2">0{idx + 1}</span>
                   <a href={`/dusun/${dusun.id}`} class="hover:text-blue-700">
                     {dusun.nama}
                   </a>
                 </td>
-                <td class="p-4 sm:p-5  text-civic-navy font-bold">
+                <td class="p-4 sm:p-5 text-civic-navy font-bold">
                   {dusun.jumlah_rt}
                 </td>
                 <td class="p-4 sm:p-5">
-                  <span class="inline-block px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-900  text-xs font-bold">
+                  <span class="inline-block px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-900 text-xs font-bold">
                     {dusun.potensi_utama}
                   </span>
                 </td>
                 <td class="p-4 sm:p-5 text-civic-muted text-xs">
                   {dusun.deskripsi}
                 </td>
-                <td class="p-4 sm:p-5 text-right ">
-                  <a
-                    href={`/dusun/${dusun.id}`}
-                    class="text-xs font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider"
-                  >
+                <td class="p-4 sm:p-5 text-right">
+                  <a href={`/dusun/${dusun.id}`} class="text-xs font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider">
                     Detail &rarr;
                   </a>
                 </td>
@@ -240,33 +237,253 @@ import profilData from '../data/profil.json';
     </div>
   </section>
 
-  <script is:inline define:vars={{ defaultProfil: profilData }}>
-    (() => {
-      const STORAGE_KEY = 'timpik_profil_data';
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (parsed && parsed.statistik) {
-            const stats = parsed.statistik;
-            const elTotal = document.getElementById('stat-total-penduduk');
-            const elLk = document.getElementById('stat-laki-laki');
-            const elPm = document.getElementById('stat-perempuan');
+<script is:inline define:vars={{ defaultProfil: profilData }}>
+(() => {
+  const PROFILE_KEY = 'timpik_profil_data';
+  const PROFILE_API = '/api/content?key=profil';
 
-            if (elTotal && stats.total_penduduk) {
-              elTotal.textContent = stats.total_penduduk;
-            }
-            if (elLk && stats.laki_laki) {
-              elLk.innerHTML = `<span class="w-3 h-3 bg-blue-700 rounded-sm inline-block"></span> Laki-laki (${stats.laki_laki})`;
-            }
-            if (elPm && stats.perempuan) {
-              elPm.innerHTML = `<span class="w-3 h-3 bg-indigo-700 rounded-sm inline-block"></span> Perempuan (${stats.perempuan})`;
-            }
-          }
+  const $ = (id) => document.getElementById(id);
+
+  function setText(id, value) {
+    const element = $(id);
+
+    if (!element || value === null || value === undefined) return;
+
+    element.textContent = String(value);
+  }
+
+  function getNumber(value) {
+    const number = String(value ?? '').replace(/[^0-9]/g, '');
+    return Number.parseInt(number, 10) || 0;
+  }
+
+  function createGenderLabel(id, label, value, color) {
+    const element = $(id);
+
+    if (!element) return;
+
+    const indicator = document.createElement('span');
+    indicator.className = `w-3 h-3 ${color} rounded-sm inline-block`;
+
+    element.replaceChildren(
+      indicator,
+      document.createTextNode(` ${label} (${value})`)
+    );
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[char]);
+  }
+
+  function renderDusun(dusunList) {
+    const container = $('stat-dusun-list');
+
+    if (!container || !Array.isArray(dusunList)) return;
+
+    if (!dusunList.length) {
+      container.innerHTML = `
+        <tr>
+          <td colspan="5" class="p-6 text-center text-slate-500">
+            Belum ada data dusun.
+          </td>
+        </tr>
+      `;
+
+      return;
+    }
+
+    container.innerHTML = dusunList.map((dusun, index) => {
+      const id = encodeURIComponent(String(dusun.id || ''));
+
+      return `
+        <tr class="hover:bg-civic-sand/20 transition-colors">
+          <td class="p-4 sm:p-5 font-bold text-civic-navy text-sm sm:text-base">
+            <span class="text-xs text-blue-700 font-bold mr-2">
+              ${String(index + 1).padStart(2, '0')}
+            </span>
+            <a href="/dusun/${id}" class="hover:text-blue-700">
+              ${escapeHtml(dusun.nama || '-')}
+            </a>
+          </td>
+
+          <td class="p-4 sm:p-5 text-civic-navy font-bold">
+            ${escapeHtml(dusun.jumlah_rt || '-')}
+          </td>
+
+          <td class="p-4 sm:p-5">
+            <span class="inline-block px-2 py-0.5 border border-emerald-300 bg-emerald-50 text-emerald-900 text-xs font-bold">
+              ${escapeHtml(dusun.potensi_utama || '-')}
+            </span>
+          </td>
+
+          <td class="p-4 sm:p-5 text-civic-muted text-xs">
+            ${escapeHtml(dusun.deskripsi || '-')}
+          </td>
+
+          <td class="p-4 sm:p-5 text-right">
+            <a href="/dusun/${id}" class="text-xs font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider">
+              Detail &rarr;
+            </a>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function applyProfile(profile) {
+    if (!profile || typeof profile !== 'object') return;
+
+    const stats = profile.statistik || {};
+
+    setText('stat-total-penduduk', stats.total_penduduk);
+    setText('stat-total-kk', stats.total_kk);
+    setText('stat-luas-wilayah', stats.luas_wilayah);
+    setText('stat-lahan-pertanian', stats.lahan_pertanian);
+
+    const lk = stats.laki_laki ?? '';
+    const pm = stats.perempuan ?? '';
+
+    if (lk !== '') {
+      createGenderLabel(
+        'stat-laki-laki',
+        'Laki-laki',
+        lk,
+        'bg-blue-700'
+      );
+    }
+
+    if (pm !== '') {
+      createGenderLabel(
+        'stat-perempuan',
+        'Perempuan',
+        pm,
+        'bg-indigo-700'
+      );
+    }
+
+    const totalLk = getNumber(lk);
+    const totalPm = getNumber(pm);
+    const total = totalLk + totalPm;
+
+    if (total > 0) {
+      const percentageLk = (totalLk / total) * 100;
+      const percentagePm = (totalPm / total) * 100;
+
+      setText(
+        'stat-persen-lk',
+        `${percentageLk.toFixed(1)}%`
+      );
+
+      setText(
+        'stat-persen-pm',
+        `${percentagePm.toFixed(1)}%`
+      );
+
+      const barLk = $('stat-bar-lk');
+      const barPm = $('stat-bar-pm');
+
+      if (barLk) barLk.style.width = `${percentageLk}%`;
+      if (barPm) barPm.style.width = `${percentagePm}%`;
+
+      setText(
+        'stat-gender-summary',
+        `Data kependudukan Desa Timpik mencatat ${lk} penduduk laki-laki dan ${pm} penduduk perempuan dengan total ${stats.total_penduduk || `${total.toLocaleString('id-ID')} Jiwa`}.`
+      );
+    }
+
+    if (Array.isArray(profile.dusun)) {
+      renderDusun(profile.dusun);
+    }
+  }
+
+  function extractProfile(detail) {
+    const candidate = detail?.contents?.profil ?? detail?.profil;
+
+    if (!candidate) return null;
+
+    if (candidate.content_key === 'profil' && candidate.data) {
+      return candidate.data;
+    }
+
+    return candidate.data && !candidate.statistik
+      ? candidate.data
+      : candidate;
+  }
+
+  async function loadLatestProfile() {
+    try {
+      const response = await fetch(PROFILE_API, {
+        method: 'GET',
+        cache: 'no-store',
+        credentials: 'same-origin',
+        headers: {
+          Accept: 'application/json'
         }
-      } catch (e) {
-        console.warn('Gagal hidrasi statistik kependudukan', e);
+      });
+
+      if (!response.ok) {
+        throw new Error(`Gagal mengambil profil: HTTP ${response.status}`);
       }
-    })();
-  </script>
+
+      const result = await response.json();
+
+      if (
+        result?.content_key !== 'profil' ||
+        !result?.data ||
+        typeof result.data !== 'object'
+      ) {
+        throw new Error('Format data profil dari API tidak sesuai.');
+      }
+
+      const latestProfile = result.data;
+
+      localStorage.setItem(
+        PROFILE_KEY,
+        JSON.stringify(latestProfile)
+      );
+
+      applyProfile(latestProfile);
+
+      console.info('Statistik desa berhasil diperbarui dari Supabase.');
+    } catch (error) {
+      console.error('Gagal memperbarui statistik desa:', error);
+    }
+  }
+
+  applyProfile(defaultProfil);
+
+  const globalProfile = window.__timpikSupabaseContent?.profil;
+
+  if (globalProfile) {
+    applyProfile(globalProfile.data || globalProfile);
+  }
+
+  window.addEventListener('timpik-supabase-content', event => {
+    const profile = extractProfile(event.detail);
+
+    if (profile) {
+      applyProfile(profile);
+    }
+  });
+
+  window.addEventListener('storage', event => {
+    if (event.key !== PROFILE_KEY || !event.newValue) return;
+
+    try {
+      const profile = JSON.parse(event.newValue);
+      applyProfile(profile);
+    } catch (error) {
+      console.warn('Gagal membaca pembaruan profil:', error);
+    }
+  });
+
+  loadLatestProfile();
+})();
+</script>
 </Layout>
