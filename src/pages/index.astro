@@ -8,6 +8,10 @@ const initialDusunNames = profilData.dusun
   .filter(Boolean);
 const initialDusunSummary = initialDusunNames.slice(0, 3).join(' • ')
   + (initialDusunNames.length > 3 ? ' • +' + (initialDusunNames.length - 3) + ' lainnya' : '');
+const formatDusunCount = (value: unknown, unit: string) => {
+  const digits = String(value ?? '').replace(/[^0-9]/g, '');
+  return digits ? `${Number.parseInt(digits, 10).toLocaleString('id-ID')} ${unit}` : 'Belum diisi';
+};
 
 // Carousel Slides
 const heroSlides = [
@@ -349,7 +353,7 @@ const heroSlides = [
     </div>
   </section>
 
-  <!-- SECTION DIREKTORI 4 DUSUN: GEOGRAFIS & KULTURAL -->
+  <!-- SECTION DIREKTORI DUSUN: GEOGRAFIS & KULTURAL -->
   <section id="dusun" class="py-16 sm:py-20 bg-slate-50/60 border-t border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
       
@@ -364,7 +368,7 @@ const heroSlides = [
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="home-dusun-grid">
-        {(profilData.dusun as Array<(typeof profilData.dusun)[number] & { foto?: string }>).map((dusun) => (
+        {(profilData.dusun as Array<(typeof profilData.dusun)[number] & { foto?: string; jumlah_penduduk?: number | string | null; jumlah_kk?: number | string | null }>).map((dusun) => (
           <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col hover:border-blue-400 hover:shadow-md transition-all">
             <div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200">
               <div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>
@@ -388,6 +392,21 @@ const heroSlides = [
               <p class="text-sm text-slate-600 mt-2.5 leading-relaxed line-clamp-3">
                 {dusun.deskripsi}
               </p>
+
+              <div class="mt-4 grid grid-cols-2 gap-3">
+                <div class="rounded-xl border border-blue-100 bg-blue-50/80 p-3">
+                  <span class="block text-[11px] font-semibold text-slate-600">Jumlah Penduduk</span>
+                  <span class="mt-1 block text-sm font-extrabold text-blue-950">
+                    {formatDusunCount(dusun.jumlah_penduduk, 'jiwa')}
+                  </span>
+                </div>
+                <div class="rounded-xl border border-slate-200 bg-slate-100/80 p-3">
+                  <span class="block text-[11px] font-semibold text-slate-600">Total KK</span>
+                  <span class="mt-1 block text-sm font-extrabold text-slate-900">
+                    {formatDusunCount(dusun.jumlah_kk, 'KK')}
+                  </span>
+                </div>
+              </div>
             </div>
 
           
@@ -756,12 +775,20 @@ const heroSlides = [
         return '';
       }
     };
+    const formatDusunCount = (value: unknown, unit: string) => {
+      const digits = String(value ?? '').replace(/[^0-9]/g, '');
+      return digits
+        ? `${Number.parseInt(digits, 10).toLocaleString('id-ID')} ${unit}`
+        : 'Belum diisi';
+    };
 
     grid.innerHTML = dusunList.map((dusun) => {
       const name = escapeValue(dusun?.nama || 'Wilayah Desa Timpik');
       const photo = safePhoto(dusun?.foto);
       const id = String(dusun?.id ?? '').trim();
       const href = id ? '/dusun/' + encodeURIComponent(id) : '#';
+      const penduduk = formatDusunCount(dusun?.jumlah_penduduk, 'jiwa');
+      const jumlahKk = formatDusunCount(dusun?.jumlah_kk, 'KK');
       const image = photo
         ? '<img src="' + escapeValue(photo) + '" alt="Foto wilayah ' + name + '" width="640" height="360" loading="lazy" decoding="async" class="dusun-photo relative h-full w-full object-cover" />'
         : '';
@@ -780,6 +807,10 @@ const heroSlides = [
               '</div>',
               '<h3 class="text-xl font-extrabold text-slate-900">' + name + '</h3>',
               '<p class="text-sm text-slate-600 mt-2.5 leading-relaxed line-clamp-3">' + escapeValue(dusun?.deskripsi || '') + '</p>',
+              '<div class="mt-4 grid grid-cols-2 gap-3">',
+                '<div class="rounded-xl border border-blue-100 bg-blue-50/80 p-3"><span class="block text-[11px] font-semibold text-slate-600">Jumlah Penduduk</span><span class="mt-1 block text-sm font-extrabold text-blue-950">' + escapeValue(penduduk) + '</span></div>',
+                '<div class="rounded-xl border border-slate-200 bg-slate-100/80 p-3"><span class="block text-[11px] font-semibold text-slate-600">Total KK</span><span class="mt-1 block text-sm font-extrabold text-slate-900">' + escapeValue(jumlahKk) + '</span></div>',
+              '</div>',
             '</div>',
             '<div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-sm">',
               '<span class="text-slate-500 font-medium text-xs">' + escapeValue(dusun?.kepala_dusun || '') + '</span>',
