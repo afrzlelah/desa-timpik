@@ -907,7 +907,40 @@ const structuredData = JSON.stringify({
           const misi = document.getElementById('profil-misi');
           if (misi && Array.isArray(data.misi)) misi.innerHTML = data.misi.map((item, i) => { const kode = typeof item === 'string' ? String(i + 1).padStart(2, '0') : escapeHtml(item?.kode || String(i + 1).padStart(2, '0')); const judul = typeof item === 'string' ? '' : escapeHtml(item?.judul || ''); const deskripsi = typeof item === 'string' ? item : (item?.deskripsi || ''); const poin = Array.isArray(item?.poin) ? item.poin : []; return `<article class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 space-y-3"><div class="flex items-center gap-3"><span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-sm font-black text-blue-800">${kode}</span>${judul ? `<h3 class="font-bold text-slate-900">${judul}</h3>` : ''}</div>${deskripsi ? `<p class="text-sm sm:text-base text-slate-700 leading-relaxed">${escapeHtml(deskripsi)}</p>` : ''}${poin.length ? `<ul class="space-y-2 pl-5 list-disc text-sm text-slate-700">${poin.map(point => `<li>${escapeHtml(point)}</li>`).join('')}</ul>` : ''}</article>`; }).join('');
           const dusun = document.getElementById('profil-dusun-grid');
-          if (dusun && Array.isArray(data.dusun)) dusun.innerHTML = data.dusun.map(d => { const photo = safeDusunImage(d.foto); return `<a href="/dusun/${encodeURIComponent(d.id)}" class="glass-panel group overflow-hidden rounded-2xl border border-slate-200 hover:border-blue-500 hover:shadow-md flex flex-col"><div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200"><div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>${photo ? `<img src="${escapeHtml(photo)}" alt="Foto wilayah ${escapeHtml(d.nama)}" width="640" height="360" class="dusun-photo relative h-full w-full object-cover" loading="lazy" decoding="async">` : ''}</div><div class="flex flex-1 flex-col p-5"><span class="text-xs font-bold text-blue-800">${escapeHtml(d.panggilan || 'Wilayah Desa Timpik')}</span><h3 class="mt-2 text-lg font-bold text-slate-950">${escapeHtml(d.nama)}</h3><p class="mt-2 flex-1 text-sm leading-6 text-slate-700">${escapeHtml(d.deskripsi || 'Informasi wilayah belum tersedia.')}</p><span class="mt-4 inline-flex min-h-10 items-center font-bold text-blue-800">Lihat profil dusun →</span></div></a>`; }).join('');
+          const formatDusunCount = value => {
+            const digits = String(value ?? '').replace(/[^0-9]/g, '');
+            return digits ? Number.parseInt(digits, 10).toLocaleString('id-ID') : 'Belum diisi';
+          };
+          if (dusun && Array.isArray(data.dusun)) {
+            dusun.innerHTML = data.dusun.map(d => {
+              const photo = safeDusunImage(d.foto);
+              const penduduk = formatDusunCount(d.jumlah_penduduk);
+              const jumlahKk = formatDusunCount(d.jumlah_kk);
+
+              return `<a href="/dusun/${encodeURIComponent(d.id)}" class="glass-panel group overflow-hidden rounded-2xl border border-slate-200 hover:border-blue-500 hover:shadow-md flex flex-col">
+                <div class="relative aspect-[16/9] bg-gradient-to-br from-blue-100 to-slate-200">
+                  <div class="absolute inset-0 flex items-center justify-center text-sm font-semibold text-slate-600">Foto dusun belum tersedia</div>
+                  ${photo ? `<img src="${escapeHtml(photo)}" alt="Foto wilayah ${escapeHtml(d.nama)}" width="640" height="360" class="dusun-photo relative h-full w-full object-cover" loading="lazy" decoding="async">` : ''}
+                </div>
+                <div class="flex flex-1 flex-col p-5">
+                  <span class="text-xs font-bold text-blue-800">${escapeHtml(d.panggilan || 'Wilayah Desa Timpik')}</span>
+                  <h3 class="mt-2 text-lg font-bold text-slate-950">${escapeHtml(d.nama)}</h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-700">${escapeHtml(d.deskripsi || 'Informasi wilayah belum tersedia.')}</p>
+                  <div class="mt-4 grid grid-cols-2 gap-3">
+                    <div class="rounded-xl border border-blue-100 bg-blue-50/80 p-3">
+                      <span class="block text-[11px] font-semibold text-slate-600">Jumlah Penduduk</span>
+                      <span class="mt-1 block text-sm font-extrabold text-blue-950">${penduduk === 'Belum diisi' ? penduduk : `${penduduk} jiwa`}</span>
+                    </div>
+                    <div class="rounded-xl border border-slate-200 bg-slate-100/80 p-3">
+                      <span class="block text-[11px] font-semibold text-slate-600">Total KK</span>
+                      <span class="mt-1 block text-sm font-extrabold text-slate-900">${jumlahKk === 'Belum diisi' ? jumlahKk : `${jumlahKk} KK`}</span>
+                    </div>
+                  </div>
+                  <span class="mt-4 inline-flex min-h-10 items-center font-bold text-blue-800">Lihat profil dusun →</span>
+                </div>
+              </a>`;
+            }).join('');
+          }
           const total = document.getElementById('stat-total-penduduk');
           if (total && data.statistik && Object.hasOwn(data.statistik, 'total_penduduk')) total.textContent = data.statistik.total_penduduk || 'Data belum tersedia';
           const lk = document.getElementById('stat-laki-laki');

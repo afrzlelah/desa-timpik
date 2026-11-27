@@ -270,18 +270,18 @@ import profilData from '../data/profil.json';
 
     </div>
   </section>
-  <!-- Wilayah 4 Dusun di Desa Timpik -->
+  <!-- Dusun di Desa Timpik -->
   <section id="dusun" class="py-14 sm:py-16 bg-gray-100 border-b border-white/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       
       <div class="border-b border-slate-200 pb-4">
         <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-blue-700 block mb-1">Struktur Kewilayahan</span>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Dusun di Desa Timpik</h2>
-        <p class="text-sm sm:text-base text-slate-600 mt-1">Informasi wilayah, potensi, dan kepala dusun yang bertugas.</p>
+        <p class="text-sm sm:text-base text-slate-600 mt-1">Informasi wilayah dan ringkasan jumlah penduduk serta kartu keluarga per dusun.</p>
       </div>
 
       <div id="profil-dusun-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {(profilData.dusun as Array<(typeof profilData.dusun)[number] & { foto?: string }>).map((dusun) => (
+        {(profilData.dusun as Array<(typeof profilData.dusun)[number] & { foto?: string; jumlah_penduduk?: number | string | null; jumlah_kk?: number | string | null }>).map((dusun) => (
           <a
             href={`/dusun/${dusun.id}`}
             class="glass-panel group overflow-hidden rounded-2xl hover:border-blue-500 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between transition-all"
@@ -306,6 +306,21 @@ import profilData from '../data/profil.json';
               <p class="text-xs sm:text-sm text-slate-600 mt-3 leading-relaxed line-clamp-3">
                 {dusun.deskripsi || 'Informasi wilayah belum tersedia.'}
               </p>
+
+              <div class="mt-4 grid grid-cols-2 gap-3">
+                <div class="rounded-xl border border-blue-100 bg-blue-50/80 p-3">
+                  <span class="block text-[11px] font-semibold text-slate-600">Jumlah Penduduk</span>
+                  <span class="mt-1 block text-sm font-extrabold text-blue-950">
+                    {dusun.jumlah_penduduk !== null && dusun.jumlah_penduduk !== undefined && dusun.jumlah_penduduk !== '' ? `${dusun.jumlah_penduduk} jiwa` : 'Belum diisi'}
+                  </span>
+                </div>
+                <div class="rounded-xl border border-slate-200 bg-slate-100/80 p-3">
+                  <span class="block text-[11px] font-semibold text-slate-600">Total KK</span>
+                  <span class="mt-1 block text-sm font-extrabold text-slate-900">
+                    {dusun.jumlah_kk !== null && dusun.jumlah_kk !== undefined && dusun.jumlah_kk !== '' ? `${dusun.jumlah_kk} KK` : 'Belum diisi'}
+                  </span>
+                </div>
+              </div>
             </div>
             <div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-bold text-blue-700">
               <span class="uppercase tracking-wider">Buka Informasi Dusun</span>
@@ -451,6 +466,13 @@ import profilData from '../data/profil.json';
       } catch {
         return '';
       }
+    };
+
+    const formatDusunCount = (value, unit) => {
+      const digits = String(value ?? '').replace(/[^0-9]/g, '');
+      return digits
+        ? `${Number.parseInt(digits, 10).toLocaleString('id-ID')} ${unit}`
+        : 'Belum diisi';
     };
 
     // ==========================================
@@ -607,13 +629,11 @@ import profilData from '../data/profil.json';
     // ==========================================
     // UPDATE DUSUN
     // ==========================================
-    const dusunGrid = document.getElementById('profil-dusun-grid');
+    function renderDusunCards(dusunList) {
+      const dusunGrid = document.getElementById('profil-dusun-grid');
+      if (!dusunGrid || !Array.isArray(dusunList)) return;
 
-    if (
-      dusunGrid &&
-      Array.isArray(data.dusun)
-    ) {
-      dusunGrid.innerHTML = data.dusun.length ? data.dusun.map((dusun) => `
+      dusunGrid.innerHTML = dusunList.length ? dusunList.map((dusun) => `
         <a
           href="/dusun/${encodeURIComponent(dusun.id)}"
           class="glass-panel group overflow-hidden rounded-2xl hover:border-blue-500 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between transition-all"
@@ -646,11 +666,16 @@ import profilData from '../data/profil.json';
               ${escapeHTML(dusun.deskripsi || '-')}
             </p>
 
-            ${dusun.potensi_utama ? `
-              <p class="text-xs text-emerald-700 font-semibold mt-2">
-                🌱 ${escapeHTML(dusun.potensi_utama)}
-              </p>
-            ` : ''}
+            <div class="mt-4 grid grid-cols-2 gap-3">
+              <div class="rounded-xl border border-blue-100 bg-blue-50/80 p-3">
+                <span class="block text-[11px] font-semibold text-slate-600">Jumlah Penduduk</span>
+                <span class="mt-1 block text-sm font-extrabold text-blue-950">${formatDusunCount(dusun.jumlah_penduduk, 'jiwa')}</span>
+              </div>
+              <div class="rounded-xl border border-slate-200 bg-slate-100/80 p-3">
+                <span class="block text-[11px] font-semibold text-slate-600">Total KK</span>
+                <span class="mt-1 block text-sm font-extrabold text-slate-900">${formatDusunCount(dusun.jumlah_kk, 'KK')}</span>
+              </div>
+            </div>
           </div>
 
           <div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-bold text-blue-700">
@@ -661,6 +686,8 @@ import profilData from '../data/profil.json';
         </a>
       `).join('') : '<p class="col-span-full rounded-2xl border border-slate-200 bg-white p-6 text-center text-sm font-semibold text-slate-600">Data dusun belum tersedia.</p>';
     }
+
+    renderDusunCards(data.dusun);
 
     // ==========================================
     // UPDATE FOTO STRUKTUR
@@ -737,6 +764,7 @@ import profilData from '../data/profil.json';
 
       // Render hanya bagian yang mengalami perubahan
       renderSejarah(data);
+      renderDusunCards(data.dusun);
     });
     // ==========================================
     // LIGHTBOX FUNCTIONS
