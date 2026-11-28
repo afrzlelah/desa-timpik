@@ -1059,6 +1059,7 @@ const structuredData = JSON.stringify({
         berita: 'timpik_berita_list',
         agenda: 'timpik_agenda_list',
         surat: 'timpik_surat_list',
+        potensi: 'timpik_potensi_data',
         apbdes: 'timpik_apbdes_data',
       };
 
@@ -1069,7 +1070,9 @@ const structuredData = JSON.stringify({
           ? ['profil', 'kontak', 'agenda']
           : path === '/berita'
             ? ['berita']
-            : path.startsWith('/profil') || path.startsWith('/pemerintahan') || path.startsWith('/statistik') || path.startsWith('/peta-desa')
+            : path.startsWith('/statistik')
+              ? ['profil', 'potensi']
+              : path.startsWith('/profil') || path.startsWith('/pemerintahan') || path.startsWith('/peta-desa')
                 ? ['profil']
                 : path.startsWith('/potensi')
                   ? ['potensi']

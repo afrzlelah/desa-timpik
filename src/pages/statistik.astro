@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import profilData from '../data/profil.json';
+import potensiData from '../data/potensi.json';
 ---
 
 <Layout
@@ -60,7 +61,7 @@ import profilData from '../data/profil.json';
         <div class="p-6 sm:p-8 space-y-2 bg-slate-50/40">
           <span class="text-[10px]  uppercase tracking-widest text-emerald-800 font-bold block">Lahan Pertanian</span>
           <h2 id="stat-lahan-pertanian" class="text-3xl sm:text-4xl font-black text-emerald-900 tracking-tight">
-            {profilData.statistik.lahan_pertanian}
+            {potensiData.agraris.luas_wilayah || profilData.statistik.lahan_pertanian}
           </h2>
           <p class="text-xs text-civic-muted font-sans">Padi sawah irigasi & palawija</p>
         </div>
@@ -241,6 +242,7 @@ import profilData from '../data/profil.json';
 (() => {
   const PROFILE_KEY = 'timpik_profil_data';
   const PROFILE_API = '/api/content?key=profil';
+  const POTENSI_KEY = 'timpik_potensi_data';
 
   const $ = (id) => document.getElementById(id);
 
@@ -354,7 +356,6 @@ import profilData from '../data/profil.json';
     setText('stat-total-penduduk', stats.total_penduduk);
     setText('stat-total-kk', stats.total_kk);
     setText('stat-luas-wilayah', stats.luas_wilayah);
-    setText('stat-lahan-pertanian', stats.lahan_pertanian);
 
     const lk = stats.laki_laki ?? '';
     const pm = stats.perempuan ?? '';
@@ -411,6 +412,13 @@ import profilData from '../data/profil.json';
       renderDusun(profile.dusun);
       setText('stat-dusun-count', profile.dusun.length);
       setText('stat-dusun-count-label', `Tersebar di ${profile.dusun.length} dusun`);
+    }
+  }
+
+  function applyPotensi(potensi) {
+    const luasWilayahAgraris = potensi?.agraris?.luas_wilayah;
+    if (luasWilayahAgraris !== null && luasWilayahAgraris !== undefined && String(luasWilayahAgraris).trim()) {
+      setText('stat-lahan-pertanian', luasWilayahAgraris);
     }
   }
 
@@ -471,16 +479,33 @@ import profilData from '../data/profil.json';
   applyProfile(defaultProfil);
 
   const globalProfile = window.__timpikSupabaseContent?.profil;
+  const globalPotensi = window.__timpikSupabaseContent?.potensi;
 
   if (globalProfile) {
     applyProfile(globalProfile.data || globalProfile);
   }
+  if (globalPotensi) {
+    applyPotensi(globalPotensi.data || globalPotensi);
+  } else {
+    try {
+      const cachedPotensi = JSON.parse(localStorage.getItem(POTENSI_KEY) || 'null');
+      if (cachedPotensi) applyPotensi(cachedPotensi);
+    } catch (error) {
+      console.warn('Data potensi lokal tidak dapat dibaca:', error);
+    }
+  }
 
   window.addEventListener('timpik-supabase-content', event => {
-    const profile = extractProfile(event.detail);
+    const detail = event.detail || {};
+    const contents = detail?.contents || detail;
+    const profile = extractProfile(detail);
+    const potensi = contents?.potensi;
 
     if (profile) {
       applyProfile(profile);
+    }
+    if (potensi) {
+      applyPotensi(potensi.data || potensi);
     }
   });
 
